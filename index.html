@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SHITAGRAM™ — Arena ao Vivo</title>
+  <meta name="description" content="Arena ao Vivo SHITAGRAM™. Cria um convite, envia ao rival e entra numa batalha live de humor social." />
+  <meta name="theme-color" content="#0A0A0A" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-black: #0A0A0A;
+      --bg-purple: #1A0A2E;
+      --purple: #8B00FF;
+      --pink: #FF00C7;
+      --hot-pink: #FF0088;
+      --white: #FFFFFF;
+      --muted-white: rgba(255,255,255,.72);
+      --soft-white: rgba(255,255,255,.52);
+      --card-purple: #4B2A6B;
+      --card-glass: rgba(75,42,107,.34);
+      --card-glass-strong: rgba(75,42,107,.52);
+      --card-border: rgba(255,255,255,.12);
+      --card-border-hot: rgba(255,0,199,.38);
+      --glow-purple: rgba(139,0,255,.55);
+      --glow-pink: rgba(255,0,199,.55);
+      --shadow: 0 28px 90px rgba(139,0,255,.20);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(139,0,255,.35), transparent 32%),
+        radial-gradient(circle at 88% 12%, rgba(255,0,199,.24), transparent 34%),
+        radial-gradient(circle at 82% 64%, rgba(255,0,136,.18), transparent 32%),
+        radial-gradient(circle at 16% 78%, rgba(139,0,255,.22), transparent 34%),
+        linear-gradient(135deg, #0A0A0A 0%, #13051f 42%, #1A0A2E 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(1px);
+    }
+
+    body::before {
+      width: 360px;
+      height: 360px;
+      right: -120px;
+      top: 120px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.24), rgba(255,0,199,.16) 44%, transparent 72%);
+      box-shadow:
+        -760px 110px 0 -120px rgba(139,0,255,.28),
+        -190px 520px 0 -90px rgba(255,0,199,.18),
+        -720px 840px 0 -100px rgba(139,0,255,.20);
+    }
+
+    body::after {
+      width: 260px;
+      height: 260px;
+      left: -120px;
+      bottom: 140px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), rgba(139,0,255,.20) 50%, transparent 74%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10,10,10,.72);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(22px);
+    }
+
+    .nav {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 18px 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 950;
+      letter-spacing: -.06em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--pink);
+      text-shadow: 0 0 24px rgba(255,0,199,.55);
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: rgba(255,255,255,.72);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .links a {
+      transition: .2s ease;
+    }
+
+    .links a:hover {
+      color: var(--pink);
+      text-shadow: 0 0 18px rgba(255,0,199,.55);
+    }
+
+    .back {
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+      color: var(--white);
+      font-weight: 900;
+      box-shadow: 0 0 24px rgba(139,0,255,.16);
+      white-space: nowrap;
+    }
+
+    .wrap {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 54px 34px 70px;
+    }
+
+    .hero {
+      margin-bottom: 38px;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 7%;
+      top: 22%;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.24), rgba(255,0,199,.26), transparent 72%);
+      box-shadow: 0 0 70px rgba(255,0,199,.35);
+      opacity: .85;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(75,42,107,.38);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--pink);
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      box-shadow: 0 0 34px rgba(255,0,199,.20);
+    }
+
+    .badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--pink);
+      box-shadow: 0 0 18px var(--pink);
+    }
+
+    h1 {
+      margin: 28px 0 20px;
+      font-size: clamp(56px, 8vw, 112px);
+      line-height: .9;
+      letter-spacing: -.075em;
+      font-weight: 950;
+      max-width: 900px;
+    }
+
+    .hero-title {
+      background: linear-gradient(90deg, #FFFFFF 0%, #FF00C7 44%, #8B00FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px rgba(255,0,199,.38));
+    }
+
+    .hero p {
+      max-width: 780px;
+      font-size: 19px;
+      line-height: 1.65;
+      color: var(--muted-white);
+      font-weight: 650;
+      margin: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      border-radius: var(--radius);
+      background: var(--card-glass);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,0,199,.14), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(139,0,255,.20), transparent 38%),
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .card-pad {
+      padding: 30px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 950;
+    }
+
+    h3 {
+      margin: 0;
+      font-weight: 950;
+      letter-spacing: -.03em;
+    }
+
+    .sub {
+      margin: 9px 0 0;
+      color: rgba(255,255,255,.64);
+      font-weight: 650;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .inner {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 950;
+      margin-bottom: 8px;
+      color: rgba(255,255,255,.82);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(10,10,10,.36);
+      border-radius: 16px;
+      padding: 15px 16px;
+      outline: none;
+      color: var(--white);
+      font-weight: 760;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(255,0,199,.46);
+      box-shadow: 0 0 0 4px rgba(255,0,199,.10);
+    }
+
+    select option {
+      color: #111;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: none;
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .theme {
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 16px;
+      min-height: 116px;
+      transition: .18s ease;
+    }
+
+    .theme:hover,
+    .theme.active {
+      border-color: rgba(255,0,199,.44);
+      box-shadow: 0 0 0 2px rgba(255,0,199,.10), 0 18px 44px rgba(255,0,199,.14);
+    }
+
+    .theme b {
+      display: block;
+      font-size: 15px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .theme small {
+      color: rgba(255,255,255,.58);
+      font-weight: 650;
+      line-height: 1.25;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 18px 0 0;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 17px;
+      padding: 16px 20px;
+      min-height: 54px;
+      font-weight: 950;
+      color: var(--white);
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #FF0088, #FF00C7 48%, #8B00FF);
+      box-shadow:
+        0 0 26px rgba(255,0,199,.36),
+        inset 0 1px 0 rgba(255,255,255,.24);
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, #0fd68a, #12d6c7);
+      box-shadow:
+        0 0 24px rgba(15,214,138,.25),
+        inset 0 1px 0 rgba(255,255,255,.22);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ff174f, #FF0088, #FF00C7);
+      box-shadow:
+        0 0 24px rgba(255,23,79,.30),
+        inset 0 1px 0 rgba(255,255,255,.22);
+    }
+
+    .btn-soft {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .status-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 16px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .line span:last-child {
+      color: rgba(255,255,255,.62);
+      text-align: right;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.13);
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(100deg, rgba(255,0,199,.16), rgba(139,0,255,.16));
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.72);
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .invite-link-box {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .invite-link {
+      word-break: break-all;
+      border-radius: 16px;
+      padding: 16px;
+      background: rgba(10,10,10,.38);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.86);
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: 750;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .steps-mini {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step-mini {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #FF0088, #FF00C7, #8B00FF);
+      box-shadow: 0 0 24px rgba(255,0,199,.28);
+      font-weight: 950;
+    }
+
+    .step-mini b {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .step-mini small {
+      color: rgba(255,255,255,.58);
+      font-weight: 650;
+    }
+
+    .room-status {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .presence {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .presence strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .presence span {
+      color: rgba(255,255,255,.62);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .ready {
+      border-color: rgba(15,214,138,.38);
+      box-shadow: 0 0 28px rgba(15,214,138,.12);
+    }
+
+    .wide {
+      margin-bottom: 28px;
+    }
+
+    .arena {
+      padding: 18px;
+      margin-bottom: 28px;
+    }
+
+    .arena-top {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px 20px;
+      min-height: 58px;
+      font-weight: 950;
+    }
+
+    .timer {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      padding: 9px 18px;
+      border-radius: 18px;
+      color: white;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 950;
+      background: linear-gradient(135deg, #FF0088, #FF00C7, #8B00FF);
+      box-shadow: 0 0 36px rgba(255,0,199,.52), inset 0 2px 0 rgba(255,255,255,.25);
+      text-shadow: 0 2px 0 rgba(0,0,0,.20);
+    }
+
+    .stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .video {
+      min-height: 315px;
+      border-radius: 24px;
+      background: rgba(10,10,10,.34);
+      border: 1px solid rgba(255,255,255,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video::before {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      border-radius: 999px;
+      background: rgba(255,0,199,.13);
+      filter: blur(26px);
+    }
+
+    .video-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .video .icon {
+      width: 78px;
+      height: 78px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      margin: 0 auto 18px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      font-size: 36px;
+      box-shadow: 0 0 28px rgba(139,0,255,.25);
+    }
+
+    .video h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: -.03em;
+    }
+
+    .video p {
+      margin: 0;
+      font-size: 13px;
+      color: rgba(255,255,255,.62);
+      font-weight: 700;
+    }
+
+    .tag {
+      position: absolute;
+      top: 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.13);
+      font-size: 12px;
+      font-weight: 950;
+      z-index: 4;
+    }
+
+    .tag.left {
+      left: 16px;
+    }
+
+    .tag.right {
+      right: 16px;
+    }
+
+    .vs {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      z-index: 4;
+      color: white;
+      font-size: 25px;
+      font-weight: 950;
+      background: linear-gradient(150deg, #FF0088, #FF00C7, #8B00FF);
+      box-shadow: 0 0 48px rgba(255,0,199,.62), inset 0 2px 0 rgba(255,255,255,.25);
+    }
+
+    .reactions {
+      margin-top: 12px;
+      padding: 13px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 120px;
+      align-items: center;
+      gap: 14px;
+      font-weight: 950;
+    }
+
+    .score-left {
+      color: var(--pink);
+      font-size: 19px;
+    }
+
+    .score-right {
+      color: var(--purple);
+      font-size: 19px;
+      text-align: right;
+    }
+
+    .score-label {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,.72);
+    }
+
+    .bar {
+      margin-top: 9px;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,.10);
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: 54%;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      box-shadow: 0 0 22px rgba(255,0,199,.44);
+    }
+
+    .gift-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .gift {
+      border-radius: 18px;
+      padding: 16px 12px;
+      text-align: center;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.11);
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--white);
+      transition: .18s ease;
+    }
+
+    .gift:hover {
+      border-color: rgba(255,0,199,.38);
+      box-shadow: 0 0 28px rgba(255,0,199,.16);
+      transform: translateY(-2px);
+    }
+
+    .gift strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .bottom-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .gifts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .chat-box {
+      margin-top: 18px;
+      min-height: 170px;
+      max-height: 220px;
+      overflow: auto;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(10,10,10,.30);
+      border: 1px solid rgba(255,255,255,.11);
+      font-size: 13px;
+      font-weight: 750;
+      color: rgba(255,255,255,.78);
+    }
+
+    .chat-line {
+      margin-bottom: 9px;
+    }
+
+    .chat-form {
+      display: grid;
+      grid-template-columns: 1fr 160px;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .info-sections {
+      margin-top: 34px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .info-hero,
+    .community-box,
+    .rules-box {
+      border-radius: var(--radius);
+      background: var(--card-glass);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-hero::before,
+    .community-box::before,
+    .rules-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,0,199,.18), transparent 36%),
+        radial-gradient(circle at bottom right, rgba(139,0,255,.22), transparent 40%);
+      pointer-events: none;
+    }
+
+    .info-hero h2,
+    .community-box h2,
+    .rules-box h2 {
+      position: relative;
+      margin: 0 0 12px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1;
+      letter-spacing: -.05em;
+      font-weight: 950;
+      color: #ffffff;
+    }
+
+    .info-hero p,
+    .community-box p {
+      position: relative;
+      max-width: 920px;
+      color: rgba(255,255,255,.76);
+      font-size: 17px;
+      line-height: 1.65;
+      font-weight: 650;
+      margin: 0;
+    }
+
+    .info-card {
+      border-radius: 24px;
+      padding: 26px;
+      background: var(--card-glass);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 24px 70px rgba(139,0,255,.16);
+      backdrop-filter: blur(18px);
+      min-height: 210px;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,0,199,.38);
+      box-shadow: 0 30px 80px rgba(255,0,199,.16);
+    }
+
+    .info-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #FF0088, #FF00C7, #8B00FF);
+      box-shadow: 0 0 26px rgba(255,0,199,.38);
+    }
+
+    .info-card h3 {
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-size: 22px;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: rgba(255,255,255,.72);
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .rules-grid {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .rules-grid a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 999px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 900;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      transition: .18s ease;
+    }
+
+    .rules-grid a:hover {
+      background: linear-gradient(135deg, #FF0088, #FF00C7, #8B00FF);
+      box-shadow: 0 0 24px rgba(255,0,199,.35);
+    }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,.62);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.6;
+      padding: 46px 16px 20px;
+    }
+
+    footer p {
+      margin: 4px 0;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      z-index: 100;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(10,10,10,.84);
+      color: white;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 0 36px rgba(255,0,199,.25);
+      font-weight: 850;
+      transition: .22s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .links {
+        display: none;
+      }
+
+      .nav {
+        padding: 16px 20px;
+      }
+
+      .wrap {
+        padding: 36px 18px 54px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .form-grid,
+      .room-status,
+      .stage,
+      .bottom-controls,
+      .chat-form {
+        grid-template-columns: 1fr;
+      }
+
+      .theme-grid,
+      .gift-row,
+      .gifts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timer {
+        position: static;
+        transform: none;
+        font-size: 24px;
+        margin: 0 auto;
+      }
+
+      .arena-top {
+        display: grid;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .score-row {
+        grid-template-columns: 70px 1fr 70px;
+      }
+
+      .video {
+        min-height: 250px;
+      }
+
+      .vs {
+        top: 50%;
+      }
+
+      h1 {
+        font-size: 58px;
+      }
+
+      .info-hero,
+      .community-box,
+      .rules-box {
+        padding: 26px;
+      }
+
+      .rules-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .hero::after {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="topbar">
+      <nav class="nav">
+        <a class="brand" href="/">SHITA<span>GRAM</span>™</a>
+
+        <div class="links">
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#comunidade">Comunidade</a>
+          <a href="#seguranca">Segurança</a>
+          <a href="#loja">Loja</a>
+          <a href="#perfil">Perfil de Jogador</a>
+        </div>
+
+        <a class="back" href="/">Voltar ao site</a>
+      </nav>
+    </header>
+
+    <main class="wrap">
+      <section class="hero">
+        <div class="badge">Arena em modo beta</div>
+
+        <h1 class="hero-title">ARENA AO VIVO</h1>
+
+        <p>
+          Cria um convite, envia o link ao teu rival e entra na sala.
+          Quando os dois estiverem prontos, a batalha começa.
+        </p>
+      </section>
+
+      <section class="grid-2" id="convite">
+        <div class="card card-pad">
+          <div class="title-row">
+            <div>
+              <h2>Criar convite da batalha</h2>
+              <p class="sub">Simples: escolhes o nome, o tema e geras um link para o rival.</p>
+            </div>
+          </div>
+
+          <div class="inner">
+            <div class="form-grid">
+              <div>
+                <label for="playerName">O teu nome</label>
+                <input id="playerName" value="MicoMaster" maxlength="24">
+              </div>
+
+              <div>
+                <label for="themeSelect">Tema da batalha</label>
+                <select id="themeSelect">
+                  <option value="Romance Falhado">Romance Falhado</option>
+                  <option value="Vergonha em Público">Vergonha em Público</option>
+                  <option value="Caos Total">Caos Total</option>
+                  <option value="Mico Familiar">Mico Familiar</option>
+                  <option value="Confissão Impossível">Confissão Impossível</option>
+                </select>
+              </div>
+            </div>
+
+            <label style="margin-top:18px;">Escolhe o ambiente</label>
+
+            <div class="theme-grid">
+              <button class="theme active" data-theme="Romance Falhado">
+                <b>💔 Romance Falhado</b>
+                <small>Drama, risos e embaraços.</small>
+              </button>
+
+              <button class="theme" data-theme="Vergonha em Público">
+                <b>😳 Vergonha em Público</b>
+                <small>O clássico da arena.</small>
+              </button>
+
+              <button class="theme" data-theme="Caos Total">
+                <b>⚡ Caos Total</b>
+                <small>Modo energia máxima.</small>
+              </button>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn btn-primary" id="createInviteBtn">Criar convite</button>
+              <button class="btn btn-soft" id="resetRoomBtn">Limpar sala</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <div class="title-row">
+            <div>
+              <h2>Convite pronto</h2>
+              <p class="sub">Envia este link ao teu rival. Ele entra direto nesta sala.</p>
+            </div>
+            <span class="pill" id="roomPill">Sem sala</span>
+          </div>
+
+          <div class="inner" id="invitePanel">
+            <p class="sub" style="margin:0;">
+              Ainda não criaste convite. Clica em <strong>Criar convite</strong> para gerar uma sala.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid-2 wide" id="prelive">
+        <div class="card card-pad">
+          <div class="title-row">
+            <div>
+              <h2>Sala de espera</h2>
+              <p class="sub">Aqui fica claro quem já entrou e quem está pronto.</p>
+            </div>
+            <span class="pill" id="themePill">Tema: Romance Falhado</span>
+          </div>
+
+          <div class="room-status">
+            <div class="presence ready" id="youPresence">
+              <strong>Tu: <span id="youNameLabel">MicoMaster</span> ✅</strong>
+              <span>Presente na sala</span>
+            </div>
+
+            <div class="presence" id="rivalPresence">
+              <strong>Rival: <span id="rivalNameLabel">A aguardar...</span></strong>
+              <span id="rivalStatusText">Envia o convite para o rival entrar.</span>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" id="cameraBtn">Ligar câmara</button>
+            <button class="btn btn-green" id="readyBtn">Estou pronto</button>
+          </div>
+
+          <div class="notice" id="readyNotice">
+            Primeiro cria o convite, envia ao rival e liga a câmara. Quando ambos estiverem prontos, a batalha pode começar.
+          </div>
+        </div>
+
+        <div class="card card-pad" id="como-funciona">
+          <div class="title-row">
+            <div>
+              <h2>Como funciona</h2>
+              <p class="sub">O fluxo foi pensado para não confundir ninguém.</p>
+            </div>
+          </div>
+
+          <div class="steps-mini">
+            <div class="step-mini">
+              <div class="step-number">1</div>
+              <div>
+                <b>Crias o convite</b>
+                <small>O sistema gera uma sala com código único.</small>
+              </div>
+            </div>
+
+            <div class="step-mini">
+              <div class="step-number">2</div>
+              <div>
+                <b>Envias ao rival</b>
+                <small>Copias o link ou envias pelo WhatsApp.</small>
+              </div>
+            </div>
+
+            <div class="step-mini">
+              <div class="step-number">3</div>
+              <div>
+                <b>Ambos entram</b>
+                <small>Cada um confirma câmara e prontidão.</small>
+              </div>
+            </div>
+
+            <div class="step-mini">
+              <div class="step-number">4</div>
+              <div>
+                <b>A batalha começa</b>
+                <small>60 segundos de reações, gifts e caos controlado.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card arena" id="live">
+        <div class="arena-top">
+          <div><span id="arenaYouName">MicoMaster</span> <span style="color:var(--pink);">VS</span> <span id="arenaRivalName">VexamePro</span></div>
+          <div class="timer" id="timer">01:00</div>
+          <div class="pill" id="arenaThemePill">Tema: Romance Falhado</div>
+        </div>
+
+        <div class="stage">
+          <div class="video">
+            <div class="tag left">TU</div>
+            <div class="video-content" id="cameraSlot">
+              <div class="icon">📷</div>
+              <h3>A tua câmara aparece aqui</h3>
+              <p>Toca em “Ligar câmara”.</p>
+            </div>
+          </div>
+
+          <div class="vs">VS</div>
+
+          <div class="video">
+            <div class="tag right">RIVAL</div>
+            <div class="video-content" id="rivalSlot">
+              <div class="icon">🥴</div>
+              <h3>Rival aparece aqui</h3>
+              <p>Quando o rival entra, a imagem aparece deste lado.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reactions">
+          <div class="score-row">
+            <div class="score-left" id="scoreA">3280</div>
+            <div class="score-label">REAÇÕES AO VIVO</div>
+            <div class="score-right" id="scoreB">2650</div>
+          </div>
+          <div class="bar">
+            <span id="reactionBar"></span>
+          </div>
+        </div>
+
+        <div class="gift-row">
+          <button class="gift" data-points="25"><strong>🪙</strong>ShitCoins</button>
+          <button class="gift" data-points="60"><strong>💥</strong>Explosão</button>
+          <button class="gift" data-points="40"><strong>🛡️</strong>Escudo</button>
+          <button class="gift" data-points="80"><strong>⚡</strong>Combo</button>
+        </div>
+
+        <div class="bottom-controls">
+          <button class="btn btn-primary" id="startBtn">Começar batalha</button>
+          <button class="btn btn-danger" id="exitBtn">Sair da live</button>
+        </div>
+      </section>
+
+      <section class="grid-2" id="gifts">
+        <div class="card card-pad">
+          <h2>Sound Gifts™</h2>
+          <p class="sub">Presentes com som, pontos e impacto na Arena.</p>
+
+          <div class="gifts-grid">
+            <button class="gift" data-points="10"><strong>🪙</strong>ShitCoin</button>
+            <button class="gift" data-points="15"><strong>🍅</strong>Tomate</button>
+            <button class="gift" data-points="18"><strong>😂</strong>Haha</button>
+            <button class="gift" data-points="22"><strong>💔</strong>Coração</button>
+            <button class="gift" data-points="45"><strong>💥</strong>Explosão</button>
+            <button class="gift" data-points="90"><strong>👑</strong>Coroa</button>
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <h2>Chat ao vivo</h2>
+          <p class="sub">Comentários rápidos durante a batalha.</p>
+
+          <div class="chat-box" id="chatBox">
+            <div class="chat-line"><strong>Sistema:</strong> Arena pronta.</div>
+          </div>
+
+          <div class="chat-form">
+            <input id="chatInput" placeholder="Escreve uma mensagem..." />
+            <button class="btn btn-primary" id="sendBtn">Enviar</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-sections">
+        <div class="info-hero">
+          <h2>Rir de nós próprios é o melhor remédio</h2>
+          <p>
+            Ou pelo menos dá moedas virtuais. O SHITAGRAM™ é uma plataforma satírica
+            e experimental de humor social, criada para transformar micos, histórias
+            embaraçosas e momentos inesperados em diversão, ranking e comunidade.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="info-card">
+            <div class="info-icon">💩</div>
+            <h3>Feed de micos</h3>
+            <p>Publica histórias, reage, comenta e sobe no ranking.</p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">🎬</div>
+            <h3>ShitClips™</h3>
+            <p>Vídeos curtos de micos com presentes, comentários e partilhas.</p>
+          </div>
+
+          <div class="info-card" id="loja">
+            <div class="info-icon">🎁</div>
+            <h3>Loja</h3>
+            <p>Usa ShitCoins™ para presentes, boosts e benefícios Premium.</p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">🌍</div>
+            <h3>Mood Map</h3>
+            <p>Vê o estado emocional coletivo por país e cidade, de forma agregada.</p>
+          </div>
+
+          <div class="info-card" id="seguranca">
+            <div class="info-icon">🛡️</div>
+            <h3>Segurança</h3>
+            <p>Denúncias, moderação, anti-spam e beta controlada.</p>
+          </div>
+
+          <div class="info-card" id="perfil">
+            <div class="info-icon">👤</div>
+            <h3>Perfil de Jogador</h3>
+            <p>Mostra nível, XP, ShitCoins™, badges, histórico de micos e vitórias na Arena.</p>
+          </div>
+        </div>
+
+        <div class="community-box" id="comunidade">
+          <h2>Comunidade SHITAGRAM™</h2>
+          <p>
+            Uma comunidade para rir sem humilhar, participar sem toxicidade e transformar
+            momentos constrangedores em histórias leves. A beta é controlada para manter
+            a experiência divertida, segura e moderada.
+          </p>
+        </div>
+
+        <div class="rules-box">
+          <h2>Regras e proteção</h2>
+
+          <div class="rules-grid">
+            <a href="#regras">Regras</a>
+            <a href="#conteudo-proibido">Conteúdo proibido</a>
+            <a href="#denuncias">Denúncias</a>
+            <a href="#privacidade">Privacidade</a>
+            <a href="#termos">Termos</a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          Rir de nós próprios é o melhor remédio — ou pelo menos dá moedas virtuais.
+        </p>
+        <p>
+          O SHITAGRAM™ é uma plataforma satírica e experimental de humor social.
+        </p>
+        <p>
+          © 2026 SHITAGRAM™ Portugal. Todos os direitos reservados.
+        </p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Copiado.</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const playerName = document.getElementById("playerName");
+    const themeSelect = document.getElementById("themeSelect");
+    const createInviteBtn = document.getElementById("createInviteBtn");
+    const resetRoomBtn = document.getElementById("resetRoomBtn");
+    const invitePanel = document.getElementById("invitePanel");
+    const roomPill = document.getElementById("roomPill");
+    const themePill = document.getElementById("themePill");
+    const arenaThemePill = document.getElementById("arenaThemePill");
+
+    const youNameLabel = document.getElementById("youNameLabel");
+    const rivalNameLabel = document.getElementById("rivalNameLabel");
+    const rivalStatusText = document.getElementById("rivalStatusText");
+    const rivalPresence = document.getElementById("rivalPresence");
+    const readyNotice = document.getElementById("readyNotice");
+
+    const arenaYouName = document.getElementById("arenaYouName");
+    const arenaRivalName = document.getElementById("arenaRivalName");
+
+    const cameraBtn = document.getElementById("cameraBtn");
+    const cameraSlot = document.getElementById("cameraSlot");
+    const rivalSlot = document.getElementById("rivalSlot");
+    const readyBtn = document.getElementById("readyBtn");
+    const startBtn = document.getElementById("startBtn");
+    const exitBtn = document.getElementById("exitBtn");
+
+    const timer = document.getElementById("timer");
+    const scoreA = document.getElementById("scoreA");
+    const scoreB = document.getElementById("scoreB");
+    const reactionBar = document.getElementById("reactionBar");
+
+    const chatBox = document.getElementById("chatBox");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const toast = document.getElementById("toast");
+
+    let stream = null;
+    let seconds = 60;
+    let running = false;
+    let interval = null;
+
+    let a = 3280;
+    let b = 2650;
+
+    let currentRoom = params.get("sala") || "";
+    let currentTheme = params.get("tema") || "Romance Falhado";
+    let inviter = params.get("host") || "MicoMaster";
+    let isGuest = Boolean(params.get("sala"));
+
+    let youReady = false;
+    let rivalReady = false;
+    let cameraOn = false;
+
+    function cleanText(value, fallback) {
+      const text = String(value || "").trim();
+      return text || fallback;
+    }
+
+    function generateRoomCode() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 8; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return code;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+    function getInviteUrl() {
+      const base = window.location.origin + window.location.pathname;
+      const host = encodeURIComponent(cleanText(playerName.value, "MicoMaster"));
+      const tema = encodeURIComponent(currentTheme);
+      return `${base}?sala=${encodeURIComponent(currentRoom)}&host=${host}&tema=${tema}`;
+    }
+
+    function updateInvitePanel() {
+      if (!currentRoom) {
+        invitePanel.innerHTML = `
+          <p class="sub" style="margin:0;">
+            Ainda não criaste convite. Clica em <strong>Criar convite</strong> para gerar uma sala.
+          </p>
+        `;
+        roomPill.textContent = "Sem sala";
+        return;
+      }
+
+      const url = getInviteUrl();
+
+      roomPill.textContent = "Sala: " + currentRoom;
+
+      invitePanel.innerHTML = `
+        <div class="invite-link-box">
+          <label>Link do convite</label>
+          <div class="invite-link" id="inviteUrl">${url}</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="copyInviteBtn">Copiar link</button>
+          <button class="btn btn-soft" id="whatsappBtn">Enviar por WhatsApp</button>
+        </div>
+
+        <button class="btn btn-green btn-full" id="enterRoomBtn" style="margin-top:14px;">Entrar na sala</button>
+
+        <div class="notice">
+          Envia este link ao rival. Quando ele abrir, entra automaticamente nesta sala.
+        </div>
+      `;
+
+      document.getElementById("copyInviteBtn").addEventListener("click", copyInvite);
+      document.getElementById("whatsappBtn").addEventListener("click", shareWhatsApp);
+      document.getElementById("enterRoomBtn").addEventListener("click", () => {
+        document.getElementById("prelive").scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    function updateNamesAndTheme() {
+      const you = cleanText(playerName.value, isGuest ? "VexamePro" : "MicoMaster");
+
+      youNameLabel.textContent = you;
+      arenaYouName.textContent = you;
+
+      if (isGuest) {
+        arenaRivalName.textContent = inviter;
+        rivalNameLabel.textContent = inviter + " ✅";
+        rivalStatusText.textContent = "Criador da sala.";
+        rivalPresence.classList.add("ready");
+      } else {
+        arenaRivalName.textContent = "VexamePro";
+        rivalNameLabel.textContent = currentRoom ? "A aguardar..." : "A aguardar...";
+        rivalStatusText.textContent = currentRoom ? "Convite criado. Envia o link ao rival." : "Envia o convite para o rival entrar.";
+      }
+
+      themePill.textContent = "Tema: " + currentTheme;
+      arenaThemePill.textContent = "Tema: " + currentTheme;
+      themeSelect.value = currentTheme;
+    }
+
+    function createInvite() {
+      currentRoom = generateRoomCode();
+      currentTheme = themeSelect.value;
+      isGuest = false;
+      inviter = cleanText(playerName.value, "MicoMaster");
+
+      updateNamesAndTheme();
+      updateInvitePanel();
+
+      addChat("Sistema", "Convite criado para a sala " + currentRoom + ".");
+      showToast("Convite criado.");
+
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+
+    async function copyInvite() {
+      const url = getInviteUrl();
+
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast("Link copiado.");
+        addChat("Sistema", "Link do convite copiado.");
+      } catch (error) {
+        showToast("Não foi possível copiar automaticamente.");
+      }
+    }
+
+    function shareWhatsApp() {
+      const text = `Entra na minha batalha live do SHITAGRAM™: ${getInviteUrl()}`;
+      const wa = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(wa, "_blank");
+    }
+
+    function resetRoom() {
+      currentRoom = "";
+      currentTheme = "Romance Falhado";
+      isGuest = false;
+      inviter = "MicoMaster";
+      youReady = false;
+      rivalReady = false;
+
+      playerName.value = "MicoMaster";
+      themeSelect.value = currentTheme;
+
+      updateNamesAndTheme();
+      updateInvitePanel();
+      updateReadyState();
+
+      addChat("Sistema", "Sala limpa.");
+      showToast("Sala limpa.");
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+
+    async function startCamera() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
+
+        const video = document.createElement("video");
+        video.autoplay = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.srcObject = stream;
+        video.style.width = "100%";
+        video.style.height = "100%";
+        video.style.objectFit = "cover";
+        video.style.borderRadius = "20px";
+
+        cameraSlot.innerHTML = "";
+        cameraSlot.style.width = "100%";
+        cameraSlot.style.height = "100%";
+        cameraSlot.appendChild(video);
+
+        cameraOn = true;
+        addChat("Sistema", "Câmara ligada com sucesso.");
+        showToast("Câmara ligada.");
+      } catch (error) {
+        cameraOn = false;
+        addChat("Sistema", "Não foi possível ligar a câmara. Verifica as permissões do navegador.");
+        showToast("Permissão da câmara bloqueada.");
+      }
+    }
+
+    function updateReadyState() {
+      if (youReady) {
+        readyBtn.textContent = "Pronto ✅";
+        readyBtn.classList.remove("btn-green");
+        readyBtn.classList.add("btn-soft");
+      } else {
+        readyBtn.textContent = "Estou pronto";
+        readyBtn.classList.add("btn-green");
+        readyBtn.classList.remove("btn-soft");
+      }
+
+      if (isGuest) {
+        rivalReady = true;
+      } else if (currentRoom) {
+        rivalReady = false;
+      }
+
+      if (youReady && (rivalReady || isGuest)) {
+        readyNotice.textContent = "Tudo pronto. Podes começar a batalha.";
+      } else if (!currentRoom && !isGuest) {
+        readyNotice.textContent = "Primeiro cria o convite, envia ao rival e liga a câmara. Quando ambos estiverem prontos, a batalha pode começar.";
+      } else if (!youReady) {
+        readyNotice.textContent = "Liga a câmara e clica em Estou pronto.";
+      } else {
+        readyNotice.textContent = "Tu estás pronto. A aguardar o rival.";
+      }
+    }
+
+    function setReady() {
+      youReady = true;
+
+      if (!cameraOn) {
+        addChat("Sistema", "Podes ficar pronto, mas o ideal é ligar a câmara antes da batalha.");
+      }
+
+      updateReadyState();
+      addChat("Sistema", cleanText(playerName.value, "Jogador") + " está pronto.");
+      showToast("Estás pronto.");
+    }
+
+    function formatTime(value) {
+      const min = String(Math.floor(value / 60)).padStart(2, "0");
+      const sec = String(value % 60).padStart(2, "0");
+      return `${min}:${sec}`;
+    }
+
+    function updateScores() {
+      scoreA.textContent = a;
+      scoreB.textContent = b;
+
+      const total = Math.max(a + b, 1);
+      const percent = Math.round((a / total) * 100);
+      reactionBar.style.width = percent + "%";
+    }
+
+    function startBattle() {
+      if (running) return;
+
+      if (!currentRoom && !isGuest) {
+        showToast("Cria primeiro o convite.");
+        addChat("Sistema", "Cria primeiro o convite da batalha.");
+        return;
+      }
+
+      if (!youReady) {
+        showToast("Clica primeiro em Estou pronto.");
+        addChat("Sistema", "Antes de começar, confirma que estás pronto.");
+        return;
+      }
+
+      running = true;
+      seconds = 60;
+      timer.textContent = "01:00";
+      addChat("Sistema", "Batalha iniciada. 60 segundos em direto.");
+
+      interval = setInterval(() => {
+        seconds -= 1;
+        timer.textContent = formatTime(seconds);
+
+        a += Math.floor(Math.random() * 35);
+        b += Math.floor(Math.random() * 32);
+        updateScores();
+
+        if (seconds <= 0) {
+          clearInterval(interval);
+          running = false;
+
+          const winner = a >= b ? arenaYouName.textContent : arenaRivalName.textContent;
+          addChat("Sistema", "Batalha terminada. Vencedor: " + winner + ".");
+          showToast("Batalha terminada.");
+        }
+      }, 1000);
+    }
+
+    function exitLive() {
+      if (interval) {
+        clearInterval(interval);
+      }
+
+      running = false;
+      seconds = 60;
+      timer.textContent = "01:00";
+      addChat("Sistema", "Saíste da live.");
+      showToast("Live terminada.");
+    }
+
+    function addChat(author, text) {
+      const line = document.createElement("div");
+      line.className = "chat-line";
+      line.innerHTML = `<strong>${author}:</strong> ${text}`;
+      chatBox.appendChild(line);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+      const value = chatInput.value.trim();
+
+      if (!value) return;
+
+      addChat("Tu", value);
+      chatInput.value = "";
+    }
+
+    function handleThemeCardClick(event) {
+      const button = event.currentTarget;
+      const theme = button.dataset.theme;
+
+      document.querySelectorAll(".theme").forEach((item) => {
+        item.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      themeSelect.value = theme;
+      currentTheme = theme;
+      updateNamesAndTheme();
+      updateInvitePanel();
+    }
+
+    function initFromUrl() {
+      if (isGuest) {
+        currentTheme = params.get("tema") || "Romance Falhado";
+        inviter = params.get("host") || "MicoMaster";
+        playerName.value = "VexamePro";
+
+        rivalSlot.innerHTML = `
+          <div class="icon">👤</div>
+          <h3>${inviter}</h3>
+          <p>Criador da batalha.</p>
+        `;
+
+        addChat("Sistema", "Entraste pelo convite da sala " + currentRoom + ".");
+      }
+
+      updateNamesAndTheme();
+      updateInvitePanel();
+      updateReadyState();
+      updateScores();
+    }
+
+    document.querySelectorAll(".theme").forEach((theme) => {
+      theme.addEventListener("click", handleThemeCardClick);
+    });
+
+    document.querySelectorAll(".gift").forEach((gift) => {
+      gift.addEventListener("click", () => {
+        const points = Number(gift.dataset.points || 10);
+        a += points;
+        updateScores();
+        addChat("Sistema", "Gift enviado: +" + points + " pontos.");
+      });
+    });
+
+    playerName.addEventListener("input", () => {
+      updateNamesAndTheme();
+      updateInvitePanel();
+    });
+
+    themeSelect.addEventListener("change", () => {
+      currentTheme = themeSelect.value;
+
+      document.querySelectorAll(".theme").forEach((item) => {
+        item.classList.toggle("active", item.dataset.theme === currentTheme);
+      });
+
+      updateNamesAndTheme();
+      updateInvitePanel();
+    });
+
+    createInviteBtn.addEventListener("click", createInvite);
+    resetRoomBtn.addEventListener("click", resetRoom);
+    cameraBtn.addEventListener("click", startCamera);
+    readyBtn.addEventListener("click", setReady);
+    startBtn.addEventListener("click", startBattle);
+    exitBtn.addEventListener("click", exitLive);
+    sendBtn.addEventListener("click", sendMessage);
+
+    chatInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
+
+    initFromUrl();
+  </script>
+</body>
+</html>
