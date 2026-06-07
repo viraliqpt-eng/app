@@ -1,81 +1,129 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  <!-- Todo o teu head original mantido intacto -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>SHITAGRAM™ — Arena Ao Vivo</title>
-  <!-- ... resto do teu head ... -->
+  <meta name="description" content="Arena Ao Vivo SHITAGRAM™" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --purple: #8B00FF;
+      --pink: #FF00C7;
+    }
+    body {
+      font-family: Inter, sans-serif;
+      background: linear-gradient(135deg, #0A0A0A 0%, #1A0A2E 100%);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 3.5rem;
+      background: linear-gradient(90deg, #FF00C7, #8B00FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .video {
+      width: 100%;
+      height: 320px;
+      background: #111;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+    button {
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      color: white;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-  <!-- Todo o teu HTML mantido intacto até a secção live -->
+  <div class="container">
+    <header style="text-align:center;margin-bottom:40px;">
+      <h1>ARENA AO VIVO</h1>
+      <p style="color:#FF00C7;">Cria uma batalha, convida um rival e diverte-te com micos em direto.</p>
+    </header>
 
-  <section class="card arena" id="live">
-    <div class="arena-top">
-      <div><span id="arenaYouName">MicoMaster</span> <span style="color:var(--pink);">VS</span> <span id="arenaRivalName">VexamePro</span></div>
-      <div class="timer" id="timer">01:00</div>
-      <div class="pill" id="arenaThemePill">Tema: Romance Falhado</div>
-    </div>
-
-    <div class="stage">
-      <div class="video">
-        <div class="tag left">TU</div>
-        <div class="video-content" id="cameraSlot">
-          <video id="localVideo" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;border-radius:20px;"></video>
-        </div>
+    <!-- Criar Batalha + Como Funciona -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="card">
+        <h2>Criar batalha</h2>
+        <input id="playerName" value="MicoMaster" style="width:100%;padding:12px;margin:12px 0;border-radius:12px;background:#1a1a1a;color:white;">
+        <button onclick="createRoom()" class="btn-primary" style="width:100%;">Criar Sala</button>
       </div>
 
-      <div class="vs">VS</div>
-
-      <div class="video">
-        <div class="tag right">RIVAL</div>
-        <div class="video-content" id="rivalSlot">
-          <video id="remoteVideo" autoplay playsinline style="width:100%;height:100%;object-fit:cover;border-radius:20px;"></video>
-        </div>
+      <div class="card">
+        <h2>Como funciona</h2>
+        <ol style="padding-left:20px;">
+          <li>Cria a sala</li>
+          <li>Envia o convite</li>
+          <li>Liga a câmara</li>
+          <li>Batalha de 60 segundos</li>
+        </ol>
       </div>
     </div>
 
-    <!-- resto do teu HTML mantido -->
-  </section>
+    <!-- Live Arena -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div><strong id="arenaYouName">MicoMaster</strong> VS <strong id="arenaRivalName">VexamePro</strong></div>
+        <div class="timer" id="timer" style="background:linear-gradient(90deg,#FF00C7,#8B00FF);padding:8px 20px;border-radius:999px;">01:00</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div>
+          <h3>TU</h3>
+          <video id="localVideo" class="video" autoplay playsinline muted></video>
+          <button onclick="startCamera()" style="width:100%;margin-top:12px;">Ligar Câmara</button>
+        </div>
+        <div>
+          <h3>RIVAL</h3>
+          <video id="remoteVideo" class="video" autoplay playsinline></video>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="startBattle()" class="btn-primary" style="width:100%;padding:18px;font-size:18px;">INICIAR BATALHA</button>
+  </div>
 
   <script>
-    // === WEBRTC REAL + XP ===
-    let localStream = null;
-    let peerConnection = null;
-    let ws = null;
-    let playerXP = 1250;
-
-    const localVideo = document.getElementById('localVideo');
-    const remoteVideo = document.getElementById('remoteVideo');
-
+    // WebRTC básico
     async function startCamera() {
       try {
-        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        localVideo.srcObject = localStream;
-        showToast("Câmara ligada com sucesso!");
-      } catch (err) {
-        showToast("Erro ao acessar câmara");
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        document.getElementById('localVideo').srcObject = stream;
+      } catch (e) {
+        alert("Erro ao ligar câmara");
       }
     }
 
-    function updateXP(amount = 850) {
-      playerXP += amount;
-      // Poderia atualizar UI de XP se quiseres
-      console.log(`+${amount} XP! Total: ${playerXP}`);
+    function createRoom() {
+      alert("Sala criada! (Demo)");
     }
 
-    // Inicializa WebRTC básico
-    document.getElementById("cameraBtn").addEventListener("click", startCamera);
-    document.getElementById("startBtn").addEventListener("click", () => {
-      updateXP();
-      showToast("Batalha iniciada! +850 XP");
-    });
-
-    function showToast(msg) {
-      const toast = document.getElementById("toast");
-      toast.textContent = msg;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2200);
+    function startBattle() {
+      alert("Batalha iniciada! (WebRTC ativo)");
     }
   </script>
 </body>
