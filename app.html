@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHITAGRAM™ — App</title>
+  <meta name="description" content="SHITAGRAM™ — rede social satírica de micos, XP, ShitClips, ranking e batalhas live." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,0,199,.18), transparent 34%),
+        radial-gradient(circle at 100% 0%, rgba(139,0,255,.20), transparent 36%),
+        #05020c;
+      color: #fff;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .glass {
+      background: rgba(13, 8, 24, .84);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+      backdrop-filter: blur(18px);
+    }
+    .neon { text-shadow: 0 0 24px rgba(255,0,199,.65); }
+    .card { transition: .2s ease; }
+    .card:hover { transform: translateY(-4px); border-color: rgba(255,0,199,.5); box-shadow: 0 0 35px rgba(255,0,199,.18); }
+    .active { color: #ff00c7; background: rgba(255,0,199,.12); border-color: rgba(255,0,199,.28); }
+  </style>
+</head>
+<body>
+  <div class="min-h-screen p-3 md:p-6 pb-24 lg:pb-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[250px_1fr_330px] gap-4">
+
+      <aside class="glass rounded-3xl p-5 hidden lg:flex flex-col justify-between min-h-[calc(100vh-48px)]">
+        <div>
+          <a href="index.html" class="flex items-center gap-3 mb-8">
+            <div class="text-4xl">💩</div>
+            <div>
+              <h1 class="text-2xl font-black neon">SHITAGRAM™</h1>
+              <p class="text-xs text-white/50">Rede social de micos</p>
+            </div>
+          </a>
+
+          <nav class="space-y-2 text-sm font-bold">
+            <a href="app.html" class="active flex items-center gap-3 px-4 py-3 rounded-2xl border">🏠 Feed</a>
+            <button onclick="showSection('clips')" class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 text-white/70">🎬 ShitClips™</button>
+            <a href="battle-lobby.html" class="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 text-white/70">⚔️ Batalhas <span class="ml-auto text-[10px] bg-pink-600 px-2 py-1 rounded-full text-white">LIVE</span></a>
+            <button onclick="showSection('ranking')" class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 text-white/70">🏆 Ranking</button>
+            <button onclick="showSection('perfil')" class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 text-white/70">👤 Perfil</button>
+            <button onclick="showSection('loja')" class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 text-white/70">🛒 Loja</button>
+          </nav>
+        </div>
+
+        <div class="rounded-3xl p-5 bg-gradient-to-br from-fuchsia-700/25 to-purple-900/30 border border-fuchsia-500/30 text-center">
+          <div class="text-4xl mb-2">👑</div>
+          <h3 class="font-black text-fuchsia-300">VIP SHIT™</h3>
+          <p class="text-xs text-white/55 mt-1">Destaque no chat, gifts premium e boosts.</p>
+          <button onclick="openModal('vipModal')" class="mt-4 w-full py-2 rounded-xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">Ver plano</button>
+        </div>
+      </aside>
+
+      <main class="space-y-4">
+        <header class="glass rounded-3xl p-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="text-xs text-fuchsia-300 font-black uppercase tracking-[.22em]">App Principal</div>
+            <h2 class="text-3xl md:text-5xl font-black">Feed de <span class="text-fuchsia-400 neon">Micos</span></h2>
+            <p class="text-sm text-white/55 mt-1">Publica, reage, ganha XP e entra nas batalhas live.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="openModal('postModal')" class="px-5 py-3 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">+ Publicar</button>
+            <a href="battle-lobby.html" class="px-5 py-3 rounded-2xl bg-orange-500 hover:bg-orange-400 text-black font-black">⚔️ Batalhar</a>
+          </div>
+        </header>
+
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <div class="glass rounded-3xl p-4"><div class="text-white/45 text-xs font-bold uppercase">XP Hoje</div><div class="text-3xl font-black text-fuchsia-300">+480</div></div>
+          <div class="glass rounded-3xl p-4"><div class="text-white/45 text-xs font-bold uppercase">ShitCoins™</div><div class="text-3xl font-black text-yellow-300">12.430</div></div>
+          <div class="glass rounded-3xl p-4"><div class="text-white/45 text-xs font-bold uppercase">Ranking</div><div class="text-3xl font-black text-orange-300">#17</div></div>
+          <div class="glass rounded-3xl p-4"><div class="text-white/45 text-xs font-bold uppercase">Micos</div><div class="text-3xl font-black text-purple-300">38</div></div>
+        </section>
+
+        <section class="glass rounded-3xl p-4 md:p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-black">🔥 Em destaque</h3>
+            <a href="battle-lobby.html" class="text-sm text-fuchsia-300 font-bold">Abrir Batalhas →</a>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <article class="card rounded-3xl bg-black/30 border border-white/10 overflow-hidden">
+              <div class="h-44 bg-gradient-to-br from-orange-600/40 to-black grid place-items-center text-7xl">💩</div>
+              <div class="p-4">
+                <div class="text-xs text-orange-300 font-black">@ReiDoCocó</div>
+                <h4 class="font-black text-lg mt-1">Quando o bug vira lifestyle</h4>
+                <p class="text-sm text-white/55 mt-2">O mico do dia já está a render XP e gargalhadas.</p>
+                <div class="flex justify-between mt-4 text-sm text-white/60"><span>😂 1.2k</span><span>💬 284</span><span>↗️ 93</span></div>
+              </div>
+            </article>
+
+            <article class="card rounded-3xl bg-black/30 border border-white/10 overflow-hidden">
+              <div class="h-44 bg-gradient-to-br from-pink-600/40 to-black grid place-items-center text-7xl">🎬</div>
+              <div class="p-4">
+                <div class="text-xs text-pink-300 font-black">ShitClips™</div>
+                <h4 class="font-black text-lg mt-1">Clip viral: café frio no deploy</h4>
+                <p class="text-sm text-white/55 mt-2">Vídeo curto com som sintético e combo de reações.</p>
+                <div class="flex justify-between mt-4 text-sm text-white/60"><span>🔥 3.8k</span><span>💬 612</span><span>↗️ 420</span></div>
+              </div>
+            </article>
+
+            <article class="card rounded-3xl bg-black/30 border border-fuchsia-500/25 overflow-hidden">
+              <div class="h-44 bg-gradient-to-br from-purple-700/50 to-black grid place-items-center text-7xl">⚔️</div>
+              <div class="p-4">
+                <div class="text-xs text-fuchsia-300 font-black">ShitaBattle Live™</div>
+                <h4 class="font-black text-lg mt-1">Rei do Cocó vs Princesa do Shit</h4>
+                <p class="text-sm text-white/55 mt-2">Entra no lobby, escolhe modo e envia gifts.</p>
+                <a href="battle-lobby.html" class="block mt-4 text-center rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 py-3 font-black">Entrar no Lobby</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="dynamicSection" class="glass rounded-3xl p-5">
+          <h3 class="text-xl font-black mb-3">📡 Feed ao vivo</h3>
+          <div id="feedList" class="space-y-3">
+            <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><strong class="text-fuchsia-300">@MicoLover</strong> publicou: “Nunca confies num botão que diz só OK.” <span class="text-white/45">😂 430</span></div>
+            <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><strong class="text-orange-300">@BugHumano</strong> subiu para nível 12 no Ranking da Vergonha. <span class="text-white/45">🏆 +80 XP</span></div>
+            <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><strong class="text-purple-300">@TroninhoVoador</strong> entrou numa ShitaBattle Live™. <a href="battle-lobby.html" class="text-fuchsia-300 font-bold">Ver →</a></div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="space-y-4">
+        <section class="glass rounded-3xl p-4">
+          <h3 class="font-black mb-3">🏆 Top da semana</h3>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between bg-white/5 rounded-2xl p-3"><span>🥇 Cagão Anónimo</span><strong class="text-yellow-300">45.600</strong></div>
+            <div class="flex justify-between bg-white/5 rounded-2xl p-3"><span>🥈 MicoMaster</span><strong class="text-yellow-300">32.100</strong></div>
+            <div class="flex justify-between bg-white/5 rounded-2xl p-3"><span>🥉 Dona do Troninho</span><strong class="text-yellow-300">21.750</strong></div>
+          </div>
+        </section>
+
+        <section class="glass rounded-3xl p-4">
+          <h3 class="font-black mb-3">⚔️ Batalhas em direto</h3>
+          <div class="rounded-2xl bg-gradient-to-br from-fuchsia-700/20 to-orange-500/10 border border-fuchsia-500/25 p-4">
+            <div class="flex justify-between text-xs mb-2"><span class="text-red-300 font-black">● LIVE</span><span>👁️ 4.382</span></div>
+            <div class="font-black">Rei do Cocó vs Princesa do Shit</div>
+            <div class="h-2 bg-black/40 rounded-full overflow-hidden mt-3 flex"><div class="bg-orange-400 h-full" style="width:58%"></div><div class="bg-fuchsia-500 h-full" style="width:42%"></div></div>
+            <a href="battle.html" class="block mt-4 text-center py-2 rounded-xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">Ver Batalha</a>
+          </div>
+        </section>
+
+        <section class="glass rounded-3xl p-4">
+          <h3 class="font-black mb-3">🛡️ Segurança</h3>
+          <p class="text-sm text-white/55">Denúncias, moderação, anti-spam e beta controlada para manter o humor sem virar caos.</p>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <nav class="lg:hidden fixed bottom-3 left-3 right-3 glass rounded-3xl p-3 grid grid-cols-5 text-xs text-center z-40">
+    <a href="app.html" class="text-fuchsia-300">🏠<br>Feed</a>
+    <button onclick="showSection('clips')">🎬<br>Clips</button>
+    <a href="battle-lobby.html">⚔️<br>Batalha</a>
+    <button onclick="showSection('ranking')">🏆<br>Ranking</button>
+    <button onclick="showSection('perfil')">👤<br>Perfil</button>
+  </nav>
+
+  <div id="postModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-lg z-50 items-center justify-center p-4">
+    <div class="glass rounded-3xl p-6 max-w-md w-full">
+      <div class="flex justify-between items-center mb-4"><h3 class="text-2xl font-black">Publicar mico</h3><button onclick="closeModal('postModal')" class="text-2xl">×</button></div>
+      <textarea id="postText" class="w-full min-h-32 bg-black/40 border border-white/10 rounded-2xl p-4 outline-none focus:border-fuchsia-500" placeholder="Conta o teu mico..."></textarea>
+      <button onclick="publishPost()" class="mt-4 w-full py-3 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">Publicar</button>
+    </div>
+  </div>
+
+  <div id="vipModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-lg z-50 items-center justify-center p-4">
+    <div class="glass rounded-3xl p-6 max-w-md w-full text-center">
+      <button onclick="closeModal('vipModal')" class="float-right text-2xl">×</button>
+      <div class="text-6xl mb-3">👑</div>
+      <h3 class="text-2xl font-black text-fuchsia-300">VIP SHIT™</h3>
+      <p class="text-sm text-white/60 mt-2">Selo no chat, desconto nos gifts, boosts de XP e efeitos premium.</p>
+      <button onclick="closeModal('vipModal')" class="mt-5 w-full py-3 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">Ativar depois</button>
+    </div>
+  </div>
+
+  <script>
+    function showSection(type) {
+      const box = document.getElementById('dynamicSection');
+      const content = {
+        clips: ['🎬 ShitClips™', 'Vídeos curtos de micos com gifts, comentários, partilhas e ranking próprio.'],
+        ranking: ['🏆 Ranking', 'Lista dos utilizadores com mais XP, mais micos e mais vitórias em batalha.'],
+        perfil: ['👤 Perfil', 'Perfil de jogador com nível, badges, histórico de micos e vitórias.'],
+        loja: ['🛒 Loja', 'Compra ShitCoins™, gifts, boosts e itens premium para batalhas.']
+      }[type] || ['📡 Feed ao vivo', 'Novidades da comunidade em tempo real.'];
+      box.innerHTML = `<h3 class="text-xl font-black mb-3">${content[0]}</h3><p class="text-white/60">${content[1]}</p><a href="battle-lobby.html" class="inline-block mt-4 px-5 py-3 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">Ir para Batalhas</a>`;
+    }
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+    function publishPost() {
+      const text = document.getElementById('postText').value.trim();
+      if (!text) return;
+      const feed = document.getElementById('feedList');
+      const item = document.createElement('div');
+      item.className = 'rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/25 p-4';
+      item.innerHTML = `<strong class="text-yellow-300">@MicoMaster</strong> publicou: “${text.replace(/[<>]/g, '')}” <span class="text-white/45">✨ novo</span>`;
+      feed.prepend(item);
+      document.getElementById('postText').value = '';
+      closeModal('postModal');
+    }
+  </script>
+</body>
+</html>
