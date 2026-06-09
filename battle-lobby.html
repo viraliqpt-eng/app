@@ -7,7 +7,7 @@
   <meta name="description" content="Lobby oficial das ShitaBattle Live™ do SHITAGRAM™. Cria batalhas, convida amigos, entra em modo aleatório ou vê batalhas ao vivo." />
   <meta name="theme-color" content="#08080c" />
 
-  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=BleGgA5Y6p9BLP0CmRQbfSoZcQs5CxcSbgq8z2XVxsBv3Fy1e0e0hlKKn9od3mktm8qVmS-vB9K7z4-NDA85x1pt3UCGU-DbJITsg8Rk7Mt-7AIz_gCTBmT_J3Aty3BBd4od6jH7fPjvHv24CMtOncja8D8eRRBVoY5QPcPTpsmnPgTVWTRMiZvEgSAFim9QWZubSoKXytLL47gljCbD1Ht5Zj0ICOGuCzALc8M6PMav-Ev8OX8i18NM-TuF6I2FnaJclX13vSE9ExdRDI-n3w" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     * { box-sizing: border-box; }
@@ -144,13 +144,13 @@
           <div class="min-w-0">
             <div class="flex items-center gap-2 mb-1">
               <span class="px-3 py-1 rounded-full bg-red-600/90 text-[10px] font-black pulse-live">● LIVE</span>
-              <span class="px-3 py-1 rounded-full bg-white/5 text-[10px] font-bold text-white/60">v24.1 Lobby</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 text-[10px] font-bold text-white/60">v24.3 Eventos</span>
             </div>
             <h2 class="text-2xl md:text-5xl font-black leading-tight">
               ShitaBattle <span class="text-fuchsia-400 neon">Live™</span>
             </h2>
             <p class="text-xs md:text-sm text-white/55 mt-1">
-              Cria batalhas, convida amigos, entra em modo aleatório ou vê duelos em direto.
+              Cria batalhas, agenda eventos, convida amigos ou entra em duelos em direto.
             </p>
           </div>
 
@@ -252,6 +252,72 @@
             </div>
           </aside>
 
+        </section>
+
+
+        <!-- PROGRAMMED LIVE EVENTS -->
+        <section class="glass rounded-3xl p-5 md:p-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-3 py-1 rounded-full bg-pink-600 text-[10px] font-black pulse-live">LIVE Event</span>
+                <span class="text-[10px] text-white/40 font-bold uppercase tracking-widest">Eventos Programados</span>
+              </div>
+              <h3 class="font-black text-2xl md:text-3xl">Eventos LIVE</h3>
+              <p class="text-xs text-white/45 mt-1">Agenda batalhas, cria antecipação e permite que os utilizadores se registem antes da live.</p>
+            </div>
+            <button onclick="viewAllEvents()" class="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-sm font-bold">
+              Ver tudo
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <article class="soft-card rounded-3xl p-5 md:p-6 hover:border-pink-500/40 transition-all">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <span class="px-3 py-1 rounded-lg bg-pink-600 text-xs font-black">LIVE Event</span>
+                <h4 class="font-black text-xl md:text-2xl">Primeira Batalha do Trono</h4>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-white/70 mb-5">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-700 grid place-items-center">👑</div>
+                <strong class="text-white">MicoMaster</strong>
+                <span class="text-pink-300">💗</span>
+                <span class="text-white/45">|</span>
+                <span>5.902 seguidores</span>
+              </div>
+              <div class="space-y-2 text-sm text-white/75">
+                <p>📅 domingo, jun 21, 2026</p>
+                <p>🕒 21:15 - 21:45</p>
+                <p class="pt-2 text-white/60 leading-relaxed">Vou fazer a minha primeira batalha ao vivo. Entra para apoiar, mandar gifts e ver quem domina o trono.</p>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button onclick="registerEvent('Primeira Batalha do Trono')" class="px-8 py-3 rounded-2xl bg-pink-600 hover:bg-pink-500 font-black">Registar</button>
+                <button onclick="openBattle()" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-bold">Pré-visualizar Battle</button>
+              </div>
+            </article>
+
+            <article class="soft-card rounded-3xl p-5 md:p-6 hover:border-fuchsia-500/40 transition-all">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <span class="px-3 py-1 rounded-lg bg-pink-600 text-xs font-black">LIVE Event</span>
+                <h4 class="font-black text-xl md:text-2xl">Noite do Bug Nuclear</h4>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-white/70 mb-5">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-purple-700 grid place-items-center">☢️</div>
+                <strong class="text-white">BugPatrocinador</strong>
+                <span class="text-fuchsia-300">⚡</span>
+                <span class="text-white/45">|</span>
+                <span>10.9K seguidores</span>
+              </div>
+              <div class="space-y-2 text-sm text-white/75">
+                <p>📅 quarta-feira, jun 10, 2026</p>
+                <p>🕒 22:30 - 23:00</p>
+                <p class="pt-2 text-white/60 leading-relaxed">Battle especial com gifts caóticos, tremor de ecrã e ranking de doadores ativo durante toda a arena.</p>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button onclick="registerEvent('Noite do Bug Nuclear')" class="px-8 py-3 rounded-2xl bg-pink-600 hover:bg-pink-500 font-black">Registar</button>
+                <button onclick="openBattle()" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-bold">Pré-visualizar Battle</button>
+              </div>
+            </article>
+          </div>
         </section>
 
         <!-- LIVE BATTLES LIST -->
@@ -488,6 +554,23 @@
       } catch (e) {
         showToast('Copia manualmente o link do convite.');
       }
+    }
+
+
+    function registerEvent(eventName) {
+      setRoomState(
+        'REGISTADO',
+        '📅',
+        'Evento registado',
+        `Ficaste registado em “${eventName}”. Quando a live começar, o botão de entrada aparece na tua sala.`,
+        false,
+        true
+      );
+      showToast(`✅ Registo confirmado: ${eventName}`);
+    }
+
+    function viewAllEvents() {
+      showToast('📅 Em breve: página completa com todos os Eventos LIVE.');
     }
 
     function refreshLives() {
