@@ -1,130 +1,501 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>SHITAGRAM™ — Arena Ao Vivo</title>
-  <meta name="description" content="Arena Ao Vivo SHITAGRAM™" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0A0A0A;
-      --purple: #8B00FF;
-      --pink: #FF00C7;
-    }
-    body {
-      font-family: Inter, sans-serif;
-      background: linear-gradient(135deg, #0A0A0A 0%, #1A0A2E 100%);
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 3.5rem;
-      background: linear-gradient(90deg, #FF00C7, #8B00FF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 900;
-    }
-    .card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-    .video {
-      width: 100%;
-      height: 320px;
-      background: #111;
-      border-radius: 16px;
-      object-fit: cover;
-    }
-    button {
-      padding: 14px 28px;
-      border-radius: 999px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: linear-gradient(90deg, var(--pink), var(--purple));
-      color: white;
-      border: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404SOCIAL™ — The Failure Network</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#050505;
+  color:#ddd;
+  font-family:"Courier New", monospace;
+}
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  background:repeating-linear-gradient(
+    0deg,#111 0,#111 2px,#151515 3px,#151515 5px
+  );
+  padding-bottom:90px;
+}
+.top{
+  background:#ffd21a;
+  color:#000;
+  padding:22px 18px;
+  border-bottom:4px solid #000;
+}
+.logo{
+  font-size:36px;
+  font-weight:900;
+}
+.logo span{
+  background:#000;
+  color:#ffd21a;
+  padding:4px 8px;
+  border-radius:6px;
+}
+.sub{
+  font-size:14px;
+  letter-spacing:3px;
+  font-weight:900;
+}
+.status{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 18px;
+  background:#090909;
+  border-bottom:1px solid #222;
+  font-size:16px;
+}
+.red{color:#ff4d5f;font-weight:bold}
+.yellow{color:#ffd21a;font-weight:bold}
+.tabs{
+  display:flex;
+  gap:18px;
+  overflow:auto;
+  padding:20px 18px;
+}
+.bubble{
+  min-width:82px;
+  text-align:center;
+  color:#aaa;
+  font-weight:bold;
+}
+.ico{
+  width:70px;height:70px;
+  border:3px solid #ffd21a;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  margin:auto auto 8px;
+  font-size:30px;
+  background:#050505;
+  box-shadow:6px 6px #000;
+}
+.page{display:none;padding:18px}
+.page.active{display:block}
+.card{
+  background:#000;
+  padding:22px;
+  margin-bottom:24px;
+  border:1px solid #222;
+  box-shadow:8px 8px #070707;
+}
+.user{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #222;
+  padding-bottom:16px;
+  margin-bottom:18px;
+}
+.name{
+  color:#ffd21a;
+  font-weight:900;
+  font-size:20px;
+}
+.time{color:#888}
+.bugbox{
+  border:3px solid #31dfff;
+  padding:36px 20px;
+  text-align:center;
+  color:#31dfff;
+  font-size:22px;
+  line-height:1.6;
+  background:#101010;
+  border-radius:6px;
+}
+.bugbox.redbox{
+  border-color:#ff4d5f;
+  color:#ff4d5f;
+}
+.bugbox.bluebox{
+  border-color:#5967ff;
+  color:#fff;
+  background:#151b57;
+}
+.emoji{
+  font-size:52px;
+  display:block;
+  margin-bottom:16px;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+.actions button{
+  flex:1;
+  background:#050505;
+  color:#eee;
+  border:1px solid #333;
+  padding:10px;
+  font-size:18px;
+  font-family:inherit;
+}
+.panel-title{
+  color:#31dfff;
+  font-size:20px;
+  margin-bottom:16px;
+  font-weight:900;
+}
+textarea,input{
+  width:100%;
+  background:#111;
+  color:#ffd21a;
+  border:1px solid #333;
+  padding:14px;
+  font-family:inherit;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.mainbtn{
+  width:100%;
+  background:#ffd21a;
+  color:#000;
+  border:0;
+  padding:14px;
+  font-family:inherit;
+  font-weight:900;
+  font-size:16px;
+}
+.altbtn{
+  width:100%;
+  background:#31dfff;
+  color:#000;
+  border:0;
+  padding:14px;
+  font-family:inherit;
+  font-weight:900;
+  font-size:16px;
+  margin-top:12px;
+}
+.terminal{
+  border:1px solid #333;
+  background:#050505;
+  padding:18px;
+  color:#53ff8a;
+  line-height:1.6;
+  min-height:250px;
+}
+.errorline{color:#ff4d5f}
+.profile-head{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  margin-bottom:18px;
+}
+.avatar{
+  width:82px;height:82px;
+  border-radius:50%;
+  background:#ffd21a;
+  color:#000;
+  display:grid;
+  place-items:center;
+  font-size:38px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:18px 0;
+}
+.stat{
+  border:1px solid #333;
+  padding:14px;
+  text-align:center;
+}
+.rank li{
+  list-style:none;
+  padding:10px 0;
+  border-bottom:1px solid #222;
+}
+nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  max-width:520px;
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  background:#020202;
+  border-top:1px solid #222;
+}
+nav button{
+  background:#050505;
+  color:#aaa;
+  border:0;
+  border-left:1px solid #222;
+  padding:12px 4px;
+  font-family:inherit;
+  font-weight:900;
+}
+nav button.active{
+  color:#ffd21a;
+  background:#111;
+}
+.navico{
+  display:block;
+  font-size:25px;
+  margin-bottom:4px;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <header style="text-align:center;margin-bottom:40px;">
-      <h1>ARENA AO VIVO</h1>
-      <p style="color:#FF00C7;">Cria uma batalha, convida um rival e diverte-te com micos em direto.</p>
-    </header>
+<div class="app">
 
-    <!-- Criar Batalha + Como Funciona -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="card">
-        <h2>Criar batalha</h2>
-        <input id="playerName" value="MicoMaster" style="width:100%;padding:12px;margin:12px 0;border-radius:12px;background:#1a1a1a;color:white;">
-        <button onclick="createRoom()" class="btn-primary" style="width:100%;">Criar Sala</button>
+  <header class="top">
+    <div class="logo">404 <span>SOCIAL</span>™</div>
+    <div class="sub">THE FAILURE NETWORK</div>
+  </header>
+
+  <section class="status">
+    <div>🔴 Instabilidade: <span class="red">96%</span></div>
+    <div>Pontos: <span class="yellow" id="points">419</span> pts</div>
+  </section>
+
+  <section class="tabs">
+    <div class="bubble"><div class="ico">🍟</div>Estágios</div>
+    <div class="bubble"><div class="ico">💀</div>Sexta</div>
+    <div class="bubble"><div class="ico">☕</div>Café</div>
+    <div class="bubble"><div class="ico">🔧</div>Gambiarras</div>
+  </section>
+
+  <main id="feed" class="page active">
+
+    <article class="card">
+      <div class="user">
+        <div class="name">👨‍💻 @estagiario_stressado</div>
+        <div class="time">15m atrás</div>
       </div>
-
-      <div class="card">
-        <h2>Como funciona</h2>
-        <ol style="padding-left:20px;">
-          <li>Cria a sala</li>
-          <li>Envia o convite</li>
-          <li>Liga a câmara</li>
-          <li>Batalha de 60 segundos</li>
-        </ol>
+      <div class="bugbox">
+        <span class="emoji">💀</span>
+        Fiz commit direto para a branch main e agora o repositório está a chorar em binário.
       </div>
-    </div>
-
-    <!-- Live Arena -->
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <div><strong id="arenaYouName">MicoMaster</strong> VS <strong id="arenaRivalName">VexamePro</strong></div>
-        <div class="timer" id="timer" style="background:linear-gradient(90deg,#FF00C7,#8B00FF);padding:8px 20px;border-radius:999px;">01:00</div>
+      <div class="actions">
+        <button onclick="react()">⚠️ 42</button>
+        <button onclick="react()">💀 64</button>
+        <button onclick="react()">😂 99</button>
       </div>
+    </article>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <article class="card">
+      <div class="user">
+        <div class="name">🔋 @segunda_feira.dll</div>
+        <div class="time">1h atrás</div>
+      </div>
+      <div class="bugbox bluebox">
+        <span class="emoji">🔌</span>
+        Ficheiro motivacao.bin corrompido. Deseja reinstalar a sua paciência agora?
+      </div>
+      <div class="actions">
+        <button onclick="react()">⚠️ 106</button>
+        <button onclick="react()">💀 35</button>
+        <button onclick="react()">😂 9</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="user">
+        <div class="name">🔧 @gambiarras_ltd</div>
+        <div class="time">3h atrás</div>
+      </div>
+      <div class="bugbox redbox">
+        <span class="emoji">📟</span>
+        A nossa infraestrutura corre num computador antigo debaixo da secretária da contabilidade.
+      </div>
+      <div class="actions">
+        <button onclick="react()">⚠️ 330</button>
+        <button onclick="react()">💀 198</button>
+        <button onclick="react()">😂 250</button>
+      </div>
+    </article>
+
+  </main>
+
+  <main id="explorar" class="page">
+    <section class="card">
+      <h2 class="panel-title">🗣️ GERADOR DE DESCULPAS DE TI</h2>
+      <p>Falta de prazo ou bugs em produção?</p><br>
+      <div class="bugbox" id="excuse">"Isto funcionava perfeitamente na minha máquina local."</div>
+      <button class="altbtn" onclick="newExcuse()">OBTER NOVO PRETEXTO CIENTÍFICO</button>
+    </section>
+
+    <section class="card">
+      <h2 class="panel-title" style="color:#ff6bcf">👾 BUG SQUASHER MINI-GAME</h2>
+      <p>Esmaga bugs antes que ocupem a memória RAM.</p><br>
+      <div class="bugbox" onclick="squashBug()" id="buggame">
+        🪲<br>CLICA PARA ESMAGAR O BUG
+      </div>
+      <button class="altbtn" style="background:#ff6bcf" onclick="squashBug()">ATRAIR BUGS PARA O PROCESSO</button>
+    </section>
+  </main>
+
+  <main id="criar" class="page">
+    <section class="card">
+      <h2 class="panel-title">➕ CRIAR NOVO BUG</h2>
+      <input id="userName" placeholder="@nome_do_bug">
+      <textarea id="postText" rows="5" placeholder="Escreve o teu erro existencial, profissional ou digital..."></textarea>
+      <button class="mainbtn" onclick="createPost()">PUBLICAR FALHA</button>
+    </section>
+  </main>
+
+  <main id="bash" class="page">
+    <section class="card">
+      <h2 class="panel-title" style="color:#53ff8a">💻 CONSOLA SH / TERMINAL</h2>
+      <div class="terminal" id="terminal">
+Microsoft Windows [Version 10.404.2026]<br>
+(c) 404SOCIAL™ Corporation. Todos os direitos de falha reservados.<br><br>
+Escreve 'ajuda' para listar os comandos do sistema.<br><br>
+<span>$ Não</span><br>
+<span class="errorline">Comando 'não' não reconhecido. Tipo, de todo.</span>
+      </div>
+      <input id="cmd" placeholder="$ Digita um comando...">
+      <button class="altbtn" style="background:#53ff8a" onclick="runCommand()">EXEC</button>
+    </section>
+  </main>
+
+  <main id="perfil" class="page">
+    <section class="card">
+      <div class="profile-head">
+        <div class="avatar">👨‍💻</div>
         <div>
-          <h3>TU</h3>
-          <video id="localVideo" class="video" autoplay playsinline muted></video>
-          <button onclick="startCamera()" style="width:100%;margin-top:12px;">Ligar Câmara</button>
-        </div>
-        <div>
-          <h3>RIVAL</h3>
-          <video id="remoteVideo" class="video" autoplay playsinline></video>
+          <h2 class="name">@tu_bugaste</h2>
+          <p>ID de Autenticação: 11895387...</p>
+          <p class="red">ARTESÃO DE CÓDIGO PODRE</p>
         </div>
       </div>
+
+      <div class="stats">
+        <div class="stat">Crashes Provocados<br><span class="red">14,204</span></div>
+        <div class="stat">Chávenas de Café<br><span class="yellow">1,942 L</span></div>
+      </div>
+
+      <p>Rendimento de Trabalho Correto: <span class="red">0.2% Estável</span></p><br>
+
+      <h2 class="panel-title yellow">🏆 TABELA DE INSANIDADE</h2>
+      <ul class="rank">
+        <li>🥇 @vida_real.dmg — <span class="red">9,420 pts</span></li>
+        <li>🥈 @senior_spaghetti — <span class="red">8,201 pts</span></li>
+        <li>🥉 @tu_bugaste — <span class="yellow">419 pts</span></li>
+      </ul>
+    </section>
+  </main>
+
+</div>
+
+<nav>
+  <button class="active" onclick="showPage('feed',this)"><span class="navico">🏠</span>FEED</button>
+  <button onclick="showPage('explorar',this)"><span class="navico">🧭</span>EXPLORAR</button>
+  <button onclick="showPage('criar',this)"><span class="navico">➕</span>CRIAR</button>
+  <button onclick="showPage('bash',this)"><span class="navico">💻</span>BASH</button>
+  <button onclick="showPage('perfil',this)"><span class="navico">👤</span>PERFIL</button>
+</nav>
+
+<script>
+let points = 419;
+let squashed = 0;
+
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function react(){
+  points += Math.floor(Math.random()*9)+1;
+  document.getElementById('points').textContent = points;
+}
+
+function createPost(){
+  const name = document.getElementById('userName').value || '@tu_bugaste';
+  const text = document.getElementById('postText').value.trim();
+
+  if(!text){
+    alert('Erro 404: texto não encontrado.');
+    return;
+  }
+
+  const post = document.createElement('article');
+  post.className = 'card';
+  post.innerHTML = `
+    <div class="user">
+      <div class="name">⚠️ ${name}</div>
+      <div class="time">agora</div>
     </div>
+    <div class="bugbox">
+      <span class="emoji">📄</span>
+      ${text}
+    </div>
+    <div class="actions">
+      <button onclick="react()">⚠️ 0</button>
+      <button onclick="react()">💀 0</button>
+      <button onclick="react()">😂 0</button>
+    </div>
+  `;
 
-    <button onclick="startBattle()" class="btn-primary" style="width:100%;padding:18px;font-size:18px;">INICIAR BATALHA</button>
-  </div>
+  document.getElementById('feed').prepend(post);
+  document.getElementById('postText').value = '';
+  document.getElementById('userName').value = '';
+  showPage('feed', document.querySelector('nav button'));
+}
 
-  <script>
-    // WebRTC básico
-    async function startCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        document.getElementById('localVideo').srcObject = stream;
-      } catch (e) {
-        alert("Erro ao ligar câmara");
-      }
-    }
+function newExcuse(){
+  const excuses = [
+    '"Isto funcionava perfeitamente na minha máquina local."',
+    '"O bug é uma funcionalidade em fase emocional."',
+    '"A culpa foi da cache. Sempre é da cache."',
+    '"O servidor está a refletir sobre as suas escolhas."',
+    '"Não é erro, é comportamento emergente."',
+    '"O deploy correu bem. A realidade é que falhou."'
+  ];
+  document.getElementById('excuse').textContent =
+    excuses[Math.floor(Math.random()*excuses.length)];
+}
 
-    function createRoom() {
-      alert("Sala criada! (Demo)");
-    }
+function squashBug(){
+  squashed++;
+  document.getElementById('buggame').innerHTML =
+    `💥<br>BUG ESMAGADO<br>Total: ${squashed}`;
+  points += 25;
+  document.getElementById('points').textContent = points;
+}
 
-    function startBattle() {
-      alert("Batalha iniciada! (WebRTC ativo)");
-    }
-  </script>
+function runCommand(){
+  const cmd = document.getElementById('cmd').value.trim().toLowerCase();
+  const terminal = document.getElementById('terminal');
+
+  let response = '';
+
+  if(cmd === 'ajuda'){
+    response = 'Comandos: café, crash, motivacao, vida, reset, bug';
+  } else if(cmd === 'café'){
+    response = '☕ Café instalado com sucesso. Produtividade continua indisponível.';
+  } else if(cmd === 'crash'){
+    response = '💀 Sistema caiu com elegância.';
+  } else if(cmd === 'motivacao'){
+    response = 'Erro 404: motivação não encontrada.';
+  } else if(cmd === 'vida'){
+    response = 'vida.exe parou de responder.';
+  } else if(cmd === 'reset'){
+    terminal.innerHTML = '';
+    document.getElementById('cmd').value = '';
+    return;
+  } else if(cmd === 'bug'){
+    response = '⚠️ Novo bug gerado: ansiedade_deploy.final.v7';
+  } else {
+    response = `Comando '${cmd}' não reconhecido. Tipo, de todo.`;
+  }
+
+  terminal.innerHTML += `<br><br>$ ${cmd}<br><span class="errorline">${response}</span>`;
+  document.getElementById('cmd').value = '';
+}
+</script>
+
 </body>
 </html>
