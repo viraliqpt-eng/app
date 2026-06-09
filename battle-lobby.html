@@ -2,606 +2,660 @@
 <html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>SHITAGRAM™ — Lobby de Batalhas</title>
-  <meta name="description" content="Lobby oficial das ShitaBattle Live™ do SHITAGRAM™. Cria batalhas, convida amigos, entra em modo aleatório ou vê batalhas ao vivo." />
-  <meta name="theme-color" content="#08080c" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHITAGRAM™ — ShitaBattle Live™</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
     * { box-sizing: border-box; }
-
-    html, body {
-      min-height: 100%;
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(255, 0, 199, 0.18), transparent 30%),
-        radial-gradient(circle at top right, rgba(139, 0, 255, 0.18), transparent 32%),
-        radial-gradient(circle at bottom, rgba(255, 184, 0, 0.08), transparent 35%),
-        #05020c;
-      color: #fff;
+    html, body { margin: 0; padding: 0; }
+    body{
+      min-height:100vh;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255,0,199,.14), transparent 25%),
+        radial-gradient(circle at 85% 8%, rgba(139,0,255,.16), transparent 25%),
+        radial-gradient(circle at 50% 100%, rgba(255,153,0,.08), transparent 30%),
+        #05020c;
     }
 
-    body {
-      overflow-x: hidden;
-    }
-
-    .glass {
-      background: rgba(13, 13, 18, 0.82);
+    .glass{
+      background: rgba(10, 8, 18, .82);
+      border: 1px solid rgba(255,255,255,.07);
       backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
     }
 
-    .soft-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025));
-      border: 1px solid rgba(255,255,255,0.08);
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 20px 60px rgba(0,0,0,.28);
     }
 
-    .neon {
-      text-shadow: 0 0 24px rgba(255,0,199,0.75);
+    .neon-text{
+      text-shadow: 0 0 20px rgba(255,0,199,.45);
     }
 
-    .battle-btn {
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    .side-link{
+      transition: .2s ease;
+    }
+    .side-link:hover{
+      background: rgba(255,255,255,.05);
+      color: #fff;
+    }
+    .side-link.active{
+      background: linear-gradient(90deg, rgba(139,0,255,.22), rgba(255,0,199,.14));
+      color:#fff;
+      border:1px solid rgba(255,0,199,.25);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 0 24px rgba(139,0,255,.08);
     }
 
-    .battle-btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 38px rgba(255, 0, 199, 0.22);
-      border-color: rgba(255, 0, 199, 0.5);
+    .gift-card{
+      transition: .18s ease;
+    }
+    .gift-card:hover{
+      transform: translateY(-4px);
+      border-color: rgba(255,0,199,.38);
+      box-shadow: 0 0 24px rgba(255,0,199,.14);
     }
 
-    .pulse-live {
-      animation: livePulse 1.4s ease-in-out infinite;
+    .battle-bg-left{
+      background:
+        radial-gradient(circle at 25% 35%, rgba(255,190,60,.16), transparent 26%),
+        linear-gradient(180deg, rgba(255,153,0,.28), rgba(0,0,0,.15)),
+        linear-gradient(135deg, #2b1200, #10080f 80%);
     }
 
-    @keyframes livePulse {
-      0%, 100% { opacity: .75; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
+    .battle-bg-right{
+      background:
+        radial-gradient(circle at 75% 35%, rgba(255,0,199,.16), transparent 26%),
+        linear-gradient(180deg, rgba(255,0,199,.18), rgba(0,0,0,.12)),
+        linear-gradient(135deg, #21021b, #0e0816 80%);
     }
 
-    .floaty {
-      animation: floaty 4s ease-in-out infinite;
+    .emoji-float{
+      animation: floatUp 1.4s ease-out forwards;
+      position:absolute;
+      right:10px;
+      bottom:72px;
+      font-size: 28px;
+      pointer-events:none;
+    }
+    @keyframes floatUp{
+      0%{ transform: translateY(0) scale(.8); opacity:1; }
+      100%{ transform: translateY(-140px) scale(1.25); opacity:0; }
     }
 
-    @keyframes floaty {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    .gift-pop{
+      animation: popIn 1.2s ease-out forwards;
+    }
+    @keyframes popIn{
+      0%{ opacity:0; transform: scale(.6) translateY(24px); }
+      30%{ opacity:1; transform: scale(1.04) translateY(0); }
+      100%{ opacity:0; transform: scale(1) translateY(-40px); }
     }
 
-    .toast-in {
-      animation: toastIn .25s ease-out forwards;
+    .custom-scroll::-webkit-scrollbar{
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.12);
+      border-radius: 999px;
     }
 
-    @keyframes toastIn {
-      from { opacity: 0; transform: translate(-50%, -15px); }
-      to { opacity: 1; transform: translate(-50%, 0); }
+    .hide-mobile{
+      display:block;
     }
 
-    .mobile-nav {
-      padding-bottom: max(12px, env(safe-area-inset-bottom));
+    @media (max-width: 1200px){
+      .desktop-grid{
+        grid-template-columns: 210px 1fr;
+      }
+      .right-col{
+        grid-column: span 2;
+      }
     }
 
-    @media (max-width: 768px) {
-      .mobile-bottom-space {
-        padding-bottom: 92px;
+    @media (max-width: 920px){
+      .desktop-grid{
+        grid-template-columns: 1fr;
+      }
+      .hide-mobile{
+        display:none;
+      }
+      .battle-stage{
+        grid-template-columns: 1fr;
+      }
+      .right-col{
+        grid-column: auto;
       }
     }
   </style>
 </head>
-
 <body>
 
-  <div class="min-h-screen p-3 md:p-6 mobile-bottom-space">
+<div class="min-h-screen p-3 md:p-4">
+  <div class="max-w-[1600px] mx-auto desktop-grid grid grid-cols-[230px_1fr_330px] gap-4">
 
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-4">
-
-      <!-- SIDEBAR -->
-      <aside class="glass rounded-3xl p-5 hidden lg:flex flex-col justify-between min-h-[calc(100vh-48px)]">
-        <div>
-          <div class="flex items-center gap-3 mb-8">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-600 to-purple-700 grid place-items-center text-3xl shadow-[0_0_25px_rgba(255,0,199,.35)]">
-              💩
-            </div>
-            <div>
-              <h1 class="font-black text-2xl neon">SHITAGRAM™</h1>
-              <p class="text-xs text-white/45">Rede social de micos</p>
-            </div>
+    <!-- SIDEBAR -->
+    <aside class="glass rounded-[28px] p-4 hidden lg:flex flex-col justify-between min-h-[calc(100vh-32px)]">
+      <div>
+        <div class="flex items-center gap-3 px-2 mb-8">
+          <div class="text-5xl">💩</div>
+          <div>
+            <div class="text-[44px] leading-none font-black tracking-tight">SHITAGRAM<span class="text-fuchsia-400 align-top text-lg">™</span></div>
           </div>
-
-          <nav class="space-y-2 text-sm font-semibold">
-            <button onclick="fakeNav('Feed')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🏠 Feed</button>
-            <button onclick="fakeNav('ShitClips™')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🎬 ShitClips™</button>
-            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-fuchsia-600/20 text-fuchsia-200 border border-fuchsia-500/30">
-              ⚔️ Batalhas <span class="ml-auto text-[10px] bg-pink-600 px-2 py-1 rounded-full pulse-live">LIVE</span>
-            </button>
-            <button onclick="fakeNav('Ranking')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🏆 Ranking</button>
-            <button onclick="fakeNav('Perfil')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">👤 Perfil</button>
-            <button onclick="fakeNav('Carteira')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">👛 Carteira</button>
-            <button onclick="fakeNav('Loja')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🛒 Loja</button>
-          </nav>
         </div>
 
-        <div class="rounded-3xl p-5 bg-gradient-to-br from-purple-800/35 to-pink-700/25 border border-fuchsia-500/25 text-center overflow-hidden relative">
-          <div class="absolute -right-10 -top-10 w-28 h-28 bg-fuchsia-500/20 blur-2xl rounded-full"></div>
-          <div class="text-4xl mb-2 relative">👑</div>
-          <h3 class="font-black text-fuchsia-300 relative">VIP SHIT™</h3>
-          <p class="text-xs text-white/55 mt-1 relative">Destaca-te nas batalhas, ganha badges e efeitos premium.</p>
-          <button onclick="openModal('vipModal')" class="relative mt-4 w-full py-2.5 rounded-2xl bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:brightness-110 font-black text-sm">
-            Ver Benefícios
+        <nav class="space-y-2 text-[15px] font-semibold text-white/70">
+          <a href="app.html" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">🏠</span><span>Feed</span>
+          </a>
+          <a href="app.html#clips" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">▶️</span><span>ShitClips™</span>
+          </a>
+          <a href="battle.html" class="side-link active flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">⚔️</span><span>Batalhas</span>
+            <span class="ml-auto text-[10px] bg-pink-600 px-2 py-1 rounded-full font-black">LIVE</span>
+          </a>
+          <a href="app.html#ranking" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">🏆</span><span>Ranking</span>
+          </a>
+          <a href="app.html#perfil" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">👤</span><span>Perfil</span>
+          </a>
+          <a href="app.html#carteira" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">💳</span><span>Carteira</span>
+          </a>
+          <a href="app.html#shop" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">🛍️</span><span>Shop</span>
+            <span class="ml-auto text-[10px] bg-violet-600 px-2 py-1 rounded-lg font-black">NOVO</span>
+          </a>
+          <a href="#" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">👥</span><span>Squads</span>
+          </a>
+          <a href="#" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">🔔</span><span>Notificações</span>
+            <span class="ml-auto text-[10px] bg-red-600 w-5 h-5 rounded-full grid place-items-center font-black">3</span>
+          </a>
+          <a href="#" class="side-link flex items-center gap-4 px-4 py-4 rounded-2xl">
+            <span class="text-xl">•••</span><span>Mais</span>
+          </a>
+        </nav>
+      </div>
+
+      <div>
+        <div class="rounded-[24px] p-5 bg-gradient-to-br from-fuchsia-700/20 to-purple-900/30 border border-fuchsia-500/20 text-center">
+          <div class="text-4xl mb-2">👑</div>
+          <h3 class="font-black text-fuchsia-300 text-2xl">Seja VIP SHIT</h3>
+          <p class="text-sm text-white/60 mt-2 leading-relaxed">
+            Multiplique os teus ganhos e tenha benefícios exclusivos!
+          </p>
+          <button class="mt-5 w-full py-3 rounded-2xl bg-fuchsia-600 hover:bg-fuchsia-500 font-black text-lg">
+            Assinar Agora
           </button>
         </div>
-      </aside>
 
-      <!-- MAIN -->
-      <main class="space-y-4">
+        <div class="text-xs text-white/35 mt-6 flex justify-between gap-3 px-1">
+          <span>© 2024 SHITAGRAM™.</span>
+        </div>
+      </div>
+    </aside>
 
-        <!-- HEADER -->
-        <header class="glass rounded-3xl p-4 md:p-5 flex items-center justify-between gap-4">
-          <div class="min-w-0">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="px-3 py-1 rounded-full bg-red-600/90 text-[10px] font-black pulse-live">● LIVE</span>
-              <span class="px-3 py-1 rounded-full bg-white/5 text-[10px] font-bold text-white/60">v24.3 Eventos</span>
-            </div>
-            <h2 class="text-2xl md:text-5xl font-black leading-tight">
-              ShitaBattle <span class="text-fuchsia-400 neon">Live™</span>
-            </h2>
-            <p class="text-xs md:text-sm text-white/55 mt-1">
-              Cria batalhas, agenda eventos, convida amigos ou entra em duelos em direto.
+    <!-- MAIN COLUMN -->
+    <main class="space-y-4">
+      <!-- HEADER -->
+      <header class="glass rounded-[28px] px-4 md:px-6 py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-violet-700/20 border border-violet-500/25 grid place-items-center text-3xl">⚡</div>
+          <div>
+            <h1 class="text-3xl md:text-5xl font-black leading-none">
+              ShitaBattle <span class="text-fuchsia-400 neon-text">Live™</span>
+            </h1>
+            <p class="text-sm md:text-lg text-white/60 mt-1">
+              Batalhas ao vivo com gifts, chat e pontuação em tempo real
             </p>
           </div>
+        </div>
 
-          <div class="flex items-center gap-2 shrink-0">
-            <div class="hidden sm:flex px-3 py-2 rounded-2xl bg-black/45 border border-white/10 font-black text-sm">
-              🪙 <span id="coins">12.430</span>
-            </div>
-            <button onclick="openModal('coinsModal')" class="w-11 h-11 rounded-2xl bg-yellow-500 text-black font-black hover:brightness-110">+</button>
-            <button onclick="goBackApp()" class="hidden md:block px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-bold text-sm">
-              Voltar ao App
-            </button>
-          </div>
-        </header>
-
-        <!-- HERO / STATUS -->
-        <section class="grid grid-cols-1 xl:grid-cols-[1.4fr_.85fr] gap-4">
-
-          <div class="glass rounded-3xl p-5 md:p-6 relative overflow-hidden">
-            <div class="absolute right-8 top-8 text-8xl opacity-10 floaty">⚔️</div>
-
-            <div class="relative">
-              <h3 class="text-2xl md:text-3xl font-black mb-2">Escolhe o modo de batalha</h3>
-              <p class="text-white/55 text-sm max-w-2xl">
-                Este lobby prepara a entrada na arena. Primeiro escolhes o modo, depois a batalha abre no ficheiro <strong>battle.html</strong>.
-              </p>
-
-              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-
-                <button onclick="createBattle()" class="battle-btn soft-card rounded-3xl p-5 text-left">
-                  <div class="flex items-start justify-between">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-400 grid place-items-center text-3xl shadow-[0_0_25px_rgba(255,184,0,.25)]">🔥</div>
-                    <span class="text-[10px] px-2 py-1 rounded-full bg-orange-500/20 text-orange-300 font-black">HOST</span>
-                  </div>
-                  <h4 class="mt-4 text-xl font-black">Criar Batalha</h4>
-                  <p class="mt-1 text-xs text-white/50">Abre uma sala e espera por adversário.</p>
-                </button>
-
-                <button onclick="inviteFriend()" class="battle-btn soft-card rounded-3xl p-5 text-left">
-                  <div class="flex items-start justify-between">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-600 to-purple-700 grid place-items-center text-3xl shadow-[0_0_25px_rgba(255,0,199,.25)]">📨</div>
-                    <span class="text-[10px] px-2 py-1 rounded-full bg-fuchsia-500/20 text-fuchsia-300 font-black">CONVITE</span>
-                  </div>
-                  <h4 class="mt-4 text-xl font-black">Convidar Amigo</h4>
-                  <p class="mt-1 text-xs text-white/50">Gera um convite rápido para a batalha.</p>
-                </button>
-
-                <button onclick="randomBattle()" class="battle-btn soft-card rounded-3xl p-5 text-left">
-                  <div class="flex items-start justify-between">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-700 grid place-items-center text-3xl shadow-[0_0_25px_rgba(34,211,238,.25)]">🎲</div>
-                    <span class="text-[10px] px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-black">MATCH</span>
-                  </div>
-                  <h4 class="mt-4 text-xl font-black">Batalha Aleatória</h4>
-                  <p class="mt-1 text-xs text-white/50">Encontra automaticamente outro utilizador.</p>
-                </button>
-
-                <button onclick="watchLive()" class="battle-btn soft-card rounded-3xl p-5 text-left">
-                  <div class="flex items-start justify-between">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-600 to-pink-600 grid place-items-center text-3xl shadow-[0_0_25px_rgba(239,68,68,.25)]">👁️</div>
-                    <span class="text-[10px] px-2 py-1 rounded-full bg-red-500/20 text-red-300 font-black pulse-live">AO VIVO</span>
-                  </div>
-                  <h4 class="mt-4 text-xl font-black">Ver Batalhas Live</h4>
-                  <p class="mt-1 text-xs text-white/50">Assiste, comenta e envia gifts aos criadores.</p>
-                </button>
-
-              </div>
-            </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="panel rounded-2xl px-4 py-3 flex items-center gap-3">
+            <span class="text-yellow-400 text-xl">🪙</span>
+            <strong id="coins" class="text-2xl font-black">12.430</strong>
+            <button onclick="buyCoins()" class="w-8 h-8 rounded-xl bg-violet-700 hover:bg-violet-600 font-black">+</button>
           </div>
 
-          <!-- MATCH STATUS -->
-          <aside class="glass rounded-3xl p-5 md:p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="font-black text-xl">Estado da Sala</h3>
-              <span id="roomBadge" class="px-3 py-1 rounded-full bg-white/5 text-white/45 text-[10px] font-black">INATIVO</span>
+          <button class="panel relative w-14 h-14 rounded-2xl grid place-items-center text-xl">
+            🔔
+            <span class="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-red-600 text-xs grid place-items-center font-black">3</span>
+          </button>
+
+          <div class="panel rounded-2xl px-3 py-2 flex items-center gap-3 min-w-[220px]">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-fuchsia-500 to-violet-600 border-2 border-violet-400 grid place-items-center text-xl">🧔</div>
+            <div class="flex-1">
+              <div class="font-black text-lg leading-tight">CagadorMaster</div>
+              <span class="inline-block mt-1 text-[11px] bg-violet-600/30 border border-violet-500/25 text-violet-300 px-2 py-1 rounded-lg font-black">VIP SHIT</span>
+            </div>
+            <div class="text-white/50 text-lg">⌄</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- BATTLE STAGE -->
+      <section class="panel rounded-[30px] p-3 md:p-4">
+        <!-- SCORE BAR -->
+        <div class="relative h-16 rounded-[22px] overflow-hidden flex border border-white/10 bg-black/40">
+          <div id="leftBar" class="h-full flex items-center pl-6 text-3xl font-black bg-gradient-to-r from-orange-500 to-yellow-400 transition-all duration-500" style="width:58%;">
+            <span id="leftScore">25.680</span>
+          </div>
+          <div id="rightBar" class="h-full flex items-center justify-end pr-6 text-3xl font-black bg-gradient-to-r from-violet-700 to-pink-500 transition-all duration-500" style="width:42%;">
+            <span id="rightScore">18.430</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="text-4xl font-black drop-shadow-lg">⚡<span class="text-fuchsia-300">VS</span>⚡</div>
+          </div>
+        </div>
+
+        <!-- TOP META -->
+        <div class="flex items-center justify-between gap-3 mt-3 mb-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-3 py-1 rounded-full bg-red-600 text-sm font-black">▶ LIVE</span>
+            <span class="px-3 py-1 rounded-full bg-black/50 text-sm border border-white/8">👁️ <span id="viewers">4.382</span></span>
+          </div>
+
+          <div class="px-5 py-2 rounded-2xl bg-black/70 border border-white/10 text-3xl font-black" id="timer">02:47</div>
+
+          <div class="hide-mobile flex items-center -space-x-2">
+            <div class="w-10 h-10 rounded-full bg-pink-500 border-2 border-black grid place-items-center">👩</div>
+            <div class="w-10 h-10 rounded-full bg-yellow-500 border-2 border-black grid place-items-center">👨</div>
+            <div class="w-10 h-10 rounded-full bg-violet-500 border-2 border-black grid place-items-center">😎</div>
+            <div class="px-3 py-2 rounded-full bg-black/70 border border-white/10 ml-2 text-sm font-bold">+128</div>
+          </div>
+        </div>
+
+        <!-- STREAMS -->
+        <div class="battle-stage grid grid-cols-2 gap-0 rounded-[28px] overflow-hidden border border-white/8">
+          <!-- LEFT -->
+          <div class="battle-bg-left relative min-h-[420px] md:min-h-[520px] overflow-hidden">
+            <div class="absolute left-8 top-16 text-8xl opacity-70">💩</div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent"></div>
+
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center px-8">
+                <div class="text-[150px] md:text-[190px] leading-none drop-shadow-2xl">🤴</div>
+                <div class="text-white/0 text-xs">placeholder</div>
+              </div>
             </div>
 
-            <div id="roomStatusBox" class="rounded-3xl bg-black/35 border border-white/10 p-5 text-center min-h-[260px] flex flex-col justify-center">
-              <div id="roomIcon" class="text-6xl mb-3">⚔️</div>
-              <h4 id="roomTitle" class="text-2xl font-black">Pronto para começar</h4>
-              <p id="roomDesc" class="text-sm text-white/50 mt-2">
-                Escolhe uma opção para preparar a tua próxima ShitaBattle Live™.
-              </p>
+            <div class="absolute top-4 left-4 flex items-center gap-2">
+              <div class="w-9 h-9 rounded-full bg-fuchsia-500 border-2 border-black grid place-items-center text-sm">🧔</div>
+              <div class="w-9 h-9 rounded-full bg-yellow-500 border-2 border-black grid place-items-center text-sm">👨</div>
+              <div class="w-9 h-9 rounded-full bg-orange-500 border-2 border-black grid place-items-center text-sm">😎</div>
+            </div>
 
-              <div id="countdownArea" class="hidden mt-5">
-                <div class="text-xs uppercase tracking-widest text-fuchsia-300 font-black mb-2">A abrir batalha em</div>
-                <div id="countdownNumber" class="text-6xl font-black neon">3</div>
-              </div>
-
-              <div id="inviteArea" class="hidden mt-5 rounded-2xl bg-white/5 border border-white/10 p-3">
-                <div class="text-[10px] text-white/45 uppercase font-black mb-1">Link de convite</div>
-                <div class="flex gap-2">
-                  <input id="inviteLink" readonly class="flex-1 min-w-0 bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white/70" value="https://shitagram.pt/battle-lobby.html?invite=SHITA-2401" />
-                  <button onclick="copyInvite()" class="px-3 py-2 rounded-xl bg-fuchsia-700 hover:bg-fuchsia-600 text-xs font-black">Copiar</button>
+            <div class="absolute bottom-4 left-4 right-4">
+              <div class="max-w-[300px] bg-black/65 backdrop-blur-md rounded-2xl p-3 border border-orange-400/20">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-yellow-500 grid place-items-center text-xl">🧔</div>
+                  <div>
+                    <div class="font-black text-2xl">Rei do Cocó <span class="text-yellow-300">●</span></div>
+                    <div class="text-sm text-white/60">O imperador do trono!</div>
+                  </div>
                 </div>
               </div>
-
-              <button id="enterBattleBtn" onclick="openBattle()" class="hidden mt-5 w-full py-3 rounded-2xl bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:brightness-110 font-black">
-                Entrar na Battle
-              </button>
             </div>
-          </aside>
 
-        </section>
-
-
-        <!-- PROGRAMMED LIVE EVENTS -->
-        <section class="glass rounded-3xl p-5 md:p-6">
-          <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-            <div>
-              <div class="flex items-center gap-2 mb-1">
-                <span class="px-3 py-1 rounded-full bg-pink-600 text-[10px] font-black pulse-live">LIVE Event</span>
-                <span class="text-[10px] text-white/40 font-bold uppercase tracking-widest">Eventos Programados</span>
-              </div>
-              <h3 class="font-black text-2xl md:text-3xl">Eventos LIVE</h3>
-              <p class="text-xs text-white/45 mt-1">Agenda batalhas, cria antecipação e permite que os utilizadores se registem antes da live.</p>
-            </div>
-            <button onclick="viewAllEvents()" class="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-sm font-bold">
-              Ver tudo
-            </button>
+            <div id="leftPop" class="absolute inset-0 pointer-events-none grid place-items-center"></div>
           </div>
 
-          <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-            <article class="soft-card rounded-3xl p-5 md:p-6 hover:border-pink-500/40 transition-all">
-              <div class="flex flex-wrap items-center gap-3 mb-3">
-                <span class="px-3 py-1 rounded-lg bg-pink-600 text-xs font-black">LIVE Event</span>
-                <h4 class="font-black text-xl md:text-2xl">Primeira Batalha do Trono</h4>
-              </div>
-              <div class="flex items-center gap-3 text-sm text-white/70 mb-5">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-700 grid place-items-center">👑</div>
-                <strong class="text-white">MicoMaster</strong>
-                <span class="text-pink-300">💗</span>
-                <span class="text-white/45">|</span>
-                <span>5.902 seguidores</span>
-              </div>
-              <div class="space-y-2 text-sm text-white/75">
-                <p>📅 domingo, jun 21, 2026</p>
-                <p>🕒 21:15 - 21:45</p>
-                <p class="pt-2 text-white/60 leading-relaxed">Vou fazer a minha primeira batalha ao vivo. Entra para apoiar, mandar gifts e ver quem domina o trono.</p>
-              </div>
-              <div class="mt-6 flex flex-wrap gap-3">
-                <button onclick="registerEvent('Primeira Batalha do Trono')" class="px-8 py-3 rounded-2xl bg-pink-600 hover:bg-pink-500 font-black">Registar</button>
-                <button onclick="openBattle()" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-bold">Pré-visualizar Battle</button>
-              </div>
-            </article>
+          <!-- RIGHT -->
+          <div class="battle-bg-right relative min-h-[420px] md:min-h-[520px] overflow-hidden">
+            <div class="absolute right-8 top-16 text-8xl opacity-70">💩</div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent"></div>
 
-            <article class="soft-card rounded-3xl p-5 md:p-6 hover:border-fuchsia-500/40 transition-all">
-              <div class="flex flex-wrap items-center gap-3 mb-3">
-                <span class="px-3 py-1 rounded-lg bg-pink-600 text-xs font-black">LIVE Event</span>
-                <h4 class="font-black text-xl md:text-2xl">Noite do Bug Nuclear</h4>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center px-8">
+                <div class="text-[150px] md:text-[190px] leading-none drop-shadow-2xl">👸</div>
+                <div class="text-white/0 text-xs">placeholder</div>
               </div>
-              <div class="flex items-center gap-3 text-sm text-white/70 mb-5">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-purple-700 grid place-items-center">☢️</div>
-                <strong class="text-white">BugPatrocinador</strong>
-                <span class="text-fuchsia-300">⚡</span>
-                <span class="text-white/45">|</span>
-                <span>10.9K seguidores</span>
+            </div>
+
+            <div class="absolute top-4 right-4 flex items-center gap-2">
+              <div class="w-9 h-9 rounded-full bg-pink-500 border-2 border-black grid place-items-center text-sm">👩</div>
+              <div class="w-9 h-9 rounded-full bg-violet-500 border-2 border-black grid place-items-center text-sm">🎀</div>
+              <div class="px-3 py-2 rounded-full bg-black/70 border border-white/10 text-sm font-bold">+128</div>
+            </div>
+
+            <div class="absolute bottom-4 left-4 right-4 flex justify-end">
+              <div class="max-w-[320px] bg-black/65 backdrop-blur-md rounded-2xl p-3 border border-pink-400/20">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-700 grid place-items-center text-xl">👩</div>
+                  <div>
+                    <div class="font-black text-2xl">Princesa do Shit <span class="text-pink-300">●</span></div>
+                    <div class="text-sm text-white/60">Elegância é cagar com estilo!</div>
+                  </div>
+                </div>
               </div>
-              <div class="space-y-2 text-sm text-white/75">
-                <p>📅 quarta-feira, jun 10, 2026</p>
-                <p>🕒 22:30 - 23:00</p>
-                <p class="pt-2 text-white/60 leading-relaxed">Battle especial com gifts caóticos, tremor de ecrã e ranking de doadores ativo durante toda a arena.</p>
-              </div>
-              <div class="mt-6 flex flex-wrap gap-3">
-                <button onclick="registerEvent('Noite do Bug Nuclear')" class="px-8 py-3 rounded-2xl bg-pink-600 hover:bg-pink-500 font-black">Registar</button>
-                <button onclick="openBattle()" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-bold">Pré-visualizar Battle</button>
-              </div>
-            </article>
+            </div>
+
+            <div id="rightPop" class="absolute inset-0 pointer-events-none grid place-items-center"></div>
           </div>
-        </section>
+        </div>
 
-        <!-- LIVE BATTLES LIST -->
-        <section class="glass rounded-3xl p-5 md:p-6">
+        <!-- COMBO / MID BAR -->
+        <div class="mt-3 rounded-[24px] bg-black/35 border border-white/8 px-4 py-3">
+          <div class="flex items-center justify-between gap-3 text-sm font-black">
+            <span class="text-orange-400">Combo x<span id="leftCombo">12</span></span>
+            <span class="text-fuchsia-300 text-xl">🎁</span>
+            <span class="text-pink-400">Combo x<span id="rightCombo">7</span></span>
+          </div>
+          <div class="mt-2 h-2 rounded-full bg-white/5 overflow-hidden flex">
+            <div class="bg-gradient-to-r from-orange-400 to-yellow-400" style="width:55%;"></div>
+            <div class="bg-gradient-to-r from-violet-600 to-pink-500" style="width:45%;"></div>
+          </div>
+          <div class="text-center text-sm text-white/55 mt-3">Envie gifts para aumentar sua pontuação! ⓘ</div>
+        </div>
+
+        <!-- GIFTS -->
+        <div class="mt-4 panel rounded-[26px] p-4">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <div>
-              <h3 class="font-black text-2xl">Batalhas em direto</h3>
-              <p class="text-xs text-white/45">Mockup funcional: no futuro isto vem do Supabase em tempo real.</p>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🎁</span>
+              <h3 class="text-3xl font-black">Envie um gift</h3>
             </div>
-            <button onclick="refreshLives()" class="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-sm font-bold">
-              Atualizar
+
+            <div class="flex items-center gap-2">
+              <div class="panel rounded-2xl px-4 py-3 flex items-center gap-3">
+                <span class="text-yellow-400">🪙</span>
+                <strong id="coins2" class="text-2xl font-black">12.430</strong>
+                <button onclick="buyCoins()" class="w-8 h-8 rounded-xl bg-violet-700 hover:bg-violet-600 font-black">+</button>
+              </div>
+              <button onclick="buyCoins()" class="px-5 py-3 rounded-2xl bg-violet-700 hover:bg-violet-600 font-black text-lg">Comprar Moedas</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+            <button class="gift-card panel rounded-[22px] p-4 text-left" onclick="sendGift('Cocó Supremo',100,'💩','left')">
+              <div class="text-6xl mb-3">💩</div>
+              <div class="font-black text-2xl">Cocó Supremo</div>
+              <div class="text-sm text-white/55 mt-2 leading-relaxed">Para momentos de pura exaltação!</div>
+              <div class="mt-4 text-yellow-400 font-black text-2xl">🪙 100</div>
+            </button>
+            <button class="gift-card panel rounded-[22px] p-4 text-left" onclick="sendGift('Café Frio',50,'☕','left')">
+              <div class="text-6xl mb-3">☕</div>
+              <div class="font-black text-2xl">Café Frio</div>
+              <div class="text-sm text-white/55 mt-2 leading-relaxed">Dá aquela acordada na batalha!</div>
+              <div class="mt-4 text-yellow-400 font-black text-2xl">🪙 50</div>
+            </button>
+            <button class="gift-card panel rounded-[22px] p-4 text-left" onclick="sendGift('Papel Dourado',200,'🧻','left')">
+              <div class="text-6xl mb-3">🧻</div>
+              <div class="font-black text-2xl">Papel Dourado</div>
+              <div class="text-sm text-white/55 mt-2 leading-relaxed">Brilho, luxo e muita ostentação!</div>
+              <div class="mt-4 text-yellow-400 font-black text-2xl">🪙 200</div>
+            </button>
+            <button class="gift-card panel rounded-[22px] p-4 text-left" onclick="sendGift('Bug Nuclear',300,'☢️','right')">
+              <div class="text-6xl mb-3">☢️</div>
+              <div class="font-black text-2xl">Bug Nuclear</div>
+              <div class="text-sm text-white/55 mt-2 leading-relaxed">Explode a pontuação do adversário!</div>
+              <div class="mt-4 text-yellow-400 font-black text-2xl">🪙 300</div>
+            </button>
+            <button class="gift-card panel rounded-[22px] p-4 text-left" onclick="sendGift('Rei do Mico',500,'🐵','right')">
+              <div class="text-6xl mb-3">🐵</div>
+              <div class="font-black text-2xl">Rei do Mico</div>
+              <div class="text-sm text-white/55 mt-2 leading-relaxed">Humilhação real ao vivo!</div>
+              <div class="mt-4 text-yellow-400 font-black text-2xl">🪙 500</div>
             </button>
           </div>
+        </div>
+      </section>
 
-          <div id="liveList" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <article class="soft-card rounded-3xl p-4">
-              <div class="h-36 rounded-2xl bg-gradient-to-br from-orange-900 to-black border border-orange-500/20 grid place-items-center text-6xl relative overflow-hidden">
-                <span class="absolute top-3 left-3 px-2 py-1 rounded-full bg-red-600 text-[10px] font-black pulse-live">● LIVE</span>
-                👑 vs 💗
-              </div>
-              <h4 class="mt-3 font-black">Rei do Cocó vs Princesa do Shit</h4>
-              <p class="text-xs text-white/45 mt-1">4.382 espectadores · 02:47 restantes</p>
-              <button onclick="openBattle()" class="mt-3 w-full py-2.5 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black text-sm">Assistir</button>
-            </article>
+      <footer class="text-xs text-white/35 px-2 py-2 flex flex-wrap items-center justify-between gap-3">
+        <div>© 2024 SHITAGRAM™. Todos os direitos reservados.</div>
+        <div class="flex gap-4">
+          <span>Termos de Uso</span>
+          <span>Política de Privacidade</span>
+          <span>Central de Ajuda</span>
+          <span>Contato</span>
+        </div>
+      </footer>
+    </main>
 
-            <article class="soft-card rounded-3xl p-4">
-              <div class="h-36 rounded-2xl bg-gradient-to-br from-purple-900 to-black border border-purple-500/20 grid place-items-center text-6xl relative overflow-hidden">
-                <span class="absolute top-3 left-3 px-2 py-1 rounded-full bg-red-600 text-[10px] font-black pulse-live">● LIVE</span>
-                🐒 vs ☢️
-              </div>
-              <h4 class="mt-3 font-black">Rei do Mico vs Bug Nuclear</h4>
-              <p class="text-xs text-white/45 mt-1">1.928 espectadores · 00:59 restantes</p>
-              <button onclick="openBattle()" class="mt-3 w-full py-2.5 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black text-sm">Assistir</button>
-            </article>
+    <!-- RIGHT COLUMN -->
+    <aside class="right-col space-y-4">
+      <!-- DONORS -->
+      <section class="panel rounded-[28px] p-4">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-3xl font-black flex items-center gap-2">🏆 Top Doadores</h3>
+          <span class="text-violet-300 text-sm font-semibold">Ver ranking ›</span>
+        </div>
 
-            <article class="soft-card rounded-3xl p-4">
-              <div class="h-36 rounded-2xl bg-gradient-to-br from-pink-900 to-black border border-pink-500/20 grid place-items-center text-6xl relative overflow-hidden">
-                <span class="absolute top-3 left-3 px-2 py-1 rounded-full bg-red-600 text-[10px] font-black pulse-live">● LIVE</span>
-                ☕ vs 🧻
+        <div class="space-y-2 text-[15px]">
+          <div class="flex items-center justify-between rounded-2xl bg-white/5 border border-white/8 p-3">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-yellow-500 text-black grid place-items-center font-black">1</div>
+              <div>
+                <div class="font-black">Cagão Anónimo 👑</div>
               </div>
-              <h4 class="mt-3 font-black">Café Frio vs Papel Dourado</h4>
-              <p class="text-xs text-white/45 mt-1">876 espectadores · 01:31 restantes</p>
-              <button onclick="openBattle()" class="mt-3 w-full py-2.5 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black text-sm">Assistir</button>
-            </article>
+            </div>
+            <div class="text-yellow-400 font-black">45.600</div>
           </div>
-        </section>
-
-        <!-- TECH ROADMAP -->
-        <section class="glass rounded-3xl p-5 md:p-6">
-          <h3 class="font-black text-2xl mb-4">Fluxo v24</h3>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
-              <div class="text-2xl mb-2">1️⃣</div>
-              <h4 class="font-black">Lobby</h4>
-              <p class="text-xs text-white/45 mt-1">Utilizador escolhe criar, convidar, assistir ou entrar aleatório.</p>
+          <div class="flex items-center justify-between rounded-2xl bg-white/5 border border-white/8 p-3">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-white/70 text-black grid place-items-center font-black">2</div>
+              <div class="font-black">ShitPatrocinador</div>
             </div>
-            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
-              <div class="text-2xl mb-2">2️⃣</div>
-              <h4 class="font-black">Sala</h4>
-              <p class="text-xs text-white/45 mt-1">Estado “à espera”, “convite enviado” ou “batalha pronta”.</p>
-            </div>
-            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
-              <div class="text-2xl mb-2">3️⃣</div>
-              <h4 class="font-black">Battle</h4>
-              <p class="text-xs text-white/45 mt-1">Abre battle.html com pontuação, gifts, chat e cronómetro.</p>
-            </div>
-            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
-              <div class="text-2xl mb-2">4️⃣</div>
-              <h4 class="font-black">Resultado</h4>
-              <p class="text-xs text-white/45 mt-1">Vencedor ganha XP, badge, ranking e histórico.</p>
-            </div>
+            <div class="text-yellow-400 font-black">32.100</div>
           </div>
-        </section>
+          <div class="flex items-center justify-between rounded-2xl bg-white/5 border border-white/8 p-3">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-orange-400 text-black grid place-items-center font-black">3</div>
+              <div class="font-black">Dona do Troninho</div>
+            </div>
+            <div class="text-yellow-400 font-black">21.750</div>
+          </div>
+          <div class="flex items-center justify-between rounded-2xl bg-white/5 border border-white/8 p-3">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-white/10 grid place-items-center font-black">4</div>
+              <div class="font-black">Fedido Premium</div>
+            </div>
+            <div class="text-yellow-400 font-black">15.300</div>
+          </div>
+          <div class="flex items-center justify-between rounded-2xl bg-white/5 border border-white/8 p-3">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-white/10 grid place-items-center font-black">5</div>
+              <div class="font-black">CheirosoPassivo</div>
+            </div>
+            <div class="text-yellow-400 font-black">9.850</div>
+          </div>
+        </div>
+      </section>
 
-      </main>
+      <!-- CHAT -->
+      <section class="panel rounded-[28px] p-4 flex flex-col min-h-[620px] relative overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-3xl font-black">Chat ao vivo</h3>
+          <div class="text-lg text-white/60">4.382</div>
+        </div>
 
-    </div>
+        <div id="reactionArea" class="absolute inset-0 pointer-events-none"></div>
+
+        <div id="chat" class="custom-scroll flex-1 overflow-y-auto space-y-3 pr-1">
+          <div><strong class="text-fuchsia-300">@MerdaPremium</strong> <span class="inline-block bg-violet-600/30 border border-violet-500/25 rounded-lg px-2 py-0.5 text-[11px] font-black text-violet-300">VIP</span> <span class="text-white/80">Rei do Cocó simplesmente lendário! 👑🔥</span></div>
+          <div><strong class="text-violet-300">@CagaMais</strong> <span class="text-white/80">BUG NUCLEAR NELEEEE! 💥💥💥</span></div>
+          <div><strong class="text-violet-300">@TroninhoVoador</strong> <span class="inline-block bg-violet-600/30 border border-violet-500/25 rounded-lg px-2 py-0.5 text-[11px] font-black text-violet-300">VIP</span> <span class="text-white/80">Princesa do Shit arrasando demais!</span></div>
+          <div><strong class="text-violet-300">@Fedorento</strong> <span class="text-white/80">CAFÉ FRIOOOOO! ☕☕</span></div>
+          <div><strong class="text-violet-300">@ShitLuver</strong> <span class="text-white/80">Essa batalha tá ÉPICA! 🔥🔥🔥</span></div>
+          <div><strong class="text-violet-300">@MoedaCagada</strong> <span class="text-white/80">Enviei Papel Dourado! ✨🧻✨</span></div>
+        </div>
+
+        <div class="mt-4 space-y-3">
+          <div class="grid grid-cols-4 gap-2">
+            <button onclick="quickReact('💩')" class="rounded-2xl bg-white/5 border border-white/8 py-2 text-2xl">💩</button>
+            <button onclick="quickReact('🔥')" class="rounded-2xl bg-white/5 border border-white/8 py-2 text-2xl">🔥</button>
+            <button onclick="quickReact('😂')" class="rounded-2xl bg-white/5 border border-white/8 py-2 text-2xl">😂</button>
+            <button onclick="quickReact('💜')" class="rounded-2xl bg-white/5 border border-white/8 py-2 text-2xl">💜</button>
+          </div>
+
+          <div class="flex gap-2">
+            <input id="chatInput" onkeydown="if(event.key==='Enter'){sendMessage()}" class="flex-1 bg-black/40 border border-white/10 rounded-2xl px-4 py-4 text-lg outline-none focus:border-fuchsia-500" placeholder="Digite sua mensagem..." />
+            <button onclick="sendMessage()" class="w-14 rounded-2xl bg-violet-700 hover:bg-violet-600 text-2xl font-black">➤</button>
+          </div>
+        </div>
+      </section>
+    </aside>
   </div>
+</div>
 
-  <!-- MOBILE NAV -->
-  <nav class="lg:hidden fixed left-3 right-3 bottom-3 glass rounded-3xl p-3 grid grid-cols-5 text-[11px] text-center z-40 mobile-nav">
-    <button onclick="fakeNav('Feed')" class="text-white/55">🏠<br>Feed</button>
-    <button onclick="fakeNav('Clips')" class="text-white/55">🎬<br>Clips</button>
-    <button class="text-fuchsia-300 neon">⚔️<br>Batalha</button>
-    <button onclick="fakeNav('Ranking')" class="text-white/55">🏆<br>Ranking</button>
-    <button onclick="fakeNav('Perfil')" class="text-white/55">👤<br>Perfil</button>
-  </nav>
+<script>
+  let leftScore = 25680;
+  let rightScore = 18430;
+  let coins = 12430;
+  let leftCombo = 12;
+  let rightCombo = 7;
+  let seconds = 167;
 
-  <!-- TOAST -->
-  <div id="toast" class="hidden fixed top-5 left-1/2 z-50 px-4 py-3 rounded-2xl bg-black/85 border border-fuchsia-500/30 shadow-2xl text-sm font-bold"></div>
+  const botMessages = [
+    'Essa batalha está insana! 🔥',
+    'Mandem gifts agora!',
+    'Rei do Cocó dominando!',
+    'Princesa do Shit está fortíssima!',
+    'Bug Nuclear neleeee! ☢️',
+    'Isto parece final de campeonato 😂',
+    'Mais café frio na arena ☕'
+  ];
 
-  <!-- MODALS -->
-  <div id="vipModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-lg items-center justify-center p-4">
-    <div class="glass rounded-3xl p-6 max-w-md w-full text-center">
-      <div class="text-6xl mb-2">👑</div>
-      <h3 class="text-3xl font-black text-fuchsia-300 neon">VIP SHIT™</h3>
-      <p class="text-sm text-white/55 mt-2">Badge no chat, gifts com desconto, efeitos premium e destaque nas batalhas.</p>
-      <button onclick="closeModal('vipModal')" class="mt-6 w-full py-3 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">Fechar</button>
-    </div>
-  </div>
+  function fmt(n){
+    return n.toLocaleString('pt-PT');
+  }
 
-  <div id="coinsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-lg items-center justify-center p-4">
-    <div class="glass rounded-3xl p-6 max-w-md w-full text-center">
-      <div class="text-6xl mb-2">🪙</div>
-      <h3 class="text-3xl font-black text-yellow-300">Comprar ShitCoins™</h3>
-      <p class="text-sm text-white/55 mt-2">Mockup visual da carteira. No futuro liga a pagamentos reais.</p>
-      <div class="mt-5 space-y-2">
-        <button onclick="buyCoins(1000)" class="w-full flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10">
-          <strong>1.000 moedas</strong><span class="text-yellow-300 font-black">4,90€</span>
-        </button>
-        <button onclick="buyCoins(5000)" class="w-full flex justify-between items-center p-4 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 hover:bg-yellow-500/15">
-          <strong>5.000 moedas</strong><span class="text-yellow-300 font-black">19,90€</span>
-        </button>
-        <button onclick="buyCoins(20000)" class="w-full flex justify-between items-center p-4 rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/20 hover:bg-fuchsia-500/15">
-          <strong>20.000 moedas</strong><span class="text-fuchsia-300 font-black">59,90€</span>
-        </button>
-      </div>
-      <button onclick="closeModal('coinsModal')" class="mt-5 w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-black">Fechar</button>
-    </div>
-  </div>
+  function updateUI(){
+    document.getElementById('leftScore').innerText = fmt(leftScore);
+    document.getElementById('rightScore').innerText = fmt(rightScore);
+    document.getElementById('coins').innerText = fmt(coins);
+    document.getElementById('coins2').innerText = fmt(coins);
+    document.getElementById('leftCombo').innerText = leftCombo;
+    document.getElementById('rightCombo').innerText = rightCombo;
 
-  <script>
-    let coins = 12430;
-    let countdownRunning = false;
+    const total = leftScore + rightScore;
+    let lp = Math.max(18, Math.min(82, (leftScore / total) * 100));
+    document.getElementById('leftBar').style.width = lp + '%';
+    document.getElementById('rightBar').style.width = (100 - lp) + '%';
+  }
 
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.innerText = message;
-      toast.classList.remove('hidden');
-      toast.classList.add('toast-in');
-      setTimeout(() => {
-        toast.classList.add('hidden');
-        toast.classList.remove('toast-in');
-      }, 2400);
+  function updateTimer(){
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    document.getElementById('timer').innerText = `${m}:${s}`;
+  }
+
+  function buyCoins(){
+    coins += 1000;
+    updateUI();
+    addChat('Sistema', 'Recebeste +1.000 moedas.');
+  }
+
+  function sendGift(name, price, emoji, target){
+    if(coins < price){
+      addChat('Sistema', 'Saldo insuficiente para esse gift.');
+      return;
     }
 
-    function setRoomState(badge, icon, title, desc, showInvite = false, showEnter = false) {
-      document.getElementById('roomBadge').innerText = badge;
-      document.getElementById('roomBadge').className = 'px-3 py-1 rounded-full bg-fuchsia-600/20 text-fuchsia-300 text-[10px] font-black';
-      document.getElementById('roomIcon').innerText = icon;
-      document.getElementById('roomTitle').innerText = title;
-      document.getElementById('roomDesc').innerText = desc;
-      document.getElementById('inviteArea').classList.toggle('hidden', !showInvite);
-      document.getElementById('enterBattleBtn').classList.toggle('hidden', !showEnter);
-      document.getElementById('countdownArea').classList.add('hidden');
+    coins -= price;
+
+    if(target === 'left'){
+      leftScore += price;
+      leftCombo += 1;
+      popGift('leftPop', emoji, name);
+    } else {
+      rightScore += price;
+      rightCombo += 1;
+      popGift('rightPop', emoji, name);
     }
 
-    function createBattle() {
-      setRoomState(
-        'À ESPERA',
-        '🔥',
-        'Sala criada',
-        'A tua sala foi criada. Agora podes aguardar adversário ou entrar na battle de demonstração.',
-        false,
-        true
-      );
-      showToast('🔥 Sala criada com sucesso.');
+    updateUI();
+    addChat('Você', `enviou ${emoji} ${name}!`);
+    spawnReaction(emoji);
+  }
+
+  function popGift(containerId, emoji, name){
+    const wrap = document.getElementById(containerId);
+    const el = document.createElement('div');
+    el.className = 'gift-pop bg-black/80 border border-yellow-400/35 rounded-3xl p-5 text-center shadow-2xl';
+    el.innerHTML = `<div class="text-6xl">${emoji}</div><div class="mt-2 text-xl font-black text-yellow-300">${name}</div>`;
+    wrap.appendChild(el);
+    setTimeout(() => el.remove(), 1200);
+  }
+
+  function addChat(author, text){
+    const chat = document.getElementById('chat');
+    const row = document.createElement('div');
+
+    let cls = 'text-white/80';
+    if(author === 'Você') cls = 'text-yellow-300 font-semibold';
+    if(author === 'Sistema') cls = 'text-red-300 font-semibold';
+
+    row.innerHTML = `<strong class="text-violet-300">@${author}</strong> <span class="${cls}">${text}</span>`;
+    chat.appendChild(row);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function sendMessage(){
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if(!text) return;
+    addChat('Você', text);
+    input.value = '';
+    spawnReaction('💜');
+  }
+
+  function quickReact(emoji){
+    addChat('Você', `reagiu com ${emoji}`);
+    spawnReaction(emoji);
+  }
+
+  function spawnReaction(emoji){
+    const area = document.getElementById('reactionArea');
+    const el = document.createElement('div');
+    el.className = 'emoji-float';
+    el.style.right = Math.floor(Math.random() * 70 + 10) + 'px';
+    el.textContent = emoji;
+    area.appendChild(el);
+    setTimeout(() => el.remove(), 1500);
+  }
+
+  setInterval(() => {
+    if(seconds > 0){
+      seconds--;
+      updateTimer();
+    }
+  }, 1000);
+
+  setInterval(() => {
+    const viewers = document.getElementById('viewers');
+    let v = parseInt(viewers.innerText.replace('.', '').replace(',', '')) || 4382;
+    v += Math.floor(Math.random() * 18) - 6;
+    if(v < 3500) v = 3500;
+    viewers.innerText = fmt(v);
+
+    if(Math.random() < .55){
+      const side = Math.random() > .5 ? 'left' : 'right';
+      const points = [50, 100, 200][Math.floor(Math.random() * 3)];
+      if(side === 'left') leftScore += points;
+      else rightScore += points;
+      updateUI();
     }
 
-    function inviteFriend() {
-      setRoomState(
-        'CONVITE',
-        '📨',
-        'Convite preparado',
-        'Copia o link e envia a um amigo para entrar na tua ShitaBattle Live™.',
-        true,
-        true
-      );
-      showToast('📨 Convite de batalha gerado.');
+    if(Math.random() < .65){
+      const msg = botMessages[Math.floor(Math.random() * botMessages.length)];
+      const users = ['MicoLover', 'TroninhoVoador', 'CaféDoCaos', 'PremiumShit', 'BugMaster'];
+      const name = users[Math.floor(Math.random() * users.length)];
+      addChat(name, msg);
     }
+  }, 4000);
 
-    function randomBattle() {
-      setRoomState(
-        'MATCHING',
-        '🎲',
-        'A procurar adversário',
-        'O sistema está a procurar uma battle aleatória disponível.',
-        false,
-        false
-      );
-      showToast('🎲 A procurar adversário...');
-      setTimeout(() => {
-        setRoomState(
-          'PRONTO',
-          '⚔️',
-          'Adversário encontrado',
-          'A batalha está pronta para começar.',
-          false,
-          true
-        );
-        showToast('⚔️ Adversário encontrado.');
-      }, 1400);
-    }
-
-    function watchLive() {
-      setRoomState(
-        'AO VIVO',
-        '👁️',
-        'Modo espectador',
-        'Vais entrar como espectador numa batalha em direto.',
-        false,
-        true
-      );
-      showToast('👁️ Modo espectador selecionado.');
-    }
-
-    function openBattle() {
-      if (countdownRunning) return;
-      countdownRunning = true;
-
-      const countdownArea = document.getElementById('countdownArea');
-      const number = document.getElementById('countdownNumber');
-      countdownArea.classList.remove('hidden');
-
-      let count = 3;
-      number.innerText = count;
-
-      const interval = setInterval(() => {
-        count--;
-        number.innerText = count;
-
-        if (count <= 0) {
-          clearInterval(interval);
-          window.location.href = 'battle.html';
-        }
-      }, 700);
-    }
-
-    async function copyInvite() {
-      const link = document.getElementById('inviteLink').value;
-      try {
-        await navigator.clipboard.writeText(link);
-        showToast('✅ Link copiado.');
-      } catch (e) {
-        showToast('Copia manualmente o link do convite.');
-      }
-    }
-
-
-    function registerEvent(eventName) {
-      setRoomState(
-        'REGISTADO',
-        '📅',
-        'Evento registado',
-        `Ficaste registado em “${eventName}”. Quando a live começar, o botão de entrada aparece na tua sala.`,
-        false,
-        true
-      );
-      showToast(`✅ Registo confirmado: ${eventName}`);
-    }
-
-    function viewAllEvents() {
-      showToast('📅 Em breve: página completa com todos os Eventos LIVE.');
-    }
-
-    function refreshLives() {
-      showToast('🔄 Lista de lives atualizada.');
-    }
-
-    function fakeNav(name) {
-      showToast(`📁 ${name} será ligado ao app principal na v24.2.`);
-    }
-
-    function goBackApp() {
-      window.location.href = 'app.html';
-    }
-
-    function openModal(id) {
-      document.getElementById(id).classList.remove('hidden');
-      document.getElementById(id).classList.add('flex');
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-      document.getElementById(id).classList.remove('flex');
-    }
-
-    function buyCoins(amount) {
-      coins += amount;
-      document.getElementById('coins').innerText = coins.toLocaleString('pt-PT');
-      closeModal('coinsModal');
-      showToast(`🪙 +${amount.toLocaleString('pt-PT')} ShitCoins™ adicionadas.`);
-    }
-  </script>
+  updateUI();
+  updateTimer();
+</script>
 
 </body>
 </html>
