@@ -424,6 +424,7 @@ body::before{
     <div><div class="logo-title">SHITAGRAM™</div><div class="logo-sub">BATALHAS DE RECLAMAÇÃO</div></div>
   </a>
   <nav class="nav"><a class="active" href="duelos.html"><span>▶️</span>Duelos Ao Vivo</a><a class="" href="temas.html"><span>🎭</span>Temas Absurdos</a><a class="" href="gerar.html"><span>🪄</span>Gerar com IA</a><a class="" href="hall-of-shame.html"><span>🏆</span>Hall of Shame</a><a class="" href="perfil.html"><span>💩</span>Meu Perfil</a></nav>
+  <a href="#instalar" class="coin-pill" style="color:#fff7ed">📲 Instalar</a>
   <div class="header-actions">
     <div class="coin-pill">🪙 <span>1,500</span></div>
     <a class="user-pill" href="perfil.html">👤 <span>user_shitagram</span>⌄</a>
@@ -447,6 +448,53 @@ body::before{
     </div>
     <button class="btn-main" style="margin-top:22px" onclick="sortearTema()">⤨ Sortear Tema de Reclamação</button>
   </section>
+
+<section class="install-section" id="instalar">
+  <article class="install-card">
+    <h2>📲 Instalação rápida</h2>
+    <p>Depois de instalada, o SHITAGRAM™ abre como uma app própria, sem parecer apenas uma página do navegador.</p>
+
+    <div class="install-actions">
+      <button class="install-primary" onclick="installShitagram()">Instalar SHITAGRAM™</button>
+      <button class="install-secondary" onclick="copyInstallInstructions()">Copiar instruções</button>
+    </div>
+
+    <div class="install-status">
+      <strong>Estado PWA</strong>
+      <span id="pwaStatusText">Pronta para instalar</span>
+    </div>
+
+    <div class="install-status">
+      <strong>Service Worker</strong>
+      <span id="swStatusText">A verificar...</span>
+    </div>
+
+    <div class="install-status">
+      <strong>Manifest</strong>
+      <span id="manifestStatusText">A verificar...</span>
+    </div>
+  </article>
+
+  <article class="install-card">
+    <h2>Como instalar</h2>
+
+    <div class="install-row">
+      <strong>Android / Chrome</strong>
+      <span>Menu ⋮ → Instalar app</span>
+    </div>
+
+    <div class="install-row">
+      <strong>iPhone / Safari</strong>
+      <span>Partilhar → Adicionar ao ecrã principal</span>
+    </div>
+
+    <div class="install-row">
+      <strong>Computador</strong>
+      <span>Ícone de instalar na barra do Chrome/Edge</span>
+    </div>
+  </article>
+</section>
+
   <section class="section-title"><h2>📋 Lista Oficial de Temas Disponíveis</h2><span>10 temas disponíveis</span></section>
   <section id="themesList" class="grid-2"></section>
 </main>

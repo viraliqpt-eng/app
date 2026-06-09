@@ -1,12 +1,10 @@
-SHITAGRAM™ v34 — PWA Install Theme
+SHITAGRAM™ v34.1 — PWA Button Visible
 
-Atualização:
-- Secção de instalação adaptada ao novo tema preto/castanho/laranja.
-- Texto atualizado: SHITAGRAM™ abre como app própria.
-- Botão: Instalar SHITAGRAM™.
-- Botão: Copiar instruções.
-- Diagnóstico de PWA, Service Worker e Manifest.
-- Mantém ficheiros single-file, sem depender de assets externos.
+Correção:
+- Botão “Instalar SHITAGRAM™” agora aparece visível no index.html e app.html.
+- Adicionado link “📲 Instalar” no topo.
+- Criada página instalar.html dedicada.
+- Mantém versão single-file.
 
 Publicação:
-Substituir os ficheiros antigos por estes na raiz do GitHub Pages.
+Substituir todos os ficheiros na raiz do GitHub Pages.
