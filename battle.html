@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHITAGRAM™ — ShitaBattle Live™</title>
+    <title>SHITAGRAM™ — ShitaBattle Live™ v24 UI Clean</title>
     <!-- Tailwind CSS para design moderno e responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts para tipografia premium -->
@@ -114,11 +114,11 @@
     <div id="appContainer" class="w-full h-full max-w-7xl md:h-[95vh] md:max-h-[920px] bg-[#0c0c11] md:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.85)] border border-gray-900 flex flex-row overflow-hidden relative">
         
         <!-- ================= SIDEBAR ESQUERDA ================= -->
-        <aside class="hidden lg:flex w-64 bg-[#08080c] border-r border-gray-900 p-5 flex-col justify-between flex-shrink-0 z-20">
-            <div class="space-y-6">
+        <aside class="hidden lg:flex w-[230px] bg-[#08080c] border-r border-gray-900 p-4 flex-col justify-between flex-shrink-0 z-20">
+            <div class="space-y-4">
                 <!-- LOGO DO SHITAGRAM -->
                 <div class="flex items-center space-x-2.5 px-2">
-                    <svg class="w-9 h-9 filter drop-shadow-[0_0_8px_rgba(236,72,153,0.6)]" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-8 h-8 filter drop-shadow-[0_0_8px_rgba(236,72,153,0.6)]" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M32 4C20 4 12 14 12 24C12 28 14 31 17 33C15 36 10 40 6 44C10 48 20 52 32 52C44 52 54 48 58 44C54 40 49 36 47 33C50 31 52 28 52 24C52 14 44 4 32 4Z" fill="url(#poop_gradient)" />
                         <!-- Olhos engraçados -->
                         <circle cx="25" cy="24" r="5" fill="#fff"/>
@@ -134,53 +134,49 @@
                             </linearGradient>
                         </defs>
                     </svg>
-                    <span class="brand-font text-xl font-extrabold tracking-wider bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">SHITAGRAM™</span>
+                    <span class="brand-font text-lg font-extrabold tracking-wider bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">SHITAGRAM™</span>
                 </div>
 
                 <!-- MENU DE NAVEGAÇÃO -->
                 <nav class="space-y-1">
-                    <button onclick="changeMenu('feed')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                    <button onclick="changeMenu('feed')" class="w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
                         <span class="text-lg group-hover:scale-110 transition-transform">📱</span>
-                        <span class="text-sm font-semibold">Feed</span>
+                        <span class="text-[13px] font-semibold">Feed</span>
                     </button>
-                    <button onclick="changeMenu('clips')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                    <button onclick="changeMenu('clips')" class="w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
                         <span class="text-lg group-hover:scale-110 transition-transform">🎬</span>
-                        <span class="text-sm font-semibold">ShitClips™</span>
+                        <span class="text-[13px] font-semibold">ShitClips™</span>
                     </button>
-                    <button onclick="changeMenu('batalhas')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 text-white border border-white/5 transition-all group">
-                        <div class="flex items-center space-x-3">
-                            <span class="text-lg group-hover:scale-110 transition-transform">⚔️</span>
-                            <span class="text-sm font-bold">Batalhas</span>
+                    <button onclick="changeMenu('batalhas')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/5 text-white border border-white/5 transition-all group">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-base group-hover:scale-110 transition-transform">⚔️</span>
+                            <span class="text-[13px] font-bold">Batalhas</span>
                         </div>
                         <span class="bg-pink-600 text-[9px] font-black px-1.5 py-0.5 rounded-full text-white animate-pulse">LIVE</span>
                     </button>
-                    <button onclick="changeMenu('ranking')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                    <button onclick="changeMenu('ranking')" class="w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
                         <span class="text-lg group-hover:scale-110 transition-transform">🏆</span>
-                        <span class="text-sm font-semibold">Ranking</span>
+                        <span class="text-[13px] font-semibold">Ranking</span>
                     </button>
-                    <button onclick="changeMenu('perfil')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                    <button onclick="changeMenu('perfil')" class="w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
                         <span class="text-lg group-hover:scale-110 transition-transform">👤</span>
-                        <span class="text-sm font-semibold">Perfil</span>
+                        <span class="text-[13px] font-semibold">Perfil</span>
                     </button>
-                    <button onclick="changeMenu('carteira')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                    <button onclick="changeMenu('carteira')" class="w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
                         <span class="text-lg group-hover:scale-110 transition-transform">💳</span>
-                        <span class="text-sm font-semibold">Carteira</span>
+                        <span class="text-[13px] font-semibold">Carteira</span>
                     </button>
-                    <button onclick="changeMenu('shop')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
-                        <div class="flex items-center space-x-3">
-                            <span class="text-lg group-hover:scale-110 transition-transform">🛍️</span>
-                            <span class="text-sm font-semibold">Shop</span>
+                    <button onclick="changeMenu('shop')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-base group-hover:scale-110 transition-transform">🛍️</span>
+                            <span class="text-[13px] font-semibold">Shop</span>
                         </div>
                         <span class="bg-purple-600 text-[8px] font-black px-1.5 py-0.5 rounded text-white">NOVO</span>
                     </button>
-                    <button onclick="changeMenu('squads')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
-                        <span class="text-lg group-hover:scale-110 transition-transform">👥</span>
-                        <span class="text-sm font-semibold">Squads</span>
-                    </button>
-                    <button onclick="changeMenu('notif')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
-                        <div class="flex items-center space-x-3">
-                            <span class="text-lg group-hover:scale-110 transition-transform">🔔</span>
-                            <span class="text-sm font-semibold">Notificações</span>
+                    <button onclick="changeMenu('notif')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-base group-hover:scale-110 transition-transform">🔔</span>
+                            <span class="text-[13px] font-semibold">Notificações</span>
                         </div>
                         <span class="bg-red-600 w-4 h-4 flex items-center justify-center text-[9px] font-bold rounded-full text-white">3</span>
                     </button>
@@ -203,16 +199,16 @@
         <main id="mainPanel" class="flex-1 flex flex-col min-h-0 bg-[#08080a] relative justify-between">
             
             <!-- CABEÇALHO DA BATALHA -->
-            <header class="flex items-center justify-between px-4 py-3 bg-[#0a0a0f] border-b border-gray-900/60 flex-shrink-0 z-20 relative">
+            <header class="flex items-center justify-between px-4 py-2 bg-[#0a0a0f] border-b border-gray-900/60 flex-shrink-0 z-20 relative">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-lg shadow">
+                    <div class="w-9 h-9 rounded-xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-lg shadow">
                         ⚡
                     </div>
                     <div>
                         <div class="flex items-center space-x-1.5">
-                            <h1 class="brand-font text-base font-black text-white">ShitaBattle <span class="text-pink-500">Live™</span></h1>
+                            <h1 class="brand-font text-[15px] font-black text-white">ShitaBattle <span class="text-pink-500">Live™</span></h1>
                         </div>
-                        <p class="text-[10px] text-gray-400">Batalhas ao vivo com gifts, chat e pontuação em tempo real</p>
+                        <p class="text-[10px] leading-tight text-gray-400">Batalhas ao vivo com gifts, chat e pontuação em tempo real</p>
                     </div>
                 </div>
 
@@ -222,9 +218,9 @@
                 </div>
 
                 <!-- SALDO DE MOEDAS E NOTIFICAÇÃO DO USUÁRIO -->
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-2">
                     <!-- Contador de Moedas Interativo -->
-                    <div class="flex items-center space-x-1.5 bg-black/60 px-3.5 py-1.5 rounded-full border border-gray-800 shadow">
+                    <div class="flex items-center space-x-1.5 bg-black/60 px-3 py-1.5 rounded-full border border-gray-800 shadow">
                         <span class="text-yellow-500 font-bold text-xs">🪙</span>
                         <span id="userCoinsHeader" class="text-xs font-black text-yellow-400 tracking-wide">12.430</span>
                         <button onclick="openCoinsModal()" class="w-4 h-4 bg-yellow-500 hover:bg-yellow-400 text-black rounded-full flex items-center justify-center font-black text-[10px] ml-1.5 shadow transition-all hover:scale-110 active:scale-90" title="Recarregar ShitCoins™">
@@ -250,11 +246,11 @@
                         🔊
                     </button>
 
-                    <button onclick="inviteFriend()" class="hidden md:flex items-center gap-1 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 text-purple-300 px-3 py-1.5 rounded-full text-[10px] font-black transition-all">
-                        ✉️ Convidar
+                    <button onclick="inviteFriend()" class="hidden md:flex items-center gap-1 bg-purple-600/25 hover:bg-purple-600/40 border border-purple-500/40 text-purple-200 px-4 py-2 rounded-full text-[10px] font-black transition-all">
+                        👥 Convidar
                     </button>
 
-                    <button onclick="exitBattle()" class="hidden md:flex items-center gap-1 bg-red-600/10 hover:bg-red-600/20 border border-red-500/30 text-red-300 px-3 py-1.5 rounded-full text-[10px] font-black transition-all">
+                    <button onclick="exitBattle()" class="hidden md:flex items-center gap-1 bg-red-600/10 hover:bg-red-600/20 border border-red-500/30 text-red-300 px-3.5 py-2 rounded-full text-[10px] font-black transition-all">
                         Sair
                     </button>
                 </div>
