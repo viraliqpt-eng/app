@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHITAGRAM™ — Gerar com IA — Single File</title>
+  <title>SHITAGRAM™ — Duelos Ao Vivo — Single File</title>
   <style>
 
 :root{
@@ -423,7 +423,7 @@ body::before{
     <div class="logo-mark">🔥</div>
     <div><div class="logo-title">SHITAGRAM™</div><div class="logo-sub">BATALHAS DE RECLAMAÇÃO</div></div>
   </a>
-  <nav class="nav"><a class="" href="duelos.html"><span>▶️</span>Duelos Ao Vivo</a><a class="" href="temas.html"><span>🎭</span>Temas Absurdos</a><a class="active" href="gerar.html"><span>🪄</span>Gerar com IA</a><a class="" href="hall-of-shame.html"><span>🏆</span>Hall of Shame</a><a class="" href="perfil.html"><span>💩</span>Meu Perfil</a></nav>
+  <nav class="nav"><a class="active" href="duelos.html"><span>▶️</span>Duelos Ao Vivo</a><a class="" href="temas.html"><span>🎭</span>Temas Absurdos</a><a class="" href="gerar.html"><span>🪄</span>Gerar com IA</a><a class="" href="hall-of-shame.html"><span>🏆</span>Hall of Shame</a><a class="" href="perfil.html"><span>💩</span>Meu Perfil</a></nav>
   <div class="header-actions">
     <div class="coin-pill">🪙 <span>1,500</span></div>
     <a class="user-pill" href="perfil.html">👤 <span>user_shitagram</span>⌄</a>
@@ -431,17 +431,70 @@ body::before{
 </header>
 
   
-<main class="container">
-  <section class="hero">
-    <span class="kicker">Laboratório sarcástico</span>
-    <h1>Gerar Reclamação <span>com IA</span></h1>
-    <p>Escreve uma situação banal e a IA transforma isso numa guerra judicial absurda.</p>
+<main class="container duel-layout">
+  <section class="battle-card panel">
+    <div class="scorebar">
+      <div><span id="scoreA">3560</span> 💩</div>
+      <div class="vs">VS</div>
+      <div style="text-align:right">💩 <span id="scoreB">2480</span></div>
+    </div>
+    <div class="mission">
+      <div>
+        <small style="color:#ff9a1f;font-weight:1000">MISSÃO ATIVA DE RECLAMAÇÃO ABSURDA™</small>
+        <h2>📶 O Wi‑Fi Rebelde</h2>
+        <p>Provar que o router da operadora te odeia e só dá boa ligação a desconhecidos.</p>
+      </div>
+      <div class="bonus-box">DESAFIO DE BÓNUS ESPECIAL<br>+900 se mencionares “router espião”.</div>
+    </div>
+    <div class="players">
+      <article class="player">
+        <div class="player-img" style="background-image:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.2)),url('https://images.unsplash.com/photo-1606904825846-647eb07f5be2?auto=format&fit=crop&w=900&q=70')"></div>
+        <div class="player-content">
+          <span class="tag-red">RECLAMANTE A</span>
+          <h2>RouterConspirador 3000</h2>
+          <p>Ele sabe quando precisas de internet e escolhe essa hora para te trair.</p>
+          <div class="vote-row"><button class="btn-main vote-a" onclick="vote('a')">👍 Votar Lado A</button><button class="btn-small" onclick="addGift('Bónus +500',500)">⭐ Bónus +500</button></div>
+        </div>
+      </article>
+      <article class="player">
+        <div class="player-img" style="background-image:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.2)),url('https://images.unsplash.com/photo-1519052537078-e6302a4968d4?auto=format&fit=crop&w=900&q=70')"></div>
+        <div class="player-content">
+          <span class="tag-red" style="background:#c88400">RECLAMANTE B</span>
+          <h2>Modo Gato Ativado</h2>
+          <p>Apenas funciona bem quando o gato decide sentar-se em cima dele.</p>
+          <div class="vote-row"><button class="btn-main vote-b" onclick="vote('b')">💩 Votar Lado B</button><button class="btn-small" onclick="addGift('Bónus +500',500)">⭐ Bónus +500</button></div>
+        </div>
+      </article>
+    </div>
+    <div class="gifts">
+      <p style="font-weight:900;color:#ffbd65">🎁 Atira presentes cómicos para catapultar a pontuação do teu concorrente favorito:</p>
+      <div class="gift-grid">
+        <button class="gift-card" onclick="addGift('Papel H.',5)"><div class="emoji">🧻</div>Papel H.<small>🪙5</small></button>
+        <button class="gift-card" onclick="addGift('Abacate',25)"><div class="emoji">🥑</div>Abacate<small>🪙25</small></button>
+        <button class="gift-card" onclick="addGift('Cocó Ouro',50)"><div class="emoji">💩</div>Cocó Ouro<small>🪙50</small></button>
+        <button class="gift-card" onclick="addGift('Coroa Real',100)"><div class="emoji">👑</div>Coroa Real<small>🪙100</small></button>
+      </div>
+    </div>
   </section>
-  <section class="center-panel panel">
-    <textarea id="iaInput" style="width:100%;min-height:180px;border-radius:18px;background:rgba(0,0,0,.45);border:1px solid rgba(255,122,0,.20);color:white;padding:20px;font-size:18px;outline:none" placeholder="Ex: O meu router só funciona quando ninguém precisa dele..."></textarea>
-    <button class="btn-main" style="margin-top:18px" onclick="gerarIA()">🪄 Gerar Reclamação Absurda</button>
-    <div id="iaResult"></div>
-  </section>
+
+  <aside>
+    <section class="side-panel panel">
+      <h2>💬 Torcida Crítica <span style="float:right;font-size:13px;background:#7a1d12;padding:7px 13px;border-radius:999px">LIVE</span></h2>
+      <div id="chatList" class="chat-list">
+        <div><b>ZeZito_10:</b> O router espião atua de noite! 👀</div>
+        <div><b>Reclama_PT:</b> Ele corta o Wi‑Fi quando recebe visitas.</div>
+        <div><b>Humor_Tuga:</b> Modo gato é real demais! 🐱</div>
+      </div>
+      <div class="chat-input"><input id="chatInput" placeholder="Escreve uma ofensa ou conselho..."><button class="send-btn" onclick="sendChat()">➤</button></div>
+    </section>
+    <section class="side-panel panel pk-list">
+      <h2>🎭 PKs Ativas <span style="float:right;color:#ff7a00;font-size:14px">Ver todas</span></h2>
+      <div class="pk-item"><strong>📄 Cobrança Fantasma</strong><span>112 em disputa ›</span></div>
+      <div class="pk-item"><strong>🛗 Elevador Preguiçoso</strong><span>87 em disputa ›</span></div>
+      <div class="pk-item"><strong>👨‍👩‍👧 Fila do Inferno</strong><span>64 em disputa ›</span></div>
+      <button class="btn-main" style="height:52px">+ Criar PK</button>
+    </section>
+  </aside>
 </main>
 
   <footer class="footer">
@@ -782,6 +835,23 @@ function setInstallDiagnostics(){
 
 document.addEventListener("DOMContentLoaded", setInstallDiagnostics);
 
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => {
+        const swStatus = document.getElementById("swStatusText");
+        if (swStatus) swStatus.textContent = "Ativo";
+        const manifestStatus = document.getElementById("manifestStatusText");
+        if (manifestStatus) manifestStatus.textContent = "Encontrado";
+      })
+      .catch(() => {
+        const swStatus = document.getElementById("swStatusText");
+        if (swStatus) swStatus.textContent = "Erro ao ativar";
+      });
+  });
+}
 </script>
 </body>
 </html>

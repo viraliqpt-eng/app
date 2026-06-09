@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHITAGRAM™ — Hall of Shame — Single File</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instalar SHITAGRAM™</title>
+<style>
 
 :root{
   --bg:#090302;
@@ -417,38 +417,81 @@ body::before{
 </style>
 </head>
 <body>
-  
 <header class="app-header">
   <a class="logo" href="index.html">
     <div class="logo-mark">🔥</div>
     <div><div class="logo-title">SHITAGRAM™</div><div class="logo-sub">BATALHAS DE RECLAMAÇÃO</div></div>
   </a>
-  <nav class="nav"><a class="" href="duelos.html"><span>▶️</span>Duelos Ao Vivo</a><a class="" href="temas.html"><span>🎭</span>Temas Absurdos</a><a class="" href="gerar.html"><span>🪄</span>Gerar com IA</a><a class="active" href="hall-of-shame.html"><span>🏆</span>Hall of Shame</a><a class="" href="perfil.html"><span>💩</span>Meu Perfil</a></nav>
-  <div class="header-actions">
-    <div class="coin-pill">🪙 <span>1,500</span></div>
-    <a class="user-pill" href="perfil.html">👤 <span>user_shitagram</span>⌄</a>
-  </div>
+  <nav class="nav">
+    <a href="index.html">▶️ Duelos Ao Vivo</a>
+    <a href="temas.html">🎭 Temas Absurdos</a>
+    <a href="gerar.html">🪄 Gerar com IA</a>
+    <a href="hall-of-shame.html">🏆 Hall of Shame</a>
+    <a href="perfil.html">💩 Meu Perfil</a>
+  </nav>
 </header>
 
-  
 <main class="container">
-  <section class="rank-panel panel">
-    <div class="rank-head">
-      <div><h1>🏆 Hall of Shame - Críticos Maiores</h1><p>Os reclamantes mais persistentes e amados da semana</p></div>
-      <span class="kicker">● Realtime</span>
-    </div>
-    <article class="rank-row"><div class="medal gold">1</div><div class="rank-avatar">🎙️</div><div><h3>Torrada Queimada ✅</h3><p>👑 142 Batalhas Absurdas Ganhas</p></div><div class="points">821,900 pts<small>Total de gargalhadas</small></div></article>
-    <article class="rank-row"><div class="medal silver">2</div><div class="rank-avatar">🧀</div><div><h3>Queijo Derretido</h3><p>👑 118 Batalhas Ganhas</p></div><div class="points">691,300 pts<small>Total de gargalhadas</small></div></article>
-    <article class="rank-row"><div class="medal bronze">3</div><div class="rank-avatar">🩴</div><div><h3>Chinelo Esquerdo</h3><p>👑 95 Batalhas Ganhas</p></div><div class="points">521,000 pts<small>Total de gargalhadas</small></div></article>
+  <section class="hero">
+    <span class="kicker">PWA oficial</span>
+    <h1>Instalar <span>SHITAGRAM™</span></h1>
+    <p>Instala o SHITAGRAM™ como app no telemóvel ou computador.</p>
   </section>
+  
+<section class="install-section" id="instalar">
+  <article class="install-card">
+    <h2>📲 Instalação rápida</h2>
+    <p>Depois de instalada, o SHITAGRAM™ abre como uma app própria, sem parecer apenas uma página do navegador.</p>
+
+    <div class="install-actions">
+      <button class="install-primary" onclick="installShitagram()">Instalar SHITAGRAM™</button>
+      <button class="install-secondary" onclick="copyInstallInstructions()">Copiar instruções</button>
+    </div>
+
+    <div class="install-status">
+      <strong>Estado PWA</strong>
+      <span id="pwaStatusText">Pronta para instalar</span>
+    </div>
+
+    <div class="install-status">
+      <strong>Service Worker</strong>
+      <span id="swStatusText">A verificar...</span>
+    </div>
+
+    <div class="install-status">
+      <strong>Manifest</strong>
+      <span id="manifestStatusText">A verificar...</span>
+    </div>
+  </article>
+
+  <article class="install-card">
+    <h2>Como instalar</h2>
+
+    <div class="install-row">
+      <strong>Android / Chrome</strong>
+      <span>Menu ⋮ → Instalar app</span>
+    </div>
+
+    <div class="install-row">
+      <strong>iPhone / Safari</strong>
+      <span>Partilhar → Adicionar ao ecrã principal</span>
+    </div>
+
+    <div class="install-row">
+      <strong>Computador</strong>
+      <span>Ícone de instalar na barra do Chrome/Edge</span>
+    </div>
+  </article>
+</section>
+
 </main>
 
-  <footer class="footer">
-    <strong>🔥 SHITAGRAM™</strong>
-    <span>© 2026 SHITAGRAM™. Todos os direitos reservados.</span>
-    <span>Regras da Comunidade · Privacidade · Termos de Serviço</span>
-  </footer>
-  <script>
+<footer class="footer">
+  <strong>🔥 SHITAGRAM™</strong>
+  <span>© 2026 SHITAGRAM™. Todos os direitos reservados.</span>
+  <span>Regras da Comunidade · Privacidade · Termos de Serviço</span>
+</footer>
+<script>
 
 const themes=[
   {icon:"📦",title:"A Torrada Traidora",cat:"Batalha Gourmet",mission:"Convencer a audiência que uma torrada declarou guerra ao queijo.",bonus:"+500 se mencionares “crime gastronómico”."},
