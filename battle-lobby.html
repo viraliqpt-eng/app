@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>SHITAGRAM™ — Lobby de Batalhas</title>
+  <meta name="description" content="Lobby oficial das ShitaBattle Live™ do SHITAGRAM™. Cria batalhas, convida amigos, entra em modo aleatório ou vê batalhas ao vivo." />
+  <meta name="theme-color" content="#08080c" />
+
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=BleGgA5Y6p9BLP0CmRQbfSoZcQs5CxcSbgq8z2XVxsBv3Fy1e0e0hlKKn9od3mktm8qVmS-vB9K7z4-NDA85x1pt3UCGU-DbJITsg8Rk7Mt-7AIz_gCTBmT_J3Aty3BBd4od6jH7fPjvHv24CMtOncja8D8eRRBVoY5QPcPTpsmnPgTVWTRMiZvEgSAFim9QWZubSoKXytLL47gljCbD1Ht5Zj0ICOGuCzALc8M6PMav-Ev8OX8i18NM-TuF6I2FnaJclX13vSE9ExdRDI-n3w" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255, 0, 199, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(139, 0, 255, 0.18), transparent 32%),
+        radial-gradient(circle at bottom, rgba(255, 184, 0, 0.08), transparent 35%),
+        #05020c;
+      color: #fff;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .glass {
+      background: rgba(13, 13, 18, 0.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    }
+
+    .soft-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .neon {
+      text-shadow: 0 0 24px rgba(255,0,199,0.75);
+    }
+
+    .battle-btn {
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .battle-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 38px rgba(255, 0, 199, 0.22);
+      border-color: rgba(255, 0, 199, 0.5);
+    }
+
+    .pulse-live {
+      animation: livePulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { opacity: .75; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .floaty {
+      animation: floaty 4s ease-in-out infinite;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .toast-in {
+      animation: toastIn .25s ease-out forwards;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translate(-50%, -15px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    .mobile-nav {
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    @media (max-width: 768px) {
+      .mobile-bottom-space {
+        padding-bottom: 92px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="min-h-screen p-3 md:p-6 mobile-bottom-space">
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-4">
+
+      <!-- SIDEBAR -->
+      <aside class="glass rounded-3xl p-5 hidden lg:flex flex-col justify-between min-h-[calc(100vh-48px)]">
+        <div>
+          <div class="flex items-center gap-3 mb-8">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-600 to-purple-700 grid place-items-center text-3xl shadow-[0_0_25px_rgba(255,0,199,.35)]">
+              💩
+            </div>
+            <div>
+              <h1 class="font-black text-2xl neon">SHITAGRAM™</h1>
+              <p class="text-xs text-white/45">Rede social de micos</p>
+            </div>
+          </div>
+
+          <nav class="space-y-2 text-sm font-semibold">
+            <button onclick="fakeNav('Feed')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🏠 Feed</button>
+            <button onclick="fakeNav('ShitClips™')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🎬 ShitClips™</button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-fuchsia-600/20 text-fuchsia-200 border border-fuchsia-500/30">
+              ⚔️ Batalhas <span class="ml-auto text-[10px] bg-pink-600 px-2 py-1 rounded-full pulse-live">LIVE</span>
+            </button>
+            <button onclick="fakeNav('Ranking')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🏆 Ranking</button>
+            <button onclick="fakeNav('Perfil')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">👤 Perfil</button>
+            <button onclick="fakeNav('Carteira')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">👛 Carteira</button>
+            <button onclick="fakeNav('Loja')" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:bg-white/5 hover:text-white">🛒 Loja</button>
+          </nav>
+        </div>
+
+        <div class="rounded-3xl p-5 bg-gradient-to-br from-purple-800/35 to-pink-700/25 border border-fuchsia-500/25 text-center overflow-hidden relative">
+          <div class="absolute -right-10 -top-10 w-28 h-28 bg-fuchsia-500/20 blur-2xl rounded-full"></div>
+          <div class="text-4xl mb-2 relative">👑</div>
+          <h3 class="font-black text-fuchsia-300 relative">VIP SHIT™</h3>
+          <p class="text-xs text-white/55 mt-1 relative">Destaca-te nas batalhas, ganha badges e efeitos premium.</p>
+          <button onclick="openModal('vipModal')" class="relative mt-4 w-full py-2.5 rounded-2xl bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:brightness-110 font-black text-sm">
+            Ver Benefícios
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="space-y-4">
+
+        <!-- HEADER -->
+        <header class="glass rounded-3xl p-4 md:p-5 flex items-center justify-between gap-4">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="px-3 py-1 rounded-full bg-red-600/90 text-[10px] font-black pulse-live">● LIVE</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 text-[10px] font-bold text-white/60">v24.1 Lobby</span>
+            </div>
+            <h2 class="text-2xl md:text-5xl font-black leading-tight">
+              ShitaBattle <span class="text-fuchsia-400 neon">Live™</span>
+            </h2>
+            <p class="text-xs md:text-sm text-white/55 mt-1">
+              Cria batalhas, convida amigos, entra em modo aleatório ou vê duelos em direto.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="hidden sm:flex px-3 py-2 rounded-2xl bg-black/45 border border-white/10 font-black text-sm">
+              🪙 <span id="coins">12.430</span>
+            </div>
+            <button onclick="openModal('coinsModal')" class="w-11 h-11 rounded-2xl bg-yellow-500 text-black font-black hover:brightness-110">+</button>
+            <button onclick="goBackApp()" class="hidden md:block px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-bold text-sm">
+              Voltar ao App
+            </button>
+          </div>
+        </header>
+
+        <!-- HERO / STATUS -->
+        <section class="grid grid-cols-1 xl:grid-cols-[1.4fr_.85fr] gap-4">
+
+          <div class="glass rounded-3xl p-5 md:p-6 relative overflow-hidden">
+            <div class="absolute right-8 top-8 text-8xl opacity-10 floaty">⚔️</div>
+
+            <div class="relative">
+              <h3 class="text-2xl md:text-3xl font-black mb-2">Escolhe o modo de batalha</h3>
+              <p class="text-white/55 text-sm max-w-2xl">
+                Este lobby prepara a entrada na arena. Primeiro escolhes o modo, depois a batalha abre no ficheiro <strong>battle.html</strong>.
+              </p>
+
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                <button onclick="createBattle()" class="battle-btn soft-card rounded-3xl p-5 text-left">
+                  <div class="flex items-start justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-400 grid place-items-center text-3xl shadow-[0_0_25px_rgba(255,184,0,.25)]">🔥</div>
+                    <span class="text-[10px] px-2 py-1 rounded-full bg-orange-500/20 text-orange-300 font-black">HOST</span>
+                  </div>
+                  <h4 class="mt-4 text-xl font-black">Criar Batalha</h4>
+                  <p class="mt-1 text-xs text-white/50">Abre uma sala e espera por adversário.</p>
+                </button>
+
+                <button onclick="inviteFriend()" class="battle-btn soft-card rounded-3xl p-5 text-left">
+                  <div class="flex items-start justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-600 to-purple-700 grid place-items-center text-3xl shadow-[0_0_25px_rgba(255,0,199,.25)]">📨</div>
+                    <span class="text-[10px] px-2 py-1 rounded-full bg-fuchsia-500/20 text-fuchsia-300 font-black">CONVITE</span>
+                  </div>
+                  <h4 class="mt-4 text-xl font-black">Convidar Amigo</h4>
+                  <p class="mt-1 text-xs text-white/50">Gera um convite rápido para a batalha.</p>
+                </button>
+
+                <button onclick="randomBattle()" class="battle-btn soft-card rounded-3xl p-5 text-left">
+                  <div class="flex items-start justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-700 grid place-items-center text-3xl shadow-[0_0_25px_rgba(34,211,238,.25)]">🎲</div>
+                    <span class="text-[10px] px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-black">MATCH</span>
+                  </div>
+                  <h4 class="mt-4 text-xl font-black">Batalha Aleatória</h4>
+                  <p class="mt-1 text-xs text-white/50">Encontra automaticamente outro utilizador.</p>
+                </button>
+
+                <button onclick="watchLive()" class="battle-btn soft-card rounded-3xl p-5 text-left">
+                  <div class="flex items-start justify-between">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-600 to-pink-600 grid place-items-center text-3xl shadow-[0_0_25px_rgba(239,68,68,.25)]">👁️</div>
+                    <span class="text-[10px] px-2 py-1 rounded-full bg-red-500/20 text-red-300 font-black pulse-live">AO VIVO</span>
+                  </div>
+                  <h4 class="mt-4 text-xl font-black">Ver Batalhas Live</h4>
+                  <p class="mt-1 text-xs text-white/50">Assiste, comenta e envia gifts aos criadores.</p>
+                </button>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- MATCH STATUS -->
+          <aside class="glass rounded-3xl p-5 md:p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-black text-xl">Estado da Sala</h3>
+              <span id="roomBadge" class="px-3 py-1 rounded-full bg-white/5 text-white/45 text-[10px] font-black">INATIVO</span>
+            </div>
+
+            <div id="roomStatusBox" class="rounded-3xl bg-black/35 border border-white/10 p-5 text-center min-h-[260px] flex flex-col justify-center">
+              <div id="roomIcon" class="text-6xl mb-3">⚔️</div>
+              <h4 id="roomTitle" class="text-2xl font-black">Pronto para começar</h4>
+              <p id="roomDesc" class="text-sm text-white/50 mt-2">
+                Escolhe uma opção para preparar a tua próxima ShitaBattle Live™.
+              </p>
+
+              <div id="countdownArea" class="hidden mt-5">
+                <div class="text-xs uppercase tracking-widest text-fuchsia-300 font-black mb-2">A abrir batalha em</div>
+                <div id="countdownNumber" class="text-6xl font-black neon">3</div>
+              </div>
+
+              <div id="inviteArea" class="hidden mt-5 rounded-2xl bg-white/5 border border-white/10 p-3">
+                <div class="text-[10px] text-white/45 uppercase font-black mb-1">Link de convite</div>
+                <div class="flex gap-2">
+                  <input id="inviteLink" readonly class="flex-1 min-w-0 bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white/70" value="https://shitagram.pt/battle-lobby.html?invite=SHITA-2401" />
+                  <button onclick="copyInvite()" class="px-3 py-2 rounded-xl bg-fuchsia-700 hover:bg-fuchsia-600 text-xs font-black">Copiar</button>
+                </div>
+              </div>
+
+              <button id="enterBattleBtn" onclick="openBattle()" class="hidden mt-5 w-full py-3 rounded-2xl bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:brightness-110 font-black">
+                Entrar na Battle
+              </button>
+            </div>
+          </aside>
+
+        </section>
+
+        <!-- LIVE BATTLES LIST -->
+        <section class="glass rounded-3xl p-5 md:p-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 class="font-black text-2xl">Batalhas em direto</h3>
+              <p class="text-xs text-white/45">Mockup funcional: no futuro isto vem do Supabase em tempo real.</p>
+            </div>
+            <button onclick="refreshLives()" class="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-sm font-bold">
+              Atualizar
+            </button>
+          </div>
+
+          <div id="liveList" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <article class="soft-card rounded-3xl p-4">
+              <div class="h-36 rounded-2xl bg-gradient-to-br from-orange-900 to-black border border-orange-500/20 grid place-items-center text-6xl relative overflow-hidden">
+                <span class="absolute top-3 left-3 px-2 py-1 rounded-full bg-red-600 text-[10px] font-black pulse-live">● LIVE</span>
+                👑 vs 💗
+              </div>
+              <h4 class="mt-3 font-black">Rei do Cocó vs Princesa do Shit</h4>
+              <p class="text-xs text-white/45 mt-1">4.382 espectadores · 02:47 restantes</p>
+              <button onclick="openBattle()" class="mt-3 w-full py-2.5 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black text-sm">Assistir</button>
+            </article>
+
+            <article class="soft-card rounded-3xl p-4">
+              <div class="h-36 rounded-2xl bg-gradient-to-br from-purple-900 to-black border border-purple-500/20 grid place-items-center text-6xl relative overflow-hidden">
+                <span class="absolute top-3 left-3 px-2 py-1 rounded-full bg-red-600 text-[10px] font-black pulse-live">● LIVE</span>
+                🐒 vs ☢️
+              </div>
+              <h4 class="mt-3 font-black">Rei do Mico vs Bug Nuclear</h4>
+              <p class="text-xs text-white/45 mt-1">1.928 espectadores · 00:59 restantes</p>
+              <button onclick="openBattle()" class="mt-3 w-full py-2.5 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black text-sm">Assistir</button>
+            </article>
+
+            <article class="soft-card rounded-3xl p-4">
+              <div class="h-36 rounded-2xl bg-gradient-to-br from-pink-900 to-black border border-pink-500/20 grid place-items-center text-6xl relative overflow-hidden">
+                <span class="absolute top-3 left-3 px-2 py-1 rounded-full bg-red-600 text-[10px] font-black pulse-live">● LIVE</span>
+                ☕ vs 🧻
+              </div>
+              <h4 class="mt-3 font-black">Café Frio vs Papel Dourado</h4>
+              <p class="text-xs text-white/45 mt-1">876 espectadores · 01:31 restantes</p>
+              <button onclick="openBattle()" class="mt-3 w-full py-2.5 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black text-sm">Assistir</button>
+            </article>
+          </div>
+        </section>
+
+        <!-- TECH ROADMAP -->
+        <section class="glass rounded-3xl p-5 md:p-6">
+          <h3 class="font-black text-2xl mb-4">Fluxo v24</h3>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
+              <div class="text-2xl mb-2">1️⃣</div>
+              <h4 class="font-black">Lobby</h4>
+              <p class="text-xs text-white/45 mt-1">Utilizador escolhe criar, convidar, assistir ou entrar aleatório.</p>
+            </div>
+            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
+              <div class="text-2xl mb-2">2️⃣</div>
+              <h4 class="font-black">Sala</h4>
+              <p class="text-xs text-white/45 mt-1">Estado “à espera”, “convite enviado” ou “batalha pronta”.</p>
+            </div>
+            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
+              <div class="text-2xl mb-2">3️⃣</div>
+              <h4 class="font-black">Battle</h4>
+              <p class="text-xs text-white/45 mt-1">Abre battle.html com pontuação, gifts, chat e cronómetro.</p>
+            </div>
+            <div class="rounded-2xl p-4 bg-white/5 border border-white/10">
+              <div class="text-2xl mb-2">4️⃣</div>
+              <h4 class="font-black">Resultado</h4>
+              <p class="text-xs text-white/45 mt-1">Vencedor ganha XP, badge, ranking e histórico.</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="lg:hidden fixed left-3 right-3 bottom-3 glass rounded-3xl p-3 grid grid-cols-5 text-[11px] text-center z-40 mobile-nav">
+    <button onclick="fakeNav('Feed')" class="text-white/55">🏠<br>Feed</button>
+    <button onclick="fakeNav('Clips')" class="text-white/55">🎬<br>Clips</button>
+    <button class="text-fuchsia-300 neon">⚔️<br>Batalha</button>
+    <button onclick="fakeNav('Ranking')" class="text-white/55">🏆<br>Ranking</button>
+    <button onclick="fakeNav('Perfil')" class="text-white/55">👤<br>Perfil</button>
+  </nav>
+
+  <!-- TOAST -->
+  <div id="toast" class="hidden fixed top-5 left-1/2 z-50 px-4 py-3 rounded-2xl bg-black/85 border border-fuchsia-500/30 shadow-2xl text-sm font-bold"></div>
+
+  <!-- MODALS -->
+  <div id="vipModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-lg items-center justify-center p-4">
+    <div class="glass rounded-3xl p-6 max-w-md w-full text-center">
+      <div class="text-6xl mb-2">👑</div>
+      <h3 class="text-3xl font-black text-fuchsia-300 neon">VIP SHIT™</h3>
+      <p class="text-sm text-white/55 mt-2">Badge no chat, gifts com desconto, efeitos premium e destaque nas batalhas.</p>
+      <button onclick="closeModal('vipModal')" class="mt-6 w-full py-3 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">Fechar</button>
+    </div>
+  </div>
+
+  <div id="coinsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-lg items-center justify-center p-4">
+    <div class="glass rounded-3xl p-6 max-w-md w-full text-center">
+      <div class="text-6xl mb-2">🪙</div>
+      <h3 class="text-3xl font-black text-yellow-300">Comprar ShitCoins™</h3>
+      <p class="text-sm text-white/55 mt-2">Mockup visual da carteira. No futuro liga a pagamentos reais.</p>
+      <div class="mt-5 space-y-2">
+        <button onclick="buyCoins(1000)" class="w-full flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10">
+          <strong>1.000 moedas</strong><span class="text-yellow-300 font-black">4,90€</span>
+        </button>
+        <button onclick="buyCoins(5000)" class="w-full flex justify-between items-center p-4 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 hover:bg-yellow-500/15">
+          <strong>5.000 moedas</strong><span class="text-yellow-300 font-black">19,90€</span>
+        </button>
+        <button onclick="buyCoins(20000)" class="w-full flex justify-between items-center p-4 rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/20 hover:bg-fuchsia-500/15">
+          <strong>20.000 moedas</strong><span class="text-fuchsia-300 font-black">59,90€</span>
+        </button>
+      </div>
+      <button onclick="closeModal('coinsModal')" class="mt-5 w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 font-black">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    let coins = 12430;
+    let countdownRunning = false;
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.classList.remove('hidden');
+      toast.classList.add('toast-in');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('toast-in');
+      }, 2400);
+    }
+
+    function setRoomState(badge, icon, title, desc, showInvite = false, showEnter = false) {
+      document.getElementById('roomBadge').innerText = badge;
+      document.getElementById('roomBadge').className = 'px-3 py-1 rounded-full bg-fuchsia-600/20 text-fuchsia-300 text-[10px] font-black';
+      document.getElementById('roomIcon').innerText = icon;
+      document.getElementById('roomTitle').innerText = title;
+      document.getElementById('roomDesc').innerText = desc;
+      document.getElementById('inviteArea').classList.toggle('hidden', !showInvite);
+      document.getElementById('enterBattleBtn').classList.toggle('hidden', !showEnter);
+      document.getElementById('countdownArea').classList.add('hidden');
+    }
+
+    function createBattle() {
+      setRoomState(
+        'À ESPERA',
+        '🔥',
+        'Sala criada',
+        'A tua sala foi criada. Agora podes aguardar adversário ou entrar na battle de demonstração.',
+        false,
+        true
+      );
+      showToast('🔥 Sala criada com sucesso.');
+    }
+
+    function inviteFriend() {
+      setRoomState(
+        'CONVITE',
+        '📨',
+        'Convite preparado',
+        'Copia o link e envia a um amigo para entrar na tua ShitaBattle Live™.',
+        true,
+        true
+      );
+      showToast('📨 Convite de batalha gerado.');
+    }
+
+    function randomBattle() {
+      setRoomState(
+        'MATCHING',
+        '🎲',
+        'A procurar adversário',
+        'O sistema está a procurar uma battle aleatória disponível.',
+        false,
+        false
+      );
+      showToast('🎲 A procurar adversário...');
+      setTimeout(() => {
+        setRoomState(
+          'PRONTO',
+          '⚔️',
+          'Adversário encontrado',
+          'A batalha está pronta para começar.',
+          false,
+          true
+        );
+        showToast('⚔️ Adversário encontrado.');
+      }, 1400);
+    }
+
+    function watchLive() {
+      setRoomState(
+        'AO VIVO',
+        '👁️',
+        'Modo espectador',
+        'Vais entrar como espectador numa batalha em direto.',
+        false,
+        true
+      );
+      showToast('👁️ Modo espectador selecionado.');
+    }
+
+    function openBattle() {
+      if (countdownRunning) return;
+      countdownRunning = true;
+
+      const countdownArea = document.getElementById('countdownArea');
+      const number = document.getElementById('countdownNumber');
+      countdownArea.classList.remove('hidden');
+
+      let count = 3;
+      number.innerText = count;
+
+      const interval = setInterval(() => {
+        count--;
+        number.innerText = count;
+
+        if (count <= 0) {
+          clearInterval(interval);
+          window.location.href = 'battle.html';
+        }
+      }, 700);
+    }
+
+    async function copyInvite() {
+      const link = document.getElementById('inviteLink').value;
+      try {
+        await navigator.clipboard.writeText(link);
+        showToast('✅ Link copiado.');
+      } catch (e) {
+        showToast('Copia manualmente o link do convite.');
+      }
+    }
+
+    function refreshLives() {
+      showToast('🔄 Lista de lives atualizada.');
+    }
+
+    function fakeNav(name) {
+      showToast(`📁 ${name} será ligado ao app principal na v24.2.`);
+    }
+
+    function goBackApp() {
+      window.location.href = 'app.html';
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+      document.getElementById(id).classList.add('flex');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.getElementById(id).classList.remove('flex');
+    }
+
+    function buyCoins(amount) {
+      coins += amount;
+      document.getElementById('coins').innerText = coins.toLocaleString('pt-PT');
+      closeModal('coinsModal');
+      showToast(`🪙 +${amount.toLocaleString('pt-PT')} ShitCoins™ adicionadas.`);
+    }
+  </script>
+
+</body>
+</html>
