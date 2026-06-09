@@ -267,9 +267,167 @@ body::before{
   .vote-row{grid-template-columns:1fr}
 }
 
+
+/* =========================================================
+   SHITAGRAM™ v37 — Contagem regressiva antes da batalha
+   ========================================================= */
+
+.battle-countdown-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at center,rgba(255,122,0,.22),transparent 38%),
+    rgba(6,0,0,.88);
+  backdrop-filter:blur(10px);
+}
+
+.battle-countdown-overlay.active{
+  display:flex;
+}
+
+.countdown-box{
+  text-align:center;
+  animation:countdownBoxIn .28s ease-out forwards;
+}
+
+.countdown-number{
+  font-size:clamp(92px,16vw,210px);
+  font-weight:1000;
+  line-height:.85;
+  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 0 55px rgba(255,104,0,.35);
+  filter:drop-shadow(0 18px 45px rgba(0,0,0,.65));
+}
+
+.countdown-label{
+  margin-top:18px;
+  font-size:clamp(22px,4vw,44px);
+  font-weight:1000;
+  color:#fff7ed;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.countdown-sub{
+  margin-top:10px;
+  color:#ffbd65;
+  font-weight:900;
+}
+
+.battle-live-panel{
+  max-width:980px;
+  margin:26px auto 0;
+  border:1px solid rgba(255,122,0,.24);
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 20% 0%,rgba(255,122,0,.13),transparent 32%),
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.22));
+  padding:24px;
+  display:none;
+  box-shadow:0 24px 90px rgba(0,0,0,.42);
+}
+
+.battle-live-panel.active{
+  display:block;
+}
+
+.live-topline{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.live-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 14px;
+  border-radius:999px;
+  background:rgba(255,0,0,.13);
+  border:1px solid rgba(255,72,72,.24);
+  color:#ff6868;
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+.live-dot{
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  background:#ff3636;
+  box-shadow:0 0 18px #ff3636;
+  animation:livePulse .9s infinite alternate;
+}
+
+.timer-pill{
+  border-radius:999px;
+  padding:10px 16px;
+  background:rgba(255,122,0,.10);
+  border:1px solid rgba(255,122,0,.22);
+  color:#ffbd65;
+  font-weight:1000;
+}
+
+.battle-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:16px;
+}
+
+.battle-action-btn{
+  min-height:56px;
+  border-radius:16px;
+  border:1px solid rgba(255,122,0,.22);
+  background:rgba(255,122,0,.06);
+  color:#fff7ed;
+  font-size:18px;
+  font-weight:1000;
+}
+
+.battle-action-btn.primary{
+  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
+  color:#170604;
+  border:0;
+}
+
+@keyframes countdownBoxIn{
+  from{opacity:0;transform:scale(.75)}
+  to{opacity:1;transform:scale(1)}
+}
+
+@keyframes livePulse{
+  from{opacity:.45;transform:scale(.85)}
+  to{opacity:1;transform:scale(1.15)}
+}
+
+@media(max-width:720px){
+  .battle-actions{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
+
+<div class="battle-countdown-overlay" id="battleCountdownOverlay">
+  <div class="countdown-box">
+    <div class="countdown-number" id="battleCountdownNumber">3</div>
+    <div class="countdown-label" id="battleCountdownLabel">Prepara-te</div>
+    <div class="countdown-sub">A batalha absurda vai começar</div>
+  </div>
+</div>
+
   
 <header class="app-header">
   <a class="logo" href="index.html">
@@ -300,7 +458,27 @@ body::before{
     </div>
     <button class="btn-main" style="margin-top:22px" onclick="sortearTema()">⤨ Sortear Tema de Reclamação</button>
   </section>
-  <section class="section-title"><h2>📋 Lista Oficial de Temas Disponíveis</h2><span>10 temas disponíveis</span></section>
+  
+<section class="battle-live-panel" id="battleLivePanel">
+  <div class="live-topline">
+    <span class="live-badge"><i class="live-dot"></i> Batalha em direto</span>
+    <span class="timer-pill">⏱️ Tempo restante: <strong id="battleTimer">60</strong>s</span>
+  </div>
+
+  <h2 style="margin:0 0 8px;font-size:30px">🔥 Live PK de Improviso começou</h2>
+  <p style="margin:0;color:rgba(255,247,237,.68);line-height:1.5">
+    Os concorrentes têm 60 segundos para defender o tema sorteado. A audiência pode votar e enviar presentes.
+  </p>
+
+  <div class="battle-actions">
+    <button class="battle-action-btn primary" onclick="voteBattle('a')">Votar Reclamante A</button>
+    <button class="battle-action-btn primary" onclick="voteBattle('b')">Votar Reclamante B</button>
+    <button class="battle-action-btn" onclick="sendQuickReaction('😂')">😂 Rir</button>
+    <button class="battle-action-btn" onclick="sendQuickReaction('🔥')">🔥 Apoiar</button>
+  </div>
+</section>
+
+<section class="section-title"><h2>📋 Lista Oficial de Temas Disponíveis</h2><span>10 temas disponíveis</span></section>
   <section id="themesList" class="grid-2"></section>
 </main>
 
@@ -560,5 +738,119 @@ document.addEventListener("DOMContentLoaded",()=>{
 });
 
 </script>
+
+<script>
+let battleSecondsLeft = 60;
+let battleTimerInterval = null;
+let battleStarted = false;
+
+function startLiveBattleCountdown(){
+  const overlay = document.getElementById("battleCountdownOverlay");
+  const number = document.getElementById("battleCountdownNumber");
+  const label = document.getElementById("battleCountdownLabel");
+
+  if(!overlay || !number || !label){
+    startLiveBattleNow();
+    return;
+  }
+
+  overlay.classList.add("active");
+
+  const sequence = [
+    {n:"3", label:"Prepara-te"},
+    {n:"2", label:"Escolhe o teu lado"},
+    {n:"1", label:"Vai começar"},
+    {n:"COMEÇOU", label:"Batalha ativa"}
+  ];
+
+  let i = 0;
+
+  function step(){
+    const item = sequence[i];
+    number.textContent = item.n;
+    label.textContent = item.label;
+
+    if(typeof sfx === "function"){
+      sfx(i < 3 ? "tap" : "bonus");
+    }
+
+    number.style.animation = "none";
+    void number.offsetWidth;
+    number.style.animation = "countdownBoxIn .28s ease-out forwards";
+
+    i++;
+
+    if(i < sequence.length){
+      setTimeout(step, 900);
+    }else{
+      setTimeout(()=>{
+        overlay.classList.remove("active");
+        startLiveBattleNow();
+      }, 650);
+    }
+  }
+
+  step();
+}
+
+function startLiveBattleNow(){
+  if(battleStarted) return;
+  battleStarted = true;
+
+  const panel = document.getElementById("battleLivePanel");
+  if(panel) panel.classList.add("active");
+
+  battleSecondsLeft = 60;
+  updateBattleTimer();
+
+  if(battleTimerInterval) clearInterval(battleTimerInterval);
+
+  battleTimerInterval = setInterval(()=>{
+    battleSecondsLeft--;
+    updateBattleTimer();
+
+    if(battleSecondsLeft <= 0){
+      clearInterval(battleTimerInterval);
+      finishLiveBattle();
+    }
+  },1000);
+
+  if(typeof addChat === "function"){
+    addChat("Sistema","🔥 A batalha começou! 60 segundos para reclamar com convicção.");
+  }
+
+  panel && panel.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function updateBattleTimer(){
+  const t = document.getElementById("battleTimer");
+  if(t) t.textContent = String(Math.max(0,battleSecondsLeft));
+}
+
+function finishLiveBattle(){
+  const panel = document.getElementById("battleLivePanel");
+  if(typeof addChat === "function"){
+    addChat("Sistema","⏱️ Tempo esgotado! O júri sarcástico vai decidir o vencedor.");
+  }
+  if(panel){
+    const badge = panel.querySelector(".live-badge");
+    if(badge) badge.innerHTML = "🏁 Batalha terminada";
+  }
+}
+
+function voteBattle(side){
+  const name = side === "a" ? "Reclamante A" : "Reclamante B";
+  if(typeof addChat === "function"){
+    addChat("Tu",`Votei no ${name}`);
+  }
+  if(typeof sfx === "function") sfx("pop");
+}
+
+function sendQuickReaction(emoji){
+  if(typeof floatingEmoji === "function") floatingEmoji(emoji);
+  if(typeof addChat === "function") addChat("Tu",`${emoji} reação enviada`);
+}
+</script>
+
 </body>
 </html>
