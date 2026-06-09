@@ -103,7 +103,7 @@
             </button>
         </div>
         <div class="flex items-center space-x-3">
-            <div id="user-points-badge" class="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full flex items-center space-x-1.5 cursor-pointer hover:bg-amber-500/20 transition-all" onclick="userCoins += 500; document.getElementById('user-coins').textContent = userCoins.toLocaleString(); showCustomNotification('Moedas Adicionadas!', '+500 moedas virtuais de bónus.', 'success')">
+            <div id="user-points-badge" class="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full flex items-center space-x-1.5 cursor-pointer hover:bg-amber-500/20 transition-all" onclick="userCoins += 500; document.getElementById('user-coins').textContent = userCoins.toLocaleString(); showCustomNotification('Moedas Adicionadas!', '+500 moedas virtuais de bônus.', 'success')">
                 <i class="fa-solid fa-coins text-amber-400"></i>
                 <span id="user-coins" class="text-amber-300 font-bold text-sm">1,500</span>
             </div>
@@ -264,7 +264,7 @@
                         <div class="max-w-md w-full bg-[#18100e]/90 border border-orange-900/40 p-8 rounded-3xl shadow-2xl space-y-6">
                             <div class="relative flex justify-center">
                                 <div class="w-20 h-20 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center text-4xl animate-bounce">
-                                    💩
+                                    👑
                                 </div>
                                 <span class="absolute -top-3 text-xs font-black bg-amber-500 text-black px-3 py-0.5 rounded-full uppercase tracking-wider">Mestre do Improviso</span>
                             </div>
@@ -378,7 +378,7 @@
             </div>
         </section>
 
-        <!-- ================= ABA 2: TEMAS ABSURDOS & SORTEADOR (NOVO!) ================= -->
+        <!-- ================= ABA 2: TEMAS ABSURDOS & SORTEADOR ================= -->
         <section id="view-absurd-themes" class="view-section hidden space-y-8">
             <div class="text-center max-w-xl mx-auto">
                 <span class="bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs font-black uppercase px-3 py-1 rounded-full tracking-widest inline-block mb-3">
@@ -404,7 +404,7 @@
 
                     <!-- Display de Seleção com Estilo Slot Machine -->
                     <div class="bg-black/80 border border-orange-950 p-6 rounded-2xl flex flex-col items-center justify-center min-h-[160px] relative">
-                        <div id="slot-display" class="space-y-2 text-center">
+                        <div id="slot-display" class="space-y-2 text-center w-full px-4">
                             <span class="text-5xl" id="slot-emoji">🎲</span>
                             <h4 class="text-2xl font-black text-white mt-2" id="slot-title">Pronto para Jogar?</h4>
                             <p class="text-xs text-orange-300/70" id="slot-subtitle">Clica no botão abaixo para sortear um tema oficial.</p>
@@ -635,208 +635,127 @@
     </nav>
 
     <script>
-        // Banco de Dados Oficial dos 10 Temas Absurdos
+        // Banco de Dados Oficial de 100 Temas Absurdos do SHITAGRAM™
         const absurdThemes = [
-            {
-                id: 'torrada',
-                emoji: '🍞',
-                title: "A Torrada Traidora",
-                mission: "Convencer a audiência que uma torrada declarou guerra ao queijo.",
-                bonus: "+500 se mencionares \"crime gastronómico\".",
-                bonusTerm: "crime gastronómico",
-                bonusVal: 500,
-                category: "Batalha Gourmet",
-                leftRival: {
-                    name: "Torrada Torrada",
-                    desc: "Teve uma infância difícil na torradeira de resistência exposta.",
-                    img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Queijo Limiano",
-                    desc: "Aromatizado e arrogante, não admite ser fatiado por pão duro.",
-                    img: "https://images.unsplash.com/photo-1552763481-b59ec9d51834?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'comando',
-                emoji: '📺',
-                title: "Comando Deprimido",
-                mission: "Provar que o comando da TV precisa de terapia urgente por desgaste existencial.",
-                bonus: "+300 por cada série arruinada.",
-                bonusTerm: "série arruinada",
-                bonusVal: 300,
-                category: "Drama Doméstico",
-                leftRival: {
-                    name: "Comando Antigo",
-                    desc: "Gasto, sem tampas das pilhas, preso por fita-cola e cansado de reality shows.",
-                    img: "https://images.unsplash.com/photo-1595935736128-db120a279851?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Netflix Sôfrego",
-                    desc: "Algoritmo impiedoso que força o utilizador a maratonar séries medíocres.",
-                    img: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'chinelo',
-                emoji: '🩴',
-                title: "Chinelo Fugitivo",
-                mission: "Encontrar o chinelo desaparecido e justificar a sua fuga em busca de liberdade.",
-                bonus: "+700 se culpares o sofá.",
-                bonusTerm: "sofá",
-                bonusVal: 700,
-                category: "Investigação Absurda",
-                leftRival: {
-                    name: "Chinelo Esquerdo",
-                    desc: "Abandonado na divisão mais escura, cansado de carregar o peso do corpo.",
-                    img: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Monstro do Sofá",
-                    desc: "Entidade milenar que vive de engolir moedas, chaves e calçado doméstico.",
-                    img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'meias',
-                emoji: '🧦',
-                title: "Seita das Meias",
-                mission: "Acusar a máquina de lavar roupa de tráfico internacional de meias órfãs.",
-                bonus: "+1000 por teoria da conspiração.",
-                bonusTerm: "conspiração",
-                bonusVal: 1000,
-                category: "Teoria da Conspiração",
-                leftRival: {
-                    name: "Meia Órfã",
-                    desc: "Procura o seu par desde a lavagem de Outubro de 2024. Perdeu a fé no amaciador.",
-                    img: "https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Máquina Centrifugadora",
-                    desc: "Roda a 1200 RPM enquanto envia secretamente algodão para outra dimensão.",
-                    img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'cafe',
-                emoji: '☕',
-                title: "Café Arrogante",
-                mission: "Demonstrar que o café expresso tem um complexo de superioridade intolerável.",
-                bonus: "+500 por insulto elegante ao café.",
-                bonusTerm: "insulto elegante",
-                bonusVal: 500,
-                category: "Conflito Social",
-                leftRival: {
-                    name: "Expresso Premium",
-                    desc: "Nascido em montanhas vulcânicas, recusa-se a ser misturado com açúcar de pacote.",
-                    img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Copo de Água Torneira",
-                    desc: "A humilde bebida de acompanhamento que aguenta o choque térmico sem reclamar.",
-                    img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'cabelo',
-                emoji: '💇',
-                title: "Revolução Capilar",
-                mission: "Processar o teu próprio cabelo por insubordinação civil ao acordar.",
-                bonus: "+800 se o cabelo criar um mapa.",
-                bonusTerm: "mapa",
-                bonusVal: 800,
-                category: "Tribunal Doméstico",
-                leftRival: {
-                    name: "Cabelo Rebelde",
-                    desc: "Desafia a gravidade e qualquer pente que tente repor a ordem pública.",
-                    img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Pente Desdentado",
-                    desc: "Sobrevivente de nós terríveis, clama pela aplicação urgente de amaciador de coco.",
-                    img: "https://images.unsplash.com/photo-1590156546746-c2240290075b?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'cadeira',
-                emoji: '🪑',
-                title: "Cadeira Assassina",
-                mission: "Defender com provas absolutas que a cadeira de escritório tentou eliminar-te ativamente.",
-                bonus: "+1000 por dramatização exagerada.",
-                bonusTerm: "dramatização",
-                bonusVal: 1000,
-                category: "Luta pela Sobrevivência",
-                leftRival: {
-                    name: "Cadeira Ergonómica",
-                    desc: "Ajusta-se de forma suspeita e estala em frequências que simulam o código Morse.",
-                    img: "https://images.unsplash.com/photo-1505797149-43b0069ec26b?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Coluna do Gamer",
-                    desc: "Curvada em ângulo reto após 14 horas de jogo contínuo.",
-                    img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'frigorifico',
-                emoji: '🥶',
-                title: "Frigorífico Sindicalista",
-                mission: "Negociar novas condições com o teu frigorífico em greve de refrigeração.",
-                bonus: "+600 por discurso sindical.",
-                bonusTerm: "sindical",
-                bonusVal: 600,
-                category: "Greve Doméstica",
-                leftRival: {
-                    name: "Frigorífico No-Frost",
-                    desc: "Cansado de ser aberto de 10 em 10 minutos sem que nada mude no seu interior.",
-                    img: "https://images.unsplash.com/photo-1571175482282-4b37d0f28218?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Dono Esfomeado",
-                    desc: "Procura comida reconfortante às 3 da manhã, mas só encontra feijões secos.",
-                    img: "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'wifi',
-                emoji: '📶',
-                title: "Wi-Fi Rebelde",
-                mission: "Provar que o router do restaurante te odeia e só dá boa ligação a desconhecidos.",
-                bonus: "+900 se o router tiver redes sociais.",
-                bonusTerm: "redes sociais",
-                bonusVal: 900,
-                category: "Cibernética",
-                leftRival: {
-                    name: "Router Enraivecido",
-                    desc: "Aquece de propósito e desliga nos momentos cruciais de videochamadas.",
-                    img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Telemóvel Sem Dados",
-                    desc: "Preso à barra de sinal fictícia que promete velocidade mas só entrega desespero.",
-                    img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=400"
-                }
-            },
-            {
-                id: 'clima',
-                emoji: '🌧️',
-                title: "Bullying Meteorológico",
-                mission: "Processar judicialmente o clima por perseguição emocional e chuva seletiva.",
-                bonus: "+700 por testemunhas meteorológicas.",
-                bonusTerm: "testemunhas",
-                bonusVal: 700,
-                category: "Litígio Natural",
-                leftRival: {
-                    name: "Nuvem de Estimação",
-                    desc: "Segue o utilizador no momento exato em que ele estende a roupa no estendal.",
-                    img: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&q=80&w=400"
-                },
-                rightRival: {
-                    name: "Meteorologista",
-                    desc: "Diz que vai estar sol radioso enquanto segura um guarda-chuva rasgado.",
-                    img: "https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?auto=format&fit=crop&q=80&w=400"
-                }
-            }
+            // 1-10 (Comida & Restaurante)
+            { id: 'hamburguer-traidor', emoji: '🍔', title: "O Hambúrguer Traidor", mission: "No dia 09/06/2026, o hambúrguer saltou do pão como um paraquedista bêbado e aterrou nas calças brancas novas. As batatas fritas eram cúmplices.", bonus: "+500 se mencionares \"crime gastronómico\".", bonusTerm: "crime gastronómico", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'batatas-frias', emoji: '🍟', title: "As Batatas Fritas Geladas", mission: "Provar que as batatas frias têm a mesma temperatura e frieza emocional que a tua pior relação passada.", bonus: "+300 se mencionares \"pedra de gelo\".", bonusTerm: "pedra de gelo", bonusVal: 300, category: "Batalha Gourmet" },
+            { id: 'cadeira-restaurante', emoji: '🪑', title: "A Cadeira Traiçoeira", mission: "A cadeira soltou um prego estratégico para atacar o teu bumbum. Exige cirurgia estética gratuita e indemnização.", bonus: "+1000 por \"dramatização exagerada\".", bonusTerm: "dramatização", bonusVal: 1000, category: "Batalha Gourmet" },
+            { id: 'iogurte-morango', emoji: '🥛', title: "O Iogurte Suicida", mission: "Provar que o iogurte se atirou voluntariamente e com intenções dramáticas para manchar o sofá novo.", bonus: "+500 por descrever a \"trajetória da queda\".", bonusTerm: "trajetória da queda", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'maquina-cafe', emoji: '☕', title: "A Máquina Ditadora", mission: "A máquina recusou fazer expressos, cuspiu água quente e autoproclamou-se imperadora da bancada da cozinha.", bonus: "+500 por \"insulto elegante\".", bonusTerm: "insulto elegante", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'arroz-doce', emoji: '🍚', title: "O Arroz Doce Fugitivo", mission: "O arroz doce desapareceu do prato e foi encontrado debaixo da mesa rindo-se e gozando com a tua cara.", bonus: "+400 se clamares por \"abandono afetivo\".", bonusTerm: "abandono afetivo", bonusVal: 400, category: "Batalha Gourmet" },
+            { id: 'salada-greve', emoji: '🥗', title: "A Salada em Revolta", mission: "A alface e os tomates criaram uma frente de resistência ecológica no prato e recusam-se a cooperar.", bonus: "+500 por falar em \"ditadura do garfo\".", bonusTerm: "ditadura do garfo", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'vinho-casa', emoji: '🍷', title: "O Vinho Existencialista", mission: "O vinho questionou o seu próprio aroma e recusa-se a descer pela garganta sem terapia ou consulta prévia.", bonus: "+600 por simular \"choro de uva\".", bonusTerm: "choro de uva", bonusVal: 600, category: "Batalha Gourmet" },
+            { id: 'francesinhas-guerra', emoji: '🥪', title: "Francesinhas Belicistas", mission: "A francesinha aliou-se ao molho picante para realizar manobras militares invasivas nas tuas entranhas gastricas.", bonus: "+700 se pedires \"apoio da Cruz Vermelha\".", bonusTerm: "Cruz Vermelha", bonusVal: 700, category: "Batalha Gourmet" },
+            { id: 'pastel-nata', emoji: '🥧', title: "O Pastel de Nata Sufocado", mission: "O pastel de nata conspirou contra ti, cobrindo-te com uma tempestade de areia de canela em pó.", bonus: "+400 se gritares \"assalto perfumado\".", bonusTerm: "assalto perfumado", bonusVal: 400, category: "Batalha Gourmet" },
+            
+            // 11-20 (Eletrodomésticos Rebeldes)
+            { id: 'comando-deprimido', emoji: '📺', title: "O Comando Deprimido", mission: "Provar que o comando da TV parou de funcionar de propósito no momento chave do episódio por pura apatia existencial.", bonus: "+300 por cada \"série arruinada\".", bonusTerm: "série arruinada", bonusVal: 300, category: "Eletrodomésticos Rebeldes" },
+            { id: 'chinelo-desaparecido', emoji: '🩴', title: "O Chinelo Fugitivo", mission: "Encontrar o chinelo esquerdo que desapareceu de casa e justificar a sua fuga em busca de verdadeira liberdade.", bonus: "+700 se culpares o \"sofá\".", bonusTerm: "sofá", bonusVal: 700, category: "Eletrodomésticos Rebeldes" },
+            { id: 'meia-seita', emoji: '🧦', title: "A Seita das Meias", mission: "Acusar a máquina de lavar de criar um portal místico para o mercado negro de meias órfãs e solteiras.", bonus: "+1000 por \"teoria da conspiração\".", bonusTerm: "conspiração", bonusVal: 1000, category: "Eletrodomésticos Rebeldes" },
+            { id: 'frigorifico-greve', emoji: '🥶', title: "O Frigorífico Sindicalista", mission: "Negociar novos acordos coletivos com um frigorífico que parou de arrefecer os iogurtes em forma de protesto.", bonus: "+600 por \"discurso sindical\".", bonusTerm: "sindical", bonusVal: 600, category: "Eletrodomésticos Rebeldes" },
+            { id: 'wifi-independente', emoji: '📶', title: "O Wi-Fi Rebelde", mission: "O router do restaurante declarou independência do sinal e agora só distribui megas de alta velocidade a estranhos.", bonus: "+900 se o router tiver \"redes sociais\".", bonusTerm: "redes sociais", bonusVal: 900, category: "Eletrodomésticos Rebeldes" },
+            { id: 'sofá-depressao', emoji: '🛋️', title: "O Sofá Deprimido", mission: "O sofá recusa-se a voltar a ser confortável após sofrer o derrame dramático do iogurte de morango assassino.", bonus: "+500 por pedires \"terapia de espuma\".", bonusTerm: "terapia de espuma", bonusVal: 500, category: "Eletrodomésticos Rebeldes" },
+            { id: 'lampada-morse', emoji: '💡', title: "A Lâmpada do Morse", mission: "A lâmpada da sala de estar pisca insultos constantes à tua inteligência em código morse durante a noite.", bonus: "+500 se souberes \"traduzir\".", bonusTerm: "traduzir", bonusVal: 500, category: "Eletrodomésticos Rebeldes" },
+            { id: 'aspirador-revolucao', emoji: '🧹', title: "O Aspirador Rebelde", mission: "O aspirador robô recusa-se a aspirar o corredor e exige ser tratado como um animal de estimação de raça.", bonus: "+400 se limpares com a \"vassoura\".", bonusTerm: "vassoura", bonusVal: 400, category: "Eletrodomésticos Rebeldes" },
+            { id: 'microondas-explosivo', emoji: '🔥', title: "O Microondas Irado", mission: "O aparelho explode a caneca de café mas mantém o líquido gelado, agindo puramente por sadismo.", bonus: "+400 se gritares \"fisica quântica\".", bonusTerm: "fisica quântica", bonusVal: 400, category: "Eletrodomésticos Rebeldes" },
+            { id: 'ferro-queimador', emoji: '👕', title: "O Ferro Vingativo", mission: "O ferro de engomar decidiu desenhar formas de protesto abstrato queimando as tuas melhores camisas de gala.", bonus: "+600 se culpares o \"vapor\".", bonusTerm: "vapor", bonusVal: 600, category: "Eletrodomésticos Rebeldes" },
+
+            // 21-30 (Vida Quotidiana em Queluz)
+            { id: 'clima-bullying', emoji: '🌧️', title: "Bullying Meteorológico", mission: "Processar o tempo por perseguição emocional, descarregando chuva apenas quando decides estender a roupa.", bonus: "+700 por \"testemunhas\" meteorológicas.", bonusTerm: "testemunhas", bonusVal: 700, category: "Vida Quotidiana em Queluz" },
+            { id: 'revolta-pequenos', emoji: '👶', title: "A Revolta dos Pequenos", mission: "Os teus filhos pequenos organizaram um motim armado com colheres contra a imposição autoritária dos legumes cozidos.", bonus: "+500 se subornares com \"iogurte\".", bonusTerm: "iogurte", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'cabelo-greve', emoji: '💇', title: "Revolução Capilar", mission: "Processar o teu próprio cabelo por insubordinação matinal, criando remoinhos em forma de mapa de Portugal.", bonus: "+800 se o cabelo criar um \"mapa\".", bonusTerm: "mapa", bonusVal: 800, category: "Vida Quotidiana em Queluz" },
+            { id: 'glovo-atitude', emoji: '🛵', title: "O Glovo do Ego Ferido", mission: "O estafeta trouxe a comida virada ao contrário e entregou-te um sermão de filosofia existencial barata.", bonus: "+400 se exigires \"gorjeta negativa\".", bonusTerm: "gorjeta negativa", bonusVal: 400, category: "Vida Quotidiana em Queluz" },
+            { id: 'carro-ciumento', emoji: '🚗', title: "O Carro Ciumento", mission: "O carro recusa-se a arrancar a menos que prometas não estacioná-lo perto de carros desportivos alemães.", bonus: "+500 por confessares \"amor a gasóleo\".", bonusTerm: "amor a gasóleo", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'telemovel-grevista', emoji: '📱', title: "O Smartphone Cansado", mission: "O teu telemóvel entrou em modo de suspensão aleatória alegando cansaço crónico de ler notificações inúteis.", bonus: "+600 por simular \"ecrã preto\".", bonusTerm: "ecrã preto", bonusVal: 600, category: "Vida Quotidiana em Queluz" },
+            { id: 'chuva-sintra', emoji: '⛰️', title: "A Chuva Invasora", mission: "A mística e gélida chuva da serra infiltrou-se cirurgicamente pelas tuas botas até molhar os teus chinelos.", bonus: "+500 se o vento cantar \"fado\".", bonusTerm: "fado", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'sol-goza', emoji: '☀️', title: "O Sol Sarcástico", mission: "O sol espreita pelas nuvens no segundo exato em que guardas os óculos escuros na mochila, rindo da tua cara.", bonus: "+400 por simular \"suor na testa\".", bonusTerm: "suor na testa", bonusVal: 400, category: "Vida Quotidiana em Queluz" },
+            { id: 'sapatos-desmemoriados', emoji: '👟', title: "Sapatos Sem Memória", mission: "Os sapatos novos apertam o calcanhar simulando dentes de piranha, esquecendo como andar de forma normal.", bonus: "+500 por clamar \"falta de massagem\".", bonusTerm: "falta de massagem", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'fatura-superioridade', emoji: '🧾', title: "Fatura com Complexo", mission: "A fatura da luz veio com um tom tão arrogante que parece que fomos nós a consumir eletricidade num palácio.", bonus: "+600 se culpares a \"máquina de lavar\".", bonusTerm: "máquina de lavar", bonusVal: 600, category: "Vida Quotidiana em Queluz" },
+
+            // 31-40 (Absurdo Doméstico)
+            { id: 'sombra-fugitiva', emoji: '👤', title: "A Sombra Desertora", mission: "A tua sombra tentou descolar-se dos teus pés para fugir para a praia porque achou o teu dia-a-dia monótono.", bonus: "+500 se usares \"fita-cola\".", bonusTerm: "fita-cola", bonusVal: 500, category: "Absurdo Doméstico" },
+            { id: 'espelho-ofensivo', emoji: '🪞', title: "O Espelho do Mal", mission: "O espelho do quarto insultou o teu penteado matinal e sugeriu que voltasses a deitar-te para poupar a vista das pessoas.", bonus: "+600 se espirrares \"pasta de dentes\".", bonusTerm: "pasta de dentes", bonusVal: 600, category: "Absurdo Doméstico" },
+            { id: 'gravata-vingadora', emoji: '👔', title: "A Gravata Vingativa", mission: "A gravata do fato tentou fazer-te um mata-leão durante a reunião de departamento para protestar contra o colarinho.", bonus: "+400 se culpares o \"nó Windsor\".", bonusTerm: "nó Windsor", bonusVal: 400, category: "Absurdo Doméstico" },
+            { id: 'relogio-humilhador', emoji: '⏰', title: "O Relógio Humilhador", mission: "O despertador parou misteriosamente de funcionar só para te fazer chegar 1 hora atrasado e gozar com o teu stress.", bonus: "+500 por imitares um \"cuco\".", bonusTerm: "cuco", bonusVal: 500, category: "Absurdo Doméstico" },
+            { id: 'caneta-cobarde', emoji: '🖊️', title: "A Caneta Sabotadora", mission: "A caneta recusa-se a assinar documentos sérios de cobrança, mas desenha bonecos perfeitos na margem dos cadernos.", bonus: "+400 se chorar \"tinta preta\".", bonusTerm: "tinta preta", bonusVal: 400, category: "Absurdo Doméstico" },
+            { id: 'papel-higienico', emoji: '🧻', title: "Papel Higiénico Rebelde", mission: "O rolo acabou precisamente a meio do serviço e declarou greve de fornecimento de celulose.", bonus: "+600 por simular \"gritar por socorro\".", bonusTerm: "gritar por socorro", bonusVal: 600, category: "Absurdo Doméstico" },
+            { id: 'elevador-bullying', emoji: '🛗', title: "O Elevador Sádico", mission: "O elevador para entre andares apenas para te submeter a música de sala de espera foleira e ruídos mecânicos suspeitos.", bonus: "+500 por clamar \"ataque de claustrofobia\".", bonusTerm: "claustrofobia", bonusVal: 500, category: "Absurdo Doméstico" },
+            { id: 'nuvem-cuspideira', emoji: '☁️', title: "A Nuvem Cuspidora", mission: "Uma pequena nuvem preta persegue-te pela rua e descarrega pingos grossos exclusivamente na tua cabeça calva.", bonus: "+700 se fingires abrir um \"guarda-chuva\".", bonusTerm: "guarda-chuva", bonusVal: 700, category: "Absurdo Doméstico" },
+            { id: 'passaro-disstrack', emoji: '🐦', title: "O Pássaro do Diss", mission: "Um melro acorda-te às 5h da manhã com assobios ritmados que soam suspeitosamente a um insulto focado na tua pessoa.", bonus: "+400 se atirares um \"chinelo\".", bonusTerm: "chinelo", bonusVal: 400, category: "Absurdo Doméstico" },
+            { id: 'aspirador-esperancas', emoji: '🗑️', title: "Aspirador de Sonhos", mission: "O aspirador engasgou-se com uma moeda de 2 cêntimos e recusa-se a engolir as tuas esperanças de ter uma casa limpa.", bonus: "+500 se disseres \"filtro entupido\".", bonusTerm: "filtro entupido", bonusVal: 500, category: "Absurdo Doméstico" },
+
+            // 41-50 (Cotidiano Absurdo)
+            { id: 'sorte-ferias', emoji: '🍀', title: "A Sorte de Férias", mission: "A tua boa sorte comprou uma viagem de ida para as Bahamas e deixou-te a lidar com o azar e as faturas pendentes.", bonus: "+500 por \"choro dramático\".", bonusTerm: "choro dramático", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'karma-fatura', emoji: '☯️', title: "A Fatura do Karma", mission: "O Karma enviou-te uma cobrança com juros por teres roubado um lápis de cor na escola primária em 1998.", bonus: "+600 se alegares \"prescrição\".", bonusTerm: "prescrição", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'destino-troll', emoji: '🔮', title: "O Destino Faz Trol", mission: "Provar que o fio invisível do destino está embaraçado com pastilha elástica de morango debaixo da tua secretária.", bonus: "+500 por descreveres um \"nó cego\".", bonusTerm: "nó cego", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'universo-piada', emoji: '🌌', title: "A Piada do Universo", mission: "O cosmos conspirou para alinhar todos os planetas na constelação de 'azar supremo' focado no teu almoço.", bonus: "+500 por pedir \"trégua cósmica\".", bonusTerm: "trégua cósmica", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'azar-vip', emoji: '🎫', title: "O Azar em Primeira Classe", mission: "O azar instalou-se na tua vida com tratamento VIP e recusa-se a fazer o checkout do teu quarto de hóspedes.", bonus: "+700 se usares \"sal grosso\".", bonusTerm: "sal grosso", bonusVal: 700, category: "Cotidiano Absurdo" },
+            { id: 'sonho-processo', emoji: '💤', title: "O Sonho Vingativo", mission: "O pesadelo de ontem à noite contratou um advogado do subconsciente e quer processar-te por o tentares acordar.", bonus: "+600 por referires o \"Freud\".", bonusTerm: "Freud", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'realidade-bugada', emoji: '👾', title: "A Realidade deu Bug", mission: "O motor de renderização do teu dia-a-dia falhou e agora as maçanetas das portas estão no teto. Pede um reload.", bonus: "+500 se disseres \"Ctrl+Z\".", bonusTerm: "Ctrl+Z", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'multiverso-pior', emoji: '🌀', title: "O Pior do Multiverso", mission: "O portal interdimensional abriu-se e cuspiu uma versão tua que é excelente a lavar pratos, deixando-te a sentir inútil.", bonus: "+600 por \"inveja quântica\".", bonusTerm: "inveja quântica", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'tempo-viajante', emoji: '⏳', title: "O Tempo Gozador", mission: "O tempo passa a voar quando estás no descanso do almoço, mas abranda até parar quando estás na fila das finanças.", bonus: "+600 por simular um \"bocejo\".", bonusTerm: "bocejo", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'gravidade-seletiva', emoji: '🍎', title: "Gravidade Vingativa", mission: "A gravidade só funciona a 150% de intensidade quando seguras no teu telemóvel novo por cima de calçada portuguesa.", bonus: "+500 se culpares o \"Isaac Newton\".", bonusTerm: "Isaac Newton", bonusVal: 500, category: "Cotidiano Absurdo" },
+
+            // 51-60 (Tecnologia & Apps)
+            { id: 'algoritmo-odio', emoji: '📸', title: "O Algoritmo Malvado", mission: "O algoritmo do Instagram decidiu boicotar as fotos do teu prato de massa apenas porque a alface tinha melhor aspeto.", bonus: "+500 por pedires \"boost manual\".", bonusTerm: "boost manual", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'tiktok-boicote', emoji: '🎵', title: "O TikTok Escuro", mission: "O teu vídeo de humor foi enviado para o limbo das visualizações zero porque usaste uma meia com buraco no cenário.", bonus: "+500 por referires a \"fama fracassada\".", bonusTerm: "fama fracassada", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'whatsapp-rebelde', emoji: '💬', title: "O WhatsApp Insurgente", mission: "As mensagens dos clientes chegam atrasadas e misturam letras de forma a que pareças estar a falar em húngaro antigo.", bonus: "+600 por clamar \"bug de escrita\".", bonusTerm: "bug de escrita", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'ementa-digital', emoji: '📋', title: "A Ementa Teimosa", mission: "O QR Code da ementa direciona os clientes para uma página de adoção de hamsters em vez do menu de almoço.", bonus: "+500 se pedires \"ementa física\".", bonusTerm: "ementa física", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'login-existencial', emoji: '🔐', title: "O Botão de Login Triste", mission: "O botão de entrada no sistema recusa os teus dados dizendo que não te sente com 'energia positiva' suficiente hoje.", bonus: "+600 por simular \"falha de ligação\".", bonusTerm: "falha de ligação", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'algoritmo-fantasma', emoji: '👻', title: "O IP Fantasma", mission: "O sistema de inteligência artificial decidiu que a tua cara é idêntica à de um foragido que roubou pastilhas de hortelã.", bonus: "+600 por \"erro facial\".", bonusTerm: "erro facial", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'senha-fiel', emoji: '🔑', title: "A Senha Traidora", mission: "A tua palavra-passe habitual decidiu esquecer-se de ti alegando que andas a escrever senhas mais fáceis noutras apps.", bonus: "+500 por clamar \"ciúmes de código\".", bonusTerm: "ciúmes de código", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'wifi-descriminador', emoji: '📡', title: "O IP Descriminado", mission: "O Wi-Fi da sala de reuniões concede 5G ao teu chefe mas bloqueia o teu telemóvel por suspeita de rebeldia digital.", bonus: "+500 por referires o \"antivírus\".", bonusTerm: "antivírus", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'codigo-malicioso', emoji: '💻', title: "O Bug Maldoso", mission: "O teu código em Javascript deu erro na linha 42 apenas para protestar contra a cor de fundo cinzenta do teu editor.", bonus: "+600 por pedires um \"debug emocional\".", bonusTerm: "debug", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'servidor-sindical', emoji: '🖥️', title: "O Servidor em Greve", mission: "O servidor de base de dados recusa-se a guardar as faturas alegando sobrecarga térmica e falta de ventilação digna.", bonus: "+600 por \"refrigeração\".", bonusTerm: "refrigeração", bonusVal: 600, category: "Tecnologia & Apps" },
+
+            // 61-70 (Restaurante FRAN)
+            { id: 'reviews-injustas', emoji: '⭐', title: "O Review Vingativo", mission: "O restaurante FRAN recebeu 1 estrela no Google porque o cliente sonhou que a sopa tinha demasiada cebola.", bonus: "+500 por \"resposta estratégica\".", bonusTerm: "resposta estratégica", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'decoracao-crise', emoji: '🖼️', title: "Decoração Deprimida", mission: "Os quadros da sala de jantar parecem estar de ressaca e decidiram ficar tortos mesmo depois de alinhados a prumo.", bonus: "+500 por pedires \"renovação\".", bonusTerm: "renovação", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'menu-guerra', emoji: '🍲', title: "O Menu do Dia Bélico", mission: "A ementa do dia conspirou contra os clientes e baralhou os acompanhamentos de forma a cruzar peixe com chocolate.", bonus: "+500 por \"crime de culinária\".", bonusTerm: "crime", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'musica-hipnose', emoji: '🎵', title: "A Playlist Misteriosa", mission: "A música ambiente começou a passar ruído de baleias de forma a adormecer os clientes antes de pedirem a sobremesa.", bonus: "+600 por \"hipnose\".", bonusTerm: "hipnose", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'cheiro-vizinho', emoji: '👃', title: "O Aroma Fugitivo", mission: "O maravilhoso aroma a assado decidiu escapar do exaustor direto para a varanda do vizinho que está em dieta severa.", bonus: "+500 por \"exaustor\".", bonusTerm: "exaustor", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'mesa5-manca', emoji: '🪑', title: "A Mesa 5 Manca", mission: "A perna da mesa 5 encolhe sempre que o cliente pousa o copo de vinho, criando mini tsunamis de tinto.", bonus: "+600 por \"nivelamento\".", bonusTerm: "nivelamento", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'prato-traidor', emoji: '🍛', title: "O Prato Prometido", mission: "O bife da casa não se parece em nada com a foto fotorrealista da ementa e até parece estar a tentar esconder-se do garfo.", bonus: "+600 se disseres \"versão reduzida\".", bonusTerm: "versão", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'caixa-rebelde', emoji: '💳', title: "O Multibanco Mimado", mission: "O terminal de pagamento rejeita cartões se o cliente não carregar no botão verde com carinho e suavidade.", bonus: "+500 por pedir \"sistema amigável\".", bonusTerm: "amigável", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'ar-partidario', emoji: '❄️', title: "O Ar Condicionado Faccioso", mission: "O ar condicionado gela a mesa 2 até parecer o Alasca, mas ferve a mesa 4 até ao ponto de ebulição da sopa.", bonus: "+600 por \"clima bipolar\".", bonusTerm: "clima bipolar", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'banheiro-independente', emoji: '🚽', title: "OWC Rebelde", mission: "O fecho da porta do banheiro decidiu trancar o cliente por dentro até este cantar o hino nacional por inteiro.", bonus: "+700 se clamares por \"manutenção\".", bonusTerm: "manutenção", bonusVal: 700, category: "Restaurante FRAN" },
+
+            // 71-80 (Família & Casa)
+            { id: 'brinquedos-revolucao', emoji: '🧸', title: "A Revolução do Quarto", mission: "Os brinquedos dos teus filhos espalharam-se estrategicamente pela sala a meio da noite para te atacarem os calcanhares.", bonus: "+500 por \"ordem familiar\".", bonusTerm: "ordem familiar", bonusVal: 500, category: "Família & Casa" },
+            { id: 'ultimo-iogurte', emoji: '🍧', title: "A Guerra do Iogurte", mission: "A disputa diplomática e violenta com a tua cara-metade para decidir quem tem direito real sobre o último iogurte de baunilha.", bonus: "+600 se aumentares o \"stock\".", bonusTerm: "stock", bonusVal: 600, category: "Família & Casa" },
+            { id: 'caos-cozinha', emoji: '🍳', title: "O Caos da Cozinha", mission: "A bancada transformou-se numa selva de panelas sujas e o detergente declarou-se neutro no conflito.", bonus: "+500 por \"aliança de limpeza\".", bonusTerm: "aliança", bonusVal: 500, category: "Família & Casa" },
+            { id: 'sofa-batalha', emoji: '🛋️', title: "O Trono de Veludo", mission: "A disputa pelo melhor lugar do sofá, onde o cão da casa já se instalou de forma legal e recusa-se a sair.", bonus: "+600 se comprares um \"sofá maior\".", bonusTerm: "sofá", bonusVal: 600, category: "Família & Casa" },
+            { id: 'pequenos-legumes', emoji: '🥦', title: "Guerra dos Brócolos", mission: "Os teus filhos acusam a sopa de brócolos de ser um crime contra a humanidade e exigem nuggets de compensação.", bonus: "+500 por \"truques criativos\".", bonusTerm: "truques", bonusVal: 500, category: "Família & Casa" },
+            { id: 'roupa-suja', emoji: '🧺', title: "A Pilha Revolucionária", mission: "O cesto da roupa suja acumulou tanta roupa que agora tem gravidade própria e atrai camisas lavadas do roupeiro.", bonus: "+600 se alegares \"falta de paciência\".", bonusTerm: "paciência", bonusVal: 600, category: "Família & Casa" },
+            { id: 'horario-rebelde', emoji: '💤', title: "O Sono Fugitivo", mission: "Os miúdos recusam ir para a cama e organizaram uma rave de pijama e almofadas no corredor às 23h.", bonus: "+600 por \"estratégia de sono\".", bonusTerm: "sono", bonusVal: 600, category: "Família & Casa" },
+            { id: 'banho-opera', emoji: '🛁', title: "O Banho Dramático", mission: "A hora de dar banho aos pequenos transforma-se numa ópera trágica italiana com choro, gritos e inundação do chão.", bonus: "+500 por \"paciência extra\".", bonusTerm: "paciência extra", bonusVal: 500, category: "Família & Casa" },
+            { id: 'carrinho-rebelde', emoji: '🛒', title: "O Carrinho Manco", mission: "O carrinho de compras do supermercado desvia-se para a secção de chocolates mesmo quando tentas ir aos vegetais.", bonus: "+600 por clamar \"carrinho leal\".", bonusTerm: "carrinho", bonusVal: 600, category: "Família & Casa" },
+            { id: 'lista-greve', emoji: '📝', title: "A Lista de Compras Vazia", mission: "Esqueceste-te da lista em cima da mesa e compraste apenas batatas fritas e gomas em vez do jantar da semana.", bonus: "+500 por \"motivação cósmica\".", bonusTerm: "motivação", bonusVal: 500, category: "Família & Casa" },
+
+            // 81-90 (Surreal & Épico)
+            { id: 'lua-sarcástica', emoji: '🌙', title: "A Lua Gozona", mission: "A lua cheia parecia brilhar intensamente pela janela do quarto apenas para destacar as tuas olheiras monumentais.", bonus: "+500 por \"lua simpática\".", bonusTerm: "lua", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'vento-humor', emoji: '💨', title: "O Vento Ladrão", mission: "Uma rajada de vento forte roubou o teu bom humor e o teu chapéu de chuva, deixando-te a falar sozinho na rua.", bonus: "+600 por \"calma atmosférica\".", bonusTerm: "calma", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'eco-restaurante', emoji: '🗣️', title: "O Eco Traidor", mission: "O eco do restaurante repete os teus segredos de conversa íntima com um volume ligeiramente superior ao original.", bonus: "+500 por \"silêncio sábio\".", bonusTerm: "silêncio", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'fantasma-aumento', emoji: '👻', title: "O Fantasma Inflacionado", mission: "O fantasma que assombra a cave do restaurante exige receber um salário em moedas de chocolate para parar de bater portas.", bonus: "+600 se cederes ao \"aumento\".", bonusTerm: "aumento", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'gravidade-equilibrio', emoji: '⚖️', title: "Gravidade Seletiva", mission: "A física de Newton decidiu que o teu prato deve cair no segundo em que dizes que tens tudo sob controlo absoluto.", bonus: "+600 por \"gravidade neutra\".", bonusTerm: "gravidade", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'tempo-congelado', emoji: '⏱️', title: "O Tempo Cogelado", mission: "O relógio parece andar para trás quando estás à espera do veredicto sobre se queimaste ou não a comida.", bonus: "+600 por \"avanço rápido\".", bonusTerm: "avanço", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'nuvem-abstrata', emoji: '🎨', title: "Nuvens Artistas", mission: "As nuvens formaram uma caricatura perfeita da tua silhueta cansada mesmo por cima do pátio do restaurante.", bonus: "+500 por \"arte abstrata\".", bonusTerm: "abstrata", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'piso-patinagem', emoji: '⛸️', title: "O Chão de Patinagem", mission: "O piso recém-lavado aliou-se à sola dos teus sapatos para te fazer dançar um tango involuntário em frente aos clientes.", bonus: "+600 por pedires \"piso antiderrapante\".", bonusTerm: "piso", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'armario-complô', emoji: '🚪', title: "O Armário Inimigo", mission: "A porta do armário da cozinha abre-se sozinha e bate-te na testa sempre que te curvas para apanhar as panelas.", bonus: "+500 por \"porta amigável\".", bonusTerm: "porta", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'calendario-mau-humor', emoji: '📅', title: "Calendário Precoce", mission: "O calendário adiantou a segunda-feira em 12 horas só para te obrigar a pensar em trabalho durante o jantar de domingo.", bonus: "+600 por \"calendário justo\".", bonusTerm: "calendário", bonusVal: 600, category: "Surreal & Épico" },
+
+            // 91-100 (Absurdo Máximo)
+            { id: 'ego-homicida', emoji: '🧠', title: "O Ego Ferido", mission: "O teu próprio ego sofreu um ataque severo de pânico quando te esqueceste da ementa e inventaste pratos inexistentes.", bonus: "+500 por \"terapia de ego\".", bonusTerm: "terapia", bonusVal: 500, category: "Absurdo Máximo" },
+            { id: 'autoestima-aviao', emoji: '✈️', title: "Autoestima Off", mission: "A tua autoestima entrou em modo de voo sem rede de internet após deixares cair o guardanapo em cima do prato do vizinho.", bonus: "+600 por \"reinício\".", bonusTerm: "reinício", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'bom-senso-ferias', emoji: '🏝️', title: "Bom Senso Off", mission: "O teu bom senso foi passar férias para o Algarve e deixou-te a discutir com a torradeira sobre o preço do pão.", bonus: "+500 por pedires \"retorno urgente\".", bonusTerm: "retorno", bonusVal: 500, category: "Absurdo Máximo" },
+            { id: 'paciencia-falencia', emoji: '💸', title: "Falência da Paciência", mission: "A tua paciência declarou falência geral após o cliente da mesa 3 pedir para retirar o glúten da água com gás.", bonus: "+600 por \"recarga de paciência\".", bonusTerm: "recarga", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'dia-conspirador', emoji: '🎭', title: "O Dia do Contra", mission: "Provar que as últimas 24 horas foram escritas por um argumentista de comédia de baixo orçamento focado no teu azar.", bonus: "+500 por \"dia novo\".", bonusTerm: "dia novo", bonusVal: 500, category: "Absurdo Máximo" },
+            { id: 'realidade-update', emoji: '🔄', title: "Update de Realidade", mission: "A realidade instalou uma atualização de sistema com erros graves que faz com que qualquer comida pareça sopa.", bonus: "+600 por \"rollback\".", bonusTerm: "rollback", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'azar-amigo', emoji: '🤝', title: "O Azar de Estimação", mission: "O azar tornou-se o teu seguidor mais fiel, acompanhando-te ao café e sentando-se no teu colo sem permissão.", bonus: "+600 por \"separação amigável\".", bonusTerm: "separação", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'caos-acoes', emoji: '📈', title: "O Caos em Alta", mission: "O caos comprou 51% das ações da tua rotina diária e agora é ele quem decide que meias deves usar.", bonus: "+600 por \"recompra de ações\".", bonusTerm: "recompra", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'universo-nota-fiscal', emoji: '💳', title: "Nota Fiscal do Drama", mission: "O universo mandou uma conta exorbitante de energia cósmica gasta com todas as tuas reclamações diárias.", bonus: "+600 por \"reembolso universal\".", bonusTerm: "reembolso", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'existencia-manutencao', emoji: '🛠️', title: "Existência Offline", mission: "A tua existência entrou em manutenção temporária e és obrigado a ver o mundo através de um ecrã pixelizado de 8 bits.", bonus: "+700 por \"upgrade completo\".", bonusTerm: "upgrade", bonusVal: 700, category: "Absurdo Máximo" }
         ];
 
         // Estado do app em tempo real
@@ -856,33 +775,141 @@
             battles: []
         };
 
-        // Popular database com base nos 10 temas absurdos iniciais
+        // Engine de Rivais Cómicos Dinâmica - Gera perfis perfeitos para os 100 temas!
+        function getDynamicRivals(theme) {
+            let leftName = "Reclamante Indignado";
+            let leftDesc = `Processa o universo pelo tema: "${theme.title}".`;
+            let leftImg = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400";
+            
+            let rightName = "Inimigo Inanimado";
+            let rightDesc = "Acha que a queixa é ridícula e recusa-se a pedir desculpas.";
+            let rightImg = "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400";
+
+            const lowerId = theme.id.toLowerCase();
+
+            // Categoria Gourmet / Comida / Cozinha
+            if (theme.category === "Batalha Gourmet" || theme.category === "Restaurante FRAN" || lowerId.includes("cafe") || lowerId.includes("iogurte") || lowerId.includes("arroz") || lowerId.includes("frigorifico")) {
+                leftImg = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=400"; // Burger/Prato
+                rightImg = "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&q=80&w=400"; // Pessoa fustigada
+                
+                if (lowerId.includes("hamburguer")) {
+                    leftName = "Hambúrguer Voador"; leftDesc = "Paraquedista de ketchup focado em calças de algodão branco.";
+                    rightName = "Calça Branca Nova"; rightDesc = "Símbolo de elegância destruída num crime culinário.";
+                } else if (lowerId.includes("batatas")) {
+                    leftName = "Batatas Glaciares"; leftDesc = "Frias como o coração de uma relação antiga.";
+                    rightName = "Consumidor Triste"; rightDesc = "Tenta usar o calor do seu bafo para aquecer o almoço.";
+                } else if (lowerId.includes("cadeira")) {
+                    leftName = "Prego da Cadeira 7"; leftDesc = "Ponta afiada que atacou cobardemente por trás.";
+                    rightName = "Nádega Atacada"; rightDesc = "Ferida no orgulho e com trauma de assentos públicos.";
+                } else if (lowerId.includes("iogurte")) {
+                    leftName = "Iogurte Dramático"; leftDesc = "Lançou-se de cabeça para o abismo do tecido de veludo.";
+                    rightName = "Sofá Premium"; rightDesc = "Completamente arruinado por laticínios suicidas.";
+                } else if (lowerId.includes("maquina")) {
+                    leftName = "Cafeteira Imperial"; leftDesc = "Imperadora do balcão que cospe água e rancor.";
+                    rightName = "Barista Desesperado"; rightDesc = "Implora por um expresso decente sem fumo tóxico.";
+                } else if (lowerId.includes("arroz")) {
+                    leftName = "Arroz Doce Risonho"; leftDesc = "Encontrado a zombar e coberto de poeira sob a mesa.";
+                    rightName = "Colher Solitária"; rightDesc = "Ficou a carregar o vazio de uma sobremesa traidora.";
+                } else if (lowerId.includes("salada")) {
+                    leftName = "Alface Insurgente"; leftDesc = "Comandante da resistência verde contra o vinagrete.";
+                    rightName = "Garfo Opressor"; rightDesc = "Apenas queria guiar a fibra para um estômago feliz.";
+                } else if (lowerId.includes("vinho")) {
+                    leftName = "Vinho Intelectual"; leftDesc = "Crise de meia-idade numa garrafa com aroma a vinagre.";
+                    rightName = "Cálice de Cristal"; rightDesc = "Suporta o peso dramático de uma bebida deprimente.";
+                } else if (lowerId.includes("francesinha")) {
+                    leftName = "Francesinha Armada"; leftDesc = "Invasora de artilharia pesada, queijo e molho picante.";
+                    rightName = "Estômago em Pânico"; rightDesc = "Pede apoio urgente de antiácidos e proteção civil.";
+                } else if (lowerId.includes("pastel")) {
+                    leftName = "Tempestade de Canela"; leftDesc = "Pastel de nata que se armou em deserto do Saara.";
+                    rightName = "Lanche Asfixiado"; rightDesc = "Sufocado em canela, tosse nuvens perfumadas.";
+                }
+            } 
+            // Categoria Tecnologia, Eletrodomésticos & Apps
+            else if (theme.category === "Eletrodomésticos Rebeldes" || theme.category === "Tecnologia & Apps" || lowerId.includes("wifi") || lowerId.includes("codigo") || lowerId.includes("telemovel")) {
+                leftImg = "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=400"; // Tech
+                rightImg = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=400"; // Phone
+
+                if (lowerId.includes("comando")) {
+                    leftName = "Comando Exausto"; leftDesc = "Cansado de pancadas secas sempre que a pilha falha.";
+                    rightName = "Série do Ano"; rightDesc = "O episódio terminou sem que ninguém conseguisse dar play.";
+                } else if (lowerId.includes("chinelo")) {
+                    leftName = "Chinelo Fugitivo"; leftDesc = "Procura asilo político debaixo do sofá da sala.";
+                    rightName = "Pé Direito Solitário"; rightDesc = "Patinha no chão frio sofrendo de abandono agudo.";
+                } else if (lowerId.includes("meia")) {
+                    leftName = "Meia Esquerda Órfã"; leftDesc = "Sobrevivente do triângulo das meias centrifugadoras.";
+                    rightName = "Tambor Cúmplice"; rightDesc = "Roda a 1200 RPM negando qualquer sumiço de algodão.";
+                } else if (lowerId.includes("frigorifico")) {
+                    leftName = "Frigorífico em Greve"; leftDesc = "Cansado de ser aberto de 10 em 10 minutos sem compras.";
+                    rightName = "Dono Esfomeado"; rightDesc = "Olha para a luz interior à procura de milagres.";
+                } else if (lowerId.includes("wifi") || lowerId.includes("router")) {
+                    leftName = "Router Rebelde"; leftDesc = "Entrega 1000 Mbps ao vizinho e dá-te 2G com falhas.";
+                    rightName = "Utilizador Sem Rede"; rightDesc = "Chora a ver o círculo de carregamento rodar infinito.";
+                } else if (lowerId.includes("lampada")) {
+                    leftName = "Lâmpada Troll"; leftDesc = "Fisga morse insultuoso nas horas de sono profundo.";
+                    rightName = "Olhos Cansados"; rightDesc = "Tenta traduzir insultos com um dicionário luminoso.";
+                } else if (lowerId.includes("codigo") || lowerId.includes("bug")) {
+                    leftName = "Bug Vingativo"; leftDesc = "Instalado na linha 42 para boicotar a entrega de faturas.";
+                    rightName = "Dev Sênior Choroso"; rightDesc = "Procura por um ponto e vírgula perdido no código.";
+                } else if (lowerId.includes("telemovel")) {
+                    leftName = "Telemóvel Cansado"; leftDesc = "Entra em modo de suspensão para evitar ler e-mails.";
+                    rightName = "Bateria Descarregada"; rightDesc = "Desliga-se aos 15% por falta de vontade de viver.";
+                }
+            } 
+            // Outros Temas Absurdos / Cotidiano / Surreal
+            else {
+                leftImg = "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&q=80&w=400"; // Rain/Sky
+                rightImg = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400"; // Man
+
+                if (lowerId.includes("clima") || lowerId.includes("bullying")) {
+                    leftName = "Nuvem de Perseguição"; leftDesc = "Garante que vais apanhar chuva se saíres de sapatilhas.";
+                    rightName = "Meteorologista Sorridente"; rightDesc = "Promete sol enquanto veste uma gabardina.";
+                } else if (lowerId.includes("cabelo")) {
+                    leftName = "Cabelo em Motim"; leftDesc = "Acorda no formato perfeito do mapa de Portugal.";
+                    rightName = "Pente Desdentado"; rightDesc = "Perdeu metade dos dentes contra nós impiedosos.";
+                } else if (lowerId.includes("sombra")) {
+                    leftName = "Sombra Desertora"; leftDesc = "Quer ir para a esplanada sozinha sem te aturar.";
+                    rightName = "Corpo 3D Triste"; rightDesc = "Teme perder a sua única projeção bidimensional.";
+                } else if (lowerId.includes("espelho")) {
+                    leftName = "Espelho Crítico"; leftDesc = "Mostra olheiras em formato HD e critica o teu pijama.";
+                    rightName = "Cara Despenteada"; rightDesc = "Apenas queria lavar a boca sem receber ofensas.";
+                } else if (lowerId.includes("relogio") || lowerId.includes("tempo")) {
+                    leftName = "Relógio Humilhador"; leftDesc = "Acelera nas férias e para quando estás na fila.";
+                    rightName = "Utilizador Atrasado"; rightDesc = "Exige um relógio com bom senso temporal.";
+                } else if (lowerId.includes("paciencia")) {
+                    leftName = "Paciência Falida"; leftDesc = "Fez as malas após o cliente pedir sopa sem água.";
+                    rightName = "Cérebro em Chamas"; rightDesc = "Tenta respirar fundo para não lançar um prato.";
+                } else {
+                    leftName = theme.title.split(' ')[0] || "Reclamante";
+                    rightName = "Alvo do Caos";
+                }
+            }
+
+            return {
+                left: { name: leftName, desc: leftDesc, img: leftImg },
+                right: { name: rightName, desc: rightDesc, img: rightImg }
+            };
+        }
+
+        // Popular database com base nos 100 temas absurdos iniciais
         absurdThemes.forEach(t => {
+            const rivals = getDynamicRivals(t);
             database.battles.push({
                 id: t.id,
                 title: t.title,
                 category: t.category,
                 scoreLeft: 1000,
                 scoreRight: 1000,
-                left: {
-                    name: t.leftRival.name,
-                    desc: t.leftRival.desc,
-                    img: t.leftRival.img
-                },
-                right: {
-                    name: t.rightRival.name,
-                    desc: t.rightRival.desc,
-                    img: t.rightRival.img
-                },
+                left: rivals.left,
+                right: rivals.right,
                 mission: t.mission,
                 bonus: t.bonus,
                 bonusTerm: t.bonusTerm,
                 bonusVal: t.bonusVal,
                 emoji: t.emoji,
                 comments: [
-                    { name: "Joao_comedia", text: "ISTO É GENIAL kkkkk" },
-                    { name: "Sarcasmo_Puro", text: "Eu defendo o lado esquerdo de olhos fechados!" },
-                    { name: "Critico_Mestre", text: "Apelo ao bónus já! Falem do sofá!" }
+                    { name: "Sarcasmo_Puro", text: "ISTO É GENIAL kkkkk" },
+                    { name: "Tuga_Indignado", text: "Eu defendo o lado esquerdo de olhos fechados!" },
+                    { name: "Critico_Mestre", text: "Exijo bónus de improviso já!" }
                 ]
             });
         });
