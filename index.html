@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHITAGRAM™ Live Battle</title>
+
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#05020c;
+      color:white;
+    }
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:240px 1fr 330px;
+      gap:18px;
+      padding:18px;
+      background:
+        radial-gradient(circle at top left,#2b0055,transparent 35%),
+        radial-gradient(circle at top right,#3b0030,transparent 35%),
+        #05020c;
+    }
+
+    .box{
+      background:rgba(16,16,28,.92);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      box-shadow:0 0 30px rgba(255,0,199,.12);
+    }
+
+    .sidebar{
+      padding:20px;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:900;
+      margin-bottom:30px;
+    }
+
+    .menu div{
+      padding:13px;
+      border-radius:12px;
+      margin-bottom:8px;
+    }
+
+    .menu .active{
+      background:linear-gradient(90deg,#8B00FF,#FF00C7);
+      font-weight:800;
+    }
+
+    .vip{
+      margin-top:30px;
+      padding:20px;
+      text-align:center;
+      border:1px solid #ff00c7;
+      border-radius:18px;
+      background:radial-gradient(circle,rgba(255,0,199,.25),transparent 70%);
+    }
+
+    .vip button,
+    .top button,
+    .chat button{
+      background:linear-gradient(90deg,#FF00C7,#8B00FF);
+      color:white;
+      border:0;
+      border-radius:12px;
+      padding:12px 18px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    main{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:15px 20px;
+    }
+
+    .score{
+      display:grid;
+      grid-template-columns:150px 1fr 150px;
+      gap:18px;
+      align-items:center;
+      padding:18px;
+    }
+
+    .score strong{
+      font-size:42px;
+      font-weight:900;
+    }
+
+    .blue{color:#00eaff;text-shadow:0 0 16px #00eaff}
+    .pink{color:#ff00c7;text-align:right;text-shadow:0 0 16px #ff00c7}
+
+    .bar{
+      height:18px;
+      display:flex;
+      overflow:hidden;
+      background:#111;
+      border-radius:999px;
+    }
+
+    .bar-left{background:linear-gradient(90deg,#00eaff,#006eff)}
+    .bar-right{background:linear-gradient(90deg,#ff00c7,#ff2d75)}
+
+    .percent{
+      display:flex;
+      justify-content:space-around;
+      font-weight:900;
+      font-size:18px;
+    }
+
+    .percent b{
+      color:gold;
+      font-size:34px;
+    }
+
+    .arena{
+      height:430px;
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+    }
+
+    .player{
+      padding:28px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      background-size:cover;
+    }
+
+    .left{
+      background:
+        linear-gradient(to top,rgba(0,0,0,.9),transparent),
+        radial-gradient(circle,rgba(139,0,255,.55),transparent 60%),
+        #160028;
+    }
+
+    .right{
+      background:
+        linear-gradient(to top,rgba(0,0,0,.9),transparent),
+        radial-gradient(circle,rgba(255,0,199,.55),transparent 60%),
+        #250018;
+    }
+
+    .player h2{
+      font-size:30px;
+      margin:0;
+    }
+
+    .timer{
+      position:absolute;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#05020c;
+      border:1px solid #ffffff33;
+      border-radius:14px;
+      padding:10px 22px;
+      font-size:24px;
+      font-weight:900;
+      z-index:5;
+    }
+
+    .live{
+      position:absolute;
+      top:18px;
+      left:18px;
+      background:#ff006e;
+      padding:8px 12px;
+      border-radius:10px;
+      font-weight:900;
+    }
+
+    .effect{
+      position:absolute;
+      left:50%;
+      top:45%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      display:none;
+      z-index:10;
+      animation:pop 2s ease forwards;
+    }
+
+    .effect div{font-size:80px}
+    .effect h2{margin:0;text-shadow:0 0 20px #ff00c7}
+    .effect strong{font-size:56px;color:#ff00c7}
+
+    @keyframes pop{
+      0%{transform:translate(-50%,-50%) scale(.3);opacity:0}
+      20%{transform:translate(-50%,-50%) scale(1.2);opacity:1}
+      100%{transform:translate(-50%,-90%) scale(.8);opacity:0}
+    }
+
+    .gifts{
+      padding:18px;
+    }
+
+    .gift-grid{
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:12px;
+    }
+
+    .gift{
+      min-height:130px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:16px;
+      background:rgba(255,255,255,.04);
+      color:white;
+      cursor:pointer;
+      font-weight:800;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:6px;
+    }
+
+    .gift:hover{
+      box-shadow:0 0 25px #ff00c7;
+      transform:translateY(-3px);
+    }
+
+    .gift span{font-size:42px}
+    .gift small{color:gold}
+
+    .right-panel{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card{
+      padding:18px;
+    }
+
+    .card h3{margin-top:0}
+    .card p{
+      border-bottom:1px solid rgba(255,255,255,.08);
+      padding-bottom:8px;
+    }
+
+    .chat{
+      flex:1;
+    }
+
+    .chat b{color:#ff00c7}
+
+    .chat-input{
+      display:flex;
+      gap:8px;
+      margin-top:18px;
+    }
+
+    .chat-input input{
+      flex:1;
+      background:#05020c;
+      border:1px solid #ffffff33;
+      border-radius:12px;
+      padding:12px;
+      color:white;
+    }
+
+    @media(max-width:1100px){
+      .app{grid-template-columns:1fr}
+      .gift-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar box">
+      <div class="logo">💩 SHITAGRAM™</div>
+
+      <div class="menu">
+        <div>🏠 Feed</div>
+        <div>🎬 ShitClips™</div>
+        <div class="active">⚔️ Batalhas Live</div>
+        <div>🏆 Ranking</div>
+        <div>💰 ShitCoins™</div>
+        <div>🛒 Loja</div>
+        <div>👤 Perfil</div>
+      </div>
+
+      <div class="vip">
+        <h2>👑 VIP SHIT</h2>
+        <p>Benefícios exclusivos, badges e multiplicadores.</p>
+        <button>Tornar-me VIP</button>
+      </div>
+    </aside>
+
+    <main>
+      <div class="top box">
+        <div>Nível 42</div>
+        <div>XP 98.450 / 120.000</div>
+        <div>💩 <span id="wallet">12500</span> ShitCoins™</div>
+        <button>Criar Live</button>
+      </div>
+
+      <section class="score box">
+        <strong class="blue" id="leftScore">25.680</strong>
+
+        <div class="bar">
+          <div class="bar-left" id="leftBar" style="width:58%"></div>
+          <div class="bar-right" id="rightBar" style="width:42%"></div>
+        </div>
+
+        <strong class="pink" id="rightScore">18.430</strong>
+      </section>
+
+      <div class="percent">
+        <span id="leftPercent" class="blue">58%</span>
+        <b>VS</b>
+        <span id="rightPercent" class="pink">42%</span>
+      </div>
+
+      <section class="arena box">
+        <div class="live">LIVE</div>
+        <div class="timer">02:47</div>
+
+        <div class="effect" id="effect">
+          <div id="effectIcon">💩</div>
+          <h2 id="effectName">Cocó Supremo</h2>
+          <strong id="effectPower">+1000</strong>
+        </div>
+
+        <div class="player left">
+          <h2>Rei do Cocó 👑💩</h2>
+          <p>O Imperador do Tronco!</p>
+        </div>
+
+        <div class="player right">
+          <h2>Princesa do Shit 👑</h2>
+          <p>Elegância é cagar com estilo!</p>
+        </div>
+      </section>
+
+      <section class="gifts box">
+        <h3>Enviar um gift</h3>
+
+        <div class="gift-grid">
+          <button class="gift" onclick="sendGift('💩','Cocó Supremo',100,1000)">
+            <span>💩</span><b>Cocó Supremo</b><small>+1000</small><b>100</b>
+          </button>
+
+          <button class="gift" onclick="sendGift('☕','Café Frio',50,50)">
+            <span>☕</span><b>Café Frio</b><small>+50</small><b>50</b>
+          </button>
+
+          <button class="gift" onclick="sendGift('🧻','Papel Dourado',200,200)">
+            <span>🧻</span><b>Papel Dourado</b><small>+200</small><b>200</b>
+          </button>
+
+          <button class="gift" onclick="sendGift('☢️','Bug Nuclear',300,300)">
+            <span>☢️</span><b>Bug Nuclear</b><small>+300</small><b>300</b>
+          </button>
+
+          <button class="gift" onclick="sendGift('🐒','Rei do Mico',500,500)">
+            <span>🐒</span><b>Rei do Mico</b><small>+500</small><b>500</b>
+          </button>
+
+          <button class="gift" onclick="sendGift('🚀','Míssil de Cocó',1000,1000)">
+            <span>🚀</span><b>Míssil de Cocó</b><small>+1000</small><b>1000</b>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right-panel">
+      <div class="card box">
+        <h3>🏆 Top Doadores</h3>
+        <p>1. 💩 Cagão Anónimo — 45.600</p>
+        <p>2. 💩 ShitPatrocinador — 32.100</p>
+        <p>3. 💩 Dona do Troninho — 21.750</p>
+        <p>4. 💩 Fedido Premium — 15.300</p>
+        <p>5. 💩 CheirosoPassivo — 9.950</p>
+      </div>
+
+      <div class="card chat box">
+        <h3>🟢 Chat ao vivo</h3>
+        <p><b>@MestrePremium:</b> Rei do Cocó lendário!</p>
+        <p><b>@Cagadeira:</b> BUG NUCLEAR NELEEEE!</p>
+        <p><b>@PedroDoShit:</b> vamos ganhar!</p>
+
+        <div class="chat-input">
+          <input placeholder="Diz algo vergonhoso..." />
+          <button>➤</button>
+        </div>
+      </div>
+
+      <div class="card box">
+        <h3>⚡ Efeitos ativos</h3>
+        <p>☢️ Bug Nuclear — 00:05</p>
+        <p>💩 Chuva de Cocós — 00:08</p>
+        <p>🐒 Invasão dos Macacos — 00:06</p>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    let leftScore = 25680;
+    let rightScore = 18430;
+    let wallet = 12500;
+
+    function format(n){
+      return n.toLocaleString("pt-PT");
+    }
+
+    function updateScore(){
+      const total = leftScore + rightScore;
+      const leftPercent = Math.round((leftScore / total) * 100);
+      const rightPercent = 100 - leftPercent;
+
+      document.getElementById("leftScore").innerText = format(leftScore);
+      document.getElementById("rightScore").innerText = format(rightScore);
+      document.getElementById("wallet").innerText = format(wallet);
+
+      document.getElementById("leftBar").style.width = leftPercent + "%";
+      document.getElementById("rightBar").style.width = rightPercent + "%";
+
+      document.getElementById("leftPercent").innerText = leftPercent + "%";
+      document.getElementById("rightPercent").innerText = rightPercent + "%";
+    }
+
+    function sendGift(icon, name, price, power){
+      if(wallet < price){
+        alert("Saldo insuficiente.");
+        return;
+      }
+
+      wallet -= price;
+      leftScore += power;
+
+      document.getElementById("effectIcon").innerText = icon;
+      document.getElementById("effectName").innerText = name;
+      document.getElementById("effectPower").innerText = "+" + power;
+
+      const effect = document.getElementById("effect");
+      effect.style.display = "block";
+      effect.style.animation = "none";
+      effect.offsetHeight;
+      effect.style.animation = "pop 2s ease forwards";
+
+      setTimeout(() => {
+        effect.style.display = "none";
+      }, 2000);
+
+      updateScore();
+    }
+  </script>
+</body>
+</html>
