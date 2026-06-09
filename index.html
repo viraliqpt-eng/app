@@ -1,87 +1,389 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404SOCIAL™</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>404SOCIAL™ — The Failure Network</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#050505;color:#ddd;font-family:"Courier New",monospace}
-.app{max-width:520px;margin:auto;min-height:100vh;background:#101010;padding-bottom:90px}
-.top{background:#ffd21a;color:#000;padding:22px 18px;border-bottom:4px solid #000}
-.logo{font-size:34px;font-weight:900}
-.logo span{background:#000;color:#ffd21a;padding:4px 8px;border-radius:6px}
-.sub{font-size:13px;letter-spacing:3px;font-weight:900}
-.status{display:flex;justify-content:space-between;padding:14px 18px;background:#090909;border-bottom:1px solid #222}
-.red{color:#ff4d5f;font-weight:bold}.yellow{color:#ffd21a;font-weight:bold}
-.page{display:none;padding:18px}.page.active{display:block}
-.card{background:#000;padding:22px;margin-bottom:24px;border:1px solid #222;box-shadow:8px 8px #070707}
-.user{display:flex;justify-content:space-between;border-bottom:1px solid #222;padding-bottom:14px;margin-bottom:18px}
-.name{color:#ffd21a;font-weight:900;font-size:18px}.time{color:#888;font-size:13px}
-.bugbox{border:3px solid #31dfff;padding:30px 18px;text-align:center;color:#31dfff;font-size:20px;line-height:1.5;background:#101010;border-radius:6px}
-.emoji{font-size:46px;display:block;margin-bottom:12px}
-.actions{display:flex;gap:10px;margin-top:18px}
-.actions button{flex:1;background:#050505;color:#eee;border:1px solid #333;padding:10px;font-size:17px;font-family:inherit}
-textarea,input{width:100%;background:#111;color:#ffd21a;border:1px solid #333;padding:14px;font-family:inherit;font-size:16px;margin-bottom:12px}
-.mainbtn{width:100%;background:#ffd21a;color:#000;border:0;padding:14px;font-family:inherit;font-weight:900;font-size:16px}
-.panel-title{color:#31dfff;font-size:20px;margin-bottom:16px;font-weight:900}
-.rank li{list-style:none;padding:12px 0;border-bottom:1px solid #222}
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:520px;width:100%;display:grid;grid-template-columns:repeat(4,1fr);background:#020202;border-top:1px solid #222}
-nav button{background:#050505;color:#aaa;border:0;border-left:1px solid #222;padding:12px 4px;font-family:inherit;font-weight:900}
-nav button.active{color:#ffd21a;background:#111}
-.navico{display:block;font-size:24px;margin-bottom:4px}
+body{
+  background:#050505;
+  color:#e8e8e8;
+  font-family:"Courier New",monospace;
+}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font-family:inherit}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:99;
+  background:#ffd21a;
+  color:#000;
+  border-bottom:4px solid #000;
+}
+.header-inner{
+  max-width:1280px;
+  margin:auto;
+  padding:18px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.logo{
+  font-size:34px;
+  font-weight:900;
+}
+.logo span{
+  background:#000;
+  color:#ffd21a;
+  padding:4px 8px;
+  border-radius:6px;
+}
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
+}
+.btn-dark{
+  background:#000;
+  color:#ffd21a;
+  border:0;
+  padding:12px 16px;
+  font-weight:900;
+  cursor:pointer;
+}
+.layout{
+  max-width:1280px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr) 320px;
+  gap:22px;
+  padding:24px;
+}
+.sidebar,.rightbar,.card{
+  background:#000;
+  border:1px solid #222;
+  box-shadow:8px 8px #070707;
+}
+.sidebar,.rightbar{
+  position:sticky;
+  top:96px;
+  height:max-content;
+  padding:18px;
+}
+.menu button{
+  width:100%;
+  background:#090909;
+  color:#aaa;
+  border:1px solid #222;
+  padding:14px;
+  margin-bottom:10px;
+  text-align:left;
+  font-weight:900;
+  cursor:pointer;
+}
+.menu button.active{
+  color:#ffd21a;
+  border-color:#ffd21a;
+}
+.hero{
+  background:
+    linear-gradient(135deg,rgba(255,210,26,.15),rgba(49,223,255,.08)),
+    #090909;
+  border:1px solid #222;
+  padding:34px;
+  margin-bottom:22px;
+  box-shadow:8px 8px #070707;
+}
+.hero h1{
+  font-size:44px;
+  line-height:1.05;
+  color:#ffd21a;
+  margin-bottom:12px;
+}
+.hero p{
+  font-size:18px;
+  color:#ccc;
+  max-width:760px;
+}
+.status{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:24px;
+}
+.status-box{
+  background:#000;
+  border:1px solid #222;
+  padding:16px;
+}
+.red{color:#ff4d5f;font-weight:900}
+.yellow{color:#ffd21a;font-weight:900}
+.cyan{color:#31dfff;font-weight:900}
+.page{display:none}
+.page.active{display:block}
+.card{
+  padding:22px;
+  margin-bottom:22px;
+}
+.user{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid #222;
+  padding-bottom:14px;
+  margin-bottom:18px;
+}
+.name{
+  color:#ffd21a;
+  font-weight:900;
+  font-size:18px;
+}
+.time{
+  color:#888;
+  font-size:13px;
+}
+.bugbox{
+  border:3px solid #31dfff;
+  padding:34px 20px;
+  text-align:center;
+  color:#31dfff;
+  font-size:22px;
+  line-height:1.5;
+  background:#101010;
+  border-radius:6px;
+}
+.emoji{
+  display:block;
+  font-size:48px;
+  margin-bottom:12px;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+.actions button{
+  flex:1;
+  background:#050505;
+  color:#eee;
+  border:1px solid #333;
+  padding:11px;
+  font-size:17px;
+  cursor:pointer;
+}
+.actions button:hover{
+  border-color:#ffd21a;
+  color:#ffd21a;
+}
+.panel-title{
+  color:#31dfff;
+  margin-bottom:16px;
+  font-size:22px;
+}
+input,textarea,select{
+  width:100%;
+  background:#111;
+  color:#ffd21a;
+  border:1px solid #333;
+  padding:14px;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.mainbtn{
+  width:100%;
+  background:#ffd21a;
+  color:#000;
+  border:0;
+  padding:15px;
+  font-weight:900;
+  font-size:16px;
+  cursor:pointer;
+}
+.rank li,.info li{
+  list-style:none;
+  padding:12px 0;
+  border-bottom:1px solid #222;
+}
+.terminal{
+  background:#050505;
+  border:1px solid #333;
+  color:#53ff8a;
+  padding:18px;
+  min-height:280px;
+  line-height:1.6;
+  margin-bottom:12px;
+}
+footer{
+  max-width:1280px;
+  margin:0 auto;
+  padding:24px;
+  color:#777;
+  border-top:1px solid #222;
+}
+.mobile-nav{
+  display:none;
+}
+
+@media(max-width:950px){
+  .layout{
+    grid-template-columns:1fr;
+    padding:14px;
+  }
+  .sidebar,.rightbar{
+    display:none;
+  }
+  .hero h1{
+    font-size:34px;
+  }
+  .status{
+    grid-template-columns:1fr;
+  }
+  .mobile-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:100;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:#020202;
+    border-top:1px solid #222;
+  }
+  .mobile-nav button{
+    background:#050505;
+    color:#aaa;
+    border:0;
+    border-left:1px solid #222;
+    padding:12px 4px;
+    font-weight:900;
+  }
+  .mobile-nav button.active{
+    color:#ffd21a;
+  }
+  footer{padding-bottom:86px}
+}
 </style>
 </head>
 
 <body>
-<div class="app">
 
-<header class="top">
-  <div class="logo">404 <span>SOCIAL</span>™</div>
-  <div class="sub">THE FAILURE NETWORK</div>
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo">404 <span>SOCIAL</span>™</div>
+      <strong>THE FAILURE NETWORK</strong>
+    </div>
+    <div class="header-actions">
+      <span>🔴 Instabilidade: <span class="red">96%</span></span>
+      <button class="btn-dark" onclick="showPage('criar')">PUBLICAR BUG</button>
+    </div>
+  </div>
 </header>
 
-<section class="status">
-  <div>🔴 Instabilidade: <span class="red">96%</span></div>
-  <div>Pontos: <span class="yellow" id="points">0</span></div>
-</section>
+<div class="layout">
 
-<main id="feed" class="page active"></main>
+  <aside class="sidebar">
+    <nav class="menu">
+      <button class="active" onclick="showPage('feed',this)">🏠 Feed</button>
+      <button onclick="showPage('criar',this)">➕ Criar Bug</button>
+      <button onclick="showPage('bash',this)">💻 BASH</button>
+      <button onclick="showPage('sobre',this)">🧠 Como funciona</button>
+    </nav>
+  </aside>
 
-<main id="criar" class="page">
-  <section class="card">
-    <h2 class="panel-title">➕ CRIAR NOVO BUG</h2>
-    <input id="username" placeholder="@nome_do_bug">
-    <textarea id="content" rows="5" placeholder="Escreve o teu erro..."></textarea>
-    <button class="mainbtn" onclick="createPost()">PUBLICAR FALHA</button>
-  </section>
-</main>
+  <main>
 
-<main id="ranking" class="page">
-  <section class="card">
-    <h2 class="panel-title yellow">🏆 RANKING DE INSANIDADE</h2>
+    <section class="hero">
+      <h1>A rede social onde tudo dá erro.</h1>
+      <p>
+        Publica falhas, bugs existenciais, desculpas de TI, desastres digitais
+        e momentos em que a vida simplesmente deixou de responder.
+      </p>
+
+      <div class="status">
+        <div class="status-box">Posts reais<br><span class="yellow" id="postCount">0</span></div>
+        <div class="status-box">Pontos locais<br><span class="cyan" id="points">0</span></div>
+        <div class="status-box">Estado<br><span class="red">Sistema instável</span></div>
+      </div>
+    </section>
+
+    <section id="feed" class="page active"></section>
+
+    <section id="criar" class="page">
+      <div class="card">
+        <h2 class="panel-title">➕ Criar novo bug</h2>
+        <input id="username" placeholder="@nome_do_bug">
+        <select id="category">
+          <option value="bug">Bug</option>
+          <option value="vida">Vida real</option>
+          <option value="trabalho">Trabalho</option>
+          <option value="motivacao">Motivação</option>
+        </select>
+        <textarea id="content" rows="6" placeholder="Ex: motivacao.exe não encontrado."></textarea>
+        <button class="mainbtn" onclick="createPost()">PUBLICAR FALHA</button>
+      </div>
+    </section>
+
+    <section id="bash" class="page">
+      <div class="card">
+        <h2 class="panel-title">💻 Terminal BASH</h2>
+        <div class="terminal" id="terminal">
+          $ iniciar 404SOCIAL<br>
+          Sistema carregado com falhas aceitáveis.<br><br>
+          Comandos: ajuda, café, crash, vida, motivacao, reset
+        </div>
+        <input id="cmd" placeholder="$ Digita um comando...">
+        <button class="mainbtn" onclick="runCommand()">EXECUTAR</button>
+      </div>
+    </section>
+
+    <section id="sobre" class="page">
+      <div class="card">
+        <h2 class="panel-title">🧠 Como funciona</h2>
+        <ul class="info">
+          <li>⚠️ Publicas erros da vida real ou digital.</li>
+          <li>💀 A comunidade reage aos bugs mais caóticos.</li>
+          <li>😂 Os posts sobem no ranking por pontos.</li>
+          <li>💻 O estilo é retro, hacker, absurdo e viral.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="rightbar">
+    <h2 class="panel-title yellow">🏆 Ranking</h2>
     <ul class="rank" id="rankList"></ul>
-  </section>
-</main>
 
-<main id="perfil" class="page">
-  <section class="card">
-    <h2 class="name">@tu_bugaste</h2><br>
-    <p>Pontos totais: <span class="yellow" id="profilePoints">0</span></p>
-    <p>Estado: <span class="red">Instável</span></p>
-    <p>Classe: Artesão de Código Podre</p>
-  </section>
-</main>
+    <br><br>
+
+    <h2 class="panel-title">🧩 Ideias rápidas</h2>
+    <ul class="info">
+      <li>Bug do dia</li>
+      <li>Desculpa de TI</li>
+      <li>Erro emocional</li>
+      <li>Falha de segunda-feira</li>
+    </ul>
+  </aside>
 
 </div>
 
-<nav>
-  <button class="active" onclick="showPage('feed',this)"><span class="navico">🏠</span>FEED</button>
-  <button onclick="showPage('criar',this)"><span class="navico">➕</span>CRIAR</button>
-  <button onclick="showPage('ranking',this)"><span class="navico">🏆</span>RANKING</button>
-  <button onclick="showPage('perfil',this)"><span class="navico">👤</span>PERFIL</button>
+<footer>
+  404SOCIAL™ — Plataforma satírica experimental.  
+  © 2026 404SOCIAL Portugal. Todos os direitos reservados.
+</footer>
+
+<nav class="mobile-nav">
+  <button class="active" onclick="showPage('feed',this)">🏠<br>Feed</button>
+  <button onclick="showPage('criar',this)">➕<br>Criar</button>
+  <button onclick="showPage('bash',this)">💻<br>BASH</button>
+  <button onclick="showPage('sobre',this)">🧠<br>Sobre</button>
 </nav>
 
 <script>
@@ -94,9 +396,12 @@ let totalPoints = 0;
 function showPage(id,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(id === "ranking") loadRanking();
+
+  document.querySelectorAll('.menu button,.mobile-nav button').forEach(b=>b.classList.remove('active'));
+
+  if(btn) btn.classList.add('active');
+
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 async function loadPosts(){
@@ -105,16 +410,22 @@ async function loadPosts(){
     .select("*")
     .order("created_at", { ascending:false });
 
+  const feed = document.getElementById("feed");
+
   if(error){
-    document.getElementById("feed").innerHTML = "<p>Erro ao carregar feed.</p>";
+    feed.innerHTML = "<div class='card'>Erro ao carregar feed.</div>";
     return;
   }
 
-  document.getElementById("feed").innerHTML = "";
+  document.getElementById("postCount").textContent = data.length;
+  feed.innerHTML = "";
 
-  data.forEach(post=>{
-    renderPost(post);
-  });
+  if(data.length === 0){
+    feed.innerHTML = "<div class='card'>Ainda não há bugs publicados.</div>";
+    return;
+  }
+
+  data.forEach(renderPost);
 }
 
 function renderPost(post){
@@ -123,7 +434,10 @@ function renderPost(post){
 
   card.innerHTML = `
     <div class="user">
-      <div class="name">⚠️ ${escapeHtml(post.username)}</div>
+      <div>
+        <div class="name">⚠️ ${escapeHtml(post.username)}</div>
+        <small>Categoria: ${escapeHtml(post.category || "bug")}</small>
+      </div>
       <div class="time">${new Date(post.created_at).toLocaleString("pt-PT")}</div>
     </div>
 
@@ -145,6 +459,7 @@ function renderPost(post){
 async function createPost(){
   const username = document.getElementById("username").value.trim() || "@anon_bug";
   const content = document.getElementById("content").value.trim();
+  const category = document.getElementById("category").value;
 
   if(!content){
     alert("Erro 404: texto não encontrado.");
@@ -154,7 +469,7 @@ async function createPost(){
   const { error } = await db.from("posts_404").insert({
     username,
     content,
-    category:"bug"
+    category
   });
 
   if(error){
@@ -168,12 +483,12 @@ async function createPost(){
   document.getElementById("username").value = "";
   document.getElementById("content").value = "";
 
-  showPage("feed", document.querySelector("nav button"));
+  showPage("feed");
   loadPosts();
   loadRanking();
 }
 
-async function reactPost(id, column){
+async function reactPost(id,column){
   const { data, error } = await db
     .from("posts_404")
     .select("*")
@@ -182,22 +497,20 @@ async function reactPost(id, column){
 
   if(error) return;
 
-  const value = data[column] + 1;
-
   await db
     .from("posts_404")
-    .update({ [column]: value })
+    .update({ [column]: data[column] + 1 })
     .eq("id", id);
 
   totalPoints += 5;
-  updatePoints();
+  document.getElementById("points").textContent = totalPoints;
 
   await addUserPoints(data.username, 5);
-
   loadPosts();
+  loadRanking();
 }
 
-async function addUserPoints(username, pts){
+async function addUserPoints(username,pts){
   const { data } = await db
     .from("users_404")
     .select("*")
@@ -207,12 +520,12 @@ async function addUserPoints(username, pts){
   if(data){
     await db
       .from("users_404")
-      .update({ points: data.points + pts })
+      .update({ points:data.points + pts })
       .eq("username", username);
-  } else {
+  }else{
     await db
       .from("users_404")
-      .insert({ username, points: pts });
+      .insert({ username, points:pts });
   }
 }
 
@@ -229,19 +542,32 @@ async function loadRanking(){
   list.innerHTML = "";
 
   data.forEach((user,index)=>{
-    const medals = ["🥇","🥈","🥉"];
-    const medal = medals[index] || "💻";
-    list.innerHTML += `<li>${medal} ${escapeHtml(user.username)} — <span class="red">${user.points} pts</span></li>`;
+    const medal = ["🥇","🥈","🥉"][index] || "💻";
+    list.innerHTML += `<li>${medal} ${escapeHtml(user.username)}<br><span class="red">${user.points} pts</span></li>`;
   });
 }
 
-function updatePoints(){
-  document.getElementById("points").textContent = totalPoints;
-  document.getElementById("profilePoints").textContent = totalPoints;
+function runCommand(){
+  const input = document.getElementById("cmd");
+  const cmd = input.value.trim().toLowerCase();
+  const terminal = document.getElementById("terminal");
+
+  let response = "";
+
+  if(cmd === "ajuda") response = "Comandos: café, crash, vida, motivacao, reset";
+  else if(cmd === "café") response = "☕ Café instalado. Produtividade continua indisponível.";
+  else if(cmd === "crash") response = "💀 Sistema caiu com elegância.";
+  else if(cmd === "vida") response = "vida.exe parou de responder.";
+  else if(cmd === "motivacao") response = "Erro 404: motivação não encontrada.";
+  else if(cmd === "reset"){ terminal.innerHTML = ""; input.value = ""; return; }
+  else response = `Comando '${cmd}' não reconhecido.`;
+
+  terminal.innerHTML += `<br><br>$ ${escapeHtml(cmd)}<br><span class="red">${response}</span>`;
+  input.value = "";
 }
 
 function escapeHtml(text){
-  return text
+  return String(text)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -255,6 +581,7 @@ loadRanking();
 db.channel("posts_404_realtime")
   .on("postgres_changes", { event:"*", schema:"public", table:"posts_404" }, () => {
     loadPosts();
+    loadRanking();
   })
   .subscribe();
 </script>
