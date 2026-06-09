@@ -267,6 +267,153 @@ body::before{
   .vote-row{grid-template-columns:1fr}
 }
 
+
+/* =========================================================
+   SHITAGRAM™ v34 — PWA Install Theme
+   Novo tema: preto/castanho/laranja
+   ========================================================= */
+
+.install-section{
+  max-width:1120px;
+  margin:38px auto 0;
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  gap:22px;
+  align-items:stretch;
+}
+
+.install-card{
+  border:1px solid rgba(255,122,0,.18);
+  background:
+    radial-gradient(circle at 15% 0%,rgba(255,122,0,.13),transparent 35%),
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+  border-radius:24px;
+  padding:26px;
+  box-shadow:0 25px 80px rgba(0,0,0,.38);
+}
+
+.install-card h2{
+  margin:0 0 18px;
+  font-size:30px;
+  font-weight:1000;
+  letter-spacing:-.035em;
+}
+
+.install-card p{
+  color:rgba(255,247,237,.68);
+  line-height:1.5;
+  margin:0 0 22px;
+}
+
+.install-row{
+  min-height:64px;
+  border-radius:16px;
+  border:1px solid rgba(255,122,0,.15);
+  background:rgba(255,122,0,.045);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:0 20px;
+  margin-bottom:14px;
+}
+
+.install-row strong{
+  font-size:18px;
+}
+
+.install-row span{
+  color:rgba(255,247,237,.58);
+  text-align:right;
+}
+
+.install-actions{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin:18px 0 22px;
+}
+
+.install-primary{
+  min-width:210px;
+  height:62px;
+  border:0;
+  border-radius:17px;
+  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
+  color:#150604;
+  font-size:20px;
+  font-weight:1000;
+  box-shadow:0 18px 50px rgba(255,77,0,.20);
+}
+
+.install-secondary{
+  min-width:210px;
+  height:62px;
+  border-radius:17px;
+  border:1px solid rgba(255,122,0,.22);
+  background:rgba(255,255,255,.035);
+  color:#fff7ed;
+  font-size:20px;
+  font-weight:1000;
+}
+
+.install-status{
+  min-height:64px;
+  border-radius:16px;
+  border:1px solid rgba(255,122,0,.15);
+  background:rgba(0,0,0,.22);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:0 20px;
+  margin-bottom:14px;
+}
+
+.install-status strong{
+  font-size:18px;
+}
+
+.install-status span{
+  color:#ffb169;
+}
+
+.install-note{
+  margin-top:14px;
+  padding:14px 16px;
+  border-radius:15px;
+  background:rgba(255,184,0,.06);
+  border:1px solid rgba(255,184,0,.18);
+  color:#ffc266;
+  font-weight:800;
+}
+
+@media(max-width:950px){
+  .install-section{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+  .install-card{
+    padding:20px;
+  }
+  .install-row,
+  .install-status{
+    align-items:flex-start;
+    flex-direction:column;
+    padding:16px;
+  }
+  .install-row span{
+    text-align:left;
+  }
+  .install-primary,
+  .install-secondary{
+    width:100%;
+    min-width:0;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -554,6 +701,89 @@ document.addEventListener("DOMContentLoaded",()=>{
     document.body.appendChild(b);
   }
 });
+
+
+
+/* =========================================================
+   SHITAGRAM™ v34 — PWA Install Logic
+   ========================================================= */
+
+let deferredInstallPrompt = null;
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  updatePwaStatus("Pronta para instalar");
+});
+
+window.addEventListener("appinstalled", () => {
+  updatePwaStatus("Instalada");
+  if(typeof addChat === "function"){
+    addChat("Sistema","SHITAGRAM™ instalado como app.");
+  }
+});
+
+function updatePwaStatus(status){
+  const el = document.getElementById("pwaStatusText");
+  if(el) el.textContent = status;
+}
+
+async function installShitagram(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    const choice = await deferredInstallPrompt.userChoice;
+    if(choice.outcome === "accepted"){
+      updatePwaStatus("Instalação aceite");
+    }else{
+      updatePwaStatus("Instalação recusada");
+    }
+    deferredInstallPrompt = null;
+    return;
+  }
+
+  copyInstallInstructions();
+  alert("Se o botão de instalação não aparecer, usa as instruções copiadas para instalar manualmente.");
+}
+
+function copyInstallInstructions(){
+  const text = `Como instalar o SHITAGRAM™:
+
+Android / Chrome:
+Menu ⋮ → Instalar app
+
+iPhone / Safari:
+Partilhar → Adicionar ao ecrã principal
+
+Computador:
+Clica no ícone de instalar na barra do Chrome/Edge.
+
+Depois de instalada, o SHITAGRAM™ abre como uma app própria, sem parecer apenas uma página do navegador.`;
+
+  navigator.clipboard?.writeText(text);
+  if(typeof sfx === "function") sfx("bonus");
+  alert("Instruções copiadas.");
+}
+
+function setInstallDiagnostics(){
+  const sw = document.getElementById("swStatusText");
+  const mf = document.getElementById("manifestStatusText");
+  const pwa = document.getElementById("pwaStatusText");
+
+  if(sw){
+    sw.textContent = "serviceWorker" in navigator ? "Suportado" : "Indisponível";
+  }
+
+  if(mf){
+    const manifest = document.querySelector('link[rel="manifest"]');
+    mf.textContent = manifest ? "Encontrado" : "Embutido/Manual";
+  }
+
+  if(pwa && !pwa.textContent.trim()){
+    pwa.textContent = "Pronta para instalar";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", setInstallDiagnostics);
 
 </script>
 </body>

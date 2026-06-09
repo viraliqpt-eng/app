@@ -1,20 +1,12 @@
-SHITAGRAM™ v33.1 — Single File Fixed
+SHITAGRAM™ v34 — PWA Install Theme
 
-Corrige o problema de o site aparecer branco/desformatado.
+Atualização:
+- Secção de instalação adaptada ao novo tema preto/castanho/laranja.
+- Texto atualizado: SHITAGRAM™ abre como app própria.
+- Botão: Instalar SHITAGRAM™.
+- Botão: Copiar instruções.
+- Diagnóstico de PWA, Service Worker e Manifest.
+- Mantém ficheiros single-file, sem depender de assets externos.
 
-Nesta versão, cada página HTML já tem CSS e JavaScript embutidos.
-Podes publicar apenas os ficheiros HTML diretamente, sem depender da pasta assets.
-
-Ficheiros:
-- index.html
-- app.html
-- duelos.html
-- temas.html
-- gerar.html
-- hall-of-shame.html
-- perfil.html
-
-Para GitHub Pages:
-1. Envia estes ficheiros para a raiz do repositório.
-2. Substitui os antigos.
-3. Abre o site novamente.
+Publicação:
+Substituir os ficheiros antigos por estes na raiz do GitHub Pages.
