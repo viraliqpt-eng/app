@@ -1,44 +1,666 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>404SOCIAL™ — Live Battle</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}body{background:#050505;color:#e8e8e8;font-family:"Courier New",monospace}button,input,textarea,select{font-family:inherit}header{position:sticky;top:0;z-index:99;background:#ffd21a;color:#000;border-bottom:4px solid #000}.header-inner{max-width:1320px;margin:auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px}.logo{font-size:34px;font-weight:900}.logo span{background:#000;color:#ffd21a;padding:4px 8px;border-radius:6px}.btn-dark{background:#000;color:#ffd21a;border:0;padding:12px 16px;font-weight:900;cursor:pointer}.layout{max-width:1320px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr) 310px;gap:22px;padding:24px}.sidebar,.rightbar,.card,.hero{background:#000;border:1px solid #222;box-shadow:8px 8px #070707}.sidebar,.rightbar{position:sticky;top:96px;height:max-content;padding:18px}.menu button{width:100%;background:#090909;color:#aaa;border:1px solid #222;padding:14px;margin-bottom:10px;text-align:left;font-weight:900;cursor:pointer}.menu button.active{color:#ffd21a;border-color:#ffd21a}.hero{padding:28px;margin-bottom:22px;background:linear-gradient(135deg,rgba(255,210,26,.15),rgba(255,0,120,.08)),#090909}.hero h1{font-size:38px;color:#ffd21a;margin-bottom:10px}.hero p{color:#ccc}.status{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.status-box{background:#000;border:1px solid #222;padding:16px}.page{display:none}.page.active{display:block}.card{padding:22px;margin-bottom:22px}.red{color:#ff4d5f;font-weight:900}.yellow{color:#ffd21a;font-weight:900}.cyan{color:#31dfff;font-weight:900}.green{color:#53ff8a;font-weight:900}.name{color:#ffd21a;font-weight:900;font-size:18px}.time{color:#888;font-size:13px}.user{display:flex;justify-content:space-between;border-bottom:1px solid #222;padding-bottom:14px;margin-bottom:18px}.bugbox{border:3px solid #31dfff;padding:34px 20px;text-align:center;color:#31dfff;font-size:21px;line-height:1.5;background:#101010;border-radius:6px}.emoji{display:block;font-size:48px;margin-bottom:12px}.actions{display:flex;gap:10px;margin-top:18px}.actions button{flex:1;background:#050505;color:#eee;border:1px solid #333;padding:11px;font-size:17px;cursor:pointer}.actions button:hover{border-color:#ffd21a;color:#ffd21a}.panel-title{color:#31dfff;margin-bottom:16px;font-size:22px}input,textarea,select{width:100%;background:#111;color:#ffd21a;border:1px solid #333;padding:14px;font-size:16px;margin-bottom:12px}.mainbtn{width:100%;background:#ffd21a;color:#000;border:0;padding:15px;font-weight:900;font-size:16px;cursor:pointer}.dangerbtn{background:#ff4d5f;color:#000}.rank li,.info li{list-style:none;padding:12px 0;border-bottom:1px solid #222}.terminal{background:#050505;border:1px solid #333;color:#53ff8a;padding:18px;min-height:260px;line-height:1.6;margin-bottom:12px}
-/* V6 TIKTOK LIVE BATTLE */
-.live-shell{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px}.live-stage{position:relative;background:radial-gradient(circle at top,#34263c,#0a070b 70%);border:2px solid #ffd21a;border-radius:18px;min-height:640px;overflow:hidden;box-shadow:0 0 0 4px #000}.live-header{position:absolute;top:12px;left:12px;right:12px;z-index:5;display:flex;justify-content:space-between;align-items:center}.host-pill{background:rgba(0,0,0,.68);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:8px 12px;color:#fff;font-weight:900}.follow-btn{background:#ff2d6d;color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:900;margin-left:8px}.share-btn{background:rgba(0,0,0,.55);color:#fff;border:0;border-radius:50%;width:38px;height:38px}.battle-scorebar{position:absolute;top:70px;left:50%;transform:translateX(-50%);width:min(650px,86%);height:42px;z-index:6;display:flex;border-radius:10px;overflow:hidden;border:2px solid rgba(255,255,255,.25);background:#111}.score-left{background:linear-gradient(90deg,#ff2478,#ff5fb1);width:50%;display:flex;align-items:center;padding:0 14px;font-size:22px;font-weight:900;transition:.2s}.score-right{background:linear-gradient(90deg,#31dfff,#2e68ff);flex:1;display:flex;align-items:center;justify-content:flex-end;padding:0 14px;font-size:22px;font-weight:900;transition:.2s}.timer-badge{position:absolute;top:82px;left:50%;transform:translateX(-50%);z-index:8;background:#111;color:#fff;border:2px solid #ff4d5f;border-radius:999px;padding:7px 16px;font-size:20px;font-weight:900}.split{display:grid;grid-template-columns:1fr 1fr;height:100%;min-height:640px}.fighter{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 20px 110px}.fighter.left{border-right:2px solid rgba(0,0,0,.8);background:linear-gradient(180deg,rgba(255,210,26,.09),rgba(255,255,255,.04))}.fighter.right{background:linear-gradient(180deg,rgba(49,223,255,.10),rgba(255,255,255,.03))}.fighter-avatar{width:170px;height:170px;border-radius:28px;background:#111;border:3px solid #ffd21a;display:grid;place-items:center;font-size:82px;box-shadow:10px 10px #000;margin-bottom:18px}.fighter.right .fighter-avatar{border-color:#31dfff}.fighter-name{font-size:24px;font-weight:900;color:#ffd21a}.fighter.right .fighter-name{color:#31dfff}.fighter-sub{color:#aaa;margin-top:8px}.tap-zone{position:absolute;left:18px;right:18px;bottom:100px;z-index:7}.tap-zone .mainbtn{font-size:24px;border-radius:16px;box-shadow:0 8px #5e101d}.gift-bar{position:absolute;left:18px;right:18px;bottom:18px;z-index:8;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:12px}.gift-bar button{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:9px 6px;cursor:pointer;font-weight:900}.gift-bar small{display:block;color:#ffd21a}.live-side{background:#f6f6f6;color:#111;border-radius:18px;padding:18px;min-height:640px;display:flex;flex-direction:column}.viewer-title{font-size:20px;font-weight:900;margin-bottom:12px}.viewer-list{border-bottom:1px solid #ddd;padding-bottom:14px;margin-bottom:14px}.viewer-list li{list-style:none;padding:8px 0;display:flex;justify-content:space-between}.live-chat{flex:1;overflow:auto;min-height:300px}.live-chat p{padding:8px 0;border-bottom:1px solid #eee;line-height:1.35}.comment-row{display:flex;gap:8px;margin-top:12px}.comment-row input{background:#fff;color:#111;border:1px solid #ddd;border-radius:999px;margin:0}.heart-btn{width:48px;border:0;border-radius:50%;background:#ff2d6d;color:#fff;font-size:22px}.battle-controls{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.battle-result{position:absolute;top:135px;left:50%;transform:translateX(-50%);z-index:9;background:#000;color:#ffd21a;border:2px solid #ffd21a;border-radius:16px;padding:12px 18px;font-size:24px;font-weight:900;display:none}.floating-heart{position:absolute;right:24px;bottom:110px;z-index:20;font-size:28px;animation:floatUp 1.2s ease-out forwards}@keyframes floatUp{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-130px) scale(1.8)}}footer{max-width:1320px;margin:0 auto;padding:24px;color:#777;border-top:1px solid #222}.mobile-nav{display:none}@media(max-width:1100px){.layout{grid-template-columns:1fr;padding:14px}.sidebar,.rightbar{display:none}.live-shell{grid-template-columns:1fr}.live-side{min-height:360px}.status{grid-template-columns:1fr}.mobile-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:grid;grid-template-columns:repeat(5,1fr);background:#020202;border-top:1px solid #222}.mobile-nav button{background:#050505;color:#aaa;border:0;border-left:1px solid #222;padding:10px 3px;font-weight:900;font-size:12px}.mobile-nav button.active{color:#ffd21a}footer{padding-bottom:90px}}@media(max-width:680px){.header-inner{padding:14px}.logo{font-size:26px}.hero h1{font-size:28px}.live-stage,.split{min-height:620px}.battle-scorebar{top:64px;width:94%}.timer-badge{top:116px}.split{grid-template-columns:1fr 1fr}.fighter{padding:150px 8px 150px}.fighter-avatar{width:112px;height:112px;font-size:54px}.fighter-name{font-size:16px}.gift-bar{grid-template-columns:repeat(3,1fr)}.tap-zone{bottom:154px}.live-header{font-size:12px}.host-pill{padding:7px}.follow-btn{padding:7px 9px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHITAGRAM™ — ShitaBattle Live™</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255, 0, 199, 0.18), transparent 35%),
+        radial-gradient(circle at top right, rgba(139, 0, 255, 0.18), transparent 35%),
+        #05020c;
+      color: #fff;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .glass {
+      background: rgba(16, 10, 28, 0.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 80px rgba(0,0,0,0.45);
+    }
+
+    .neon-text {
+      text-shadow: 0 0 22px rgba(255, 0, 199, 0.65);
+    }
+
+    .battle-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .gift-card {
+      transition: 0.2s ease;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: rgba(255, 0, 199, 0.6);
+      box-shadow: 0 0 30px rgba(255, 0, 199, 0.22);
+    }
+
+    .float-heart {
+      position: absolute;
+      right: 18px;
+      bottom: 70px;
+      animation: floatUp 1.6s ease-out forwards;
+      pointer-events: none;
+      font-size: 24px;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.7);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-140px) scale(1.35);
+        opacity: 0;
+      }
+    }
+
+    .gift-pop {
+      animation: popGift 1.2s ease-out forwards;
+    }
+
+    @keyframes popGift {
+      0% {
+        transform: scale(0.5) translateY(20px);
+        opacity: 0;
+      }
+      35% {
+        transform: scale(1.15) translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) translateY(-40px);
+        opacity: 0;
+      }
+    }
+
+    .active-nav {
+      color: #ff00c7;
+      text-shadow: 0 0 20px rgba(255,0,199,0.8);
+    }
+  </style>
 </head>
+
 <body>
-<header><div class="header-inner"><div><div class="logo">404 <span>SOCIAL</span>™</div><strong>THE FAILURE NETWORK</strong></div><button class="btn-dark" onclick="showPage('live')">🔴 BATALHA LIVE</button></div></header>
-<div class="layout">
-<aside class="sidebar"><nav class="menu"><button class="active" onclick="showPage('feed',this)">🏠 Feed</button><button onclick="showPage('criar',this)">➕ Criar Bug</button><button onclick="showPage('live',this)">🔴 Batalha Live</button><button onclick="showPage('bash',this)">💻 BASH</button><button onclick="showPage('sobre',this)">🧠 Como funciona</button></nav></aside>
-<main>
-<section class="hero"><h1>A rede social onde tudo dá erro.</h1><p>Publica falhas, entra em batalhas live absurdas e transforma bugs em pontos.</p><div class="status"><div class="status-box">Posts<br><span class="yellow" id="postCount">0</span></div><div class="status-box">Pontos<br><span class="cyan" id="points">500</span></div><div class="status-box">Sistema<br><span class="red">Instável</span></div></div></section>
-<section id="feed" class="page active"></section>
-<section id="criar" class="page"><div class="card"><h2 class="panel-title">➕ Criar novo bug</h2><input id="username" placeholder="@nome_do_bug"><select id="category"><option value="bug">Bug</option><option value="vida">Vida real</option><option value="trabalho">Trabalho</option><option value="motivacao">Motivação</option></select><textarea id="content" rows="6" placeholder="Ex: motivacao.exe não encontrado."></textarea><button class="mainbtn" onclick="createPost()">PUBLICAR FALHA</button></div></section>
-<section id="live" class="page"><div class="live-shell"><div class="live-stage" id="liveStage"><div class="live-header"><div class="host-pill">💻 404SOCIAL <button class="follow-btn">+ Seguir</button></div><button class="share-btn">↗</button></div><div class="battle-scorebar"><div class="score-left" id="scoreLeft">0</div><div class="score-right" id="scoreRight">0</div></div><div class="timer-badge" id="battleTimer">00:45</div><div class="battle-result" id="battleResult"></div><div class="split"><div class="fighter left"><div class="fighter-avatar">👨‍💻</div><div class="fighter-name">@tu_bugaste</div><div class="fighter-sub">artesão de código podre</div></div><div class="fighter right"><div class="fighter-avatar">🤖</div><div class="fighter-name" id="rivalName">@senior_spaghetti</div><div class="fighter-sub">IA depreciada</div></div></div><div class="tap-zone"><button class="mainbtn dangerbtn" onclick="tapBug()">TAP TO BUG ⚠️</button></div><div class="gift-bar"><button onclick="sendGift(50,120,'☕ Café Frio')">☕<small>50</small></button><button onclick="sendGift(120,350,'🧻 Fita Cola')">🧻<small>120</small></button><button onclick="sendGift(300,900,'💀 Main')">💀<small>300</small></button><button onclick="sendGift(80,200,'🔌 Cabo Solto')">🔌<small>80</small></button><button onclick="sendGift(200,520,'🧯 Firewall')">🧯<small>200</small></button></div></div><aside class="live-side"><div class="viewer-title">Espectadores · <span id="viewerCount">366</span></div><ul class="viewer-list"><li><strong>1 Miss Maria</strong><span>2.8K</span></li><li><strong>2 Megan McKay</strong><span>28</span></li><li><strong>3 jackAlves😍</strong><span>9</span></li></ul><div class="battle-controls"><button class="mainbtn" onclick="startBattle()">INICIAR</button><button class="mainbtn dangerbtn" onclick="endBattle(true)">TERMINAR</button></div><br><div class="live-chat" id="battleChat"></div><div class="comment-row"><input id="manualComment" placeholder="Escreve..."><button class="heart-btn" onclick="sendHeart()">❤</button></div></aside></div></section>
-<section id="bash" class="page"><div class="card"><h2 class="panel-title">💻 Terminal BASH</h2><div class="terminal" id="terminal">$ iniciar 404SOCIAL<br>Sistema carregado com falhas aceitáveis.<br><br>Comandos: ajuda, café, crash, vida, motivacao, reset</div><input id="cmd" placeholder="$ Digita um comando..."><button class="mainbtn" onclick="runCommand()">EXECUTAR</button></div></section>
-<section id="sobre" class="page"><div class="card"><h2 class="panel-title">🧠 Como funciona</h2><ul class="info"><li>⚠️ Publicas erros da vida real ou digital.</li><li>💀 A comunidade reage aos bugs mais caóticos.</li><li>🔴 Entras em batalhas live contra IA depreciada.</li><li>🏆 Os pontos alimentam o ranking de insanidade.</li></ul></div></section>
-</main>
-<aside class="rightbar"><h2 class="panel-title yellow">🏆 Ranking</h2><ul class="rank" id="rankList"></ul><br><br><h2 class="panel-title red">🔴 Últimas Batalhas</h2><ul class="rank" id="battleList"></ul></aside>
-</div>
-<footer>404SOCIAL™ — Plataforma satírica experimental. © 2026 404SOCIAL Portugal.</footer>
-<nav class="mobile-nav"><button class="active" onclick="showPage('feed',this)">🏠<br>Feed</button><button onclick="showPage('criar',this)">➕<br>Criar</button><button onclick="showPage('live',this)">🔴<br>Live</button><button onclick="showPage('bash',this)">💻<br>BASH</button><button onclick="showPage('sobre',this)">🧠<br>Sobre</button></nav>
-<script>
-const SUPABASE_URL="https://odapqudsflnpdcducksh.supabase.co";
-const SUPABASE_KEY="sb_publishable_qBCGv0kFh167OiQI1BQvzQ_C85FXpEJ";
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let totalPoints=500,userScore=0,rivalScore=0,battleActive=false,battleTime=45,battleInterval=null,aiInterval=null,viewerInterval=null;
-const rivals=["@senior_spaghetti","@estagiario_stressado","@algueirao_wifi","@cache_da_desgraca"];
-const chatLines=["A internet de Algueirão está a tentar acompanhar isto.","Esse computador vai derreter.","Meteram isto em produção numa sexta?","A infraestrutura está a pedir reforma.","Isto cheira a commit direto na main.","O estagiário já fugiu.","A RAM acabou de pedir baixa médica.","bts💜💜💜","o host está a compilar em sofrimento.","lag ou conceito artístico?"];
-function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.menu button,.mobile-nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}function updatePoints(){document.getElementById('points').textContent=totalPoints;}
-async function loadPosts(){const{data,error}=await db.from('posts_404').select('*').order('created_at',{ascending:false});const feed=document.getElementById('feed');if(error){feed.innerHTML="<div class='card'>Erro ao carregar feed.</div>";return;}document.getElementById('postCount').textContent=data.length;feed.innerHTML='';if(data.length===0){feed.innerHTML="<div class='card'>Ainda não há bugs publicados.</div>";return;}data.forEach(renderPost);}function renderPost(post){const card=document.createElement('article');card.className='card';card.innerHTML=`<div class="user"><div><div class="name">⚠️ ${escapeHtml(post.username)}</div><small>Categoria: ${escapeHtml(post.category||'bug')}</small></div><div class="time">${new Date(post.created_at).toLocaleString('pt-PT')}</div></div><div class="bugbox"><span class="emoji">📄</span>${escapeHtml(post.content)}</div><div class="actions"><button onclick="reactPost('${post.id}','reactions_warning')">⚠️ ${post.reactions_warning}</button><button onclick="reactPost('${post.id}','reactions_skull')">💀 ${post.reactions_skull}</button><button onclick="reactPost('${post.id}','reactions_laugh')">😂 ${post.reactions_laugh}</button></div>`;document.getElementById('feed').appendChild(card);}async function createPost(){const username=document.getElementById('username').value.trim()||'@anon_bug';const content=document.getElementById('content').value.trim();const category=document.getElementById('category').value;if(!content){alert('Erro 404: texto não encontrado.');return;}const{error}=await db.from('posts_404').insert({username,content,category});if(error){alert('Erro ao publicar.');console.error(error);return;}await addUserPoints(username,50);document.getElementById('username').value='';document.getElementById('content').value='';showPage('feed');loadPosts();loadRanking();}async function reactPost(id,column){const{data,error}=await db.from('posts_404').select('*').eq('id',id).single();if(error)return;await db.from('posts_404').update({[column]:data[column]+1}).eq('id',id);totalPoints+=5;updatePoints();await addUserPoints(data.username,5);loadPosts();loadRanking();}async function addUserPoints(username,pts){const{data}=await db.from('users_404').select('*').eq('username',username).maybeSingle();if(data){await db.from('users_404').update({points:data.points+pts}).eq('username',username);}else{await db.from('users_404').insert({username,points:pts});}}async function loadRanking(){const{data,error}=await db.from('users_404').select('*').order('points',{ascending:false}).limit(10);if(error)return;const list=document.getElementById('rankList');list.innerHTML='';data.forEach((user,index)=>{const medal=['🥇','🥈','🥉'][index]||'💻';list.innerHTML+=`<li>${medal} ${escapeHtml(user.username)}<br><span class="red">${user.points} pts</span></li>`;});}
-function startBattle(){if(battleActive)return;battleActive=true;userScore=0;rivalScore=0;battleTime=45;document.getElementById('battleResult').style.display='none';document.getElementById('battleChat').innerHTML='';document.getElementById('rivalName').textContent=rivals[Math.floor(Math.random()*rivals.length)];updateBattle();addChat('🔴 A batalha começou. O servidor já está arrependido.');battleInterval=setInterval(()=>{battleTime--;addChat();if(battleTime<=0)endBattle();updateBattle();},1000);aiInterval=setInterval(()=>{rivalScore+=Math.floor(Math.random()*45)+15;updateBattle();},700);viewerInterval=setInterval(()=>{document.getElementById('viewerCount').textContent=330+Math.floor(Math.random()*180);},900);}function tapBug(){if(!battleActive)return;userScore+=Math.floor(Math.random()*35)+10;beep(220,.04);updateBattle();if(Math.random()>.72)sendHeart();}function sendGift(cost,power,name){if(!battleActive)return;if(totalPoints<cost){alert('Pontos insuficientes para esta prenda falhada.');return;}totalPoints-=cost;userScore+=power;updatePoints();addChat('🎁 Enviou '+name+'. A infraestrutura tremeu.');beep(440,.08);updateBattle();sendHeart();}function updateBattle(){document.getElementById('scoreLeft').textContent=userScore;document.getElementById('scoreRight').textContent=rivalScore;document.getElementById('battleTimer').textContent='00:'+String(battleTime).padStart(2,'0');let total=Math.max(userScore+rivalScore,1);let left=Math.max(8,Math.min(92,(userScore/total)*100));document.getElementById('scoreLeft').style.width=left+'%';}async function endBattle(force){if(!battleActive&&!force)return;clearInterval(battleInterval);clearInterval(aiInterval);clearInterval(viewerInterval);battleActive=false;const rival=document.getElementById('rivalName').textContent;const winner=userScore>=rivalScore?'@tu_bugaste':rival;const result=winner==='@tu_bugaste'?'🏆 VITÓRIA BUGADA':'💀 DERROTA COMPILADA';const box=document.getElementById('battleResult');box.style.display='block';box.innerHTML=`<span class="${winner==='@tu_bugaste'?'yellow':'red'}">${result}</span>`;if(winner==='@tu_bugaste'){totalPoints+=150;updatePoints();await addUserPoints('@tu_bugaste',150);}await db.from('battle_results_404').insert({username:'@tu_bugaste',rival,score_user:userScore,score_rival:rivalScore,winner,duration_seconds:45});loadBattles();loadRanking();beep(winner==='@tu_bugaste'?660:110,.2);}async function loadBattles(){const{data,error}=await db.from('battle_results_404').select('*').order('created_at',{ascending:false}).limit(5);if(error)return;const list=document.getElementById('battleList');list.innerHTML='';data.forEach(b=>{list.innerHTML+=`<li>${escapeHtml(b.username)} vs ${escapeHtml(b.rival)}<br><span class="yellow">${b.score_user}</span> - <span class="red">${b.score_rival}</span><br>Vencedor: ${escapeHtml(b.winner)}</li>`;});}function addChat(custom){const chat=document.getElementById('battleChat');const msg=custom||chatLines[Math.floor(Math.random()*chatLines.length)];chat.innerHTML+=`<p>💬 ${escapeHtml(msg)}</p>`;chat.scrollTop=chat.scrollHeight;}function sendHeart(){const input=document.getElementById('manualComment');if(input.value.trim()){addChat(input.value.trim());input.value='';}const heart=document.createElement('div');heart.className='floating-heart';heart.textContent=['❤','💛','⚠️','😂','💀'][Math.floor(Math.random()*5)];document.getElementById('liveStage').appendChild(heart);setTimeout(()=>heart.remove(),1300);}
-function runCommand(){const input=document.getElementById('cmd');const cmd=input.value.trim().toLowerCase();const terminal=document.getElementById('terminal');let response='';if(cmd==='ajuda')response='Comandos: café, crash, vida, motivacao, reset';else if(cmd==='café')response='☕ Café instalado. Produtividade continua indisponível.';else if(cmd==='crash')response='💀 Sistema caiu com elegância.';else if(cmd==='vida')response='vida.exe parou de responder.';else if(cmd==='motivacao')response='Erro 404: motivação não encontrada.';else if(cmd==='reset'){terminal.innerHTML='';input.value='';return;}else response=`Comando '${cmd}' não reconhecido.`;terminal.innerHTML+=`<br><br>$ ${escapeHtml(cmd)}<br><span class="red">${response}</span>`;input.value='';}function beep(freq,duration){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.frequency.value=freq;osc.type='square';gain.gain.value=.03;osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+duration);}catch(e){}}function escapeHtml(text){return String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');}
-updatePoints();loadPosts();loadRanking();loadBattles();db.channel('posts_404_realtime').on('postgres_changes',{event:'*',schema:'public',table:'posts_404'},()=>{loadPosts();loadRanking();}).subscribe();
-</script>
+
+  <div class="min-h-screen p-3 md:p-6">
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[240px_1fr_330px] gap-4">
+
+      <!-- SIDEBAR -->
+      <aside class="glass rounded-3xl p-5 hidden lg:flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-8">
+            <div class="text-4xl">💩</div>
+            <div>
+              <h1 class="text-2xl font-black neon-text">SHITAGRAM™</h1>
+              <p class="text-xs text-white/50">Rede social de micos</p>
+            </div>
+          </div>
+
+          <nav class="space-y-2 text-sm font-semibold">
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5">🏠 Feed</button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5">🎬 ShitClips™</button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-fuchsia-600/20 text-fuchsia-300 border border-fuchsia-500/30">⚔️ Batalhas <span class="ml-auto text-[10px] bg-pink-600 px-2 py-1 rounded-full">LIVE</span></button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5">🏆 Ranking</button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5">👤 Perfil</button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5">👛 Carteira</button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5">🛒 Loja</button>
+          </nav>
+        </div>
+
+        <div class="rounded-3xl p-5 bg-gradient-to-br from-fuchsia-700/30 to-purple-900/30 border border-fuchsia-500/30 text-center">
+          <div class="text-4xl mb-2">👑</div>
+          <h3 class="font-black text-fuchsia-300">VIP SHIT</h3>
+          <p class="text-xs text-white/60 mt-1">Multiplica XP, gifts e destaque.</p>
+          <button class="mt-4 w-full py-2 rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 font-bold">
+            Assinar
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="space-y-4">
+
+        <!-- HEADER MOBILE/DESKTOP -->
+        <header class="glass rounded-3xl p-4 flex items-center justify-between">
+          <div>
+            <div class="text-xs text-fuchsia-300 font-bold uppercase tracking-widest">Modo Live</div>
+            <h2 class="text-2xl md:text-4xl font-black">
+              ShitaBattle <span class="text-fuchsia-400 neon-text">Live™</span>
+            </h2>
+            <p class="text-xs md:text-sm text-white/55">
+              Batalhas ao vivo com gifts, chat e pontuação em tempo real
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="px-3 py-2 rounded-2xl bg-black/40 border border-white/10 font-bold text-sm">
+              🪙 <span id="coins">12430</span>
+            </div>
+            <button onclick="addCoins()" class="w-10 h-10 rounded-2xl bg-purple-700 hover:bg-purple-600 font-black">
+              +
+            </button>
+          </div>
+        </header>
+
+        <!-- BATTLE -->
+        <section class="glass rounded-3xl overflow-hidden relative">
+
+          <!-- SCORE BAR -->
+          <div class="p-4 pb-2">
+            <div class="h-12 rounded-2xl overflow-hidden flex border border-white/10 relative bg-black/50">
+              <div id="leftBar" class="h-full bg-gradient-to-r from-orange-500 to-yellow-400 flex items-center pl-5 font-black text-xl transition-all duration-500" style="width:58%">
+                <span id="leftScore">25680</span>
+              </div>
+
+              <div id="rightBar" class="h-full bg-gradient-to-r from-purple-700 to-pink-500 flex items-center justify-end pr-5 font-black text-xl transition-all duration-500" style="width:42%">
+                <span id="rightScore">18430</span>
+              </div>
+
+              <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="px-4 py-1 rounded-xl bg-black/80 border border-white/10 text-2xl font-black neon-text">
+                  ⚡VS⚡
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-full bg-red-600 text-xs font-black">● LIVE</span>
+                <span class="px-3 py-1 rounded-full bg-black/50 text-xs">👁️ <span id="viewers">4382</span></span>
+              </div>
+
+              <div class="px-5 py-2 rounded-2xl bg-black/70 border border-white/10 font-black text-xl" id="timer">
+                01:00
+              </div>
+
+              <div class="hidden md:flex -space-x-2">
+                <span class="w-8 h-8 rounded-full bg-pink-500 border-2 border-black grid place-items-center text-xs">👩</span>
+                <span class="w-8 h-8 rounded-full bg-yellow-500 border-2 border-black grid place-items-center text-xs">👨</span>
+                <span class="w-8 h-8 rounded-full bg-purple-500 border-2 border-black grid place-items-center text-xs">😎</span>
+                <span class="w-8 h-8 rounded-full bg-white text-black border-2 border-black grid place-items-center text-[10px]">+128</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STREAMS -->
+          <div class="grid grid-cols-2 gap-0 px-4 pb-4">
+            <div class="relative min-h-[360px] rounded-l-3xl overflow-hidden border border-orange-500/30 bg-gradient-to-br from-orange-950 to-black">
+              <div class="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,rgba(255,153,0,0.6),transparent_55%)]"></div>
+
+              <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-5">
+                <div class="text-8xl md:text-9xl drop-shadow-2xl">🤴</div>
+                <h3 class="text-2xl md:text-4xl font-black text-orange-300 neon-text">Rei do Cocó</h3>
+                <p class="text-white/60 text-xs md:text-sm mt-1">O imperador do trono!</p>
+              </div>
+
+              <div class="absolute bottom-4 left-4 right-4 bg-black/65 rounded-2xl p-3 border border-orange-400/30">
+                <div class="font-black">👑 Rei do Cocó</div>
+                <div class="text-xs text-white/55">Combo x<span id="leftCombo">12</span></div>
+              </div>
+
+              <div id="leftGiftPop" class="absolute inset-0 grid place-items-center pointer-events-none"></div>
+            </div>
+
+            <div class="relative min-h-[360px] rounded-r-3xl overflow-hidden border border-pink-500/30 bg-gradient-to-br from-fuchsia-950 to-black">
+              <div class="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,rgba(255,0,199,0.75),transparent_55%)]"></div>
+
+              <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-5">
+                <div class="text-8xl md:text-9xl drop-shadow-2xl">👸</div>
+                <h3 class="text-2xl md:text-4xl font-black text-pink-300 neon-text">Princesa do Shit</h3>
+                <p class="text-white/60 text-xs md:text-sm mt-1">Elegância é cagar com estilo!</p>
+              </div>
+
+              <div class="absolute bottom-4 left-4 right-4 bg-black/65 rounded-2xl p-3 border border-pink-400/30">
+                <div class="font-black">💗 Princesa do Shit</div>
+                <div class="text-xs text-white/55">Combo x<span id="rightCombo">7</span></div>
+              </div>
+
+              <div id="rightGiftPop" class="absolute inset-0 grid place-items-center pointer-events-none"></div>
+            </div>
+          </div>
+
+          <!-- TARGET -->
+          <div class="px-4 pb-4">
+            <div class="battle-card rounded-2xl p-3 flex flex-wrap gap-3 items-center justify-between">
+              <div class="text-sm text-white/60">Enviar gift para:</div>
+
+              <div class="flex gap-2">
+                <label class="cursor-pointer px-4 py-2 rounded-xl bg-orange-500/20 border border-orange-400/30 text-orange-300 text-sm font-bold">
+                  <input type="radio" name="target" value="left" checked class="mr-1">
+                  Rei do Cocó
+                </label>
+
+                <label class="cursor-pointer px-4 py-2 rounded-xl bg-pink-500/20 border border-pink-400/30 text-pink-300 text-sm font-bold">
+                  <input type="radio" name="target" value="right" class="mr-1">
+                  Princesa do Shit
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GIFTS -->
+        <section class="glass rounded-3xl p-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-black text-xl">🎁 Envie um gift</h3>
+            <button onclick="resetBattle()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-sm font-bold">
+              Reiniciar batalha
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <button onclick="sendGift('Cocó Supremo',100,'💩')" class="gift-card rounded-2xl p-4 bg-black/35 border border-white/10 text-center">
+              <div class="text-5xl mb-2">💩</div>
+              <div class="font-black">Cocó Supremo</div>
+              <div class="text-xs text-white/50 mt-1">Pura exaltação!</div>
+              <div class="mt-3 text-yellow-400 font-black">🪙 100</div>
+            </button>
+
+            <button onclick="sendGift('Café Frio',50,'☕')" class="gift-card rounded-2xl p-4 bg-black/35 border border-white/10 text-center">
+              <div class="text-5xl mb-2">☕</div>
+              <div class="font-black">Café Frio</div>
+              <div class="text-xs text-white/50 mt-1">Acorda a batalha!</div>
+              <div class="mt-3 text-yellow-400 font-black">🪙 50</div>
+            </button>
+
+            <button onclick="sendGift('Papel Dourado',200,'🧻')" class="gift-card rounded-2xl p-4 bg-black/35 border border-white/10 text-center">
+              <div class="text-5xl mb-2">🧻</div>
+              <div class="font-black">Papel Dourado</div>
+              <div class="text-xs text-white/50 mt-1">Luxo no trono.</div>
+              <div class="mt-3 text-yellow-400 font-black">🪙 200</div>
+            </button>
+
+            <button onclick="sendGift('Bug Nuclear',300,'☢️')" class="gift-card rounded-2xl p-4 bg-black/35 border border-white/10 text-center">
+              <div class="text-5xl mb-2">☢️</div>
+              <div class="font-black">Bug Nuclear</div>
+              <div class="text-xs text-white/50 mt-1">Explode pontos.</div>
+              <div class="mt-3 text-yellow-400 font-black">🪙 300</div>
+            </button>
+
+            <button onclick="sendGift('Rei do Mico',500,'👑')" class="gift-card rounded-2xl p-4 bg-black/35 border border-white/10 text-center">
+              <div class="text-5xl mb-2">👑</div>
+              <div class="font-black">Rei do Mico</div>
+              <div class="text-xs text-white/50 mt-1">Humilhação real.</div>
+              <div class="mt-3 text-yellow-400 font-black">🪙 500</div>
+            </button>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- RIGHT PANEL -->
+      <aside class="space-y-4">
+
+        <!-- LEADERBOARD -->
+        <section class="glass rounded-3xl p-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-black">🏆 Top Doadores</h3>
+            <span class="text-xs text-fuchsia-300">Ver ranking</span>
+          </div>
+
+          <div id="donorList" class="space-y-2 text-sm">
+            <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+              <span>🥇 Cagão Anónimo</span>
+              <strong class="text-yellow-400">45600</strong>
+            </div>
+            <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+              <span>🥈 ShitPatrocinador</span>
+              <strong class="text-yellow-400">32100</strong>
+            </div>
+            <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+              <span>🥉 Dona do Troninho</span>
+              <strong class="text-yellow-400">21750</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- CHAT -->
+        <section class="glass rounded-3xl p-4 relative overflow-hidden min-h-[480px] flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-black">Chat ao vivo</h3>
+            <span class="text-sm text-white/50">4.382</span>
+          </div>
+
+          <div id="chat" class="flex-1 space-y-3 overflow-y-auto pr-1 text-sm">
+            <div><strong class="text-fuchsia-300">@MerdaPremium</strong> Rei do Cocó lendário! 👑💩</div>
+            <div><strong class="text-pink-300">@CagaMais</strong> BUG NUCLEAR NELEEEE! 💥</div>
+            <div><strong class="text-purple-300">@TroninhoVoador</strong> Princesa do Shit arrasando!</div>
+            <div><strong class="text-orange-300">@Fedorento</strong> CAFÉ FRIOOOOO! ☕</div>
+          </div>
+
+          <div id="heartArea" class="absolute inset-0 pointer-events-none"></div>
+
+          <div class="mt-4 flex gap-2">
+            <input id="chatInput" onkeydown="chatEnter(event)" class="flex-1 bg-black/40 border border-white/10 rounded-2xl px-4 py-3 text-sm outline-none focus:border-fuchsia-500" placeholder="Digite sua mensagem..." />
+            <button onclick="sendMessage()" class="w-12 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 text-xl">
+              ➤
+            </button>
+          </div>
+        </section>
+
+      </aside>
+
+    </div>
+
+    <!-- MOBILE NAV -->
+    <nav class="lg:hidden fixed bottom-3 left-3 right-3 glass rounded-3xl p-3 grid grid-cols-5 text-xs text-center z-40">
+      <button>🏠<br>Feed</button>
+      <button>🎬<br>Clips</button>
+      <button class="active-nav">⚔️<br>Batalha</button>
+      <button>🏆<br>Ranking</button>
+      <button>👤<br>Perfil</button>
+    </nav>
+
+  </div>
+
+  <!-- WINNER MODAL -->
+  <div id="winnerModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-xl z-50 items-center justify-center p-4">
+    <div class="glass rounded-3xl p-8 max-w-md w-full text-center">
+      <div class="text-7xl mb-3">🏆</div>
+      <h2 id="winnerTitle" class="text-3xl font-black neon-text mb-2">Vitória!</h2>
+      <p id="winnerText" class="text-white/60 mb-6"></p>
+      <button onclick="closeWinner()" class="w-full py-3 rounded-2xl bg-fuchsia-700 hover:bg-fuchsia-600 font-black">
+        Fechar
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let leftScore = 25680;
+    let rightScore = 18430;
+    let coins = 12430;
+    let timeLeft = 60;
+    let timerInterval;
+    let botInterval;
+    let viewerInterval;
+    let heartInterval;
+    let leftCombo = 12;
+    let rightCombo = 7;
+    let userDonation = 0;
+
+    const botNames = [
+      "CagaMais",
+      "TroninhoVoador",
+      "Fedorento",
+      "MicoLover",
+      "RainhaDoBug",
+      "CheirosoPassivo",
+      "PapelDourado",
+      "CocóVIP"
+    ];
+
+    const botMessages = [
+      "Essa batalha está épica! 🔥",
+      "Manda gift no Rei do Cocó!",
+      "Princesa do Shit vai virar isto!",
+      "BUG NUCLEAR NELEEEE! 💥",
+      "Isto sim é live premium 😂",
+      "Café frio para acordar a arena ☕",
+      "O chat está impossível hoje 💩",
+      "Que vergonha linda 😂"
+    ];
+
+    function formatNumber(n) {
+      return n.toLocaleString("pt-PT");
+    }
+
+    function updateUI() {
+      document.getElementById("leftScore").innerText = formatNumber(leftScore);
+      document.getElementById("rightScore").innerText = formatNumber(rightScore);
+      document.getElementById("coins").innerText = formatNumber(coins);
+      document.getElementById("leftCombo").innerText = leftCombo;
+      document.getElementById("rightCombo").innerText = rightCombo;
+
+      const total = leftScore + rightScore;
+      let leftPercent = (leftScore / total) * 100;
+      leftPercent = Math.max(18, Math.min(82, leftPercent));
+
+      document.getElementById("leftBar").style.width = leftPercent + "%";
+      document.getElementById("rightBar").style.width = (100 - leftPercent) + "%";
+    }
+
+    function sendGift(name, cost, emoji) {
+      if (coins < cost) {
+        addChat("Sistema", "Saldo insuficiente de ShitCoins™ 🪙");
+        return;
+      }
+
+      coins -= cost;
+      userDonation += cost;
+
+      const target = document.querySelector("input[name='target']:checked").value;
+
+      if (target === "left") {
+        leftScore += cost;
+        leftCombo++;
+        popGift("leftGiftPop", emoji, name);
+      } else {
+        rightScore += cost;
+        rightCombo++;
+        popGift("rightGiftPop", emoji, name);
+      }
+
+      updateUI();
+      addChat("Você", `enviou ${emoji} ${name}!`);
+      updateDonors();
+      spawnHeart();
+    }
+
+    function popGift(containerId, emoji, name) {
+      const container = document.getElementById(containerId);
+      const el = document.createElement("div");
+      el.className = "gift-pop px-5 py-3 rounded-3xl bg-black/80 border border-yellow-400/50 text-center shadow-2xl";
+      el.innerHTML = `
+        <div class="text-6xl">${emoji}</div>
+        <div class="font-black text-yellow-300 mt-1">${name}</div>
+      `;
+      container.appendChild(el);
+
+      setTimeout(() => el.remove(), 1200);
+    }
+
+    function addChat(author, message) {
+      const chat = document.getElementById("chat");
+      const div = document.createElement("div");
+
+      let color = "text-white";
+      if (author === "Você") color = "text-yellow-300";
+      if (author === "Sistema") color = "text-red-300";
+
+      div.innerHTML = `<strong class="${color}">@${author}</strong> ${message}`;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("chatInput");
+      const msg = input.value.trim();
+
+      if (!msg) return;
+
+      addChat("Você", msg);
+      input.value = "";
+      spawnHeart();
+    }
+
+    function chatEnter(e) {
+      if (e.key === "Enter") sendMessage();
+    }
+
+    function updateDonors() {
+      if (userDonation <= 0) return;
+
+      document.getElementById("donorList").innerHTML = `
+        <div class="flex items-center justify-between bg-yellow-500/10 p-3 rounded-2xl border border-yellow-500/30">
+          <span>🔥 Você</span>
+          <strong class="text-yellow-400">${formatNumber(userDonation)}</strong>
+        </div>
+        <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+          <span>🥇 Cagão Anónimo</span>
+          <strong class="text-yellow-400">45600</strong>
+        </div>
+        <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+          <span>🥈 ShitPatrocinador</span>
+          <strong class="text-yellow-400">32100</strong>
+        </div>
+      `;
+    }
+
+    function spawnHeart() {
+      const area = document.getElementById("heartArea");
+      const hearts = ["❤️", "💜", "🔥", "💩", "😂", "👑"];
+      const el = document.createElement("div");
+      el.className = "float-heart";
+      el.style.right = Math.floor(Math.random() * 90 + 10) + "px";
+      el.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+      area.appendChild(el);
+
+      setTimeout(() => el.remove(), 1700);
+    }
+
+    function addCoins() {
+      coins += 1000;
+      updateUI();
+      addChat("Sistema", "Recebeste +1.000 ShitCoins™ 🪙");
+    }
+
+    function runBots() {
+      botInterval = setInterval(() => {
+        const name = botNames[Math.floor(Math.random() * botNames.length)];
+        const msg = botMessages[Math.floor(Math.random() * botMessages.length)];
+        addChat(name, msg);
+
+        if (Math.random() < 0.35) {
+          const targetLeft = Math.random() > 0.45;
+          const points = [50, 100, 200][Math.floor(Math.random() * 3)];
+
+          if (targetLeft) {
+            leftScore += points;
+          } else {
+            rightScore += points;
+          }
+
+          updateUI();
+        }
+      }, 3200);
+
+      viewerInterval = setInterval(() => {
+        const viewersEl = document.getElementById("viewers");
+        let viewers = parseInt(viewersEl.innerText.replace(".", ""));
+        viewers += Math.floor(Math.random() * 25) - 8;
+        viewers = Math.max(3000, viewers);
+        viewersEl.innerText = formatNumber(viewers);
+      }, 2500);
+
+      heartInterval = setInterval(() => {
+        if (Math.random() < 0.65) spawnHeart();
+      }, 1200);
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+
+        const min = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+        const sec = String(timeLeft % 60).padStart(2, "0");
+
+        document.getElementById("timer").innerText = `${min}:${sec}`;
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          clearInterval(botInterval);
+          clearInterval(viewerInterval);
+          clearInterval(heartInterval);
+          showWinner();
+        }
+      }, 1000);
+    }
+
+    function showWinner() {
+      const modal = document.getElementById("winnerModal");
+      const title = document.getElementById("winnerTitle");
+      const text = document.getElementById("winnerText");
+
+      if (leftScore > rightScore) {
+        title.innerText = "Vitória do Rei do Cocó 👑";
+        text.innerText = `Ganhou com ${formatNumber(leftScore)} pontos contra ${formatNumber(rightScore)}.`;
+      } else if (rightScore > leftScore) {
+        title.innerText = "Vitória da Princesa do Shit 💗";
+        text.innerText = `Ganhou com ${formatNumber(rightScore)} pontos contra ${formatNumber(leftScore)}.`;
+      } else {
+        title.innerText = "Empate histórico ⚖️";
+        text.innerText = "Os dois lados terminaram com a mesma pontuação.";
+      }
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeWinner() {
+      document.getElementById("winnerModal").classList.add("hidden");
+      document.getElementById("winnerModal").classList.remove("flex");
+    }
+
+    function resetBattle() {
+      leftScore = 25680;
+      rightScore = 18430;
+      coins = 12430;
+      timeLeft = 60;
+      leftCombo = 12;
+      rightCombo = 7;
+      userDonation = 0;
+
+      document.getElementById("timer").innerText = "01:00";
+      document.getElementById("chat").innerHTML = `
+        <div><strong class="text-fuchsia-300">@MerdaPremium</strong> Rei do Cocó lendário! 👑💩</div>
+        <div><strong class="text-pink-300">@CagaMais</strong> BUG NUCLEAR NELEEEE! 💥</div>
+        <div><strong class="text-purple-300">@TroninhoVoador</strong> Princesa do Shit arrasando!</div>
+        <div><strong class="text-orange-300">@Fedorento</strong> CAFÉ FRIOOOOO! ☕</div>
+      `;
+
+      document.getElementById("donorList").innerHTML = `
+        <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+          <span>🥇 Cagão Anónimo</span>
+          <strong class="text-yellow-400">45600</strong>
+        </div>
+        <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+          <span>🥈 ShitPatrocinador</span>
+          <strong class="text-yellow-400">32100</strong>
+        </div>
+        <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+          <span>🥉 Dona do Troninho</span>
+          <strong class="text-yellow-400">21750</strong>
+        </div>
+      `;
+
+      closeWinner();
+      updateUI();
+      runBots();
+      startTimer();
+    }
+
+    updateUI();
+    runBots();
+    startTimer();
+  </script>
+
 </body>
 </html>
