@@ -1,7 +1,13 @@
-SHITAGRAM™ v32 — Batalhas de Reclamação Absurda
+SHITAGRAM™ v33 — Reclamação Absurda Polished
 
-Novo tema oficial aplicado.
-Tema antigo removido: ShitaBattle Live roxo/neon.
+Melhorias sobre a v32:
+- visual mais polido
+- hover/efeitos nos cards
+- engine sonora nativa Web Audio API
+- sons em votos, gifts, bónus, sorteio e IA
+- botão fixo para ligar/desligar sons
+- página Gerar com IA agora tem simulação funcional
+- tema antigo removido
 
 Páginas:
 - index.html
@@ -12,12 +18,5 @@ Páginas:
 - hall-of-shame.html
 - perfil.html
 
-Assets:
-- assets/css/style.css
-- assets/js/app.js
-
-Fluxo recomendado:
-index/app → temas → duelos → hall-of-shame → perfil
-
-Próxima fase:
-v33 — ligar dados reais/Supabase ao novo tema.
+Próximo passo:
+v34 — ligar Supabase/Auth/Carteira ao novo tema.

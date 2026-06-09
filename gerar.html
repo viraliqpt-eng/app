@@ -28,8 +28,9 @@
     <p>Escreve uma situação banal e a IA transforma isso numa guerra judicial absurda.</p>
   </section>
   <section class="center-panel panel">
-    <textarea style="width:100%;min-height:180px;border-radius:18px;background:rgba(0,0,0,.45);border:1px solid rgba(255,122,0,.20);color:white;padding:20px;font-size:18px;outline:none" placeholder="Ex: O meu router só funciona quando ninguém precisa dele..."></textarea>
-    <button class="btn-main" style="margin-top:18px" onclick="alert('IA sarcástica em breve!')">🪄 Gerar Reclamação Absurda</button>
+    <textarea id="iaInput" style="width:100%;min-height:180px;border-radius:18px;background:rgba(0,0,0,.45);border:1px solid rgba(255,122,0,.20);color:white;padding:20px;font-size:18px;outline:none" placeholder="Ex: O meu router só funciona quando ninguém precisa dele..."></textarea>
+    <button class="btn-main" style="margin-top:18px" onclick="gerarIA()">🪄 Gerar Reclamação Absurda</button>
+    <div id="iaResult"></div>
   </section>
 </main>
 
