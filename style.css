@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHITAGRAM™ — Gerar com IA</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  
+<header class="app-header">
+  <a class="logo" href="index.html">
+    <div class="logo-mark">🔥</div>
+    <div><div class="logo-title">SHITAGRAM™</div><div class="logo-sub">BATALHAS DE RECLAMAÇÃO</div></div>
+  </a>
+  <nav class="nav"><a class="" href="duelos.html"><span>▶️</span>Duelos Ao Vivo</a><a class="" href="temas.html"><span>🎭</span>Temas Absurdos</a><a class="active" href="gerar.html"><span>🪄</span>Gerar com IA</a><a class="" href="hall-of-shame.html"><span>🏆</span>Hall of Shame</a><a class="" href="perfil.html"><span>💩</span>Meu Perfil</a></nav>
+  <div class="header-actions">
+    <div class="coin-pill">🪙 <span>1,500</span></div>
+    <a class="user-pill" href="perfil.html">👤 <span>user_shitagram</span>⌄</a>
+  </div>
+</header>
+
+  
+<main class="container">
+  <section class="hero">
+    <span class="kicker">Laboratório sarcástico</span>
+    <h1>Gerar Reclamação <span>com IA</span></h1>
+    <p>Escreve uma situação banal e a IA transforma isso numa guerra judicial absurda.</p>
+  </section>
+  <section class="center-panel panel">
+    <textarea style="width:100%;min-height:180px;border-radius:18px;background:rgba(0,0,0,.45);border:1px solid rgba(255,122,0,.20);color:white;padding:20px;font-size:18px;outline:none" placeholder="Ex: O meu router só funciona quando ninguém precisa dele..."></textarea>
+    <button class="btn-main" style="margin-top:18px" onclick="alert('IA sarcástica em breve!')">🪄 Gerar Reclamação Absurda</button>
+  </section>
+</main>
+
+  <footer class="footer">
+    <strong>🔥 SHITAGRAM™</strong>
+    <span>© 2026 SHITAGRAM™. Todos os direitos reservados.</span>
+    <span>Regras da Comunidade · Privacidade · Termos de Serviço</span>
+  </footer>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
