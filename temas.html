@@ -1,13 +1,7 @@
-const CACHE_NAME = "shitagram-v34-2-pwa";
-const APP_SHELL = [
+const CACHE_NAME = "shitagram-v34-4-edge";
+const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./app.html",
-  "./duelos.html",
-  "./temas.html",
-  "./gerar.html",
-  "./hall-of-shame.html",
-  "./perfil.html",
   "./instalar.html",
   "./manifest.json",
   "./icons/icon-192.png",
@@ -17,17 +11,18 @@ const APP_SHELL = [
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then(async (cache) => {
+      await Promise.allSettled(CORE_ASSETS.map((asset) => cache.add(asset)));
+    })
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
-    )
+    caches.keys()
+      .then((keys) => Promise.all(keys.map((key) => key !== CACHE_NAME ? caches.delete(key) : null)))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
@@ -39,11 +34,14 @@ self.addEventListener("fetch", (event) => {
 
       return fetch(event.request)
         .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          if (!response || response.status !== 200) return response;
+          try {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          } catch (err) {}
           return response;
         })
-        .catch(() => caches.match("./index.html"));
+        .catch(() => caches.match("./index.html"))
     })
   );
 });

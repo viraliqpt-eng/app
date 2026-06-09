@@ -1,23 +1,34 @@
 {
   "name": "SHITAGRAM™ — Batalhas de Reclamação",
   "short_name": "SHITAGRAM",
-  "description": "Batalhas de Reclamação Absurda, duelos humorísticos, temas absurdos e Hall of Shame.",
+  "description": "Batalhas de Reclamação Absurda, temas absurdos, duelos e Hall of Shame.",
+  "id": "/app/",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
   "background_color": "#090302",
   "theme_color": "#ff7a00",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "lang": "pt-PT",
+  "categories": [
+    "entertainment",
+    "social",
+    "games"
+  ],
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

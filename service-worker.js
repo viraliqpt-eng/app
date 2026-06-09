@@ -1,28 +1,29 @@
-SHITAGRAM™ v34.2 — PWA Real Install
+SHITAGRAM™ v34.4 — Edge PWA Fix
 
-Esta versão corrige a instalação no PC.
+Versão específica para Microsoft Edge.
 
 Inclui:
+- diagnóstico Edge em instalar.html
+- botão Instalar no Edge
+- botão Limpar PWA antigo
+- botão Copiar passos do Edge
+- service-worker.js robusto
+- manifest.json ajustado para /app/
+- icons
+
+Publicar:
+Enviar TODOS os ficheiros para /app/ no GitHub Pages:
+- index.html
+- instalar.html
 - manifest.json
 - service-worker.js
-- icons/icon-192.png
-- icons/icon-512.png
-- link rel=manifest em todas as páginas
-- registo automático do service worker
+- icons/
 
-Como publicar no GitHub Pages / domínio:
-1. Envia TODOS os ficheiros e pastas deste pacote para a raiz do site.
-2. Não envies só o index.html.
-3. Confirma que existem na raiz:
-   - manifest.json
-   - service-worker.js
-   - icons/icon-192.png
-   - icons/icon-512.png
-4. Abre o site em HTTPS.
-5. No Chrome/Edge, espera alguns segundos e procura o ícone de instalar na barra de endereço.
-6. Também podes abrir /instalar.html.
-
-Notas:
-- Em alguns browsers, o botão “Instalar SHITAGRAM™” só funciona depois de o browser disparar o evento beforeinstallprompt.
-- Se não aparecer, usa o menu do Chrome/Edge → Instalar página como app.
-- No iPhone, a instalação é manual: Partilhar → Adicionar ao ecrã principal.
+Depois:
+1. Abre https://viraliqpt-eng.github.io/app/instalar.html
+2. Faz Ctrl+F5
+3. Clica “Limpar PWA antigo”
+4. A página recarrega
+5. Espera Service Worker: Ativo
+6. Clica “Instalar no Edge”
+7. Se não abrir popup: menu ⋯ → Aplicações → Instalar este site como app
