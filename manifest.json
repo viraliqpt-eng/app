@@ -472,6 +472,33 @@ body::before{
   .edge-grid,.edge-status{grid-template-columns:1fr}
 }
 </style>
+<style>
+.reset-alert{
+  max-width:1120px;
+  margin:18px auto;
+  border:1px solid rgba(255,184,0,.35);
+  background:rgba(255,184,0,.08);
+  color:#ffd17a;
+  padding:16px 18px;
+  border-radius:16px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.reset-alert button{
+  border:0;
+  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
+  color:#160602;
+  border-radius:12px;
+  padding:10px 16px;
+  font-weight:1000;
+}
+@media(max-width:700px){
+  .reset-alert{flex-direction:column;align-items:flex-start}
+}
+</style>
 </head>
 <body>
 <header class="app-header">
@@ -487,6 +514,12 @@ body::before{
     <a href="perfil.html">💩 Meu Perfil</a>
   </nav>
 </header>
+
+<div class="reset-alert">
+  <span>⚠️ Modo correção ativo: se ainda aparecer código, clica para limpar o PWA antigo.</span>
+  <button onclick="limparPwaAntigo()">Limpar cache/PWA antigo</button>
+</div>
+
 
 <main class="container">
   <section class="hero">
@@ -512,7 +545,7 @@ body::before{
 
     <div class="install-status">
       <strong>Service Worker</strong>
-      <span id="swStatusText">A verificar...</span>
+      <span id="swStatusText">Desativado temporariamente</span>
     </div>
 
     <div class="install-status">
@@ -905,203 +938,7 @@ document.addEventListener("DOMContentLoaded", setInstallDiagnostics);
 
 </script>
 
-<script>
-(function(){
-  let deferredInstallPrompt = null;
 
-  window.addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
-    deferredInstallPrompt = event;
-    const pwa = document.getElementById("pwaStatusText");
-    if (pwa) pwa.textContent = "Pronta para instalar";
-  });
 
-  window.addEventListener("appinstalled", () => {
-    const pwa = document.getElementById("pwaStatusText");
-    if (pwa) pwa.textContent = "Instalada";
-  });
-
-  window.installShitagram = async function(){
-    if (deferredInstallPrompt) {
-      deferredInstallPrompt.prompt();
-      const choice = await deferredInstallPrompt.userChoice;
-      const pwa = document.getElementById("pwaStatusText");
-      if (pwa) pwa.textContent = choice.outcome === "accepted" ? "Instalação aceite" : "Instalação recusada";
-      deferredInstallPrompt = null;
-      return;
-    }
-
-    window.copyInstallInstructions && window.copyInstallInstructions();
-    alert("Se o botão de instalação não aparecer, usa o menu do Chrome/Edge: ⋮ → Guardar e partilhar → Instalar página como app.");
-  };
-
-  window.copyInstallInstructions = function(){
-    const text = `Como instalar o SHITAGRAM™ no PC:
-
-Chrome/Edge:
-1. Abre o site.
-2. Clica no menu ⋮.
-3. Vai a Guardar e partilhar.
-4. Escolhe Instalar página como app.
-
-Android:
-Menu ⋮ → Instalar app.
-
-iPhone:
-Partilhar → Adicionar ao ecrã principal.`;
-
-    navigator.clipboard && navigator.clipboard.writeText(text);
-    alert("Instruções copiadas.");
-  };
-
-  window.addEventListener("load", async () => {
-    const swStatus = document.getElementById("swStatusText");
-    const manifestStatus = document.getElementById("manifestStatusText");
-    const pwaStatus = document.getElementById("pwaStatusText");
-
-    if (manifestStatus) {
-      manifestStatus.textContent = document.querySelector('link[rel="manifest"]') ? "Encontrado" : "Não encontrado";
-    }
-
-    if (!("serviceWorker" in navigator)) {
-      if (swStatus) swStatus.textContent = "Não suportado";
-      return;
-    }
-
-    try {
-      const reg = await navigator.serviceWorker.register("./service-worker.js", { scope: "./" });
-      await navigator.serviceWorker.ready;
-      if (swStatus) swStatus.textContent = "Ativo";
-      if (pwaStatus && !pwaStatus.textContent.trim()) pwaStatus.textContent = "Pronta para instalar";
-      console.log("[SHITAGRAM] Service Worker ativo:", reg.scope);
-    } catch (err) {
-      console.error("[SHITAGRAM] Erro no Service Worker:", err);
-      if (swStatus) swStatus.textContent = "Erro ao ativar";
-      if (pwaStatus) pwaStatus.textContent = "Verifica service-worker.js";
-    }
-  });
-})();
-</script>
-<script>
-(function(){
-  let deferredInstallPrompt = null;
-
-  function setText(id, value){
-    const el = document.getElementById(id);
-    if(el) el.textContent = value;
-  }
-
-  function isStandalone(){
-    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-  }
-
-  window.addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
-    deferredInstallPrompt = event;
-    setText("edgeInstallStatus", "Pronto para instalar");
-    setText("pwaStatusText", "Pronta para instalar");
-  });
-
-  window.addEventListener("appinstalled", () => {
-    setText("edgeInstallStatus", "Instalada");
-    setText("pwaStatusText", "Instalada");
-  });
-
-  window.installShitagram = async function(){
-    if(isStandalone()){
-      alert("O SHITAGRAM™ já está aberto como app.");
-      return;
-    }
-
-    if(deferredInstallPrompt){
-      deferredInstallPrompt.prompt();
-      const choice = await deferredInstallPrompt.userChoice;
-      const status = choice.outcome === "accepted" ? "Instalação aceite" : "Instalação recusada";
-      setText("edgeInstallStatus", status);
-      setText("pwaStatusText", status);
-      deferredInstallPrompt = null;
-      return;
-    }
-
-    alert("No Edge, usa: menu ⋯ → Aplicações → Instalar este site como app.");
-  };
-
-  window.copyInstallInstructions = function(){
-    const text = `Microsoft Edge no PC:
-1. Abre o site.
-2. Clica no menu ⋯ no canto superior direito.
-3. Vai a Aplicações.
-4. Escolhe Instalar este site como app.
-5. Confirma Instalar.
-
-Se não aparecer:
-- Faz Ctrl+F5.
-- Abre edge://apps para ver apps instaladas.
-- Em F12 > Application > Service Workers, remove o antigo e recarrega.`;
-
-    navigator.clipboard && navigator.clipboard.writeText(text);
-    alert("Instruções copiadas.");
-  };
-
-  window.resetPwaEdge = async function(){
-    try{
-      if("serviceWorker" in navigator){
-        const regs = await navigator.serviceWorker.getRegistrations();
-        await Promise.all(regs.map((reg) => reg.unregister()));
-      }
-
-      if(window.caches){
-        const keys = await caches.keys();
-        await Promise.all(keys.map((key) => caches.delete(key)));
-      }
-
-      localStorage.setItem("shitagram_pwa_reset", Date.now().toString());
-      alert("PWA antigo limpo. Agora a página vai recarregar.");
-      location.reload(true);
-    }catch(err){
-      alert("Não consegui limpar automaticamente. Usa F12 → Application → Service Workers → Unregister.");
-    }
-  };
-
-  window.openEdgeApps = function(){
-    alert("Escreve isto na barra do Edge: edge://apps");
-  };
-
-  async function registerSW(){
-    setText("edgeHttpsStatus", location.protocol === "https:" ? "HTTPS ativo" : "Precisa de HTTPS");
-
-    const manifest = document.querySelector('link[rel="manifest"]');
-    setText("edgeManifestStatus", manifest ? "Manifest ligado" : "Manifest ausente");
-    setText("manifestStatusText", manifest ? "Encontrado" : "Não encontrado");
-
-    if(!("serviceWorker" in navigator)){
-      setText("edgeSwStatus", "Não suportado");
-      setText("swStatusText", "Não suportado");
-      return;
-    }
-
-    try{
-      const reg = await navigator.serviceWorker.register("./service-worker.js", {scope:"./"});
-      await navigator.serviceWorker.ready;
-      setText("edgeSwStatus", "Ativo");
-      setText("swStatusText", "Ativo");
-      console.log("[SHITAGRAM Edge PWA] Service Worker ativo:", reg.scope);
-    }catch(err){
-      console.error("[SHITAGRAM Edge PWA] Erro:", err);
-      setText("edgeSwStatus", "Erro ao ativar");
-      setText("swStatusText", "Erro ao ativar");
-    }
-
-    if(isStandalone()){
-      setText("edgeInstallStatus", "Já instalada");
-      setText("pwaStatusText", "Instalada");
-    }else{
-      setText("edgeInstallStatus", deferredInstallPrompt ? "Pronto para instalar" : "Aguarda evento do Edge");
-    }
-  }
-
-  window.addEventListener("load", registerSW);
-})();
-</script>
 </body>
 </html>

@@ -1,47 +1,43 @@
-const CACHE_NAME = "shitagram-v34-4-edge";
-const CORE_ASSETS = [
-  "./",
-  "./index.html",
-  "./instalar.html",
-  "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+const CACHE_PREFIXES = [
+  "shitagram-",
+  "shitagram-v34",
+  "shitagram-v34-2-pwa",
+  "shitagram-v34-3-robust",
+  "shitagram-v34-4-edge"
 ];
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      await Promise.allSettled(CORE_ASSETS.map((asset) => cache.add(asset)));
-    })
-  );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.map((key) => key !== CACHE_NAME ? caches.delete(key) : null)))
-      .then(() => self.clients.claim())
+    (async () => {
+      try {
+        const keys = await caches.keys();
+        await Promise.all(
+          keys.map((key) => {
+            if (CACHE_PREFIXES.some((prefix) => key.startsWith(prefix))) {
+              return caches.delete(key);
+            }
+            return null;
+          })
+        );
+      } catch (e) {}
+
+      try {
+        await self.registration.unregister();
+      } catch (e) {}
+
+      const clientsList = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+      for (const client of clientsList) {
+        client.navigate(client.url);
+      }
+    })()
   );
 });
 
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-
-      return fetch(event.request)
-        .then((response) => {
-          if (!response || response.status !== 200) return response;
-          try {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          } catch (err) {}
-          return response;
-        })
-        .catch(() => caches.match("./index.html"))
-    })
-  );
+  // Emergency reset: do not intercept anything.
+  return;
 });
