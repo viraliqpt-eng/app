@@ -1,103 +1,1118 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Unwritten Human™ v0.6</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#03030b">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentirógrafo™ — Duelo de Mentiras</title>
+  
+  <!-- Tailwind CSS para utilitários de espaçamento rápidos e responsividade -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#ffcc00',
+              pink: '#ff0088',
+              purple: '#8b5cf6',
+              darkViolet: '#140014'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{min-height:100vh;font-family:Inter,Arial,sans-serif;background:radial-gradient(circle at top,#24115c,#03030b 65%);color:white;overflow-x:hidden}.stars{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(white 1px,transparent 1px);background-size:42px 42px;opacity:.12;animation:drift 30s linear infinite}@keyframes drift{to{background-position:420px 840px}}.app{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;position:relative;z-index:2}.card{width:100%;max-width:880px;padding:32px;border-radius:30px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 80px rgba(110,80,255,.25);backdrop-filter:blur(18px)}h1{font-size:clamp(38px,8vw,72px);letter-spacing:-3px;margin-bottom:12px}h2{font-size:34px;margin-bottom:16px}p{color:#d9ddff;line-height:1.5}button{border:0;padding:15px 24px;border-radius:999px;background:linear-gradient(135deg,#8b5cff,#00e5ff,#ff4fd8);color:white;font-weight:900;cursor:pointer;margin:7px}button:hover{transform:scale(1.03)}
-    .modeBox{margin:18px auto 14px;padding:14px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
-    .modeBox button{font-size:12px;padding:10px 14px;opacity:.72}
-    .modeBox button.selected{opacity:1;box-shadow:0 0 22px rgba(0,229,255,.35);outline:2px solid rgba(255,255,255,.18)}.ghost{background:rgba(255,255,255,.12);box-shadow:none}.hidden{display:none}.soul{width:170px;height:170px;margin:24px auto;border-radius:50%;background:radial-gradient(circle,#fff,#7df9ff,#8b5cff,#ff4fd8);box-shadow:0 0 90px #7df9ff;animation:pulse 2.4s infinite ease-in-out}@keyframes pulse{50%{transform:scale(1.12)}}.info{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:22px 0;text-align:left}.box{padding:15px;border-radius:17px;background:rgba(255,255,255,.09);color:#e8ebff}.box strong{display:block;color:white;margin-bottom:5px}.progress{height:14px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.15);margin:18px 0}.bar{height:100%;width:0%;background:linear-gradient(90deg,#00e5ff,#8b5cff,#ff4fd8);transition:.4s}.event{min-height:105px;padding:23px;border-radius:22px;background:rgba(0,0,0,.28);font-size:20px;line-height:1.45}.phase{color:#9eefff;font-weight:900;text-transform:uppercase;letter-spacing:2px;margin:10px 0}.library-list{display:grid;gap:12px;margin-top:20px;text-align:left}.soul-item{padding:15px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)}.quote{font-size:23px;font-style:italic;color:#eef1ff;margin-top:20px}.sound-indicator{margin-top:10px;color:#aeb8ff;font-size:14px}@media(max-width:650px){.info{grid-template-columns:1fr}.card{padding:23px}}
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #311452, #050209 80%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-shadow: 0 0 20px #ff0088;
+    }
+
+    /* Efeitos de brilho Neon Premium */
+    .neon-card {
+      background: rgba(13, 6, 24, 0.7);
+      border: 1px solid rgba(255, 0, 136, 0.2);
+      box-shadow: 0 0 30px rgba(255, 0, 136, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .neon-text-gold {
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+    }
+
+    .neon-text-pink {
+      text-shadow: 0 0 10px rgba(255, 0, 136, 0.5);
+    }
+
+    /* Transição suave nas vistas */
+    .view-section {
+      animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Esconder scrollbar mantendo navegabilidade */
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
-<body>
-<div class="stars"></div>
-<div class="app">
-  <div class="card" id="home">
-    <h1>THE UNWRITTEN HUMAN™</h1>
-    <p>Tu não jogas. Tu testemunhas uma vida nascer.</p><br>
-    <div class="modeBox"><strong>Modo Sonoro</strong><br><button onclick="setAudioMode('relax')" id="modeRelax" class="selected">RELAXAMENTO</button><button onclick="setAudioMode('cinema')" id="modeCinema">CINEMATOGRÁFICO</button><button onclick="setAudioMode('trans')" id="modeTrans">TRANSCENDÊNCIA</button></div>
-    <button onclick="startGame()">CRIAR HUMANO</button>
-    <button onclick="showLibrary()">BIBLIOTECA DE ALMAS</button>
-    <button onclick="installApp()">INSTALAR APP</button>
-    <p class="sound-indicator">v0.5 com som ambiente procedural</p>
+
+<body class="flex flex-col justify-between">
+
+  <!-- OVERLAY DE CONTAGEM DECRESCENTE (3, 2, 1... MENTE!) -->
+  <div id="countdown-overlay" class="fixed inset-0 bg-slate-950/95 flex flex-col items-center justify-center hidden z-50 animate-fade-in">
+    <div id="countdown-number" class="text-8xl sm:text-9xl font-black text-brand-gold neon-text-gold transition-all duration-300 transform scale-50">3</div>
+    <p class="text-sm text-slate-400 mt-4 uppercase tracking-widest font-bold">Prepara a tua mente...</p>
   </div>
 
-  <div class="card hidden" id="game">
-    <h1 id="humanName"></h1>
-    <div class="phase" id="phaseName">Consciência</div>
-    <div class="soul"></div>
-    <div class="info">
-      <div class="box"><strong>Emoção</strong><span id="emotion"></span></div>
-      <div class="box"><strong>Sonho</strong><span id="dream"></span></div>
-      <div class="box"><strong>Medo</strong><span id="fear"></span></div>
-      <div class="box"><strong>Virtude</strong><span id="virtue"></span></div>
+  <!-- NOTIFICAÇÃO DO SISTEMA (Substituição sem alerts intrusivos) -->
+  <div id="custom-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 border-2 border-brand-pink text-slate-100 px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 transform -translate-y-20 opacity-0 pointer-events-none">
+    <span class="text-xl">⚠️</span>
+    <span id="toast-message" class="text-sm font-bold tracking-wide"></span>
+  </div>
+
+  <!-- CABEÇALHO GLOBAL -->
+  <header class="border-b border-purple-950/40 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-4 py-4">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left cursor-pointer" onclick="navigate('home')">
+        <h1 class="text-3xl font-black tracking-tighter text-brand-gold flex items-center justify-center sm:justify-start gap-2 select-none">
+          <span>🎭</span> Mentirógrafo™
+        </h1>
+        <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-semibold">O duelo nacional das mentiras mais absurdas</p>
+      </div>
+
+      <!-- NAVEGAÇÃO SPA -->
+      <nav class="flex gap-1.5 bg-slate-950/80 p-1 rounded-2xl border border-purple-950/50">
+        <button onclick="navigate('home')" id="nav-home" class="px-4 py-2 rounded-xl text-xs font-black transition active:scale-95 cursor-pointer text-slate-400 hover:text-white">
+          Home
+        </button>
+        <button onclick="navigate('duel')" id="nav-duel" class="px-4 py-2 rounded-xl text-xs font-black transition active:scale-95 cursor-pointer text-slate-400 hover:text-white">
+          Duelos
+        </button>
+        <button onclick="navigate('ranking')" id="nav-ranking" class="px-4 py-2 rounded-xl text-xs font-black transition active:scale-95 cursor-pointer text-slate-400 hover:text-white">
+          Ranking
+        </button>
+        <button onclick="navigate('profile')" id="nav-profile" class="px-4 py-2 rounded-xl text-xs font-black transition active:scale-95 cursor-pointer text-slate-400 hover:text-white">
+          Perfil
+        </button>
+      </nav>
     </div>
-    <div class="phase" id="levelText">Nível 1 / 100</div>
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    <div class="event" id="eventText">A primeira luz começou a respirar no silêncio.</div>
-    <button class="ghost" onclick="toggleSound()" id="soundBtn">SOM: LIGADO</button>
-  </div>
+  </header>
 
-  <div class="card hidden" id="certificate">
-    <h2>Certidão de Existência</h2><div class="soul"></div>
-    <div class="info">
-      <div class="box"><strong>Nome</strong><span id="cName"></span></div>
-      <div class="box"><strong>Essência</strong><span id="cEssence"></span></div>
-      <div class="box"><strong>Sonho</strong><span id="cDream"></span></div>
-      <div class="box"><strong>Medo</strong><span id="cFear"></span></div>
-      <div class="box"><strong>Virtude</strong><span id="cVirtue"></span></div>
-      <div class="box"><strong>Legado</strong><span id="cLegacy"></span></div>
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="container max-w-4xl mx-auto px-4 py-8 flex-1 flex flex-col justify-center">
+
+    <!-- 1. PÁGINA: HOME (Escolha de Nome e Adversário) -->
+    <section id="view-home" class="view-section space-y-8">
+      <div class="neon-card rounded-3xl p-6 sm:p-8 space-y-6">
+        
+        <!-- Input do Nome do Jogador -->
+        <div class="space-y-3 text-left">
+          <label class="text-xs font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">
+            <span>👤</span> O teu Nome de Orador:
+          </label>
+          <input 
+            id="playerName" 
+            type="text" 
+            placeholder="Ex: Pedro, Maria, Zé do Pipo..." 
+            class="w-full bg-slate-950 text-white border border-purple-950 rounded-2xl p-4 focus:border-brand-pink focus:ring-1 focus:ring-brand-pink focus:outline-none transition leading-relaxed text-base"
+          />
+        </div>
+
+        <h2 class="text-xl font-black text-white flex items-center gap-2 pt-2 border-t border-purple-950/40 text-left">
+          <span>⚔️</span> Escolhe o teu adversário
+        </h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Dona Alzira -->
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+               onclick="selectCharacter(this, 'alzira', 'Dona Alzira', '👵')">
+            <div class="text-5xl select-none">👵</div>
+            <div>
+              <h3 class="font-extrabold text-white text-base">Dona Alzira</h3>
+              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Antigamente era tudo impossível e as memórias dela provam-no.</p>
+            </div>
+            <span class="text-[10px] text-brand-pink font-black uppercase tracking-wider bg-brand-pink/10 px-2 py-0.5 rounded-full border border-brand-pink/20">Antigamente</span>
+          </div>
+
+          <!-- Zé Pescador -->
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+               onclick="selectCharacter(this, 'pescador', 'Zé Pescador', '🐟')">
+            <div class="text-5xl select-none">🐟</div>
+            <div>
+              <h3 class="font-extrabold text-white text-base">Zé Pescador</h3>
+              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Histórias marinhas recheadas de peixes absurdos e marés cheias.</p>
+            </div>
+            <span class="text-[10px] text-blue-400 font-black uppercase tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">Mar e Exageros</span>
+          </div>
+
+          <!-- Toni Empreendedor -->
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+               onclick="selectCharacter(this, 'toni', 'Toni Empreendedor', '🧑‍💼')">
+            <div class="text-5xl select-none">🧑‍💼</div>
+            <div>
+              <h3 class="font-extrabold text-white text-base">Toni Empreendedor</h3>
+              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Negócios virtuais bizarros e ideias incríveis para faturar milhões.</p>
+            </div>
+            <span class="text-[10px] text-amber-400 font-black uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">Negócios Absurdos</span>
+          </div>
+
+          <!-- Dr. Antunes -->
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+               onclick="selectCharacter(this, 'antunes', 'Dr. Antunes', '👨‍⚕️')">
+            <div class="text-5xl select-none">👨‍⚕️</div>
+            <div>
+              <h3 class="font-extrabold text-white text-base">Dr. Antunes</h3>
+              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Curas milagrosas contra a preguiça e maleitas raras.</p>
+            </div>
+            <span class="text-[10px] text-emerald-400 font-black uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">Curas Impossíveis</span>
+          </div>
+        </div>
+
+        <button onclick="startCountdown()" class="w-full bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black py-4 px-6 rounded-2xl shadow-xl transition transform hover:scale-[1.01] active:scale-95 text-base tracking-wider uppercase cursor-pointer">
+          🔥 Lançar Duelo
+        </button>
+      </div>
+
+      <!-- Banner de Contexto -->
+      <div class="bg-slate-950/80 border border-purple-950/50 rounded-2xl p-5 flex items-center justify-between gap-4 max-w-2xl mx-auto">
+        <div class="text-left space-y-1">
+          <h4 class="text-brand-gold font-bold text-sm">💡 Como Funciona?</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Escolhe um adversário, lê a sua mentira absurda e inventa uma peta ainda maior dentro do limite de tempo. O nosso Juiz IA Supremo decidirá o veredicto!
+          </p>
+        </div>
+        <span class="text-4xl animate-pulse">⚡</span>
+      </div>
+    </section>
+
+    <!-- 2. PÁGINA: DUELO ATIVO -->
+    <section id="view-duel" class="view-section space-y-6 hidden">
+      <div class="neon-card rounded-3xl p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-purple-950/40 pb-4">
+          <div class="flex items-center gap-4 text-left">
+            <span id="duel-op-avatar" class="text-5xl bg-slate-950 p-2.5 rounded-2xl border border-purple-950">👵</span>
+            <div>
+              <span class="text-[10px] text-brand-pink font-extrabold uppercase tracking-widest block">Duelo Oficial</span>
+              <h3 id="duel-op-name" class="text-xl font-black text-white">Duelo contra Dona Alzira</h3>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 bg-slate-950/80 px-4 py-2 rounded-xl border border-purple-950">
+            <span class="text-xs text-slate-400 font-bold">Meta do Juiz:</span>
+            <span id="duel-op-target" class="text-brand-gold font-mono font-black text-base">340</span>
+          </div>
+        </div>
+
+        <!-- Cronómetro Dinâmico -->
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-purple-950 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl animate-pulse">⏳</span>
+            <div>
+              <span class="text-[9px] text-slate-500 uppercase tracking-widest block font-bold">Tempo Restante</span>
+              <span id="timer-display" class="text-xl font-mono font-black text-white">60s segundos</span>
+            </div>
+          </div>
+          <div class="w-full sm:w-64 bg-slate-950 h-3 rounded-full overflow-hidden border border-purple-950/40">
+            <div id="timer-progress" class="bg-gradient-to-r from-brand-gold to-brand-pink h-full transition-all duration-1000 w-full"></div>
+          </div>
+        </div>
+
+        <!-- Mentira do Adversário -->
+        <div class="bg-slate-950/40 p-5 rounded-2xl border border-purple-950/50 text-left relative overflow-hidden">
+          <div class="absolute top-2 right-4 text-[9px] font-mono text-purple-400 uppercase tracking-widest font-black">História Dele</div>
+          <h4 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span id="enemy-emoji">👵</span> Mentira do Oponente:
+          </h4>
+          <p id="enemy-lie-text" class="text-slate-100 italic font-medium text-base sm:text-lg leading-relaxed">
+            "No meu tempo os pombos entregavam emails com selo."
+          </p>
+        </div>
+
+        <!-- Guião de Resposta do Jogador -->
+        <div class="space-y-3 text-left">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-black text-slate-300 uppercase tracking-widest">A tua mentira descarada:</label>
+            <button onclick="injectSuggestion()" class="text-xs text-purple-400 hover:text-purple-300 font-bold underline cursor-pointer">
+              Sugerir Ideia Cómica 💡
+            </button>
+          </div>
+          <textarea 
+            id="player-lie-input" 
+            placeholder="Escreve aqui a tua peta mais escandalosa... O meu avô vendia pastéis de nata com ligação LTE..."
+            class="w-full h-32 bg-slate-950 text-white rounded-2xl p-4 border border-purple-950 focus:border-brand-pink focus:ring-1 focus:ring-brand-pink focus:outline-none transition leading-relaxed text-base resize-none"
+            maxlength="250"
+          ></textarea>
+          <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+            <span id="char-counter">0 / 250</span>
+            <span>Usa referências a Portugal para melhor pontuação!</span>
+          </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button onclick="abandonDuel()" class="order-2 sm:order-1 flex-1 bg-slate-950/80 hover:bg-slate-900/60 text-slate-300 border border-purple-950 py-4 rounded-xl text-xs font-black tracking-widest uppercase cursor-pointer">
+            Mudar Adversário 🏳️
+          </button>
+          <button id="btn-submit" onclick="judgeLie()" class="order-1 sm:order-2 flex-[2] bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black py-4 px-6 rounded-xl text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer active:scale-95">
+            <span>🤖 ENVIAR MENTIRA</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PÁGINA: RESULTADOS -->
+    <section id="view-result" class="view-section space-y-6 hidden">
+      <div class="neon-card rounded-3xl p-6 sm:p-8 space-y-6 text-left relative overflow-hidden">
+        <div id="result-glow-bar" class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-brand-gold to-brand-pink"></div>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-purple-950/40 pb-4">
+          <div>
+            <span id="result-verdict-badge" class="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              🏆 VITÓRIA
+            </span>
+            <h3 class="text-3xl font-black text-white mt-2">Julgamento da IA</h3>
+          </div>
+
+          <div class="text-center sm:text-right bg-slate-950 px-6 py-3 rounded-2xl border border-purple-950">
+            <span class="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">Score Total</span>
+            <span id="result-total-score" class="text-4xl font-mono font-black text-brand-gold neon-text-gold">371</span>
+            <span id="result-target-score" class="text-[9px] text-slate-500 block font-semibold mt-0.5">Meta a bater: 340</span>
+          </div>
+        </div>
+
+        <!-- Métrica de Pontos Detalhada -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
+            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Criatividade</span>
+            <strong id="res-criatividade" class="text-2xl font-mono text-purple-400 block mt-1">91</strong>
+          </div>
+          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
+            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Absurdo</span>
+            <strong id="res-absurdo" class="text-2xl font-mono text-brand-pink block mt-1">94</strong>
+          </div>
+          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
+            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Humor</span>
+            <strong id="res-humor" class="text-2xl font-mono text-yellow-400 block mt-1">88</strong>
+          </div>
+          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
+            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Descaramento</span>
+            <strong id="res-descaramento" class="text-2xl font-mono text-cyan-400 block mt-1">98</strong>
+          </div>
+        </div>
+
+        <!-- Crítica Sarcástica de IA -->
+        <div class="bg-slate-950 p-5 rounded-2xl border border-purple-950/50 space-y-1">
+          <span class="text-[9px] text-brand-pink font-black uppercase tracking-widest block">Comentário Automático do Juiz IA</span>
+          <p id="res-comment" class="text-slate-300 italic text-sm leading-relaxed font-medium">
+            "Esta mentira foi tão absurda que três historiadores desistiram da profissão."
+          </p>
+        </div>
+
+        <!-- Atribuição de Moedas e XP -->
+        <div class="bg-slate-950/30 p-4 rounded-xl border border-purple-950/50 grid grid-cols-2 gap-4 text-center">
+          <div>
+            <span class="text-[10px] text-slate-500 uppercase block font-bold">Prestígio de XP</span>
+            <span id="res-rewards-xp" class="text-xl font-mono font-black text-indigo-400">+100 XP</span>
+          </div>
+          <div class="border-l border-purple-950/60">
+            <span class="text-[10px] text-slate-500 uppercase block font-bold">Saco de Moedas</span>
+            <span id="res-rewards-coins" class="text-xl font-mono font-black text-amber-400">+50 🪙</span>
+          </div>
+        </div>
+
+        <!-- MEME CARD GERADO (Visual de Partilha Social) -->
+        <div id="memeCard" class="bg-gradient-to-br from-brand-darkViolet to-brand-pink/30 p-6 rounded-3xl border-2 border-brand-gold text-center space-y-4 shadow-2xl relative overflow-hidden transition transform hover:scale-[1.01]">
+          <div class="absolute top-0 right-0 p-3 text-3xl opacity-10 select-none">🤥</div>
+          <h4 class="text-brand-gold text-xs font-black tracking-widest uppercase flex items-center justify-center gap-1.5 neon-text-gold">
+            <span>🎭</span> MENTIRÓGRAFO™
+          </h4>
+          <p id="memeText" class="text-slate-100 font-extrabold italic text-lg sm:text-xl leading-relaxed">
+            "Vendi pãezinhos de Deus inteligentes à equipa espacial do Alentejo."
+          </p>
+          <p id="memeScore" class="text-xs font-mono font-black text-brand-pink tracking-widest uppercase">
+            PONTUAÇÃO: 371 PTS
+          </p>
+        </div>
+
+        <!-- Botões de Ação na vitória/derrota -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <button onclick="shareMeme()" class="bg-slate-950 hover:bg-slate-900 border border-brand-pink text-white font-black py-4 px-6 rounded-2xl shadow-xl transition active:scale-95 text-xs tracking-widest uppercase cursor-pointer flex items-center justify-center gap-2">
+            <span>📱</span> PARTILHAR COMO MEME
+          </button>
+          <button onclick="navigate('home')" class="bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black py-4 px-6 rounded-2xl shadow-xl transition active:scale-95 text-xs tracking-widest uppercase cursor-pointer">
+            🔁 JOGAR OUTRA VEZ
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. PÁGINA: RANKING LOCAL -->
+    <section id="view-ranking" class="view-section space-y-6 hidden">
+      <div class="neon-card rounded-3xl p-6 sm:p-8 space-y-6 text-left">
+        <div class="space-y-1">
+          <span class="bg-brand-gold/10 text-brand-gold border border-brand-gold/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+            🏆 Salão Nacional de Mitómanos
+          </span>
+          <h3 class="text-2xl font-black text-white">Ranking Local</h3>
+          <p class="text-xs text-slate-400">Classificação dos maiores aldrabões nacionais que tentaram bater o Juiz.</p>
+        </div>
+
+        <div id="ranking-container" class="space-y-3">
+          <!-- Gerado dinamicamente -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PÁGINA: PERFIL DO ORADOR -->
+    <section id="view-profile" class="view-section space-y-6 hidden">
+      <div class="neon-card rounded-3xl p-6 sm:p-8 space-y-6 text-left">
+        <div class="flex items-center gap-5">
+          <span class="text-6xl bg-slate-950 p-4 rounded-3xl border border-purple-950">🧙</span>
+          <div class="space-y-1 flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h4 id="profile-display-name" class="text-xl font-black text-white">Tu (O Grande Orador)</h4>
+              <span id="profile-title" class="bg-purple-950 text-purple-400 text-[10px] font-black px-2.5 py-1 rounded border border-purple-500/20 uppercase tracking-wider block max-w-max">
+                🏆 Neto Favorito da Dona Alzira
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">Nível Atual: <strong id="profile-level" class="text-white text-sm">1</strong></p>
+          </div>
+        </div>
+
+        <!-- Barra de Nível / XP -->
+        <div class="space-y-2">
+          <div class="flex justify-between text-xs text-slate-400 font-bold uppercase">
+            <span>Experiência (XP)</span>
+            <span id="profile-xp-text">150 / 350 XP</span>
+          </div>
+          <div class="w-full bg-slate-950 h-3.5 rounded-full overflow-hidden border border-purple-950/50">
+            <div id="profile-xp-bar" class="bg-gradient-to-r from-brand-gold via-brand-pink to-brand-purple h-full transition-all duration-300" style="width: 42%;"></div>
+          </div>
+        </div>
+
+        <!-- Estatísticas Gerais -->
+        <div class="grid grid-cols-2 gap-4 pt-2">
+          <div class="bg-slate-950 p-4 rounded-2xl border border-purple-950/60 text-center">
+            <span class="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Moedas Ganhas</span>
+            <span id="profile-coins" class="text-2xl font-mono font-black text-amber-400 mt-1 block">100 🪙</span>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-2xl border border-purple-950/60 text-center">
+            <span class="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Duelos Concluídos</span>
+            <span id="profile-wins" class="text-2xl font-mono font-black text-purple-400 mt-1 block">2</span>
+          </div>
+        </div>
+
+        <!-- Insígnias Adquiridas -->
+        <div class="space-y-3">
+          <span class="text-xs font-black text-slate-400 uppercase tracking-widest block">Insígnias Desbloqueadas</span>
+          <div id="badges-container" class="flex flex-wrap gap-2">
+            <!-- Gerado dinamicamente -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ GLOBAL -->
+  <footer class="border-t border-purple-950/30 bg-slate-950 px-4 py-6 text-center text-xs text-slate-600">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+      <p>© 2026 Mentirógrafo™ Portugal — Humor, absurdo e descaramento geopolítico.</p>
+      <p class="font-mono text-[10px] text-slate-700">gemini-2.5-flash-preview-09-2025</p>
     </div>
-    <p class="quote" id="finalQuote"></p>
-    <button onclick="saveHuman()">GUARDAR NA BIBLIOTECA</button>
-    <button onclick="downloadCertificate()">BAIXAR CERTIDÃO</button>
-    <button onclick="goHome()">VOLTAR</button>
-  </div>
+  </footer>
 
-  <div class="card hidden" id="library">
-    <h2>Biblioteca de Almas</h2>
-    <p>Todos os humanos que já testemunhaste ficam guardados neste navegador.</p>
-    <div class="library-list" id="libraryList"></div><br>
-    <button onclick="clearLibrary()">APAGAR BIBLIOTECA</button>
-    <button onclick="goHome()">VOLTAR</button>
-  </div>
-</div>
-<script>
-const names=["Elias Orion","Ariel Nova","Luna Vale","Noah Seraph","Íris Solen","Milo Astra","Eva Lyra","Cael Veyra","Nara Elion","Theo Auris"];
-const emotions=["Curiosidade","Esperança","Melancolia","Coragem","Empatia","Serenidade","Espanto","Saudade"];
-const dreams=["descobrir o desconhecido","encontrar amor verdadeiro","compreender o universo","criar algo eterno","curar uma dor antiga","deixar uma marca invisível no mundo"];
-const fears=["ser esquecido","falhar no momento decisivo","ficar sozinho","nunca ser compreendido","perder quem ama","não descobrir quem realmente é"];
-const virtues=["Empatia","Criatividade","Coragem","Sabedoria","Disciplina","Generosidade","Humildade","Persistência"];
-const legacies=["ensinou alguém a continuar","deixou uma pergunta que nunca morreu","mudou uma vida sem saber","transformou dor em beleza","guardou luz onde havia silêncio"];
-const phaseEvents={"Consciência":["Sentiu pela primeira vez que existia.","Uma pequena luz perguntou ao vazio: quem sou eu?","Nasceu uma emoção sem nome.","O silêncio deixou de ser ausência."],"Memórias":["Recordou algo que ainda não tinha vivido.","Guardou o som da chuva como se fosse uma casa.","Criou a sua primeira memória imperfeita.","Uma imagem distante tornou-se importante."],"Medos":["Descobriu o medo de desaparecer.","Percebeu que crescer também é perder versões de si.","Sentiu insegurança perante o desconhecido.","O medo apareceu, mas não venceu."],"Sonhos":["Sonhou com uma porta aberta no meio do universo.","Imaginou uma vida maior do que o próprio corpo.","Desejou tocar algo que ainda não existia.","A esperança tornou-se movimento."],"Identidade":["A sua luz ganhou forma.","Escolheu continuar mesmo sem garantias.","A possibilidade tornou-se presença.","Finalmente começou a parecer alguém."]};
-let human={},level=1,saved=false,deferredPrompt=null;
-let audioCtx=null,masterGain=null,drone1=null,drone2=null,drone3=null,lfo=null,lfoGain=null,soundOn=true,audioMode="relax";
-function pick(a){return a[Math.floor(Math.random()*a.length)]}
-function getPhase(l){if(l<=20)return"Consciência";if(l<=40)return"Memórias";if(l<=60)return"Medos";if(l<=80)return"Sonhos";return"Identidade"}
-function hideAll(){home.classList.add("hidden");game.classList.add("hidden");certificate.classList.add("hidden");library.classList.add("hidden")}
-function goHome(){stopSound();hideAll();home.classList.remove("hidden")}
-function setAudioMode(mode){audioMode=mode;[modeRelax,modeCinema,modeTrans].forEach(b=>b.classList.remove("selected"));if(mode==="relax")modeRelax.classList.add("selected");if(mode==="cinema")modeCinema.classList.add("selected");if(mode==="trans")modeTrans.classList.add("selected")}
-function modePower(){return audioMode==="relax"?.45:audioMode==="cinema"?.78:1}
-function initSound(){if(!soundOn)return;try{if(audioCtx)return;audioCtx=new(window.AudioContext||window.webkitAudioContext)();masterGain=audioCtx.createGain();masterGain.gain.value=.025*modePower();masterGain.connect(audioCtx.destination);drone1=audioCtx.createOscillator();drone2=audioCtx.createOscillator();drone3=audioCtx.createOscillator();drone1.type="sine";drone2.type="triangle";drone3.type="sine";drone1.frequency.value=55;drone2.frequency.value=110;drone3.frequency.value=220;lfo=audioCtx.createOscillator();lfoGain=audioCtx.createGain();lfo.frequency.value=.06;lfoGain.gain.value=18;lfo.connect(lfoGain);lfoGain.connect(drone2.frequency);drone1.connect(masterGain);drone2.connect(masterGain);drone3.connect(masterGain);drone1.start();drone2.start();drone3.start();lfo.start()}catch(e){}}
-function setPhaseSound(phase){if(!audioCtx||!drone1||!drone2)return;const map={"Consciência":[82,124,248,.03],"Memórias":[98,147,294,.038],"Medos":[52,78,156,.05],"Sonhos":[132,198,396,.045],"Identidade":[110,165,330,.065]};const v=map[phase];const power=modePower();const levelBoost=.15+level/120;drone1.frequency.setTargetAtTime(v[0],audioCtx.currentTime,.8);drone2.frequency.setTargetAtTime(v[1],audioCtx.currentTime,.8);if(drone3)drone3.frequency.setTargetAtTime(v[2],audioCtx.currentTime,.8);masterGain.gain.setTargetAtTime(Math.min(.12,v[3]*power*levelBoost),audioCtx.currentTime,1)}
-function chime(){if(!audioCtx||!soundOn)return;[0,7,12].forEach((semi,i)=>{const osc=audioCtx.createOscillator(),g=audioCtx.createGain();osc.type="sine";osc.frequency.value=(660+Math.random()*80)*Math.pow(2,semi/12);g.gain.value=.0001;osc.connect(g);g.connect(audioCtx.destination);osc.start(audioCtx.currentTime+i*.04);g.gain.exponentialRampToValueAtTime(.07*modePower(),audioCtx.currentTime+.04+i*.04);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+1.1+i*.04);osc.stop(audioCtx.currentTime+1.2+i*.04)})}
-function finalSound(){if(!audioCtx||!soundOn)return;[196,392,523,659,784,1046].forEach((f,i)=>setTimeout(()=>{const osc=audioCtx.createOscillator(),g=audioCtx.createGain();osc.type=i<2?"triangle":"sine";osc.frequency.value=f;g.gain.value=.0001;osc.connect(g);g.connect(audioCtx.destination);osc.start();g.gain.exponentialRampToValueAtTime(.12*modePower(),audioCtx.currentTime+.05);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+2.2);osc.stop(audioCtx.currentTime+2.3)},i*160))}
-function stopSound(){if(masterGain&&audioCtx){masterGain.gain.setTargetAtTime(.0001,audioCtx.currentTime,.5);setTimeout(()=>{try{audioCtx.close()}catch(e){} audioCtx=null},900)}}
-function toggleSound(){soundOn=!soundOn;soundBtn.innerText=soundOn?"SOM: LIGADO":"SOM: DESLIGADO";if(!soundOn)stopSound();else initSound()}
-function startGame(){saved=false;level=1;human={id:Date.now(),name:pick(names),emotion:pick(emotions),dream:pick(dreams),fear:pick(fears),virtue:pick(virtues),legacy:pick(legacies),date:new Date().toLocaleString("pt-PT")};hideAll();game.classList.remove("hidden");humanName.innerText=human.name;emotion.innerText=human.emotion;dream.innerText=human.dream;fear.innerText=human.fear;virtue.innerText=human.virtue;bar.style.width="0%";levelText.innerText="Nível 1 / 100";eventText.innerText="A primeira luz começou a respirar no silêncio.";phaseName.innerText="Consciência";initSound();setPhaseSound("Consciência");evolve()}
-function evolve(){const timer=setInterval(()=>{level++;const phase=getPhase(level);phaseName.innerText=phase;levelText.innerText=`Nível ${level} / 100`;bar.style.width=level+"%";eventText.innerText=pick(phaseEvents[phase]);setPhaseSound(phase);if(level%10===0)chime();if(level>=100){clearInterval(timer);finish()}},700)}
-function finish(){finalSound();setTimeout(stopSound,1800);hideAll();certificate.classList.remove("hidden");cName.innerText=human.name;cEssence.innerText=`${human.emotion} e ${human.virtue}`;cDream.innerText=human.dream;cFear.innerText=human.fear;cVirtue.innerText=human.virtue;cLegacy.innerText=human.legacy;human.quote=`A vida começou quando ${human.name} decidiu existir apesar do medo de ${human.fear}.`;finalQuote.innerText=`"${human.quote}"`}
-function saveHuman(){if(saved){alert("Este humano já foi guardado.");return}const lib=JSON.parse(localStorage.getItem("unwrittenHumans")||"[]");lib.unshift(human);localStorage.setItem("unwrittenHumans",JSON.stringify(lib));saved=true;alert("Humano guardado na Biblioteca de Almas.")}
-function showLibrary(){hideAll();library.classList.remove("hidden");const data=JSON.parse(localStorage.getItem("unwrittenHumans")||"[]");libraryList.innerHTML="";if(!data.length){libraryList.innerHTML="<p>Ainda não existe nenhuma alma guardada.</p>";return}data.forEach(h=>{const div=document.createElement("div");div.className="soul-item";div.innerHTML=`<strong>${h.name}</strong><br><span>Essência: ${h.emotion} e ${h.virtue}</span><br><span>Sonho: ${h.dream}</span><br><span>Medo: ${h.fear}</span><br><span>Legado: ${h.legacy}</span><br><small>${h.date}</small>`;libraryList.appendChild(div)})}
-function clearLibrary(){if(confirm("Queres apagar todas as almas guardadas?")){localStorage.removeItem("unwrittenHumans");showLibrary()}}
-function downloadCertificate(){const text=`THE UNWRITTEN HUMAN™\n\nCERTIDÃO DE EXISTÊNCIA\n\nNome: ${human.name}\nEssência: ${human.emotion} e ${human.virtue}\nSonho: ${human.dream}\nMedo: ${human.fear}\nVirtude: ${human.virtue}\nLegado: ${human.legacy}\n\n"${human.quote}"`;const blob=new Blob([text],{type:"text/plain;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`${human.name.replaceAll(" ","_")}_certidao.txt`;a.click();URL.revokeObjectURL(url)}
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});function installApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null}else alert("Se o navegador permitir, usa o menu e escolhe 'Instalar app' ou 'Adicionar ao ecrã inicial'.")}
-if("serviceWorker"in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js"))}
-</script>
+  <!-- LÓGICA DO JOGO (VANILLA JAVASCRIPT) -->
+  <script>
+    // Configurações do Jogo
+    const API_KEY = ""; // Runtime in-memory injection
+
+    const ADVERSARIES = {
+      alzira: {
+        name: "Dona Alzira",
+        emoji: "👵",
+        theme: "Antigamente era tudo impossível",
+        targetScore: 330,
+        lies: [
+          "No meu tempo os pombos entregavam emails com selo.",
+          "A minha televisão funcionava a carvão.",
+          "O inverno durava 14 meses e ainda sobrava frio de reserva.",
+          "Antigamente os frigoríficos cantavam fado quando estavam vazios."
+        ],
+        hint: "O meu avô vendia carregadores USB em papiro aos faraós em troca de gigabytes de trigo e ninfas."
+      },
+      pescador: {
+        name: "Zé Pescador",
+        emoji: "🐟",
+        theme: "Peixes, mar e exageros",
+        targetScore: 345,
+        lies: [
+          "Pesquei uma sardinha que sabia declarar o IRS.",
+          "Uma vez apanhei um polvo que jogava dominó nas tascas.",
+          "O mar ligou-me a pedir sal emprestado para o bacalhau.",
+          "Pesquei um bacalhau que vinha com fatura e garantia."
+        ],
+        hint: "Eu vendi um sistema de navegação por GPS a pombos-correio para eles não se perderem na foz do Sado."
+      },
+      toni: {
+        name: "Toni Empreendedor",
+        emoji: "🧑‍💼",
+        theme: "Negócios absurdos",
+        targetScore: 360,
+        lies: [
+          "Vendi NFTs de pastilhas elásticas a extraterrestres reformados.",
+          "Criei uma startup que alugava sombras no verão por minuto.",
+          "Faturei milhões a vender Wi-Fi para caracóis de jardim.",
+          "Abri uma empresa de consultoria para plantas indecisas de jardim."
+        ],
+        hint: "Criei uma startup de exportação de areia de praia para o Saara e convenci os xeiques a pagar com patacas de chocolate."
+      },
+      antunes: {
+        name: "Dr. Antunes",
+        emoji: "👨‍⚕️",
+        theme: "Curas impossíveis",
+        targetScore: 375,
+        lies: [
+          "Curei preguiça crónica com chá de folhas de impressora.",
+          "Operei um relógio de parede que sofria de ansiedade.",
+          "Receitei vitamina C a um computador portátil gripado.",
+          "Fiz fisioterapia a uma cadeira que coxeava por falta de verniz."
+        ],
+        hint: "Desenvolvi uma cura para a falta de paciência à base de infusão de tremoços curados em cerveja preta."
+      }
+    };
+
+    const MOCK_COMMENTS = [
+      "Esta mentira foi tão absurda que a física e a realidade pediram baixa médica.",
+      "Três gabinetes de fact-checking pediram reforma imediata depois de lerem isto.",
+      "Mentira de altíssimo calibre. O polígrafo explodiu com sobrecarga de lata.",
+      "Isto não foi apenas uma mentira. Foi património imaterial português da tanga.",
+      "A Dona Alzira acabou de chorar de emoção com esta quebra das leis termodinâmicas.",
+      "Esta mentira devia ser ensinada nas escolas de descaramento."
+    ];
+
+    // Estado Local do Jogador
+    let player = {
+      name: localStorage.getItem("mentirografoPlayerName") || "",
+      xp: parseInt(localStorage.getItem("mentirografoPlayerXP")) || 150,
+      level: parseInt(localStorage.getItem("mentirografoPlayerLevel")) || 1,
+      coins: parseInt(localStorage.getItem("mentirografoPlayerCoins")) || 100,
+      wins: parseInt(localStorage.getItem("mentirografoPlayerWins")) || 2,
+      activeTitle: "🏆 Recruta da Tanga",
+      titles: JSON.parse(localStorage.getItem("mentirografoPlayerTitles")) || ["🏆 Recruta da Tanga", "👵 Neto Favorito da Dona Alzira"]
+    };
+
+    // Estado do Combate Ativo
+    let selectedId = "";
+    let selectedAdversary = null;
+    let timerInterval = null;
+    let timeLeft = 60;
+    
+    // Armazenar os últimos resultados calculados para partilha
+    let finalLieText = "";
+    let finalTotalScore = 0;
+
+    // Monitorizar o input do utilizador e atualizar contador de caracteres
+    const lieInput = document.getElementById('player-lie-input');
+    lieInput.addEventListener('input', (e) => {
+      const currentLen = e.target.value.length;
+      document.getElementById('char-counter').innerText = `${currentLen} / 250`;
+      if (currentLen > 250) {
+        e.target.value = e.target.value.substring(0, 250);
+      }
+    });
+
+    // SISTEMA DE ÁUDIO RETRO POR CÓDIGO (AudioContext)
+    function playSound(type) {
+      try {
+        const audio = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+
+        osc.connect(gain);
+        gain.connect(audio.destination);
+
+        if (type === "click") osc.frequency.setValueAtTime(500, audio.currentTime);
+        if (type === "start") osc.frequency.setValueAtTime(760, audio.currentTime);
+        if (type === "win") osc.frequency.setValueAtTime(980, audio.currentTime);
+        if (type === "fail") osc.frequency.setValueAtTime(180, audio.currentTime);
+
+        gain.gain.setValueAtTime(0.08, audio.currentTime);
+        osc.start();
+
+        setTimeout(() => {
+          osc.stop();
+          audio.close();
+        }, 150);
+      } catch (e) {
+        console.warn("Audio Context bloqueado ou indisponível.");
+      }
+    }
+
+    // Função de Exibição de Alertas Customizados (Sem usar alerts do browser)
+    function showToast(message) {
+      const toast = document.getElementById('custom-toast');
+      document.getElementById('toast-message').innerText = message;
+      toast.classList.remove('opacity-0', '-translate-y-20', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-20', 'pointer-events-none');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 3000);
+    }
+
+    // Navegar de forma SPA pelas vistas
+    function navigate(viewName) {
+      // Esconder todas as vistas
+      const views = ['home', 'duel', 'result', 'ranking', 'profile'];
+      views.forEach(v => {
+        document.getElementById(`view-${v}`).classList.add('hidden');
+        
+        // Desativar estilo do nav link
+        const navBtn = document.getElementById(`nav-${v}`);
+        if (navBtn) {
+          navBtn.className = "px-4 py-2 rounded-xl text-xs font-black transition active:scale-95 cursor-pointer text-slate-400 hover:text-white";
+        }
+      });
+
+      // Mostrar vista pretendida
+      document.getElementById(`view-${viewName}`).classList.remove('hidden');
+
+      // Ativar estilo do nav link
+      const activeNavBtn = document.getElementById(`nav-${viewName}`);
+      if (activeNavBtn) {
+        activeNavBtn.className = "px-4 py-2 rounded-xl text-xs font-black transition active:scale-95 cursor-pointer bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black shadow-lg";
+      }
+
+      // Parar o cronómetro se sairmos da vista de duelo
+      if (viewName !== 'duel') {
+        clearInterval(timerInterval);
+      }
+    }
+
+    // Selecionar Personagem no Menu
+    function selectCharacter(element, id, name, emoji) {
+      playSound("click");
+      selectedId = id;
+      selectedAdversary = ADVERSARIES[id];
+
+      // Atualizar classes das cartas de personagens
+      document.querySelectorAll(".character-card").forEach(c => {
+        c.classList.remove("border-brand-gold", "bg-brand-pink/10");
+        c.classList.add("border-purple-950", "bg-slate-950/40");
+      });
+
+      // Marcar ativa
+      element.classList.remove("border-purple-950", "bg-slate-950/40");
+      element.classList.add("border-brand-gold", "bg-brand-pink/10");
+    }
+
+    // CONTAGEM DECRESCENTE (3, 2, 1... MENTE!)
+    function startCountdown() {
+      const nameInput = document.getElementById("playerName").value.trim();
+      if (!nameInput) {
+        showToast("Escreve primeiro o teu nome de Orador!");
+        return;
+      }
+      if (!selectedAdversary) {
+        showToast("Escolhe primeiro um adversário para o combate!");
+        return;
+      }
+
+      // Guardar o nome do jogador no perfil
+      player.name = nameInput;
+      localStorage.setItem("mentirografoPlayerName", nameInput);
+      document.getElementById("profile-display-name").innerText = `${nameInput} (O Grande Orador)`;
+
+      playSound("start");
+
+      // Apresentar Overlay de contagem decrescente
+      const overlay = document.getElementById("countdown-overlay");
+      const numberBox = document.getElementById("countdown-number");
+      overlay.classList.remove("hidden");
+      
+      let count = 3;
+      numberBox.innerText = count;
+      numberBox.style.transform = "scale(1)";
+
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          numberBox.innerText = count;
+          playSound("click");
+          // Efeito pulsar simples
+          numberBox.style.transform = "scale(0.6)";
+          setTimeout(() => { numberBox.style.transform = "scale(1.1)"; }, 150);
+        } else if (count === 0) {
+          numberBox.innerText = "MENTE!";
+          playSound("start");
+          numberBox.style.transform = "scale(1.3)";
+        } else {
+          clearInterval(interval);
+          overlay.classList.add("hidden");
+          startDuel();
+        }
+      }, 1000);
+    }
+
+    // Lançar o Duelo Ativo
+    function startDuel() {
+      // Configurar dados do oponente ativo no HTML
+      document.getElementById("duel-op-avatar").innerText = selectedAdversary.emoji;
+      document.getElementById("duel-op-name").innerText = `Duelo contra ${selectedAdversary.name}`;
+      document.getElementById("duel-op-target").innerText = selectedAdversary.targetScore;
+      document.getElementById("enemy-emoji").innerText = selectedAdversary.emoji;
+
+      // Escolha de uma mentira aleatória da lista dele
+      const currentEnemyLie = selectedAdversary.lies[Math.floor(Math.random() * selectedAdversary.lies.length)];
+      document.getElementById("enemy-lie-text").innerText = `"${currentEnemyLie}"`;
+
+      // Resetar campo de input e botões
+      document.getElementById("player-lie-input").value = "";
+      document.getElementById("player-lie-input").disabled = false;
+      document.getElementById("char-counter").innerText = "0 / 250";
+      document.getElementById("btn-submit").disabled = false;
+      document.getElementById("btn-submit").innerHTML = "<span>🤖 ENVIAR MENTIRA</span>";
+
+      // Lançar vista
+      navigate('duel');
+
+      // Temporizador de 60 segundos
+      timeLeft = 60;
+      updateTimerUI();
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerUI();
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          // Auto submissão ao expirar tempo
+          judgeLie();
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      document.getElementById("timer-display").innerText = `${timeLeft}s segundos`;
+      const percentage = (timeLeft / 60) * 100;
+      const progress = document.getElementById("timer-progress");
+      progress.style.width = `${percentage}%`;
+
+      if (timeLeft <= 15) {
+        progress.classList.add("animate-pulse");
+      } else {
+        progress.classList.remove("animate-pulse");
+      }
+    }
+
+    function abandonDuel() {
+      clearInterval(timerInterval);
+      navigate('home');
+    }
+
+    function injectSuggestion() {
+      if (selectedAdversary) {
+        document.getElementById("player-lie-input").value = selectedAdversary.hint;
+        document.getElementById("char-counter").innerText = `${selectedAdversary.hint.length} / 250`;
+        showToast("Sugestão cómica injetada com sucesso!");
+      }
+    }
+
+    // Função de Fallback local do Juiz IA (Offline)
+    function runLocalFallbackJudge(text) {
+      const lenBonus = Math.min(25, Math.floor(text.length / 8));
+      
+      let criatividade = 45 + Math.floor(Math.random() * 35) + lenBonus;
+      let absurdo = 50 + Math.floor(Math.random() * 35) + lenBonus;
+      let humor = 40 + Math.floor(Math.random() * 45);
+      let descaramento = 45 + Math.floor(Math.random() * 40);
+
+      // Verificação de palavras-chave portuguesas cómicas
+      const keywords = {
+        pombos: 15, bacalhau: 10, pastel: 12, avô: 10, dinossauro: 15,
+        extraterrestres: 20, socrates: 15, marte: 12, cr7: 15, imperador: 18,
+        faraós: 20, pensão: 12, tasca: 10, tremoços: 14, nabo: 12, carago: 15
+      };
+
+      const lowercaseText = text.toLowerCase();
+      Object.keys(keywords).forEach(key => {
+        if (lowercaseText.includes(key)) {
+          absurdo += keywords[key];
+          criatividade += 8;
+        }
+      });
+
+      // Limitar a 100 pontos por pilar
+      criatividade = Math.min(100, criatividade);
+      absurdo = Math.min(100, absurdo);
+      humor = Math.min(100, humor);
+      descaramento = Math.min(100, descaramento);
+
+      const commentary = MOCK_COMMENTS[Math.floor(Math.random() * MOCK_COMMENTS.length)];
+
+      return {
+        criatividade,
+        absurdo,
+        humor,
+        descaramento,
+        comentario: commentary
+      };
+    }
+
+    // Julgamento da Mentira (API Gemini oficial ou local fallback)
+    async function judgeLie() {
+      clearInterval(timerInterval);
+      const lieText = document.getElementById("player-lie-input").value.trim();
+
+      if (!lieText) {
+        showToast("Tens de escrever primeiro uma mentira descarada!");
+        // Re-iniciar timer para dar hipótese
+        startTimerWithRemaining();
+        return;
+      }
+
+      document.getElementById("player-lie-input").disabled = true;
+      document.getElementById("btn-submit").disabled = true;
+      document.getElementById("btn-submit").innerHTML = `<span class="animate-spin mr-2">🌀</span> IA analisando...`;
+
+      // Chamada oficial ou Fallback
+      if (!API_KEY) {
+        setTimeout(() => {
+          const evalLocal = runLocalFallbackJudge(lieText);
+          processEvaluation(lieText, evalLocal);
+        }, 2200);
+        return;
+      }
+
+      // Caso haja chave de API, efetuar chamada oficial
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+      const prompt = `Duelo contra ${selectedAdversary.name}. Tema: "${selectedAdversary.theme}". Mentira do adversário: "${selectedAdversary.lies[0]}". Mentira do jogador: "${lieText}".`;
+      const systemPrompt = `És o Juiz do Mentirógrafo, o jogo português de mentiras. Avalia a mentira e devolve um JSON com as seguintes chaves numéricas de 0 a 100: "criatividade", "absurdo", "descaramento", "humor" e uma string "comentario" hilariante em português de Portugal. Responda apenas com o JSON.`;
+
+      const fetchWithRetry = async (url, options, retries = 5, delay = 1000) => {
+        try {
+          const response = await fetch(url, options);
+          if (!response.ok) throw new Error(`HTTP: ${response.status}`);
+          return await response.json();
+        } catch (error) {
+          if (retries > 0) {
+            await new Promise(res => setTimeout(res, delay));
+            return fetchWithRetry(url, options, retries - 1, delay * 2);
+          }
+          throw error;
+        }
+      };
+
+      try {
+        const data = await fetchWithRetry(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            generationConfig: {
+              responseMimeType: "application/json",
+              responseSchema: {
+                type: "OBJECT",
+                properties: {
+                  criatividade: { type: "INTEGER" },
+                  absurdo: { type: "INTEGER" },
+                  descaramento: { type: "INTEGER" },
+                  humor: { type: "INTEGER" },
+                  comentario: { type: "STRING" }
+                },
+                required: ["criatividade", "absurdo", "descaramento", "humor", "comentario"]
+              }
+            }
+          })
+        });
+
+        const textResp = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!textResp) throw new Error("Erro na resposta.");
+
+        const evaluation = JSON.parse(textResp);
+        processEvaluation(lieText, evaluation);
+
+      } catch (err) {
+        // Fallback dinâmico seguro
+        const localResult = runLocalFallbackJudge(lieText);
+        processEvaluation(lieText, localResult);
+        showToast("🔌 Juiz de emergência local acionado por falha de ligação.");
+      }
+    }
+
+    function startTimerWithRemaining() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerUI();
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          judgeLie();
+        }
+      }, 1000);
+    }
+
+    // Processamento e atribuição dos resultados
+    function processEvaluation(lieText, evaluation) {
+      const total = evaluation.criatividade + evaluation.absurdo + evaluation.humor + evaluation.descaramento;
+      const target = selectedAdversary.targetScore;
+      const won = total >= target;
+
+      // Armazenar os resultados para partilha
+      finalLieText = lieText;
+      finalTotalScore = total;
+
+      // Atribuição de Recompensas
+      const xpReward = won ? 100 : 20;
+      const coinsReward = won ? 50 : 10;
+
+      player.xp += xpReward;
+      player.coins += coinsReward;
+      if (won) player.wins += 1;
+
+      // Guardar progresso
+      localStorage.setItem("mentirografoPlayerXP", player.xp);
+      localStorage.setItem("mentirografoPlayerCoins", player.coins);
+      localStorage.setItem("mentirografoPlayerWins", player.wins);
+
+      // Progressão de Nível
+      const requiredXp = player.level * 350;
+      if (player.xp >= requiredXp) {
+        player.level += 1;
+        player.xp = player.xp - requiredXp;
+        player.titles.push("🏆 Imperador da Mitomania");
+        localStorage.setItem("mentirografoPlayerLevel", player.level);
+        localStorage.setItem("mentirografoPlayerTitles", JSON.stringify(player.titles));
+        showToast(`🎉 PARABÉNS! Subiste para o Nível ${player.level}!`);
+      }
+
+      // Reproduzir som adequado ao resultado
+      playSound(won ? "win" : "fail");
+
+      // Atualizar interface de resultados
+      document.getElementById("res-criatividade").innerText = evaluation.criatividade;
+      document.getElementById("res-absurdo").innerText = evaluation.absurdo;
+      document.getElementById("res-humor").innerText = evaluation.humor;
+      document.getElementById("res-descaramento").innerText = evaluation.descaramento;
+      document.getElementById("result-total-score").innerText = total;
+      document.getElementById("result-target-score").innerText = `Meta a bater: ${target}`;
+      document.getElementById("res-comment").innerText = `"${evaluation.comentario}"`;
+      
+      document.getElementById("res-rewards-xp").innerText = `+${xpReward} XP`;
+      document.getElementById("res-rewards-coins").innerText = `+${coinsReward} 🪙`;
+
+      // Atualizar cartão de meme
+      document.getElementById("memeText").innerText = `“${lieText}”`;
+      document.getElementById("memeScore").innerText = `PONTUAÇÃO: ${total} PTS`;
+
+      const badge = document.getElementById("result-verdict-badge");
+      const glowBar = document.getElementById("result-glow-bar");
+
+      if (won) {
+        badge.innerText = "🏆 VITÓRIA CONQUISTADA";
+        badge.className = "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+        glowBar.className = "absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-500 to-teal-500";
+      } else {
+        badge.innerText = "💀 DERROTA";
+        badge.className = "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20";
+        glowBar.className = "absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-rose-500 to-red-500";
+      }
+
+      // Persistir pontuação no Ranking Local
+      saveToRanking(total);
+
+      // Ir para ecrã de resultados
+      navigate('result');
+
+      // Atualizar as restantes vistas em background
+      updateProfileUI();
+      renderRanking();
+    }
+
+    // Salvar no ranking guardado no LocalStorage
+    function saveToRanking(score) {
+      const currentRanking = JSON.parse(localStorage.getItem("mentirografoLocalRanking")) || [];
+      const currentName = player.name || "Jogador";
+      
+      currentRanking.push({
+        name: currentName,
+        score: score,
+        title: player.activeTitle,
+        avatar: "🧙"
+      });
+
+      // Ordenar por pontuação decrescente
+      currentRanking.sort((a, b) => b.score - a.score);
+
+      // Guardar apenas o top 5
+      localStorage.setItem("mentirografoLocalRanking", JSON.stringify(currentRanking.slice(0, 5)));
+    }
+
+    // Renderizar o Ranking Local
+    function renderRanking() {
+      const container = document.getElementById("ranking-container");
+      container.innerHTML = "";
+
+      const defaultRanking = [
+        { name: "Joaquim_da_Bifana", avatar: "👨‍🍳", score: 395, title: "🏛️ Primeiro-Ministro da Peta" },
+        { name: "Maria_Sardinha", avatar: "👩‍🍳", score: 375, title: "🐟 Mestre da Sardinha" },
+        { name: "Pedro_Tanga", avatar: "👨‍🦱", score: 365, title: "👑 Rei do Descaramento" },
+        { name: "Mito_Lover", avatar: "👾", score: 350, title: "🦖 Mestre do Absurdo" }
+      ];
+
+      const localRanking = JSON.parse(localStorage.getItem("mentirografoLocalRanking")) || [];
+      const currentName = player.name || "Tu (O Grande Orador)";
+      
+      // Integrar o utilizador ativo no ranking calculado por nível e duelos ganhas
+      const userCalculatedScore = player.level * 100 + player.wins * 35;
+      const userRow = {
+        name: currentName,
+        avatar: "🧙",
+        score: userCalculatedScore,
+        title: player.activeTitle,
+        isUser: true
+      };
+
+      // Unir as listas e filtrar os melhores de forma limpa
+      const combined = [...localRanking, ...defaultRanking, userRow]
+        .filter((v, i, a) => a.findIndex(t => t.name === v.name) === i) // Unificar nomes duplicados
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+
+      combined.forEach((item, index) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = `p-4 rounded-xl border flex items-center justify-between gap-4 transition-all ${
+          item.isUser 
+            ? 'border-brand-pink bg-purple-950/20 font-bold scale-[1.01]' 
+            : 'border-purple-950 bg-slate-950/40'
+        }`;
+
+        itemDiv.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-mono font-black w-6 text-center ${
+              index === 0 ? 'text-brand-gold neon-text-gold' : index === 1 ? 'text-slate-300' : index === 2 ? 'text-amber-600' : 'text-slate-500'
+            }">
+              #${index + 1}
+            </span>
+            <span class="text-2xl">${item.avatar}</span>
+            <div class="text-left">
+              <span class="text-sm text-white block">${item.name}</span>
+              <span class="text-[9px] text-slate-500 uppercase block font-bold">${item.title}</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-sm font-mono font-black text-brand-gold block">${item.score} LP</span>
+          </div>
+        `;
+        container.appendChild(itemDiv);
+      });
+    }
+
+    // Partilhar Meme do Cartão (Navigator Share ou Cópia)
+    function shareMeme() {
+      const shareText = `🎭 MENTIRÓGRAFO™ 🇵🇹\n\nA minha mentira descarada:\n“${finalLieText}”\n\nPontuação do Juiz IA: ${finalTotalScore} pts\nSupera-me no Mentirógrafo!`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: "Mentirógrafo™ — Duelo de Mentiras",
+          text: shareText
+        }).then(() => {
+          showToast("Meme partilhado com sucesso!");
+        }).catch(() => {
+          copyMemeText(shareText);
+        });
+      } else {
+        copyMemeText(shareText);
+      }
+    }
+
+    // Auxiliar de cópia robusto em iframe (Directiva: document.execCommand para fallback estável)
+    function copyMemeText(text) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";  // Evita scrolls indesejados no telemóvel
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        const success = document.execCommand('copy');
+        if (success) {
+          showToast("Meme copiado para a área de transferência!");
+        } else {
+          showToast("Falha ao copiar o meme.");
+        }
+      } catch (err) {
+        showToast("Erro ao tentar copiar o meme.");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // Atualizar Dados na Aba de Perfil
+    function updateProfileUI() {
+      const currentName = player.name || "Tu (O Grande Orador)";
+      document.getElementById("profile-display-name").innerText = currentName;
+      document.getElementById("profile-level").innerText = player.level;
+      document.getElementById("profile-coins").innerText = `${player.coins} 🪙`;
+      document.getElementById("profile-wins").innerText = player.wins;
+      document.getElementById("profile-title").innerText = player.activeTitle;
+
+      const nextLevelXp = player.level * 350;
+      document.getElementById("profile-xp-text").innerText = `${player.xp} / ${nextLevelXp} XP`;
+      const percentage = (player.xp / nextLevelXp) * 100;
+      document.getElementById("profile-xp-bar").style.width = `${percentage}%`;
+
+      // Renderizar insígnias conquistadas
+      const badgesContainer = document.getElementById("badges-container");
+      badgesContainer.innerHTML = "";
+      player.titles.forEach(t => {
+        const badgeSpan = document.createElement("span");
+        badgeSpan.className = "bg-slate-950 text-slate-300 text-[10px] font-bold px-3 py-1.5 rounded-xl border border-purple-950 shadow-sm";
+        badgeSpan.innerText = t;
+        badgesContainer.appendChild(badgeSpan);
+      });
+    }
+
+    // Inicialização ao carregar a página
+    window.onload = function() {
+      // Hidratar o input com o nome salvo se existir
+      if (player.name) {
+        document.getElementById("playerName").value = player.name;
+      }
+      
+      updateProfileUI();
+      renderRanking();
+      navigate('home');
+    }
+  </script>
 </body>
 </html>
