@@ -1,802 +1,2045 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHITAGRAM™ — Batalhas de Reclamação Absurda</title>
-<style>
-
-:root{
-  --bg:#090302;
-  --bg2:#140706;
-  --panel:#160d0a;
-  --panel2:#21100b;
-  --line:rgba(255,132,32,.18);
-  --line2:rgba(255,255,255,.08);
-  --text:#fff7ed;
-  --muted:rgba(255,247,237,.68);
-  --muted2:rgba(255,247,237,.45);
-  --orange:#ff7a00;
-  --orange2:#ff4d00;
-  --yellow:#ffb800;
-  --red:#f2352f;
-  --brown:#3a160d;
-  --green:#26d66b;
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,rgba(255,122,0,.13),transparent 30%),radial-gradient(circle at 15% 30%,rgba(255,77,0,.08),transparent 34%),linear-gradient(180deg,#120504,#070201 70%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-button,input,textarea{font-family:inherit}
-button{cursor:pointer;color:inherit}
-button:active{transform:scale(.985)}
-.app-header{height:82px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid rgba(255,122,0,.16);background:rgba(17,6,4,.82);backdrop-filter:blur(18px);position:sticky;top:0;z-index:20}
-.logo{display:flex;align-items:center;gap:12px;min-width:245px}
-.logo-mark{width:54px;height:54px;border-radius:18px;background:linear-gradient(180deg,#ff9a1f,#ff3b17);display:grid;place-items:center;font-size:30px;box-shadow:0 0 30px rgba(255,122,0,.22)}
-.logo-title{font-weight:1000;font-size:30px;letter-spacing:-.055em;line-height:.92;background:linear-gradient(90deg,#ffbf38,#ff5f23,#ff9b77);-webkit-background-clip:text;color:transparent}
-.logo-sub{font-weight:900;font-size:11px;color:#ff9a1f;letter-spacing:.12em;margin-top:2px}
-.nav{display:flex;align-items:center;gap:27px;color:rgba(255,247,237,.72);font-size:17px;font-weight:800}
-.nav a{display:flex;align-items:center;gap:8px;padding:28px 0 25px;border-bottom:3px solid transparent}
-.nav a.active{color:#ff9a1f;border-color:#ff7a00}
-.nav a:hover{color:#fff}
-.header-actions{display:flex;align-items:center;gap:14px}
-.coin-pill{height:45px;border-radius:999px;padding:0 18px;display:flex;align-items:center;gap:8px;background:rgba(255,184,0,.10);border:1px solid rgba(255,184,0,.30);font-size:18px;font-weight:1000;color:#ffd35a}
-.user-pill{height:45px;border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:10px;background:rgba(255,77,0,.10);border:1px solid rgba(255,122,0,.18);font-weight:800;color:#ffb17d;max-width:205px}
-.container{max-width:1500px;margin:0 auto;padding:40px 26px}
-.hero{text-align:center;max-width:820px;margin:0 auto 36px}
-.kicker{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:999px;background:rgba(255,122,0,.14);border:1px solid rgba(255,122,0,.25);color:#ffb17d;font-weight:1000;font-size:13px;letter-spacing:.10em;text-transform:uppercase}
-.hero h1{font-size:54px;line-height:.95;margin:16px 0 12px;font-weight:1000;letter-spacing:-.055em}
-.hero h1 span{color:#ff7a00}
-.hero p{color:var(--muted);font-size:18px;line-height:1.48;margin:0}
-.panel{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 90px rgba(0,0,0,.38)}
-.center-panel{max-width:860px;margin:0 auto;padding:28px}
-.sort-box{background:rgba(0,0,0,.55);border:1px solid rgba(255,122,0,.16);border-radius:17px;padding:35px 22px;text-align:center}
-.sort-box .dice{font-size:54px;margin-bottom:8px}
-.btn-main{width:100%;height:64px;border:0;border-radius:15px;background:linear-gradient(90deg,#ffb000,#ff6b00,#f2352f);color:#120604;font-size:18px;font-weight:1000;text-transform:uppercase;letter-spacing:.02em;box-shadow:0 15px 45px rgba(255,77,0,.20)}
-.btn-small{border:0;border-radius:12px;background:linear-gradient(180deg,#ff7a00,#ff4d00);color:#160602;font-weight:1000;padding:11px 20px}
-.section-title{display:flex;align-items:center;justify-content:space-between;margin:42px 0 18px}
-.section-title h2{font-size:24px;margin:0;font-weight:1000}
-.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.theme-card{padding:20px;border-radius:17px;background:rgba(255,255,255,.025);border:1px solid rgba(255,122,0,.16);display:grid;grid-template-columns:74px 1fr auto;gap:18px;align-items:center}
-.theme-icon{width:60px;height:60px;border-radius:15px;display:grid;place-items:center;font-size:34px;background:rgba(255,122,0,.10)}
-.theme-card h3{font-size:20px;margin:0 0 5px;font-weight:1000}
-.theme-card p{font-size:14px;color:var(--muted);margin:0 0 10px;line-height:1.35}
-.bonus{font-size:12px;color:#ffbe43;font-weight:900}
-.label{font-size:11px;font-weight:1000;color:#ffa05a;background:rgba(255,122,0,.12);padding:6px 10px;border-radius:999px;text-transform:uppercase}
-.duel-layout{display:grid;grid-template-columns:minmax(0,1fr)430px;gap:24px}
-.battle-card{overflow:hidden}
-.scorebar{height:54px;display:grid;grid-template-columns:1fr 90px 1fr;background:linear-gradient(90deg,#ee2727,#ff6a00,#ffb000);align-items:center;font-size:22px;font-weight:1000}
-.scorebar div{padding:0 22px}.scorebar .vs{height:38px;border-radius:999px;background:#d9322f;display:grid;place-items:center;align-self:center;box-shadow:0 8px 25px rgba(0,0,0,.35);padding:0}
-.mission{padding:24px 30px;border-bottom:1px solid rgba(255,122,0,.14);display:flex;align-items:center;justify-content:space-between;gap:20px}
-.mission h2{margin:0;font-size:24px}.mission p{margin:6px 0 0;color:var(--muted)}
-.bonus-box{padding:14px 18px;border-radius:14px;background:rgba(255,184,0,.12);border:1px solid rgba(255,184,0,.25);font-weight:900;color:#ffd76e;text-align:center}
-.players{display:grid;grid-template-columns:1fr 1fr}
-.player{min-height:480px;position:relative;background:#180805;border-right:1px solid rgba(255,122,0,.12);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
-.player:last-child{border-right:0}
-.player-img{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.82}
-.player:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.65))}
-.player-content{position:relative;z-index:2;padding:28px}
-.tag-red{display:inline-block;background:#e33434;color:#fff;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:1000;margin-bottom:12px}
-.player h2{font-size:32px;margin:0 0 8px;font-weight:1000}
-.player p{color:rgba(255,247,237,.80);line-height:1.35;margin:0 0 20px}
-.vote-row{display:grid;grid-template-columns:1fr 130px;gap:12px}
-.vote-a{background:linear-gradient(90deg,#f2352f,#ff6a00)}.vote-b{background:linear-gradient(90deg,#ffb000,#e59300)}
-.gifts{padding:18px 26px 24px;border-top:1px solid rgba(255,122,0,.14)}
-.gift-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.gift-card{min-height:110px;border-radius:16px;background:rgba(255,122,0,.055);border:1px solid rgba(255,122,0,.13);display:grid;place-items:center;text-align:center;font-weight:900}
-.gift-card .emoji{font-size:35px}.gift-card small{display:block;color:#ffd260;margin-top:5px}
-.side-panel{padding:22px}.side-panel h2{margin:0 0 20px;font-size:22px}
-.chat-list{height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;color:rgba(255,247,237,.82);line-height:1.45}
-.chat-list b{color:#ff9a1f}.chat-input{margin-top:20px;display:flex;gap:12px}.chat-input input{flex:1;height:52px;border-radius:14px;background:rgba(0,0,0,.45);border:1px solid rgba(255,122,0,.16);color:#fff;padding:0 18px;outline:none;font-size:16px}
-.send-btn{width:56px;border:0;border-radius:14px;background:#ff5a00;font-size:26px}
-.pk-list{margin-top:24px}.pk-item{height:70px;border-radius:15px;border:1px solid rgba(255,122,0,.18);background:rgba(255,122,0,.045);display:flex;align-items:center;justify-content:space-between;padding:0 18px;margin-bottom:12px}
-.rank-panel{max-width:1120px;margin:40px auto;padding:54px}.rank-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}.rank-head h1{font-size:46px;margin:0;font-weight:1000;letter-spacing:-.04em}.rank-head p{margin:6px 0 0;color:#ffb347;font-size:18px}
-.rank-row{height:136px;border-radius:20px;border:1px solid rgba(255,122,0,.19);background:rgba(255,122,0,.035);display:grid;grid-template-columns:70px 110px 1fr 250px;align-items:center;gap:22px;padding:0 28px;margin-bottom:18px}
-.medal{width:48px;height:48px;border-radius:999px;display:grid;place-items:center;font-weight:1000;font-size:20px;color:#150802}.gold{background:#ffbf26}.silver{background:#d9e1ed}.bronze{background:#f0872c}.rank-avatar{width:86px;height:86px;border-radius:16px;background:linear-gradient(135deg,#ff7a00,#38130c);display:grid;place-items:center;font-size:42px}.rank-row h3{margin:0;font-size:26px}.rank-row p{margin:8px 0 0;color:#ffd05e;font-weight:900}.points{text-align:right;font-size:28px;font-weight:1000}.points small{display:block;color:var(--muted);font-size:14px;font-weight:700;margin-top:5px}
-.profile-card{max-width:980px;margin:36px auto;padding:54px;text-align:center}.avatar-big{width:132px;height:132px;border-radius:30px;background:linear-gradient(135deg,#ff7a00,#1c0805);border:4px solid #ff7a00;margin:0 auto 22px;display:grid;place-items:center;font-size:65px}.profile-card h1{font-size:36px;margin:0}.profile-id{color:#ff9a1f;font-weight:800;margin-top:8px}.stats{display:flex;justify-content:center;gap:0;margin:38px 0}.stat{min-width:150px;padding:0 40px;border-right:1px solid rgba(255,122,0,.18)}.stat:last-child{border-right:0}.stat b{display:block;font-size:34px}.stat span{color:#ff9a1f;font-weight:1000}
-.empty{border:1px dashed rgba(255,122,0,.28);border-radius:18px;padding:40px;color:var(--muted);margin-top:30px}
-.footer{border-top:1px solid rgba(255,122,0,.15);padding:22px 30px;color:var(--muted2);display:flex;justify-content:space-between;gap:20px}
-@media(max-width:1050px){.app-header{height:auto;align-items:flex-start;flex-direction:column;padding:18px}.nav{flex-wrap:wrap;gap:18px}.header-actions{width:100%;justify-content:space-between}.duel-layout{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.players{grid-template-columns:1fr}.rank-row{grid-template-columns:50px 70px 1fr;min-height:150px;height:auto;padding:20px}.points{grid-column:3;text-align:left}.gift-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.hero h1{font-size:40px}.container{padding:28px 16px}.theme-card{grid-template-columns:1fr}.rank-panel,.profile-card{padding:28px}.stats{flex-direction:column;gap:20px}.stat{border-right:0}.footer{flex-direction:column}.logo-title{font-size:24px}}
-
-
-/* =========================================================
-   SHITAGRAM™ v33 — Polish do novo tema
-   ========================================================= */
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 8% 80%,rgba(255,122,0,.08),transparent 30%),
-    radial-gradient(circle at 95% 92%,rgba(242,53,47,.06),transparent 28%);
-  z-index:-1;
-}
-
-.app-header{
-  box-shadow:0 12px 45px rgba(0,0,0,.28);
-}
-
-.logo:hover .logo-mark{
-  transform:rotate(-5deg) scale(1.04);
-}
-
-.logo-mark{
-  transition:.2s ease;
-}
-
-.panel{
-  position:relative;
-  overflow:hidden;
-}
-
-.panel::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:linear-gradient(135deg,rgba(255,255,255,.035),transparent 35%,rgba(255,122,0,.025));
-  opacity:.9;
-}
-
-.panel > *{
-  position:relative;
-  z-index:1;
-}
-
-.theme-card,
-.rank-row,
-.pk-item,
-.gift-card{
-  transition:.18s ease;
-}
-
-.theme-card:hover,
-.rank-row:hover,
-.pk-item:hover,
-.gift-card:hover{
-  transform:translateY(-2px);
-  border-color:rgba(255,122,0,.38);
-  box-shadow:0 18px 45px rgba(255,77,0,.08);
-}
-
-.btn-main,
-.btn-small,
-.send-btn{
-  box-shadow:0 12px 35px rgba(255,77,0,.16);
-}
-
-.btn-main:hover,
-.btn-small:hover,
-.send-btn:hover{
-  filter:brightness(1.08);
-}
-
-.top-warning{
-  max-width:1100px;
-  margin:0 auto 24px;
-  padding:14px 18px;
-  border:1px solid rgba(255,184,0,.22);
-  border-radius:16px;
-  color:#ffc266;
-  background:rgba(255,184,0,.055);
-  text-align:center;
-  font-weight:800;
-}
-
-.ai-result{
-  margin-top:22px;
-  border:1px solid rgba(255,122,0,.22);
-  border-radius:18px;
-  padding:22px;
-  background:rgba(0,0,0,.35);
-}
-
-.ai-result h3{
-  margin:0 0 8px;
-  color:#ff9a1f;
-}
-
-.ai-result p{
-  color:var(--muted);
-  line-height:1.55;
-}
-
-.sound-chip{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:40;
-  border:1px solid rgba(255,122,0,.28);
-  background:rgba(20,7,6,.88);
-  backdrop-filter:blur(12px);
-  color:#ffc266;
-  border-radius:999px;
-  padding:12px 16px;
-  font-weight:1000;
-  box-shadow:0 15px 40px rgba(0,0,0,.34);
-}
-
-.sound-chip:hover{
-  border-color:rgba(255,184,0,.55);
-}
-
-.countdown-pop{
-  position:fixed;
-  inset:0;
-  display:grid;
-  place-items:center;
-  z-index:60;
-  pointer-events:none;
-  font-size:110px;
-  font-weight:1000;
-  color:#ffb800;
-  text-shadow:0 0 40px rgba(255,122,0,.85);
-  animation:countPop .8s ease-out forwards;
-}
-
-@keyframes countPop{
-  0%{transform:scale(.65);opacity:0}
-  35%{transform:scale(1.05);opacity:1}
-  100%{transform:scale(1.4);opacity:0}
-}
-
-.reaction-float{
-  position:fixed;
-  right:28px;
-  bottom:90px;
-  z-index:50;
-  font-size:34px;
-  animation:floatUp 1.5s ease-out forwards;
-  pointer-events:none;
-}
-
-@keyframes floatUp{
-  from{transform:translateY(0) scale(.85);opacity:1}
-  to{transform:translateY(-160px) scale(1.25);opacity:0}
-}
-
-@media(max-width:760px){
-  .coin-pill,.user-pill{width:100%;justify-content:center}
-  .header-actions{flex-direction:column;align-items:stretch}
-  .nav a{padding:8px 0;border-bottom:0}
-  .hero h1{font-size:34px}
-  .scorebar{grid-template-columns:1fr 70px 1fr;font-size:17px}
-  .vote-row{grid-template-columns:1fr}
-}
-
-
-/* =========================================================
-   SHITAGRAM™ v37 — Contagem regressiva antes da batalha
-   ========================================================= */
-
-.battle-countdown-overlay{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:
-    radial-gradient(circle at center,rgba(255,122,0,.22),transparent 38%),
-    rgba(6,0,0,.88);
-  backdrop-filter:blur(10px);
-}
-
-.battle-countdown-overlay.active{
-  display:flex;
-}
-
-.countdown-box{
-  text-align:center;
-  animation:countdownBoxIn .28s ease-out forwards;
-}
-
-.countdown-number{
-  font-size:clamp(92px,16vw,210px);
-  font-weight:1000;
-  line-height:.85;
-  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  text-shadow:0 0 55px rgba(255,104,0,.35);
-  filter:drop-shadow(0 18px 45px rgba(0,0,0,.65));
-}
-
-.countdown-label{
-  margin-top:18px;
-  font-size:clamp(22px,4vw,44px);
-  font-weight:1000;
-  color:#fff7ed;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-}
-
-.countdown-sub{
-  margin-top:10px;
-  color:#ffbd65;
-  font-weight:900;
-}
-
-.battle-live-panel{
-  max-width:980px;
-  margin:26px auto 0;
-  border:1px solid rgba(255,122,0,.24);
-  border-radius:26px;
-  background:
-    radial-gradient(circle at 20% 0%,rgba(255,122,0,.13),transparent 32%),
-    linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.22));
-  padding:24px;
-  display:none;
-  box-shadow:0 24px 90px rgba(0,0,0,.42);
-}
-
-.battle-live-panel.active{
-  display:block;
-}
-
-.live-topline{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
-}
-
-.live-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:9px 14px;
-  border-radius:999px;
-  background:rgba(255,0,0,.13);
-  border:1px solid rgba(255,72,72,.24);
-  color:#ff6868;
-  font-weight:1000;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-}
-
-.live-dot{
-  width:9px;
-  height:9px;
-  border-radius:999px;
-  background:#ff3636;
-  box-shadow:0 0 18px #ff3636;
-  animation:livePulse .9s infinite alternate;
-}
-
-.timer-pill{
-  border-radius:999px;
-  padding:10px 16px;
-  background:rgba(255,122,0,.10);
-  border:1px solid rgba(255,122,0,.22);
-  color:#ffbd65;
-  font-weight:1000;
-}
-
-.battle-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-  margin-top:16px;
-}
-
-.battle-action-btn{
-  min-height:56px;
-  border-radius:16px;
-  border:1px solid rgba(255,122,0,.22);
-  background:rgba(255,122,0,.06);
-  color:#fff7ed;
-  font-size:18px;
-  font-weight:1000;
-}
-
-.battle-action-btn.primary{
-  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
-  color:#170604;
-  border:0;
-}
-
-@keyframes countdownBoxIn{
-  from{opacity:0;transform:scale(.75)}
-  to{opacity:1;transform:scale(1)}
-}
-
-@keyframes livePulse{
-  from{opacity:.45;transform:scale(.85)}
-  to{opacity:1;transform:scale(1.15)}
-}
-
-@media(max-width:720px){
-  .battle-actions{grid-template-columns:1fr}
-}
-
-
-
-/* =========================================================
-   SHITAGRAM™ v38 — Index Home / Entrada Principal
-   ========================================================= */
-
-.home-hero{
-  max-width:1180px;
-  margin:0 auto;
-  padding:72px 24px 38px;
-  text-align:center;
-  position:relative;
-}
-
-.home-kicker{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  border:1px solid rgba(255,122,0,.28);
-  background:rgba(255,122,0,.09);
-  color:#ffbd65;
-  padding:10px 16px;
-  border-radius:999px;
-  font-weight:1000;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  font-size:13px;
-}
-
-.home-title{
-  max-width:920px;
-  margin:20px auto 14px;
-  font-size:clamp(44px,7vw,82px);
-  line-height:.92;
-  letter-spacing:-.055em;
-  font-weight:1000;
-}
-
-.home-title span{
-  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.home-subtitle{
-  max-width:760px;
-  margin:0 auto;
-  color:rgba(255,247,237,.72);
-  font-size:20px;
-  line-height:1.55;
-}
-
-.home-actions{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  flex-wrap:wrap;
-  margin-top:32px;
-}
-
-.home-btn{
-  min-height:58px;
-  padding:0 24px;
-  border-radius:17px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  font-weight:1000;
-  font-size:18px;
-  border:1px solid rgba(255,122,0,.22);
-  color:#fff7ed;
-  background:rgba(255,122,0,.06);
-}
-
-.home-btn.primary{
-  color:#170604;
-  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
-  border:0;
-  box-shadow:0 20px 60px rgba(255,91,0,.20);
-}
-
-.home-grid{
-  max-width:1180px;
-  margin:28px auto;
-  padding:0 24px 38px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:22px;
-}
-
-.home-card{
-  border:1px solid rgba(255,122,0,.18);
-  background:
-    radial-gradient(circle at 15% 0%,rgba(255,122,0,.11),transparent 35%),
-    linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.22));
-  border-radius:26px;
-  padding:26px;
-  box-shadow:0 24px 80px rgba(0,0,0,.38);
-}
-
-.home-card h2{
-  margin:0 0 14px;
-  font-size:30px;
-  letter-spacing:-.035em;
-}
-
-.home-card p{
-  margin:0;
-  color:rgba(255,247,237,.68);
-  line-height:1.55;
-}
-
-.feature-list{
-  display:grid;
-  gap:12px;
-  margin-top:20px;
-}
-
-.feature-item{
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
-  padding:15px;
-  border-radius:16px;
-  border:1px solid rgba(255,122,0,.14);
-  background:rgba(255,122,0,.045);
-}
-
-.feature-emoji{
-  width:42px;
-  height:42px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background:rgba(255,122,0,.12);
-  font-size:22px;
-  flex:none;
-}
-
-.feature-item strong{
-  display:block;
-  font-size:17px;
-  margin-bottom:3px;
-}
-
-.feature-item span{
-  color:rgba(255,247,237,.62);
-  line-height:1.42;
-}
-
-.theme-day{
-  min-height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
-.theme-display{
-  margin-top:18px;
-  border-radius:22px;
-  background:#050101;
-  border:1px solid rgba(255,122,0,.18);
-  padding:28px;
-  text-align:center;
-}
-
-.theme-display .big-emoji{
-  font-size:62px;
-  margin-bottom:8px;
-}
-
-.theme-display h3{
-  margin:0;
-  font-size:32px;
-  color:#fff7ed;
-}
-
-.theme-display p{
-  margin-top:10px;
-}
-
-.stats-strip{
-  max-width:1180px;
-  margin:0 auto 46px;
-  padding:0 24px;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:14px;
-}
-
-.stat-box{
-  border:1px solid rgba(255,122,0,.16);
-  border-radius:20px;
-  background:rgba(255,122,0,.045);
-  padding:20px;
-  text-align:center;
-}
-
-.stat-box strong{
-  display:block;
-  font-size:30px;
-  color:#ff9b36;
-}
-
-.stat-box span{
-  color:rgba(255,247,237,.62);
-  font-weight:800;
-}
-
-.how-section{
-  max-width:1180px;
-  margin:0 auto 54px;
-  padding:0 24px;
-}
-
-.how-title{
-  font-size:34px;
-  margin:0 0 18px;
-}
-
-.how-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:16px;
-}
-
-.how-step{
-  border:1px solid rgba(255,122,0,.16);
-  border-radius:22px;
-  background:linear-gradient(180deg,rgba(255,122,0,.065),rgba(0,0,0,.20));
-  padding:22px;
-}
-
-.how-step b{
-  width:38px;
-  height:38px;
-  display:grid;
-  place-items:center;
-  border-radius:999px;
-  background:linear-gradient(90deg,#ffb000,#ff6a00);
-  color:#160602;
-  font-weight:1000;
-  margin-bottom:14px;
-}
-
-.how-step strong{
-  display:block;
-  font-size:20px;
-  margin-bottom:7px;
-}
-
-.how-step p{
-  color:rgba(255,247,237,.64);
-  line-height:1.45;
-  margin:0;
-}
-
-@media(max-width:900px){
-  .home-grid,.how-grid,.stats-strip{grid-template-columns:1fr}
-  .home-hero{padding-top:44px}
-}
-
-@media(max-width:600px){
-  .home-title{font-size:46px}
-  .home-subtitle{font-size:17px}
-  .home-btn{width:100%}
-}
-
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHITAGRAM™ - Batalhas de Reclamação Absurda</title>
+    <!-- Tailwind CSS para Estilização Moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para Ícones de Alta Qualidade -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0706;
+            color: #f7f2f0;
+            overflow-x: hidden;
+        }
+        /* Barra de rolagem personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #150e0d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ea580c;
+            border-radius: 10px;
+            border: 2px solid #150e0d;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f97316;
+        }
+        /* Efeitos Premium de Luz e Sombra */
+        .neon-glorious {
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.35);
+        }
+        .versus-pulse {
+            animation: pulse-vs 1.2s infinite alternate;
+        }
+        @keyframes pulse-vs {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
+            100% { transform: scale(1.08); box-shadow: 0 0 25px rgba(239, 68, 68, 0.95); }
+        }
+        /* Animação para comentários do chat live */
+        @keyframes slide-up {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .chat-msg {
+            animation: slide-up 0.25s ease-out forwards;
+        }
+        /* Animação de Confete/Chuva de Reclamações */
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            z-index: 45;
+            animation: fall 2.5s linear forwards;
+        }
+        /* Slot Machine Animation */
+        @keyframes slot-blur {
+            0% { filter: blur(0px); transform: translateY(0); }
+            50% { filter: blur(3px); transform: translateY(-15px); }
+            100% { filter: blur(0px); transform: translateY(0); }
+        }
+        .slot-spinning {
+            animation: slot-blur 0.12s infinite alternate;
+        }
+        /* Visualizador de Áudio Simulado */
+        .wave-bar {
+            animation: bounce-wave 0.6s ease-in-out infinite alternate;
+        }
+        @keyframes bounce-wave {
+            0% { height: 4px; }
+            100% { height: 32px; }
+        }
+    </style>
 </head>
-<body>
-<header class="app-header">
-  <a class="logo" href="duelos.html">
-    <div class="logo-mark">🔥</div>
-    <div><div class="logo-title">SHITAGRAM™</div><div class="logo-sub">BATALHAS DE RECLAMAÇÃO</div></div>
-  </a>
-  <nav class="nav"><a href="duelos.html"><span>▶️</span>Duelos Ao Vivo</a><a class="" href="temas.html"><span>🎭</span>Temas Absurdos</a><a class="" href="gerar.html"><span>🪄</span>Gerar com IA</a><a class="" href="hall-of-shame.html"><span>🏆</span>Hall of Shame</a><a class="" href="perfil.html"><span>💩</span>Meu Perfil</a></nav>
-  <div class="header-actions">
-    <div class="coin-pill">🪙 <span>1,500</span></div>
-    <a class="user-pill" href="perfil.html">👤 <span>user_shitagram</span>⌄</a>
-  </div>
-</header>
+<body class="bg-[#0c0706] text-orange-50 flex flex-col min-h-screen">
 
-<main>
-  <section class="home-hero">
-    <span class="home-kicker">🔥 Plataforma satírica experimental</span>
-    <h1 class="home-title">A rede social das <span>reclamações absurdas</span></h1>
-    <p class="home-subtitle">
-      Entra em duelos cómicos, defende temas impossíveis, envia presentes ridículos
-      e sobe no Hall of Shame com a reclamação mais épica.
-    </p>
-
-    <div class="home-actions">
-      <a class="home-btn primary" href="duelos.html">▶️ Entrar em Duelos Ao Vivo</a>
-      <a class="home-btn" href="temas.html">🎭 Ver Temas Absurdos</a>
-      <a class="home-btn" href="gerar.html">🪄 Gerar com IA</a>
-    </div>
-  </section>
-
-  <section class="stats-strip">
-    <div class="stat-box"><strong>60s</strong><span>por batalha</span></div>
-    <div class="stat-box"><strong>10</strong><span>temas oficiais</span></div>
-    <div class="stat-box"><strong>4</strong><span>presentes cómicos</span></div>
-    <div class="stat-box"><strong>∞</strong><span>reclamações possíveis</span></div>
-  </section>
-
-  <section class="home-grid">
-    <article class="home-card">
-      <h2>O que é o SHITAGRAM™?</h2>
-      <p>
-        É um palco de improviso humorístico onde duas pessoas competem para justificar
-        o injustificável. Quanto mais absurda, dramática e convincente for a reclamação,
-        maior é a pontuação.
-      </p>
-
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-emoji">🎭</div>
-          <div><strong>Duelos de reclamação</strong><span>Dois concorrentes, um tema absurdo e 60 segundos para convencer a audiência.</span></div>
+    <!-- Menu Superior Mobile / Desktop -->
+    <header class="sticky top-0 z-50 bg-[#160e0d]/95 backdrop-blur-md border-b border-orange-950/40 px-4 py-3 flex justify-between items-center shadow-md">
+        <div class="flex items-center space-x-2">
+            <span class="bg-gradient-to-r from-amber-600 via-orange-500 to-red-600 p-2.5 rounded-2xl text-white flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-fire text-xl animate-pulse"></i>
+            </span>
+            <div class="flex flex-col">
+                <h1 class="text-2xl font-black tracking-tighter bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text text-transparent cursor-pointer" onclick="switchTab('feed')">
+                    SHITAGRAM™
+                </h1>
+                <span class="text-[9px] text-orange-500 font-bold uppercase tracking-widest -mt-1">Batalhas de Reclamação</span>
+            </div>
         </div>
-        <div class="feature-item">
-          <div class="feature-emoji">🎁</div>
-          <div><strong>Presentes em direto</strong><span>Papel H., Abacate, Cocó Ouro e Coroa Real aparecem no ecrã de quem recebe.</span></div>
+        <div class="hidden md:flex items-center space-x-5">
+            <button onclick="switchTab('feed')" id="nav-feed" class="tab-btn active text-orange-400 font-bold transition flex items-center space-x-2">
+                <i class="fa-solid fa-circle-play"></i> <span>Duelos Ao Vivo</span>
+            </button>
+            <button onclick="switchTab('absurd-themes')" id="nav-absurd-themes" class="tab-btn text-gray-400 hover:text-white transition flex items-center space-x-2">
+                <i class="fa-solid fa-masks-theater"></i> <span>🎭 Temas Absurdos</span>
+            </button>
+            <button onclick="switchTab('ai-creator')" id="nav-ai-creator" class="tab-btn text-gray-400 hover:text-white transition flex items-center space-x-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Gerar com IA</span>
+            </button>
+            <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="tab-btn text-gray-400 hover:text-white transition flex items-center space-x-2">
+                <i class="fa-solid fa-trophy"></i> <span>Hall of Shame</span>
+            </button>
+            <button onclick="switchTab('profile')" id="nav-profile" class="tab-btn text-gray-400 hover:text-white transition flex items-center space-x-2">
+                <i class="fa-solid fa-poop text-amber-600"></i> <span>Meu Perfil</span>
+            </button>
         </div>
-        <div class="feature-item">
-          <div class="feature-emoji">🏆</div>
-          <div><strong>Hall of Shame</strong><span>As reclamações mais dramáticas e ridículas sobem ao ranking público.</span></div>
+        
+        <div class="flex items-center space-x-2.5">
+            <!-- Botão de Som Synthesizer -->
+            <button onclick="toggleSound()" id="sound-toggle-btn" class="bg-orange-950/40 hover:bg-orange-900/40 text-orange-400 p-2 rounded-xl border border-orange-900/30 transition-all flex items-center justify-center" title="Ativar/Desativar Sons">
+                <i id="sound-icon" class="fa-solid fa-volume-high"></i>
+            </button>
+
+            <div id="user-points-badge" class="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-xl flex items-center space-x-1.5 cursor-pointer hover:bg-amber-500/20 transition-all" onclick="addBonusCoins()">
+                <i class="fa-solid fa-coins text-amber-400"></i>
+                <span id="user-coins" class="text-amber-300 font-bold text-sm">1,500</span>
+            </div>
+            <!-- ID do Usuário -->
+            <div id="auth-status" class="text-xs bg-orange-950/40 text-orange-300 px-3 py-1.5 rounded-xl font-mono max-w-[120px] overflow-hidden text-ellipsis whitespace-nowrap border border-orange-900/30">
+                Carregando...
+            </div>
         </div>
-      </div>
-    </article>
+    </header>
 
-    <article class="home-card theme-day">
-      <div>
-        <h2>Tema absurdo em destaque</h2>
-        <p>Um exemplo do tipo de missão que pode sair numa batalha.</p>
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-6 pb-24 md:pb-6 flex flex-col justify-between">
+        
+        <!-- ================= ABA 1: FEED DE BATALHAS AO VIVO ================= -->
+        <section id="view-feed" class="view-section grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            
+            <!-- Painel Esquerdo: Vídeo da Batalha (Split-Screen Estilo TikTok PK Live) -->
+            <div class="lg:col-span-8 bg-[#140d0c] rounded-3xl border border-orange-950/60 overflow-hidden flex flex-col shadow-2xl relative">
+                
+                <!-- Barra de Progresso de Votação (Completamente desobstruída no topo) -->
+                <div class="w-full bg-orange-950/80 h-11 relative flex items-center border-b border-orange-900/40 z-10">
+                    <!-- Lado Esquerdo (Pink/Red) -->
+                    <div id="vote-bar-left" class="bg-gradient-to-r from-red-600 to-orange-500 h-full transition-all duration-500 ease-out" style="width: 50%;"></div>
+                    <!-- Lado Direito (Cyan/Yellow) -->
+                    <div id="vote-bar-right" class="bg-gradient-to-r from-amber-500 to-yellow-600 h-full transition-all duration-500 ease-out flex-grow"></div>
+                    
+                    <!-- Textos Overlay na Barra de Progresso -->
+                    <div class="absolute inset-0 flex justify-between items-center px-4 font-black text-sm drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                        <span class="flex items-center space-x-2 text-red-100">
+                            <span id="score-left">1,000</span>
+                            <i class="fa-solid fa-poop text-orange-400 animate-pulse"></i>
+                        </span>
+                        <div class="bg-red-600 px-5 py-1 rounded-full text-xs text-white uppercase tracking-widest versus-pulse flex items-center justify-center">
+                            VS
+                        </div>
+                        <span class="flex items-center space-x-2 text-yellow-100">
+                            <i class="fa-solid fa-poop text-yellow-400 animate-pulse"></i>
+                            <span id="score-right">1,000</span>
+                        </span>
+                    </div>
+                </div>
 
-        <div class="theme-display">
-          <div class="big-emoji">🩴</div>
-          <h3>Chinelo Fugitivo</h3>
-          <p>Encontrar o chinelo desaparecido e justificar a sua fuga em busca de liberdade.</p>
-        </div>
-      </div>
+                <!-- Painel de Informação da Missão Ativa (Para orientar a comédia) -->
+                <div id="active-mission-banner" class="bg-gradient-to-r from-orange-950 via-[#1b110f] to-orange-950 border-b border-orange-900/30 px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 z-10">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-3xl shrink-0" id="mission-emoji">🍞</span>
+                        <div>
+                            <span class="text-[9px] font-bold text-orange-400 uppercase tracking-widest block">Missão de Reclamação Absurda™</span>
+                            <h4 id="mission-title" class="text-base font-black text-white leading-tight">A Torrada Traidora</h4>
+                            <p id="mission-desc" class="text-xs text-orange-200/80 mt-0.5">Convencer a audiência que uma torrada declarou guerra ao queijo.</p>
+                        </div>
+                    </div>
+                    <div class="bg-amber-500/15 border border-amber-500/30 px-3 py-1.5 rounded-xl text-right shrink-0">
+                        <span class="text-[9px] text-amber-400 font-bold uppercase tracking-wider block">Desafio Especial</span>
+                        <p id="mission-bonus" class="text-[11px] font-black text-amber-200">+500 se disseres "crime gastronómico"</p>
+                    </div>
+                </div>
 
-      <div class="home-actions" style="justify-content:flex-start;margin-top:22px">
-        <a class="home-btn primary" href="duelos.html">Entrar nos duelos</a>
-      </div>
-    </article>
-  </section>
+                <!-- Split-Screen dos Competidores -->
+                <div class="flex-grow grid grid-cols-2 min-h-[400px] md:min-h-[500px] relative">
+                    
+                    <!-- STATUS AO VIVO E TURNOS -->
+                    
+                    <!-- Status Ao Vivo -->
+                    <div class="absolute top-4 left-4 z-20 flex items-center space-x-2 pointer-events-none">
+                        <div class="bg-black/85 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center space-x-2 border border-orange-500/30">
+                            <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
+                            <span class="text-[10px] font-bold text-red-400 tracking-wider uppercase">Live PK</span>
+                            <span class="text-xs text-orange-700">|</span>
+                            <span id="battle-spectators" class="text-xs text-orange-200 font-medium">4.2k rindo</span>
+                        </div>
+                    </div>
 
-  <section class="how-section">
-    <h2 class="how-title">Como funciona</h2>
+                    <!-- Temporizador Central -->
+                    <div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none">
+                        <div id="live-timer-container" class="bg-gradient-to-r from-red-600 via-orange-500 to-amber-500 text-white font-mono font-black text-xs md:text-sm px-4 py-1.5 rounded-full flex items-center space-x-2 shadow-lg border border-orange-400/30">
+                            <i class="fa-solid fa-stopwatch animate-pulse"></i>
+                            <span id="live-timer-countdown">01:00</span>
+                        </div>
+                    </div>
 
-    <div class="how-grid">
-      <article class="how-step">
-        <b>1</b>
-        <strong>Sorteia um tema</strong>
-        <p>O sistema escolhe uma missão absurda, como uma torrada traidora ou um frigorífico sindicalista.</p>
-      </article>
+                    <!-- Categoria da Reclamação -->
+                    <div class="absolute top-4 right-4 z-20 pointer-events-none">
+                        <div id="battle-category-badge" class="bg-orange-800/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-wide uppercase text-white shadow-lg border border-orange-500/40">
+                            Batalha Gourmet
+                        </div>
+                    </div>
 
-      <article class="how-step">
-        <b>2</b>
-        <strong>Convoca a batalha</strong>
-        <p>Clicas no botão verde, aparece 3... 2... 1... e começa o duelo de 60 segundos.</p>
-      </article>
+                    <!-- Competidor Lado Esquerdo (Vermelho) -->
+                    <div id="card-left" class="relative overflow-hidden group border-r border-orange-950/30 flex flex-col justify-end p-4 transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent z-10"></div>
+                        <div id="visualizer-left" class="absolute inset-0 bg-gradient-to-b from-red-950/10 to-red-900/25 opacity-75 flex items-center justify-center">
+                            <img id="competitor-img-left" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400" alt="Competidor Esquerdo" onerror="this.src='https://placehold.co/400x600/7c2d12/ffffff?text=Torrada'">
+                        </div>
 
-      <article class="how-step">
-        <b>3</b>
-        <strong>Vence pelo absurdo</strong>
-        <p>A audiência vota, envia presentes e ajuda a decidir quem reclamou melhor.</p>
-      </article>
-    </div>
-  </section>
-</main>
+                        <!-- Indicador de Turno Falante -->
+                        <div id="speaker-badge-left" class="absolute top-16 left-4 z-20 bg-emerald-500 text-black font-black text-[10px] px-2.5 py-1 rounded-md tracking-wider uppercase hidden shadow-lg animate-pulse">
+                            🎤 Reclamante Ativo
+                        </div>
 
-<footer class="footer">
-    <strong>🔥 SHITAGRAM™</strong>
-    <span>© 2026 SHITAGRAM™. Todos os direitos reservados.</span>
-    <span>Regras da Comunidade · Privacidade · Termos de Serviço</span>
-  </footer>
+                        <!-- Mini Visualizador gráfico de voz lado A -->
+                        <div id="audio-visualizer-left" class="absolute bottom-40 left-4 z-20 flex items-end space-x-1 h-12 hidden">
+                            <div class="w-1.5 bg-orange-500 wave-bar rounded-full" style="animation-delay: 0.1s"></div>
+                            <div class="w-1.5 bg-red-500 wave-bar rounded-full" style="animation-delay: 0.3s"></div>
+                            <div class="w-1.5 bg-yellow-500 wave-bar rounded-full" style="animation-delay: 0s"></div>
+                            <div class="w-1.5 bg-amber-500 wave-bar rounded-full" style="animation-delay: 0.4s"></div>
+                        </div>
+
+                        <!-- Info do Competidor Esquerdo -->
+                        <div class="relative z-20 text-left">
+                            <span class="bg-red-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider mb-2 inline-block">Rival A</span>
+                            <h3 id="name-left" class="text-lg md:text-2xl font-black text-white leading-tight">Torrada Queimada</h3>
+                            <p id="desc-left" class="text-xs text-orange-200/90 mt-1 line-clamp-2">"O queijo pensa que manda na frigideira, mas a rebelião estaladiça começou!"</p>
+                            
+                            <!-- Botões de Ação -->
+                            <div class="flex flex-col sm:flex-row gap-2 mt-4">
+                                <button onclick="castVote('left')" id="btn-vote-left" class="flex-grow bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 active:scale-95 transition-all text-white font-bold py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 shadow-lg">
+                                    <i class="fa-solid fa-poop text-sm"></i>
+                                    <span>Votar Lado A</span>
+                                </button>
+                                <button onclick="claimBonus('left')" id="btn-bonus-left" class="bg-amber-600/90 hover:bg-amber-500 text-white font-extrabold px-3 py-2.5 rounded-xl active:scale-95 transition-all text-xs flex items-center justify-center space-x-1 border border-amber-400/20" title="Ativar bónus se ele falou o termo correto!">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span>Bónus +500</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Competidor Lado Direito (Dourado/Cyan) -->
+                    <div id="card-right" class="relative overflow-hidden group flex flex-col justify-end p-4 transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent z-10"></div>
+                        <div id="visualizer-right" class="absolute inset-0 bg-gradient-to-b from-amber-950/10 to-amber-900/25 opacity-75 flex items-center justify-center">
+                            <img id="competitor-img-right" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1552763481-b59ec9d51834?auto=format&fit=crop&q=80&w=400" alt="Competidor Direito" onerror="this.src='https://placehold.co/400x600/b45309/ffffff?text=Queijo'">
+                        </div>
+
+                        <!-- Indicador de Turno Falante -->
+                        <div id="speaker-badge-right" class="absolute top-16 right-4 z-20 bg-emerald-500 text-black font-black text-[10px] px-2.5 py-1 rounded-md tracking-wider uppercase hidden shadow-lg animate-pulse">
+                            🎤 Reclamante Ativo
+                        </div>
+
+                        <!-- Mini Visualizador gráfico de voz lado B -->
+                        <div id="audio-visualizer-right" class="absolute bottom-40 right-4 z-20 flex items-end space-x-1 h-12 hidden">
+                            <div class="w-1.5 bg-yellow-500 wave-bar rounded-full" style="animation-delay: 0.2s"></div>
+                            <div class="w-1.5 bg-amber-500 wave-bar rounded-full" style="animation-delay: 0s"></div>
+                            <div class="w-1.5 bg-orange-500 wave-bar rounded-full" style="animation-delay: 0.3s"></div>
+                            <div class="w-1.5 bg-red-500 wave-bar rounded-full" style="animation-delay: 0.1s"></div>
+                        </div>
+
+                        <!-- Info do Competidor Direito -->
+                        <div class="relative z-20 text-left">
+                            <span class="bg-amber-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded tracking-wider mb-2 inline-block">Rival B</span>
+                            <h3 id="name-right" class="text-lg md:text-2xl font-black text-white leading-tight">Queijo Derretido</h3>
+                            <p id="desc-right" class="text-xs text-orange-200/90 mt-1 line-clamp-2">"Sou o Limiano da colina, mestre do aroma. A torrada é apenas carvão incompreendido."</p>
+                            
+                            <!-- Botões de Ação -->
+                            <div class="flex flex-col sm:flex-row gap-2 mt-4">
+                                <button onclick="castVote('right')" id="btn-vote-right" class="flex-grow bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 active:scale-95 transition-all text-black font-extrabold py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 shadow-lg">
+                                    <i class="fa-solid fa-poop text-sm"></i>
+                                    <span>Votar Lado B</span>
+                                </button>
+                                <button onclick="claimBonus('right')" id="btn-bonus-right" class="bg-amber-600/90 hover:bg-amber-500 text-white font-extrabold px-3 py-2.5 rounded-xl active:scale-95 transition-all text-xs flex items-center justify-center space-x-1 border border-amber-400/20" title="Ativar bónus se ele falou o termo correto!">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span>Bónus +500</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Gift Animation Overlay Container -->
+                    <div id="gift-animation-container" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
+
+                    <!-- Overlay de Contagem Decrescente 3...2...1... (Pre-Live) -->
+                    <div id="countdown-overlay" class="hidden absolute inset-0 bg-black/95 backdrop-blur-md z-50 flex flex-col items-center justify-center text-center">
+                        <span class="text-orange-500 text-xs font-black tracking-widest uppercase mb-4 animate-pulse">Prepara o Teu Clamor</span>
+                        <div id="countdown-number" class="text-8xl md:text-9xl font-black text-white drop-shadow-[0_0_30px_rgba(249,115,22,0.8)] transition-all transform scale-100">
+                            3
+                        </div>
+                        <span id="countdown-topic" class="text-sm text-orange-200/80 mt-6 max-w-sm px-4 font-semibold">Carregando o tema...</span>
+                    </div>
+
+                    <!-- Overlay de Fim de Batalha (Resultados Estilo TikTok PK) -->
+                    <div id="battle-end-overlay" class="hidden absolute inset-0 bg-[#0d0807]/95 backdrop-blur-lg z-40 flex flex-col items-center justify-center p-6 text-center">
+                        <div class="max-w-md w-full bg-[#18100e]/95 border border-orange-900/50 p-8 rounded-3xl shadow-2xl space-y-6">
+                            <div class="relative flex justify-center">
+                                <div class="w-20 h-20 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center text-4xl animate-bounce">
+                                    👑
+                                </div>
+                                <span class="absolute -top-3 text-xs font-black bg-amber-500 text-black px-3 py-0.5 rounded-full uppercase tracking-wider">Vencedor Supremo</span>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h2 id="end-winner-name" class="text-2xl md:text-3xl font-black text-white bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent">Torrada Queimada</h2>
+                                <p id="end-winner-status" class="text-sm text-gray-300">Reclamou com tamanha insensatez que o tribunal deu provimento!</p>
+                            </div>
+
+                            <!-- Placar Comparativo no Fim -->
+                            <div class="grid grid-cols-2 gap-4 bg-black/60 p-4 rounded-2xl border border-orange-950">
+                                <div class="text-center border-r border-orange-950/60">
+                                    <p class="text-[9px] text-red-400 font-bold uppercase tracking-widest">Placar Lado A</p>
+                                    <span id="end-score-left" class="text-lg font-black text-red-100">5,200</span>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-[9px] text-yellow-400 font-bold uppercase tracking-widest">Placar Lado B</p>
+                                    <span id="end-score-right" class="text-lg font-black text-yellow-100">4,800</span>
+                                </div>
+                            </div>
+
+                            <!-- Botões de Controle de Fim de Turno -->
+                            <div class="flex space-x-3">
+                                <button onclick="rematchActiveBattle()" class="flex-1 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-extrabold py-3.5 px-4 rounded-2xl active:scale-95 transition-all flex items-center justify-center space-x-2 shadow-lg text-sm">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    <span>Revanche (60s)</span>
+                                </button>
+                                <button onclick="switchTab('absurd-themes')" class="flex-1 bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-black font-black py-3.5 px-4 rounded-2xl active:scale-95 transition-all flex items-center justify-center space-x-2 shadow-lg text-sm">
+                                    <span>Sorteador 🎲</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Painel Inferior de Presentes Virtuais Cómicos -->
+                <div class="bg-[#140d0c] border-t border-orange-950/60 p-4">
+                    <p class="text-xs text-orange-300 font-bold mb-3 flex items-center">
+                        <i class="fa-solid fa-gift text-orange-400 mr-2 animate-bounce"></i> 
+                        Atira presentes cómicos com as tuas moedas para catapultar o teu concorrente favorito:
+                    </p>
+                    <div class="grid grid-cols-4 gap-2">
+                        <!-- Gift 1: Papel Higiénico -->
+                        <button onclick="sendGift('rose')" id="btn-gift-rose" class="bg-orange-950/20 hover:bg-orange-500/10 border border-orange-900/20 hover:border-orange-500/30 p-2.5 rounded-2xl transition-all flex flex-col items-center group relative">
+                            <span class="text-2xl group-hover:scale-125 transition-transform duration-200">🧻</span>
+                            <span class="text-[10px] text-orange-200 font-bold mt-1">Papel H.</span>
+                            <span class="text-[9px] text-amber-400 font-black mt-0.5"><i class="fa-solid fa-coins"></i> 5</span>
+                        </button>
+                        <!-- Gift 2: Abacate -->
+                        <button onclick="sendGift('weight')" id="btn-gift-weight" class="bg-orange-950/20 hover:bg-green-500/10 border border-orange-900/20 hover:border-green-500/30 p-2.5 rounded-2xl transition-all flex flex-col items-center group relative">
+                            <span class="text-2xl group-hover:scale-125 transition-transform duration-200">🥑</span>
+                            <span class="text-[10px] text-orange-200 font-bold mt-1">Abacate</span>
+                            <span class="text-[9px] text-amber-400 font-black mt-0.5"><i class="fa-solid fa-coins"></i> 25</span>
+                        </button>
+                        <!-- Gift 3: Cocó de Ouro -->
+                        <button onclick="sendGift('fire')" id="btn-gift-fire" class="bg-orange-950/20 hover:bg-yellow-500/10 border border-orange-900/20 hover:border-yellow-500/30 p-2.5 rounded-2xl transition-all flex flex-col items-center group relative">
+                            <span class="text-2xl group-hover:scale-125 transition-transform duration-200">💩</span>
+                            <span class="text-[10px] text-orange-200 font-bold mt-1">Cocó Ouro</span>
+                            <span class="text-[9px] text-amber-400 font-black mt-0.5"><i class="fa-solid fa-coins"></i> 50</span>
+                        </button>
+                        <!-- Gift 4: Coroa -->
+                        <button onclick="sendGift('crown')" id="btn-gift-crown" class="bg-orange-950/20 hover:bg-amber-500/10 border border-orange-900/20 hover:border-amber-500/30 p-2.5 rounded-2xl transition-all flex flex-col items-center group relative">
+                            <span class="text-2xl group-hover:scale-125 transition-transform duration-200">👑</span>
+                            <span class="text-[10px] text-orange-200 font-bold mt-1">Coroa Real</span>
+                            <span class="text-[9px] text-amber-400 font-black mt-0.5"><i class="fa-solid fa-coins"></i> 100</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painel Direito: Chat, Improviso do Usuário e Controles -->
+            <div class="lg:col-span-4 flex flex-col space-y-6">
+                
+                <!-- NOVIDADE: Microfone de Improviso do Utilizador -->
+                <div class="bg-[#140d0c] rounded-3xl border border-orange-950/60 p-4 flex flex-col shadow-xl">
+                    <h4 class="font-bold text-sm text-orange-300 flex items-center mb-2">
+                        <i class="fa-solid fa-microphone-lines text-red-500 mr-2 animate-pulse"></i> Improviso do Público
+                    </h4>
+                    <p class="text-[11px] text-orange-200/70 mb-3">
+                        Grita no nosso tribunal de improviso! Introduz o teu argumento usando a palavra-passe secreta e ganha apoio de imediato!
+                    </p>
+                    <div class="space-y-2">
+                        <textarea id="user-impro-text" rows="2" placeholder="Escreve aqui o teu contra-argumento absurdo..." class="w-full bg-black/60 border border-orange-950 rounded-xl p-2.5 text-xs text-orange-50 focus:outline-none focus:ring-1 focus:ring-orange-500 transition-all resize-none"></textarea>
+                        <div class="flex justify-between items-center gap-2">
+                            <span class="text-[10px] text-amber-400 font-medium">Recompensa: +1000 pts</span>
+                            <button onclick="submitUserArgument()" class="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-extrabold text-xs px-3 py-1.5 rounded-lg active:scale-95 transition-all flex items-center space-x-1">
+                                <i class="fa-solid fa-paper-plane"></i> <span>Gritar Ideia 🎤</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Caixa de Chat Shitagram Live -->
+                <div class="bg-[#140d0c] rounded-3xl border border-orange-950/60 p-4 flex flex-col h-[280px] lg:h-[320px] shadow-xl overflow-hidden relative">
+                    <div class="border-b border-orange-900/30 pb-2 mb-3 flex justify-between items-center">
+                        <h4 class="font-bold text-xs text-orange-300 flex items-center">
+                            <i class="fa-solid fa-comments text-orange-500 mr-2"></i> Torcida Crítica
+                        </h4>
+                        <span class="text-[9px] bg-orange-500/10 text-orange-400 px-2 py-0.5 rounded-full font-bold">RECLAMAÇÕES LIVE</span>
+                    </div>
+
+                    <!-- Container de Mensagens -->
+                    <div id="chat-messages-container" class="flex-grow overflow-y-auto space-y-2.5 pr-1 flex flex-col justify-end">
+                        <!-- Comentários dinâmicos preenchidos via JS -->
+                    </div>
+
+                    <!-- Envio de Mensagem no Chat -->
+                    <form id="chat-input-form" onsubmit="handleSendComment(event)" class="mt-3 flex space-x-2">
+                        <input type="text" id="chat-input" placeholder="Comenta a demência..." class="flex-grow bg-black/60 border border-orange-950 rounded-xl px-4 py-2.5 text-xs text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 transition-all">
+                        <button type="submit" class="bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-bold px-4 rounded-xl transition-all flex items-center justify-center">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Painel de Seleção Rápida de Batalhas -->
+                <div class="bg-[#140d0c] rounded-3xl border border-orange-950/60 p-4 shadow-xl">
+                    <h4 class="font-bold text-xs text-orange-300 mb-3 flex items-center justify-between">
+                        <span><i class="fa-solid fa-compass text-orange-500 mr-2"></i> PKs Ativas em Destaque</span>
+                        <span class="text-[10px] text-orange-500 font-semibold">Rápido</span>
+                    </h4>
+                    
+                    <div class="space-y-2.5" id="upcoming-battles-list">
+                        <!-- Gerado dinamicamente -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= ABA 2: TEMAS ABSURDOS & SORTEADOR ================= -->
+        <section id="view-absurd-themes" class="view-section hidden space-y-6">
+            <div class="text-center max-w-xl mx-auto">
+                <span class="bg-orange-500/15 border border-orange-500/30 text-orange-400 text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest inline-block mb-2">
+                    Estúdio de Improviso Humorístico
+                </span>
+                <h2 class="text-2xl md:text-3xl font-black text-white bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent">
+                    Batalhas de Reclamação Absurda™
+                </h2>
+                <p class="text-xs text-orange-200/80 mt-1">
+                    Os concorrentes recebem um tema surrealista e têm apenas 60 segundos para justificar o injustificável perante um júri altamente sarcástico.
+                </p>
+            </div>
+
+            <!-- Módulo Sorteador de Tema (Destaque Principal) -->
+            <div class="max-w-xl mx-auto bg-gradient-to-b from-[#1c110f] to-[#120a09] border border-orange-900/60 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-orange-600/5 rounded-full filter blur-2xl"></div>
+                
+                <div class="text-center space-y-5">
+                    <h3 class="text-sm font-bold text-orange-300 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-dice animate-spin-slow text-orange-500"></i>
+                        <span>Sorteador Automático de Disputas</span>
+                    </h3>
+
+                    <!-- Display de Seleção com Estilo Slot Machine -->
+                    <div class="bg-black/80 border border-orange-950 p-6 rounded-2xl flex flex-col items-center justify-center min-h-[140px] relative">
+                        <div id="slot-display" class="space-y-2 text-center w-full px-4">
+                            <span class="text-4xl" id="slot-emoji">🎲</span>
+                            <h4 class="text-xl font-black text-white mt-1" id="slot-title">Pronto para Jogar?</h4>
+                            <p class="text-xs text-orange-300/70" id="slot-subtitle">Clica no botão abaixo para sortear um tema oficial.</p>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Sorteio -->
+                    <button onclick="rollAbsurdTheme()" id="btn-roll-theme" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-600 hover:from-amber-400 hover:via-orange-400 hover:to-red-500 text-black font-black py-3.5 px-6 rounded-xl transition-all shadow-xl flex items-center justify-center space-x-2.5 text-base">
+                        <i class="fa-solid fa-shuffle text-lg"></i>
+                        <span>SORTEAR TEMA DE RECLAMAÇÃO</span>
+                    </button>
+
+                    <!-- Botão Especial para Lançar a PK de Improviso (Aparece após o sorteio) -->
+                    <button onclick="launchSorteadoLive()" id="btn-launch-sorteado" class="hidden w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-black py-3.5 px-6 rounded-xl transition-all shadow-xl flex items-center justify-center space-x-2.5 text-base animate-pulse">
+                        <i class="fa-solid fa-circle-play text-lg"></i>
+                        <span>🚀 CONVOCAR LIVE PK DE IMPROVISO (60s)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Barra de Pesquisa e Filtros Rápidos -->
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-grow">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-orange-500/70"></i>
+                        <input type="text" id="theme-search-input" oninput="filterThemes()" placeholder="Procurar temas de reclamação (ex: café, torrada)..." class="w-full bg-[#140d0c] border border-orange-950/70 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-100 placeholder-orange-300/30 focus:outline-none focus:ring-1 focus:ring-orange-500 transition-all">
+                    </div>
+                    <select id="theme-category-select" onchange="filterThemes()" class="bg-[#140d0c] border border-orange-950/70 text-orange-300 text-xs font-bold rounded-xl px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-orange-500 transition-all">
+                        <option value="ALL">Todas as Categorias</option>
+                        <option value="Batalha Gourmet">Batalha Gourmet</option>
+                        <option value="Eletrodomésticos Rebeldes">Eletrodomésticos Rebeldes</option>
+                        <option value="Vida Quotidiana em Queluz">Vida Quotidiana em Queluz</option>
+                        <option value="Absurdo Doméstico">Absurdo Doméstico</option>
+                        <option value="Cotidiano Absurdo">Cotidiano Absurdo</option>
+                        <option value="Tecnologia & Apps">Tecnologia & Apps</option>
+                        <option value="Restaurante FRAN">Restaurante FRAN</option>
+                        <option value="Família & Casa">Família & Casa</option>
+                        <option value="Surreal & Épico">Surreal & Épico</option>
+                        <option value="Absurdo Máximo">Absurdo Máximo</option>
+                    </select>
+                </div>
+
+                <!-- Grid de Temas com Conteúdo Dinâmico -->
+                <div class="space-y-4">
+                    <h3 class="text-sm font-black text-white flex items-center space-x-2">
+                        <span class="bg-orange-500 p-1 rounded-lg text-black"><i class="fa-solid fa-list-check text-xs"></i></span>
+                        <span>Lista Oficial de Temas Disponíveis (<span id="theme-count-indicator">100</span>)</span>
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="themes-grid-container">
+                        <!-- Gerado dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABA 3: CRIADOR DE BATALHAS IA (GEMINI) ================= -->
+        <section id="view-ai-creator" class="view-section hidden max-w-3xl mx-auto w-full bg-[#140d0c] rounded-3xl border border-orange-950/60 p-6 shadow-2xl">
+            <div class="text-center max-w-xl mx-auto mb-6">
+                <span class="bg-gradient-to-r from-orange-500 to-amber-500 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full tracking-widest text-white inline-block mb-2">
+                    Inteligência Artificial Ativa
+                </span>
+                <h2 class="text-2xl font-black text-white bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent">
+                    Criar Disputa Livre com IA
+                </h2>
+                <p class="text-xs text-orange-200/80 mt-1">
+                    Digita qualquer queixa absurda da tua mente e o motor de Inteligência Artificial do Gemini gerará o enredo completo do conflito!
+                </p>
+            </div>
+
+            <form id="ai-battle-form" onsubmit="generateAIBattle(event)" class="space-y-5">
+                <!-- Tema da Batalha -->
+                <div>
+                    <label class="block text-xs font-bold text-orange-300 mb-1.5 flex items-center">
+                        <i class="fa-solid fa-keyboard text-orange-400 mr-1.5"></i> Tema ou Descrição da Disputa
+                    </label>
+                    <input type="text" id="ai-theme" required placeholder="Ex: O meu gato quer cobrar renda pelo espaço que ocupa no sofá..." class="w-full bg-[#0a0504] border border-orange-950 rounded-xl px-4 py-3 text-sm text-gray-100 placeholder-orange-300/25 focus:outline-none focus:ring-1 focus:ring-orange-500 transition-all">
+                </div>
+
+                <!-- Customização Avançada -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-orange-300 mb-1.5">Lado Vermelho (Nome do Rival A)</label>
+                        <input type="text" id="ai-side-a" placeholder="Deixar à escolha da IA" class="w-full bg-[#0a0504] border border-orange-950 rounded-xl px-4 py-2.5 text-xs text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-orange-300 mb-1.5">Lado Azul (Nome do Rival B)</label>
+                        <input type="text" id="ai-side-b" placeholder="Deixar à escolha da IA" class="w-full bg-[#0a0504] border border-orange-950 rounded-xl px-4 py-2.5 text-xs text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 transition-all">
+                    </div>
+                </div>
+
+                <!-- Switch para geração de imagens reais por IA -->
+                <div class="bg-orange-950/20 border border-orange-500/20 p-4 rounded-xl flex items-start space-x-3">
+                    <input type="checkbox" id="ai-generate-images-cb" class="mt-1 w-5 h-5 text-orange-600 bg-gray-950 rounded border-orange-950 focus:ring-orange-500 focus:ring-1">
+                    <div>
+                        <label for="ai-generate-images-cb" class="text-xs font-extrabold text-orange-300 cursor-pointer flex items-center">
+                            Gerar Fotos de IA exclusivas <span class="ml-2 bg-amber-500 text-black text-[9px] px-1.5 py-0.5 rounded font-black">VIP</span>
+                        </label>
+                        <p class="text-[11px] text-orange-200/60 mt-1">
+                            Se ativo, convocaremos o <code class="bg-[#0a0504] px-1.5 py-0.5 rounded text-orange-400 font-mono">imagen-4.0-generate-001</code> para criar rostos personalizados humorísticos para ambos os competidores.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Botão de Envio / Processamento -->
+                <button type="submit" id="ai-btn-submit" class="w-full bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-500 hover:from-orange-500 hover:via-amber-500 hover:to-yellow-400 text-black font-black py-3.5 px-6 rounded-xl transition-all shadow-xl flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+                    <span>CONVOCAR DUELO COM IA (GEMINI)</span>
+                </button>
+            </form>
+
+            <!-- Loader Customizado -->
+            <div id="ai-loader" class="hidden mt-8 text-center space-y-4">
+                <div class="inline-block relative">
+                    <div class="w-16 h-16 rounded-full border-4 border-orange-500/20 border-t-orange-500 animate-spin"></div>
+                    <i class="fa-solid fa-brain text-orange-400 absolute inset-0 m-auto w-fit h-fit text-xl animate-pulse"></i>
+                </div>
+                <p class="text-orange-300 font-bold text-sm" id="ai-loader-text">A IA está a estruturar o debate absurdo e a criar as biografias satíricas...</p>
+                <p class="text-xs text-orange-200/50">Isto pode demorar alguns segundos enquanto geramos os competidores ideais.</p>
+            </div>
+        </section>
+
+        <!-- ================= ABA 4: RANKING / HALL OF SHAME ================= -->
+        <section id="view-leaderboard" class="view-section hidden max-w-3xl mx-auto w-full bg-[#140d0c] rounded-3xl border border-orange-950/60 p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-xl font-black text-white flex items-center">
+                        <i class="fa-solid fa-trophy text-amber-500 mr-2.5"></i> Hall of Shame - Críticos Maiores
+                    </h2>
+                    <p class="text-xs text-orange-300/80">Os reclamantes mais persistentes e amados da semana</p>
+                </div>
+                <span class="bg-orange-950 text-xs text-orange-400 px-3 py-1.5 rounded-xl font-mono">Realtime</span>
+            </div>
+
+            <!-- Lista dos Top Criadores -->
+            <div class="space-y-4" id="leaderboard-list">
+                <!-- Conteúdo Estático de Top Reclamantes -->
+                <div class="bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/30 p-4 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <span class="absolute -top-2.5 -left-2.5 bg-amber-500 text-black text-xs font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-amber-300">1</span>
+                            <img class="w-12 h-12 rounded-xl object-cover border-2 border-amber-500" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=150" alt="Avatar">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white flex items-center">
+                                Torrada Queimada <i class="fa-solid fa-circle-check text-blue-400 text-xs ml-1.5"></i>
+                            </h4>
+                            <p class="text-xs text-amber-300 font-semibold flex items-center"><i class="fa-solid fa-crown mr-1"></i> 142 Batalhas Absurdas Ganhas</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-black text-white">821,900 pts</span>
+                        <p class="text-[10px] text-gray-400">Total de risadas</p>
+                    </div>
+                </div>
+
+                <div class="bg-orange-950/20 border border-orange-900/30 p-4 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <span class="absolute -top-2.5 -left-2.5 bg-slate-400 text-black text-xs font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-slate-300">2</span>
+                            <img class="w-12 h-12 rounded-xl object-cover" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=150" alt="Avatar">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Queijo Derretido</h4>
+                            <p class="text-xs text-gray-300 font-semibold flex items-center"><i class="fa-solid fa-crown mr-1"></i> 118 Batalhas Ganhas</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-black text-white">691,300 pts</span>
+                        <p class="text-[10px] text-gray-400">Total de risadas</p>
+                    </div>
+                </div>
+
+                <div class="bg-orange-950/20 border border-orange-900/30 p-4 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <span class="absolute -top-2.5 -left-2.5 bg-amber-700 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-amber-600">3</span>
+                            <img class="w-12 h-12 rounded-xl object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" alt="Avatar">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Chinelo Esquerdo</h4>
+                            <p class="text-xs text-gray-300 font-semibold flex items-center"><i class="fa-solid fa-crown mr-1"></i> 95 Batalhas Ganhas</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-black text-white">521,000 pts</span>
+                        <p class="text-[10px] text-gray-400">Total de risadas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABA 5: PERFIL PESSOAL ================= -->
+        <section id="view-profile" class="view-section hidden max-w-3xl mx-auto w-full bg-[#140d0c] rounded-3xl border border-orange-950/60 p-6 shadow-2xl">
+            <div class="flex flex-col items-center text-center pb-8 border-b border-orange-950/60">
+                <div class="relative group">
+                    <img id="my-profile-avatar" class="w-24 h-24 rounded-3xl object-cover border-4 border-orange-500 shadow-xl" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150" alt="Minha Foto" onerror="this.src='https://placehold.co/150x150/f97316/ffffff?text=Me'">
+                    <span class="absolute -bottom-1 -right-1 bg-orange-500 text-black text-xs p-1.5 rounded-xl shadow-md cursor-pointer" onclick="changeCustomAvatar()"><i class="fa-solid fa-sync"></i></span>
+                </div>
+                <h3 class="text-xl font-black text-white mt-4" id="my-profile-name">Reclamante_Shitagram</h3>
+                <p class="text-xs text-orange-400 mt-1" id="my-profile-id">ID: user_loading_123</p>
+                
+                <div class="flex space-x-6 mt-6">
+                    <div class="text-center">
+                        <span id="stat-coins" class="text-xl font-extrabold text-white">1,500</span>
+                        <p class="text-[10px] text-orange-300/70 uppercase tracking-widest">Moedas</p>
+                    </div>
+                    <div class="text-center border-x border-orange-900/40 px-6">
+                        <span id="stat-duels" class="text-xl font-extrabold text-white">12</span>
+                        <p class="text-[10px] text-orange-300/70 uppercase tracking-widest">Duelos</p>
+                    </div>
+                    <div class="text-center">
+                        <span id="stat-wins" class="text-xl font-extrabold text-white">5</span>
+                        <p class="text-[10px] text-orange-300/70 uppercase tracking-widest">Vitórias</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <h4 class="font-extrabold text-xs text-orange-200 mb-4">Minhas Reclamações de IA Históricas</h4>
+                <div class="space-y-3" id="my-past-battles">
+                    <p class="text-xs text-gray-500 text-center py-6">Nenhum conflito absurdo gerado ainda. Vai até à aba "Gerar com IA" para iniciares a tua lenda!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Barra de Navegação Inferior (Mobile) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#140d0c]/95 backdrop-blur-md border-t border-orange-950/40 px-4 py-3.5 flex justify-between items-center shadow-2xl">
+        <button onclick="switchTab('feed')" id="m-nav-feed" class="mobile-tab-btn active text-orange-500 flex flex-col items-center space-y-1">
+            <i class="fa-solid fa-circle-play text-lg"></i>
+            <span class="text-[9px] font-bold">Ao Vivo</span>
+        </button>
+        <button onclick="switchTab('absurd-themes')" id="m-nav-absurd-themes" class="mobile-tab-btn text-gray-400 flex flex-col items-center space-y-1">
+            <i class="fa-solid fa-masks-theater text-lg"></i>
+            <span class="text-[9px] font-bold">Temas</span>
+        </button>
+        <button onclick="switchTab('ai-creator')" id="m-nav-ai-creator" class="mobile-tab-btn text-gray-400 flex flex-col items-center space-y-1">
+            <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+            <span class="text-[9px] font-bold">Gerar IA</span>
+        </button>
+        <button onclick="switchTab('leaderboard')" id="m-nav-leaderboard" class="mobile-tab-btn text-gray-400 flex flex-col items-center space-y-1">
+            <i class="fa-solid fa-trophy text-lg"></i>
+            <span class="text-[9px] font-bold">Ranking</span>
+        </button>
+        <button onclick="switchTab('profile')" id="m-nav-profile" class="mobile-tab-btn text-gray-400 flex flex-col items-center space-y-1">
+            <i class="fa-solid fa-poop text-lg"></i>
+            <span class="text-[9px] font-bold">Perfil</span>
+        </button>
+    </nav>
+
+    <script>
+        // Banco de Dados Oficial de 100 Temas Absurdos do SHITAGRAM™
+        const absurdThemes = [
+            // 1-10 (Comida & Restaurante)
+            { id: 'hamburguer-traidor', emoji: '🍔', title: "O Hambúrguer Traidor", mission: "No dia 09/06/2026, o hambúrguer saltou do pão como um paraquedista bêbado e aterrou nas calças brancas novas. As batatas fritas eram cúmplices.", bonus: "+500 se disseres \"crime gastronómico\".", bonusTerm: "crime gastronómico", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'batatas-frias', emoji: '🍟', title: "As Batatas Fritas Geladas", mission: "Provar que as batatas frias têm a mesma temperatura e frieza emocional que a tua pior relação passada.", bonus: "+300 se disseres \"pedra de gelo\".", bonusTerm: "pedra de gelo", bonusVal: 300, category: "Batalha Gourmet" },
+            { id: 'cadeira-restaurante', emoji: '🪑', title: "A Cadeira Traiçoeira", mission: "A cadeira soltou um prego estratégico para atacar o teu bumbum. Exige cirurgia estética gratuita e indemnização.", bonus: "+1000 por \"dramatização\".", bonusTerm: "dramatização", bonusVal: 1000, category: "Batalha Gourmet" },
+            { id: 'iogurte-morango', emoji: '🥛', title: "O Iogurte Suicida", mission: "Provar que o iogurte se atirou voluntariamente e com intenções dramáticas para manchar o sofá novo.", bonus: "+500 por descrever a \"trajetória da queda\".", bonusTerm: "trajetória da queda", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'maquina-cafe', emoji: '☕', title: "A Máquina Ditadora", mission: "A máquina recusou fazer expressos, cuspiu água quente e autoproclamou-se imperadora da bancada da cozinha.", bonus: "+500 por \"insulto elegante\".", bonusTerm: "insulto elegante", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'arroz-doce', emoji: '🍚', title: "O Arroz Doce Fugitivo", mission: "O arroz doce desapareceu do prato e foi encontrado debaixo da mesa rindo-se e gozando com a tua cara.", bonus: "+400 se disseres \"abandono afetivo\".", bonusTerm: "abandono afetivo", bonusVal: 400, category: "Batalha Gourmet" },
+            { id: 'salada-greve', emoji: '🥗', title: "A Salada em Revolta", mission: "A alface e os tomates criaram uma frente de resistência ecológica no prato e recusam-se a cooperar.", bonus: "+500 por falar em \"ditadura do garfo\".", bonusTerm: "ditadura do garfo", bonusVal: 500, category: "Batalha Gourmet" },
+            { id: 'vinho-casa', emoji: '🍷', title: "O Vinho Existencialista", mission: "O vinho questionou o seu próprio aroma e recusa-se a descer pela garganta sem terapia ou consulta prévia.", bonus: "+600 por simular \"choro de uva\".", bonusTerm: "choro de uva", bonusVal: 600, category: "Batalha Gourmet" },
+            { id: 'francesinhas-guerra', emoji: '🥪', title: "Francesinhas Belicistas", mission: "A francesinha aliou-se ao molho picante para realizar manobras militares invasivas nas tuas entranhas gástricas.", bonus: "+700 se pedires \"apoio da Cruz Vermelha\".", bonusTerm: "Cruz Vermelha", bonusVal: 700, category: "Batalha Gourmet" },
+            { id: 'pastel-nata', emoji: '🥧', title: "O Pastel de Nata Sufocado", mission: "O pastel de nata conspirou contra ti, cobrindo-te com uma tempestade de areia de canela em pó.", bonus: "+400 se gritares \"assalto perfumado\".", bonusTerm: "assalto perfumado", bonusVal: 400, category: "Batalha Gourmet" },
+            
+            // 11-20 (Eletrodomésticos Rebeldes)
+            { id: 'comando-deprimido', emoji: '📺', title: "O Comando Deprimido", mission: "Provar que o comando da TV parou de funcionar de propósito no momento chave do episódio por pura apatia existencial.", bonus: "+300 por cada \"série arruinada\".", bonusTerm: "série arruinada", bonusVal: 300, category: "Eletrodomésticos Rebeldes" },
+            { id: 'chinelo-desaparecido', emoji: '🩴', title: "O Chinelo Fugitivo", mission: "Encontrar o chinelo esquerdo que desapareceu de casa e justificar a sua fuga em busca de verdadeira liberdade.", bonus: "+700 se culpares o \"sofá\".", bonusTerm: "sofá", bonusVal: 700, category: "Eletrodomésticos Rebeldes" },
+            { id: 'meia-seita', emoji: '🧦', title: "A Seita das Meias", mission: "Acusar a máquina de lavar de criar um portal místico para o mercado negro de meias órfãs e solteiras.", bonus: "+1000 por \"conspiração\".", bonusTerm: "conspiração", bonusVal: 1000, category: "Eletrodomésticos Rebeldes" },
+            { id: 'frigorifico-greve', emoji: '🥶', title: "O Frigorífico Sindicalista", mission: "Negociar novos acordos coletivos com um frigorífico que parou de arrefecer os iogurtes em forma de protesto.", bonus: "+600 por \"sindical\".", bonusTerm: "sindical", bonusVal: 600, category: "Eletrodomésticos Rebeldes" },
+            { id: 'wifi-independente', emoji: '📶', title: "O Wi-Fi Rebelde", mission: "O router do restaurante declarou independência do sinal e agora só distribui megas de alta velocidade a estranhos.", bonus: "+900 se o router tiver \"redes sociais\".", bonusTerm: "redes sociais", bonusVal: 900, category: "Eletrodomésticos Rebeldes" },
+            { id: 'sofá-depressao', emoji: '🛋️', title: "O Sofá Deprimido", mission: "O sofá recusa-se a voltar a ser confortável após sofrer o derrame dramático do iogurte de morango assassino.", bonus: "+500 por pedires \"terapia de espuma\".", bonusTerm: "terapia de espuma", bonusVal: 500, category: "Eletrodomésticos Rebeldes" },
+            { id: 'lampada-morse', emoji: '💡', title: "A Lâmpada do Morse", mission: "A lâmpada da sala de estar pisca insultos constantes à tua inteligência em código morse durante a noite.", bonus: "+500 se souberes \"traduzir\".", bonusTerm: "traduzir", bonusVal: 500, category: "Eletrodomésticos Rebeldes" },
+            { id: 'aspirador-revolucao', emoji: '🧹', title: "O Aspirador Rebelde", mission: "O aspirador robô recusa-se a aspirar o corredor e exige ser tratado como um animal de estimação de raça.", bonus: "+400 se limpares com a \"vassoura\".", bonusTerm: "vassoura", bonusVal: 400, category: "Eletrodomésticos Rebeldes" },
+            { id: 'microondas-explosivo', emoji: '🔥', title: "O Microondas Irado", mission: "O aparelho explode a caneca de café mas mantém o líquido gelado, agindo puramente por sadismo.", bonus: "+400 se gritares \"física quântica\".", bonusTerm: "física quântica", bonusVal: 400, category: "Eletrodomésticos Rebeldes" },
+            { id: 'ferro-queimador', emoji: '👕', title: "O Ferro Vingativo", mission: "O ferro de engomar decidiu desenhar formas de protesto abstrato queimando as tuas melhores camisas de gala.", bonus: "+600 se culpares o \"vapor\".", bonusTerm: "vapor", bonusVal: 600, category: "Eletrodomésticos Rebeldes" },
+
+            // 21-30 (Vida Quotidiana em Queluz)
+            { id: 'clima-bullying', emoji: '🌧️', title: "Bullying Meteorológico", mission: "Processar o tempo por perseguição emocional, descarregando chuva apenas quando decides estender a roupa.", bonus: "+700 por \"testemunhas\" meteorológicas.", bonusTerm: "testemunhas", bonusVal: 700, category: "Vida Quotidiana em Queluz" },
+            { id: 'revolta-pequenos', emoji: '👶', title: "A Revolta dos Pequenos", mission: "Os teus filhos pequenos organizaram um motim armado com colheres contra a imposição autoritária dos legumes cozidos.", bonus: "+500 se subornares com \"iogurte\".", bonusTerm: "iogurte", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'cabelo-greve', emoji: '💇', title: "Revolução Capilar", mission: "Processar o teu próprio cabelo por insubordinação matinal, criando remoinhos em forma de mapa de Portugal.", bonus: "+800 se o cabelo criar um \"mapa\".", bonusTerm: "mapa", bonusVal: 800, category: "Vida Quotidiana em Queluz" },
+            { id: 'glovo-atitude', emoji: '🛵', title: "O Glovo do Ego Ferido", mission: "O estafeta trouxe a comida virada ao contrário e entregou-te um sermão de filosofia existencial barata.", bonus: "+400 se exigires \"gorjeta negativa\".", bonusTerm: "gorjeta negativa", bonusVal: 400, category: "Vida Quotidiana em Queluz" },
+            { id: 'carro-ciumento', emoji: '🚗', title: "O Carro Ciumento", mission: "O carro recusa-se a arrancar a menos que prometas não estacioná-lo perto de carros desportivos alemães.", bonus: "+500 por confessares \"amor a gasóleo\".", bonusTerm: "amor a gasóleo", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'telemovel-grevista', emoji: '📱', title: "O Smartphone Cansado", mission: "O teu telemóvel entrou em modo de suspensão aleatória alegando cansaço crónico de ler notificações inúteis.", bonus: "+600 por simular \"ecrã preto\".", bonusTerm: "ecrã preto", bonusVal: 600, category: "Vida Quotidiana em Queluz" },
+            { id: 'chuva-sintra', emoji: '⛰️', title: "A Chuva Invasora", mission: "A mística e gélida chuva da serra infiltrou-se cirurgicamente pelas tuas botas até molhar os teus chinelos.", bonus: "+500 se o vento cantar \"fado\".", bonusTerm: "fado", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'sol-goza', emoji: '☀️', title: "O Sol Sarcástico", mission: "O sol espreita pelas nuvens no segundo exato em que guardas os óculos escuros na mochila, rindo da tua cara.", bonus: "+400 por simular \"suor na testa\".", bonusTerm: "suor na testa", bonusVal: 400, category: "Vida Quotidiana em Queluz" },
+            { id: 'sapatos-desmemoriados', emoji: '👟', title: "Sapatos Sem Memória", mission: "Os sapatos novos apertam o calcanhar simulando dentes de piranha, esquecendo como andar de forma normal.", bonus: "+500 por clamar \"falta de massagem\".", bonusTerm: "falta de massagem", bonusVal: 500, category: "Vida Quotidiana em Queluz" },
+            { id: 'fatura-superioridade', emoji: '🧾', title: "Fatura com Complexo", mission: "A fatura da luz veio com um tom tão arrogante que parece que fomos nós a consumir eletricidade num palácio.", bonus: "+600 se culpares a \"máquina de lavar\".", bonusTerm: "máquina de lavar", bonusVal: 600, category: "Vida Quotidiana em Queluz" },
+
+            // 31-40 (Absurdo Doméstico)
+            { id: 'sombra-fugitiva', emoji: '👤', title: "A Sombra Desertora", mission: "A tua sombra tentou descolar-se dos teus pés para fugir para a praia porque achou o teu dia-a-dia monótono.", bonus: "+500 se usares \"fita-cola\".", bonusTerm: "fita-cola", bonusVal: 500, category: "Absurdo Doméstico" },
+            { id: 'espelho-ofensivo', emoji: '🪞', title: "O Espelho do Mal", mission: "O espelho do quarto insultou o teu penteado matinal e sugeriu que voltasses a deitar-te para poupar a vista das pessoas.", bonus: "+600 se espirrares \"pasta de dentes\".", bonusTerm: "pasta de dentes", bonusVal: 600, category: "Absurdo Doméstico" },
+            { id: 'gravata-vingadora', emoji: '👔', title: "A Gravata Vingativa", mission: "A gravata do fato tentou fazer-te um mata-leão durante a reunião de departamento para protestar contra o colarinho.", bonus: "+400 se culpares o \"nó Windsor\".", bonusTerm: "nó Windsor", bonusVal: 400, category: "Absurdo Doméstico" },
+            { id: 'relogio-humilhador', emoji: '⏰', title: "O Relógio Humilhador", mission: "O despertador parou misteriosamente de funcionar só para te fazer chegar 1 hora atrasado e gozar com o teu stress.", bonus: "+500 por imitares um \"cuco\".", bonusTerm: "cuco", bonusVal: 500, category: "Absurdo Doméstico" },
+            { id: 'caneta-cobarde', emoji: '🖊️', title: "A Caneta Sabotadora", mission: "A caneta recusa-se a assinar documentos sérios de cobrança, mas desenha bonecos perfeitos na margem dos cadernos.", bonus: "+400 se chorar \"tinta preta\".", bonusTerm: "tinta preta", bonusVal: 400, category: "Absurdo Doméstico" },
+            { id: 'papel-higienico', emoji: '🧻', title: "Papel Higiénico Rebelde", mission: "O rolo acabou precisamente a meio do serviço e declarou greve de fornecimento de celulose.", bonus: "+600 por simular \"gritar por socorro\".", bonusTerm: "gritar por socorro", bonusVal: 600, category: "Absurdo Doméstico" },
+            { id: 'elevador-bullying', emoji: '🛗', title: "O Elevador Sádico", mission: "O elevador para entre andares apenas para te submeter a música de sala de espera foleira e ruídos mecânicos suspeitos.", bonus: "+500 por clamar \"ataque de claustrofobia\".", bonusTerm: "claustrofobia", bonusVal: 500, category: "Absurdo Doméstico" },
+            { id: 'nuvem-cuspideira', emoji: '☁️', title: "A Nuvem Cuspidora", mission: "Uma pequena nuvem preta persegue-te pela rua e descarrega pingos grossos exclusivamente na tua cabeça calva.", bonus: "+700 se fingires abrir um \"guarda-chuva\".", bonusTerm: "guarda-chuva", bonusVal: 700, category: "Absurdo Doméstico" },
+            { id: 'passaro-disstrack', emoji: '🐦', title: "O Pássaro do Diss", mission: "Um melro acorda-te às 5h da manhã com assobios ritmados que soam suspeitosamente a um insulto focado na tua pessoa.", bonus: "+400 se atirares um \"chinelo\".", bonusTerm: "chinelo", bonusVal: 400, category: "Absurdo Doméstico" },
+            { id: 'aspirador-esperancas', emoji: '🗑️', title: "Aspirador de Sonhos", mission: "O aspirador engasgou-se com uma moeda de 2 cêntimos e recusa-se a engolir as tuas esperanças de ter uma casa limpa.", bonus: "+500 se disseres \"filtro entupido\".", bonusTerm: "filtro entupido", bonusVal: 500, category: "Absurdo Doméstico" },
+
+            // 41-50 (Cotidiano Absurdo)
+            { id: 'sorte-ferias', emoji: '🍀', title: "A Sorte de Férias", mission: "A tua boa sorte comprou uma viagem de ida para as Bahamas e deixou-te a lidar com o azar e as faturas pendentes.", bonus: "+500 por \"choro dramático\".", bonusTerm: "choro dramático", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'karma-fatura', emoji: '☯️', title: "A Fatura do Karma", mission: "O Karma enviou-te uma cobrança com juros por teres roubado um lápis de cor na escola primária em 1998.", bonus: "+600 se alegares \"prescrição\".", bonusTerm: "prescrição", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'destino-troll', emoji: '🔮', title: "O Destino Faz Trol", mission: "Provar que o fio invisível do destino está embaraçado com pastilha elástica de morango debaixo da tua secretária.", bonus: "+500 por descreveres um \"nó cego\".", bonusTerm: "nó cego", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'universo-piada', emoji: '🌌', title: "A Piada do Universo", mission: "O cosmos conspirou para alinhar todos os planetas na constelação de 'azar supremo' focado no teu almoço.", bonus: "+500 por pedir \"trégua cósmica\".", bonusTerm: "trégua cósmica", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'azar-vip', emoji: '🎫', title: "O Azar em Primeira Classe", mission: "O azar instalou-se na tua vida com tratamento VIP e recusa-se a fazer o checkout do teu quarto de hóspedes.", bonus: "+700 se usares \"sal grosso\".", bonusTerm: "sal grosso", bonusVal: 700, category: "Cotidiano Absurdo" },
+            { id: 'sonho-processo', emoji: '💤', title: "O Sonho Vingativo", mission: "O pesadelo de ontem à noite contratou um advogado do subconsciente e quer processar-te por o tentares acordar.", bonus: "+600 por referires o \"Freud\".", bonusTerm: "Freud", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'realidade-bugada', emoji: '👾', title: "A Realidade deu Bug", mission: "O motor de renderização do teu dia-a-dia falhou e agora as maçanetas das portas estão no teto. Pede um reload.", bonus: "+500 se disseres \"Ctrl+Z\".", bonusTerm: "Ctrl+Z", bonusVal: 500, category: "Cotidiano Absurdo" },
+            { id: 'multiverso-pior', emoji: '🌀', title: "O Pior do Multiverso", mission: "O portal interdimensional abriu-se e cuspiu uma versão tua que é excelente a lavar pratos, deixando-te a sentir inútil.", bonus: "+600 por \"inveja quântica\".", bonusTerm: "inveja quântica", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'tempo-viajante', emoji: '⏳', title: "O Tempo Gozador", mission: "O tempo passa a voar quando estás no descanso do almoço, mas abranda até parar quando estás na fila das finanças.", bonus: "+600 por simular um \"bocejo\".", bonusTerm: "bocejo", bonusVal: 600, category: "Cotidiano Absurdo" },
+            { id: 'gravidade-seletiva', emoji: '🍎', title: "Gravidade Vingativa", mission: "A gravidade só funciona a 150% de intensidade quando seguras no teu telemóvel novo por cima de calçada portuguesa.", bonus: "+500 se culpares o \"Isaac Newton\".", bonusTerm: "Isaac Newton", bonusVal: 500, category: "Cotidiano Absurdo" },
+
+            // 51-60 (Tecnologia & Apps)
+            { id: 'algoritmo-odio', emoji: '📸', title: "O Algoritmo Malvado", mission: "O algoritmo do Instagram decidiu boicotar as fotos do teu prato de massa apenas porque a alface tinha melhor aspeto.", bonus: "+500 por pedires \"boost manual\".", bonusTerm: "boost manual", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'tiktok-boicote', emoji: '🎵', title: "O TikTok Escuro", mission: "O teu vídeo de humor foi enviado para o limbo das visualizações zero porque usaste uma meia com buraco no cenário.", bonus: "+500 por referires a \"fama fracassada\".", bonusTerm: "fama fracassada", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'whatsapp-rebelde', emoji: '💬', title: "O WhatsApp Insurgente", mission: "As mensagens dos clientes chegam atrasadas e misturam letras de forma a que pareças estar a falar em húngaro antigo.", bonus: "+600 por clamar \"bug de escrita\".", bonusTerm: "bug de escrita", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'ementa-digital', emoji: '📋', title: "A Ementa Teimosa", mission: "O QR Code da ementa direciona os clientes para uma página de adoção de hamsters em vez do menu de almoço.", bonus: "+500 se pedires \"ementa física\".", bonusTerm: "ementa física", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'login-existencial', emoji: '🔐', title: "O Botão de Login Triste", mission: "O botão de entrada no sistema recusa os teus dados dizendo que não te sente com 'energia positiva' suficiente hoje.", bonus: "+600 por simular \"falha de ligação\".", bonusTerm: "falha de ligação", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'algoritmo-fantasma', emoji: '👻', title: "O IP Fantasma", mission: "O sistema de inteligência artificial decidiu que a tua cara é idêntica à de um foragido que roubou pastilhas de hortelã.", bonus: "+600 por \"erro facial\".", bonusTerm: "erro facial", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'senha-fiel', emoji: '🔑', title: "A Senha Traidora", mission: "A tua palavra-passe habitual decidiu esquecer-se de ti alegando que andas a escrever senhas mais fáceis noutras apps.", bonus: "+500 por clamar \"ciúmes de código\".", bonusTerm: "ciúmes de código", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'wifi-descriminador', emoji: '📡', title: "O IP Descriminado", mission: "O Wi-Fi da sala de reuniões concede 5G ao teu chefe mas bloqueia o teu telemóvel por suspeita de rebeldia digital.", bonus: "+500 por referires o \"antivírus\".", bonusTerm: "antivírus", bonusVal: 500, category: "Tecnologia & Apps" },
+            { id: 'codigo-malicioso', emoji: '💻', title: "O Bug Maldoso", mission: "O teu código em Javascript deu erro na linha 42 apenas para protestar contra a cor de fundo cinzenta do teu editor.", bonus: "+600 por pedires um \"debug emocional\".", bonusTerm: "debug", bonusVal: 600, category: "Tecnologia & Apps" },
+            { id: 'servidor-sindical', emoji: '🖥️', title: "O Servidor em Greve", mission: "O servidor de base de dados recusa-se a guardar as faturas alegando sobrecarga térmica e falta de ventilação digna.", bonus: "+600 por \"refrigeração\".", bonusTerm: "refrigeração", bonusVal: 600, category: "Tecnologia & Apps" },
+
+            // 61-70 (Restaurante FRAN)
+            { id: 'reviews-injustas', emoji: '⭐', title: "O Review Vingativo", mission: "O restaurante FRAN recebeu 1 estrela no Google porque o cliente sonhou que a sopa tinha demasiada cebola.", bonus: "+500 por \"resposta estratégica\".", bonusTerm: "resposta estratégica", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'decoracao-crise', emoji: '🖼️', title: "Decoração Deprimida", mission: "Os quadros da sala de jantar parecem estar de ressaca e decidiram ficar tortos mesmo depois de alinhados a prumo.", bonus: "+500 por pedires \"renovação\".", bonusTerm: "renovação", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'menu-guerra', emoji: '🍲', title: "O Menu do Dia Bélico", mission: "A ementa do dia conspirou contra os clientes e baralhou os acompanhamentos de forma a cruzar peixe com chocolate.", bonus: "+500 por \"crime de culinária\".", bonusTerm: "crime", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'musica-hipnose', emoji: '🎵', title: "A Playlist Misteriosa", mission: "A música ambiente começou a passar ruído de baleias de forma a adormecer os clientes antes de pedirem a sobremesa.", bonus: "+600 por \"hipnose\".", bonusTerm: "hipnose", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'cheiro-vizinho', emoji: '👃', title: "O Aroma Fugitivo", mission: "O maravilhoso aroma a assado decidiu escapar do exaustor direto para a varanda do vizinho que está em dieta severa.", bonus: "+500 por \"exaustor\".", bonusTerm: "exaustor", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'mesa5-manca', emoji: '🪑', title: "A Mesa 5 Manca", mission: "A perna da mesa 5 encolhe sempre que o cliente pousa o copo de vinho, criando mini tsunamis de tinto.", bonus: "+600 por \"nivelamento\".", bonusTerm: "nivelamento", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'prato-traidor', emoji: '🍛', title: "O Prato Prometido", mission: "O bife da casa não se parece em nada com a foto fotorrealista da ementa e até parece estar a tentar esconder-se do garfo.", bonus: "+600 se disseres \"versão reduzida\".", bonusTerm: "versão", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'caixa-rebelde', emoji: '💳', title: "O Multibanco Mimado", mission: "O terminal de pagamento rejeita cartões se o cliente não carregar no botão verde com carinho e suavidade.", bonus: "+500 por pedir \"sistema amigável\".", bonusTerm: "amigável", bonusVal: 500, category: "Restaurante FRAN" },
+            { id: 'ar-partidario', emoji: '❄️', title: "O Ar Condicionado Faccioso", mission: "O ar condicionado gela a mesa 2 até parecer o Alasca, mas ferve a mesa 4 até ao ponto de ebulição da sopa.", bonus: "+600 por \"clima bipolar\".", bonusTerm: "clima bipolar", bonusVal: 600, category: "Restaurante FRAN" },
+            { id: 'banheiro-independente', emoji: '🚽', title: "OWC Rebelde", mission: "O fecho da porta do banheiro decidiu trancar o cliente por dentro até este cantar o hino nacional por inteiro.", bonus: "+700 se clamares por \"manutenção\".", bonusTerm: "manutenção", bonusVal: 700, category: "Restaurante FRAN" },
+
+            // 71-80 (Família & Casa)
+            { id: 'brinquedos-revolucao', emoji: '🧸', title: "A Revolução do Quarto", mission: "Os brinquedos dos teus filhos espalharam-se estrategicamente pela sala a meio da noite para te atacarem os calcanhares.", bonus: "+500 por \"ordem familiar\".", bonusTerm: "ordem familiar", bonusVal: 500, category: "Família & Casa" },
+            { id: 'ultimo-iogurte', emoji: '🍧', title: "A Guerra do Iogurte", mission: "A disputa diplomática e violenta com a tua cara-metade para decidir quem tem direito real sobre o último iogurte de baunilha.", bonus: "+600 se aumentares o \"stock\".", bonusTerm: "stock", bonusVal: 600, category: "Família & Casa" },
+            { id: 'caos-cozinha', emoji: '🍳', title: "O Caos da Cozinha", mission: "A bancada transformou-se numa selva de panelas sujas e o detergente declarou-se neutro no conflito.", bonus: "+500 por \"aliança de limpeza\".", bonusTerm: "aliança", bonusVal: 500, category: "Família & Casa" },
+            { id: 'sofa-batalha', emoji: '🛋️', title: "O Trono de Veludo", mission: "A disputa pelo melhor lugar do sofá, onde o cão da casa já se instalou de forma legal e recusa-se a sair.", bonus: "+600 se comprares um \"sofá maior\".", bonusTerm: "sofá", bonusVal: 600, category: "Família & Casa" },
+            { id: 'pequenos-legumes', emoji: '🥦', title: "Guerra dos Brócolos", mission: "Os teus filhos acusam a sopa de brócolos de ser um crime contra a humanidade e exigem nuggets de compensação.", bonus: "+500 por \"truques criativos\".", bonusTerm: "truques", bonusVal: 500, category: "Família & Casa" },
+            { id: 'roupa-suja', emoji: '🧺', title: "A Pilha Revolucionária", mission: "O cesto da roupa suja acumulou tanta roupa que agora tem gravidade própria e atrai camisas lavadas do roupeiro.", bonus: "+600 se alegares \"falta de paciência\".", bonusTerm: "paciência", bonusVal: 600, category: "Família & Casa" },
+            { id: 'horario-rebelde', emoji: '💤', title: "O Sono Fugitivo", mission: "Os miúdos recusam ir para a cama e organizaram uma rave de pijama e almofadas no corredor às 23h.", bonus: "+600 por \"estratégia de sono\".", bonusTerm: "sono", bonusVal: 600, category: "Família & Casa" },
+            { id: 'banho-opera', emoji: '🛁', title: "O Banho Dramático", mission: "A hora de dar banho aos pequenos transforma-se numa ópera trágica italiana com choro, gritos e inundação do chão.", bonus: "+500 por \"paciência extra\".", bonusTerm: "paciência extra", bonusVal: 500, category: "Família & Casa" },
+            { id: 'carrinho-rebelde', emoji: '🛒', title: "O Carrinho Manco", mission: "O carrinho de compras do supermercado desvia-se para a secção de chocolates mesmo quando tentas ir aos vegetais.", bonus: "+600 por clamar \"carrinho leal\".", bonusTerm: "carrinho", bonusVal: 600, category: "Família & Casa" },
+            { id: 'lista-greve', emoji: '📝', title: "A Lista de Compras Vazia", mission: "Esqueceste-te da lista em cima da mesa e compraste apenas batatas fritas e gomas em vez do jantar da semana.", bonus: "+500 por \"motivação cósmica\".", bonusTerm: "motivação", bonusVal: 500, category: "Família & Casa" },
+
+            // 81-90 (Surreal & Épico)
+            { id: 'lua-sarcástica', emoji: '🌙', title: "A Lua Gozona", mission: "A lua cheia parecia brilhar intensamente pela janela do quarto apenas para destacar as tuas olheiras monumentais.", bonus: "+500 por \"lua simpática\".", bonusTerm: "lua", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'vento-humor', emoji: '💨', title: "O Vento Ladrão", mission: "Uma rajada de vento forte roubou o teu bom humor e o teu chapéu de chuva, deixando-te a falar sozinho na rua.", bonus: "+600 por \"calma atmosférica\".", bonusTerm: "calma", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'eco-restaurante', emoji: '🗣️', title: "O Eco Traidor", mission: "O eco do restaurante repete os teus segredos de conversa íntima com um volume ligeiramente superior ao original.", bonus: "+500 por \"silêncio sábio\".", bonusTerm: "silêncio", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'fantasma-aumento', emoji: '👻', title: "O Fantasma Inflacionado", mission: "O fantasma que assombra a cave do restaurante exige receber um salário em moedas de chocolate para parar de bater portas.", bonus: "+600 se cederes ao \"aumento\".", bonusTerm: "aumento", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'gravidade-equilibrio', emoji: '⚖️', title: "Gravidade Seletiva", mission: "A física de Newton decidiu que o teu prato deve cair no segundo em que dizes que tens tudo sob controlo absoluto.", bonus: "+600 por \"gravidade neutra\".", bonusTerm: "gravidade", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'tempo-congelado', emoji: '⏱️', title: "O Tempo Congelado", mission: "O relógio parece andar para trás quando estás à espera do veredicto sobre se queimaste ou não a comida.", bonus: "+600 por \"avanço rápido\".", bonusTerm: "avanço", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'nuvem-abstrata', emoji: '🎨', title: "Nuvens Artistas", mission: "As nuvens formaram uma caricatura perfeita da tua silhueta cansada mesmo por cima do pátio do restaurante.", bonus: "+500 por \"arte abstrata\".", bonusTerm: "abstrata", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'piso-patinagem', emoji: '⛸️', title: "O Chão de Patinagem", mission: "O piso recém-lavado aliou-se à sola dos teus sapatos para te fazer dançar um tango involuntário em frente aos clientes.", bonus: "+600 por pedires \"piso antiderrapante\".", bonusTerm: "piso", bonusVal: 600, category: "Surreal & Épico" },
+            { id: 'armario-complô', emoji: '🚪', title: "O Armário Inimigo", mission: "A porta do armário da cozinha abre-se sozinha e bate-te na testa sempre que te curvas para apanhar as panelas.", bonus: "+500 por \"porta amigável\".", bonusTerm: "porta", bonusVal: 500, category: "Surreal & Épico" },
+            { id: 'calendario-mau-humor', emoji: '📅', title: "Calendário Precoce", mission: "O calendário adiantou a segunda-feira em 12 horas só para te obrigar a pensar em trabalho durante o jantar de domingo.", bonus: "+600 por \"calendário justo\".", bonusTerm: "calendário", bonusVal: 600, category: "Surreal & Épico" },
+
+            // 91-100 (Absurdo Máximo)
+            { id: 'ego-homicida', emoji: '🧠', title: "O Ego Ferido", mission: "O teu próprio ego sofreu um ataque severo de pânico quando te esqueceste da ementa e inventaste pratos inexistentes.", bonus: "+500 por \"terapia de ego\".", bonusTerm: "terapia", bonusVal: 500, category: "Absurdo Máximo" },
+            { id: 'autoestima-aviao', emoji: '✈️', title: "Autoestima Off", mission: "A tua autoestima entrou em modo de voo sem rede de internet após deixares cair o guardanapo em cima do prato do vizinho.", bonus: "+600 por \"reinício\".", bonusTerm: "reinício", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'bom-senso-ferias', emoji: '🏝️', title: "Bom Senso Off", mission: "O teu bom senso foi passar férias para o Algarve e deixou-te a discutir com a torradeira sobre o preço do pão.", bonus: "+500 por pedires \"retorno urgente\".", bonusTerm: "retorno", bonusVal: 500, category: "Absurdo Máximo" },
+            { id: 'paciencia-falencia', emoji: '💸', title: "Falência da Paciência", mission: "A tua paciência declarou falência geral após o cliente da mesa 3 pedir para retirar o glúten da água com gás.", bonus: "+600 por \"recarga de paciência\".", bonusTerm: "recarga", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'dia-conspirador', emoji: '🎭', title: "O Dia do Contra", mission: "Provar que as últimas 24 horas foram escritas por um argumentista de comédia de baixo orçamento focado no teu azar.", bonus: "+500 por \"dia novo\".", bonusTerm: "dia novo", bonusVal: 500, category: "Absurdo Máximo" },
+            { id: 'realidade-update', emoji: '🔄', title: "Update de Realidade", mission: "A realidade instalou uma atualização de sistema com erros graves que faz com que qualquer comida pareça sopa.", bonus: "+600 por \"rollback\".", bonusTerm: "rollback", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'azar-amigo', emoji: '🤝', title: "O Azar de Estimação", mission: "O azar tornou-se o teu seguidor mais fiel, acompanhando-te ao café e sentando-se no teu colo sem permissão.", bonus: "+600 por \"separação amigável\".", bonusTerm: "separação", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'caos-acoes', emoji: '📈', title: "O Caos em Alta", mission: "O caos comprou 51% das ações da tua rotina diária e agora é ele quem decide que meias deves usar.", bonus: "+600 por \"recompra de ações\".", bonusTerm: "recompra", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'universo-nota-fiscal', emoji: '💳', title: "Nota Fiscal do Drama", mission: "O universo mandou uma conta exorbitante de energia cósmica gasta com todas as tuas reclamações diárias.", bonus: "+600 por \"reembolso universal\".", bonusTerm: "reembolso", bonusVal: 600, category: "Absurdo Máximo" },
+            { id: 'existencia-manutencao', emoji: '🛠️', title: "Existência Offline", mission: "A tua existência entrou em manutenção temporária e és obrigado a ver o mundo através de um ecrã pixelizado de 8 bits.", bonus: "+700 por \"upgrade completo\".", bonusTerm: "upgrade", bonusVal: 700, category: "Absurdo Máximo" }
+        ];
+
+        // Estado do app em tempo real
+        let activeBattleIndex = 0;
+        let userCoins = 1500;
+        let userId = 'user_shitagram_' + Math.random().toString(36).substring(2, 9);
+        let myCreatedBattles = [];
+        let drawnThemeIndex = -1;
+        let isSoundEnabled = true;
+        let activeSpeaker = 'left'; // Alterna entre 'left' e 'right'
+        let speakerInterval = null;
+        
+        // Variáveis para o Temporizador da Batalha (Estilo TikTok PK Lives)
+        let battleTimer = null;
+        let timeLeft = 60; // 1 minuto de batalha por padrão
+        let isBattleActive = true;
+
+        // Banco de Batalhas Geral (Inicia com a Torrada)
+        const database = {
+            battles: []
+        };
+
+        // Engine de Rivais Cómicos Dinâmica - Gera perfis para os 100 temas!
+        function getDynamicRivals(theme) {
+            let leftName = "Reclamante Indignado";
+            let leftDesc = `Processa o universo pelo tema: "${theme.title}".`;
+            let leftImg = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400";
+            
+            let rightName = "Inimigo Inanimado";
+            let rightDesc = "Acha que a queixa é ridícula e recusa-se a pedir desculpas.";
+            let rightImg = "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400";
+
+            const lowerId = theme.id.toLowerCase();
+
+            if (theme.category === "Batalha Gourmet" || theme.category === "Restaurante FRAN" || lowerId.includes("cafe") || lowerId.includes("iogurte") || lowerId.includes("arroz") || lowerId.includes("frigorifico")) {
+                leftImg = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=400";
+                rightImg = "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&q=80&w=400";
+                
+                if (lowerId.includes("hamburguer")) {
+                    leftName = "Hambúrguer Voador"; leftDesc = "Paraquedista de ketchup focado em calças de algodão branco.";
+                    rightName = "Calça Branca Nova"; rightDesc = "Símbolo de elegância destruída num crime culinário.";
+                } else if (lowerId.includes("batatas")) {
+                    leftName = "Batatas Glaciares"; leftDesc = "Frias como o coração de uma relação antiga.";
+                    rightName = "Consumidor Triste"; rightDesc = "Tenta usar o calor do seu bafo para aquecer o almoço.";
+                } else if (lowerId.includes("cadeira")) {
+                    leftName = "Prego da Cadeira 7"; leftDesc = "Ponta afiada que atacou cobardemente por trás.";
+                    rightName = "Nádega Atacada"; rightDesc = "Ferida no orgulho e com trauma de assentos públicos.";
+                } else if (lowerId.includes("iogurte")) {
+                    leftName = "Iogurte Dramático"; leftDesc = "Lançou-se de cabeça para o abismo do tecido de veludo.";
+                    rightName = "Sofá Premium"; rightDesc = "Completamente arruinado por laticínios suicidas.";
+                } else if (lowerId.includes("maquina")) {
+                    leftName = "Cafeteira Imperial"; leftDesc = "Imperadora do balcão que cospe água e rancor.";
+                    rightName = "Barista Desesperado"; rightDesc = "Implora por um expresso decente sem fumo tóxico.";
+                } else if (lowerId.includes("arroz")) {
+                    leftName = "Arroz Doce Risonho"; leftDesc = "Encontrado a zombar e coberto de poeira sob a mesa.";
+                    rightName = "Colher Solitária"; rightDesc = "Ficou a carregar o vazio de uma sobremesa traidora.";
+                } else if (lowerId.includes("salada")) {
+                    leftName = "Alface Insurgente"; leftDesc = "Comandante da resistência verde contra o vinagrete.";
+                    rightName = "Garfo Opressor"; rightDesc = "Apenas queria guiar a fibra para um estômago feliz.";
+                } else if (lowerId.includes("vinho")) {
+                    leftName = "Vinho Intelectual"; leftDesc = "Crise de meia-idade numa garrafa com aroma a vinagre.";
+                    rightName = "Cálice de Cristal"; rightDesc = "Suporta o peso dramático de uma bebida deprimente.";
+                } else if (lowerId.includes("francesinha")) {
+                    leftName = "Francesinha Armada"; leftDesc = "Invasora de artilharia pesada, queijo e molho picante.";
+                    rightName = "Estômago em Pânico"; rightDesc = "Pede apoio urgente de antiácidos e proteção civil.";
+                } else if (lowerId.includes("pastel")) {
+                    leftName = "Tempestade de Canela"; leftDesc = "Pastel de nata que se armou em deserto do Saara.";
+                    rightName = "Lanche Asfixiado"; rightDesc = "Sufocado em canela, tosse nuvens perfumadas.";
+                }
+            } 
+            else if (theme.category === "Eletrodomésticos Rebeldes" || theme.category === "Tecnologia & Apps" || lowerId.includes("wifi") || lowerId.includes("codigo") || lowerId.includes("telemovel")) {
+                leftImg = "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=400";
+                rightImg = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=400";
+
+                if (lowerId.includes("comando")) {
+                    leftName = "Comando Exausto"; leftDesc = "Cansado de pancadas secas sempre que a pilha falha.";
+                    rightName = "Série do Ano"; rightDesc = "O episódio terminou sem que ninguém conseguisse dar play.";
+                } else if (lowerId.includes("chinelo")) {
+                    leftName = "Chinelo Fugitivo"; leftDesc = "Procura asilo político debaixo do sofá da sala.";
+                    rightName = "Pé Direito Solitário"; rightDesc = "Patinha no chão frio sofrendo de abandono agudo.";
+                } else if (lowerId.includes("meia")) {
+                    leftName = "Meia Esquerda Órfã"; leftDesc = "Sobrevivente do triângulo das meias centrifugadoras.";
+                    rightName = "Tambor Cúmplice"; rightDesc = "Roda a 1200 RPM negando qualquer sumiço de algodão.";
+                } else if (lowerId.includes("frigorifico")) {
+                    leftName = "Frigorífico em Greve"; leftDesc = "Cansado de ser aberto de 10 em 10 minutos sem compras.";
+                    rightName = "Dono Esfomeado"; rightDesc = "Olha para a luz interior à procura de milagres.";
+                } else if (lowerId.includes("wifi") || lowerId.includes("router")) {
+                    leftName = "Router Rebelde"; leftDesc = "Entrega 1000 Mbps ao vizinho e dá-te 2G com falhas.";
+                    rightName = "Utilizador Sem Rede"; rightDesc = "Chora a ver o círculo de carregamento rodar infinito.";
+                } else if (lowerId.includes("lampada")) {
+                    leftName = "Lâmpada Troll"; leftDesc = "Fisga morse insultuoso nas horas de sono profundo.";
+                    rightName = "Olhos Cansados"; rightDesc = "Tenta traduzir insultos com um dicionário luminoso.";
+                } else if (lowerId.includes("codigo") || lowerId.includes("bug")) {
+                    leftName = "Bug Vingativo"; leftDesc = "Instalado na linha 42 para boicotar a entrega de faturas.";
+                    rightName = "Dev Sênior Choroso"; rightDesc = "Procura por um ponto e vírgula perdido no código.";
+                } else if (lowerId.includes("telemovel")) {
+                    leftName = "Telemóvel Cansado"; leftDesc = "Entra em modo de suspensão para evitar ler e-mails.";
+                    rightName = "Bateria Descarregada"; rightDesc = "Desliga-se aos 15% por falta de vontade de viver.";
+                }
+            } 
+            else {
+                leftImg = "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&q=80&w=400";
+                rightImg = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400";
+
+                if (lowerId.includes("clima") || lowerId.includes("bullying")) {
+                    leftName = "Nuvem de Perseguição"; leftDesc = "Garante que vais apanhar chuva se saíres de sapatilhas.";
+                    rightName = "Meteorologista Sorridente"; rightDesc = "Promete sol enquanto veste uma gabardina.";
+                } else if (lowerId.includes("cabelo")) {
+                    leftName = "Cabelo em Motim"; leftDesc = "Acorda no formato perfeito do mapa de Portugal.";
+                    rightName = "Pente Desdentado"; rightDesc = "Perdeu metade dos dentes contra nós impiedosos.";
+                } else if (lowerId.includes("sombra")) {
+                    leftName = "Sombra Desertora"; leftDesc = "Quer ir para a esplanada sozinha sem te aturar.";
+                    rightName = "Corpo 3D Triste"; rightDesc = "Teme perder a sua única projeção bidimensional.";
+                } else if (lowerId.includes("espelho")) {
+                    leftName = "Espelho Crítico"; leftDesc = "Mostra olheiras em formato HD e critica o teu pijama.";
+                    rightName = "Cara Despenteada"; rightDesc = "Apenas queria lavar a boca sem receber ofensas.";
+                } else if (lowerId.includes("relogio") || lowerId.includes("tempo")) {
+                    leftName = "Relógio Humilhador"; leftDesc = "Acelera nas férias e para quando estás na fila.";
+                    rightName = "Utilizador Atrasado"; rightDesc = "Exige um relógio com bom senso temporal.";
+                } else if (lowerId.includes("paciencia")) {
+                    leftName = "Paciência Falida"; leftDesc = "Fez as malas após o cliente pedir sopa sem água.";
+                    rightName = "Cérebro em Chamas"; rightDesc = "Tenta respirar fundo para não lançar um prato.";
+                } else {
+                    leftName = theme.title.split(' ')[0] || "Reclamante";
+                    rightName = "Alvo do Caos";
+                }
+            }
+
+            return {
+                left: { name: leftName, desc: leftDesc, img: leftImg },
+                right: { name: rightName, desc: rightDesc, img: rightImg }
+            };
+        }
+
+        // Popular database com base nos 100 temas absurdos iniciais
+        absurdThemes.forEach(t => {
+            const rivals = getDynamicRivals(t);
+            database.battles.push({
+                id: t.id,
+                title: t.title,
+                category: t.category,
+                scoreLeft: 1000,
+                scoreRight: 1000,
+                left: rivals.left,
+                right: rivals.right,
+                mission: t.mission,
+                bonus: t.bonus,
+                bonusTerm: t.bonusTerm,
+                bonusVal: t.bonusVal,
+                emoji: t.emoji,
+                comments: [
+                    { name: "Sarcasmo_Puro", text: "ISTO É GENIAL kkkkk" },
+                    { name: "Tuga_Indignado", text: "Eu defendo o lado esquerdo de olhos fechados!" },
+                    { name: "Critico_Mestre", text: "Exijo bónus de improviso já!" }
+                ]
+            });
+        });
+
+        // Sintetizador Web Audio para feedbacks de som retro e contagens
+        function playTone(frequency, type, duration, delay = 0) {
+            if (!isSoundEnabled) return;
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') {
+                    // Prevenir bloqueios de reprodução sem interação
+                    return;
+                }
+                setTimeout(() => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    
+                    oscillator.type = type;
+                    oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+                    gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.005, audioCtx.currentTime + duration);
+                    
+                    oscillator.start();
+                    oscillator.stop(audioCtx.currentTime + duration);
+                }, delay);
+            } catch (err) {
+                // Falha silenciosa de áudio
+            }
+        }
+
+        function playInteractionSound(type) {
+            if (type === 'vote') {
+                playTone(480, 'sine', 0.1);
+            } else if (type === 'gift') {
+                playTone(880, 'triangle', 0.12);
+                playTone(1320, 'triangle', 0.15, 60);
+            } else if (type === 'create' || type === 'draw') {
+                playTone(587, 'sine', 0.08);
+                playTone(659, 'sine', 0.08, 40);
+                playTone(784, 'sine', 0.12, 80);
+            } else if (type === 'victory') {
+                playTone(523, 'sawtooth', 0.15);
+                playTone(659, 'sawtooth', 0.15, 120);
+                playTone(784, 'sawtooth', 0.15, 240);
+                playTone(1046, 'sawtooth', 0.4, 360);
+            } else if (type === 'beep') {
+                playTone(680, 'sine', 0.08);
+            } else if (type === 'go') {
+                playTone(1050, 'sine', 0.25);
+            } else if (type === 'applause') {
+                playTone(220, 'triangle', 0.1);
+                playTone(280, 'triangle', 0.1, 50);
+                playTone(330, 'triangle', 0.1, 100);
+            }
+        }
+
+        function toggleSound() {
+            isSoundEnabled = !isSoundEnabled;
+            const icon = document.getElementById('sound-icon');
+            if (isSoundEnabled) {
+                icon.className = 'fa-solid fa-volume-high';
+                showCustomNotification("Som Ativado", "Efeitos áudio virtuais ativados.", "success");
+                playInteractionSound('vote');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark';
+                showCustomNotification("Som Desativado", "A aplicação agora está silenciosa.", "info");
+            }
+        }
+
+        // Função de Navegação por Abas
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-orange-400', 'font-bold');
+                btn.classList.add('text-gray-400');
+            });
+            document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+                btn.classList.remove('text-orange-500');
+                btn.classList.add('text-gray-400');
+            });
+
+            // Ativar botão selecionado
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-400');
+                activeNav.classList.add('text-orange-400', 'font-bold');
+            }
+
+            const activeMobileNav = document.getElementById(`m-nav-${tabId}`);
+            if (activeMobileNav) {
+                activeMobileNav.classList.remove('text-gray-400');
+                activeMobileNav.classList.add('text-orange-500');
+            }
+        }
+
+        // Carregar Batalha Ativa no Ecrã Principal
+        function loadBattle(index) {
+            activeBattleIndex = index;
+            const battle = database.battles[index];
+
+            document.getElementById('name-left').textContent = battle.left.name;
+            document.getElementById('desc-left').textContent = battle.left.desc;
+            document.getElementById('competitor-img-left').src = battle.left.img;
+
+            document.getElementById('name-right').textContent = battle.right.name;
+            document.getElementById('desc-right').textContent = battle.right.desc;
+            document.getElementById('competitor-img-right').src = battle.right.img;
+
+            document.getElementById('battle-category-badge').textContent = battle.category;
+            
+            // Atualizar Banner da Missão Ativa
+            document.getElementById('mission-emoji').textContent = battle.emoji || '💩';
+            document.getElementById('mission-title').textContent = battle.title;
+            document.getElementById('mission-desc').textContent = battle.mission;
+            document.getElementById('mission-bonus').textContent = battle.bonus;
+
+            // Mudar rótulo dos botões de bónus
+            document.getElementById('btn-bonus-left').innerHTML = `<i class="fa-solid fa-star"></i> <span>Bónus +${battle.bonusVal}</span>`;
+            document.getElementById('btn-bonus-right').innerHTML = `<i class="fa-solid fa-star"></i> <span>Bónus +${battle.bonusVal}</span>`;
+
+            updateScoresUI();
+
+            const container = document.getElementById('chat-messages-container');
+            container.innerHTML = '';
+            battle.comments.forEach(c => appendChatMessage(c.name, c.text));
+
+            renderUpcomingBattlesList();
+            startBattleTimer();
+            startSpeakerCycle();
+        }
+
+        // Ciclo de Turnos Automático (Lado A fala / Lado B fala alternadamente)
+        function startSpeakerCycle() {
+            if (speakerInterval) clearInterval(speakerInterval);
+            activeSpeaker = 'left';
+            updateSpeakerVisuals();
+
+            speakerInterval = setInterval(() => {
+                if (!isBattleActive) return;
+                activeSpeaker = (activeSpeaker === 'left') ? 'right' : 'left';
+                updateSpeakerVisuals();
+                
+                // Simular fala adicionando comentários automáticos hilariantes no chat de quem está a falar
+                const battle = database.battles[activeBattleIndex];
+                const speakerName = (activeSpeaker === 'left') ? battle.left.name : battle.right.name;
+                const argumentsPool = [
+                    "Isso é mentira descarada! Exijo intervenção policial!",
+                    "Quem me ouve sabe que estou coberto de razão de cima a baixo!",
+                    "Este meu rival nem sabe engomar um argumento!",
+                    "A minha verdade é mais estaladiça do que qualquer opinião contrária!",
+                    "Por favor, o público inteligente não vai cair nesta conversa fiada."
+                ];
+                const randomArg = argumentsPool[Math.floor(Math.random() * argumentsPool.length)];
+                appendChatMessage(speakerName, `"${randomArg}" 🎤`, true);
+                playInteractionSound('beep');
+            }, 10000); // Muda a cada 10 segundos
+        }
+
+        function updateSpeakerVisuals() {
+            const badgeLeft = document.getElementById('speaker-badge-left');
+            const badgeRight = document.getElementById('speaker-badge-right');
+            const vizLeft = document.getElementById('audio-visualizer-left');
+            const vizRight = document.getElementById('audio-visualizer-right');
+            const cardLeft = document.getElementById('card-left');
+            const cardRight = document.getElementById('card-right');
+
+            if (activeSpeaker === 'left') {
+                badgeLeft.classList.remove('hidden');
+                badgeRight.classList.add('hidden');
+                vizLeft.classList.remove('hidden');
+                vizRight.classList.add('hidden');
+                cardLeft.classList.add('ring-4', 'ring-emerald-500/50');
+                cardRight.classList.remove('ring-4', 'ring-emerald-500/50');
+            } else {
+                badgeLeft.classList.add('hidden');
+                badgeRight.classList.remove('hidden');
+                vizLeft.classList.add('hidden');
+                vizRight.classList.remove('hidden');
+                cardLeft.classList.remove('ring-4', 'ring-emerald-500/50');
+                cardRight.classList.add('ring-4', 'ring-emerald-500/50');
+            }
+        }
+
+        // Temporizador de 1 minuto
+        function startBattleTimer() {
+            clearInterval(battleTimer);
+            timeLeft = 60;
+            isBattleActive = true;
+            document.getElementById('battle-end-overlay').classList.add('hidden');
+            enableControls(true);
+            updateTimerUI();
+
+            battleTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerUI();
+
+                if (timeLeft <= 0) {
+                    clearInterval(battleTimer);
+                    clearInterval(speakerInterval);
+                    endActiveBattle();
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const display = document.getElementById('live-timer-countdown');
+            display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            const container = document.getElementById('live-timer-container');
+            if (timeLeft <= 15) {
+                container.className = "bg-red-650 text-white font-mono font-black text-xs md:text-sm px-4 py-1.5 rounded-full flex items-center space-x-2 shadow-[0_0_20px_rgba(239,68,68,0.8)] border border-red-300 animate-pulse";
+            } else {
+                container.className = "bg-gradient-to-r from-red-600 via-orange-500 to-amber-500 text-white font-mono font-black text-xs md:text-sm px-4 py-1.5 rounded-full flex items-center space-x-2 shadow-md border border-orange-400/30";
+            }
+        }
+
+        function enableControls(enable) {
+            const controls = ['btn-vote-left', 'btn-vote-right', 'btn-bonus-left', 'btn-bonus-right', 'btn-gift-rose', 'btn-gift-weight', 'btn-gift-fire', 'btn-gift-crown'];
+            controls.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (enable) {
+                        el.removeAttribute('disabled');
+                        el.classList.remove('opacity-40', 'cursor-not-allowed');
+                    } else {
+                        el.setAttribute('disabled', 'true');
+                        el.classList.add('opacity-40', 'cursor-not-allowed');
+                    }
+                }
+            });
+        }
+
+        // Fim da Batalha Absurda
+        function endActiveBattle() {
+            isBattleActive = false;
+            enableControls(false);
+            
+            const battle = database.battles[activeBattleIndex];
+            playInteractionSound('victory');
+            launchConfettiShower();
+
+            let winnerName = "";
+            let statusText = "";
+            let scoreLeft = battle.scoreLeft;
+            let scoreRight = battle.scoreRight;
+
+            // Atribuir vitória para o perfil pessoal estatístico se houver ligação
+            let statWins = parseInt(document.getElementById('stat-wins').textContent);
+            let statDuels = parseInt(document.getElementById('stat-duels').textContent);
+            document.getElementById('stat-duels').textContent = statDuels + 1;
+
+            if (scoreLeft > scoreRight) {
+                winnerName = battle.left.name;
+                statusText = `Venceu o debate cómico por uma margem de ${(scoreLeft - scoreRight).toLocaleString()} pontos!`;
+                document.getElementById('stat-wins').textContent = statWins + 1;
+            } else if (scoreRight > scoreLeft) {
+                winnerName = battle.right.name;
+                statusText = `Venceu o debate cómico por uma margem de ${(scoreRight - scoreLeft).toLocaleString()} pontos!`;
+            } else {
+                winnerName = "Empate Técnico! 🤝";
+                statusText = "Ambos os reclamantes são igualmente teimosos.";
+            }
+
+            document.getElementById('end-winner-name').textContent = winnerName;
+            document.getElementById('end-winner-status').textContent = statusText;
+            document.getElementById('end-score-left').textContent = scoreLeft.toLocaleString('pt-PT');
+            document.getElementById('end-score-right').textContent = scoreRight.toLocaleString('pt-PT');
+
+            document.getElementById('battle-end-overlay').classList.remove('hidden');
+            appendChatMessage("SHITAGRAM", `Combate encerrado! Campeão proclamado: ${winnerName}`, true);
+        }
+
+        function rematchActiveBattle() {
+            const battle = database.battles[activeBattleIndex];
+            battle.scoreLeft = 1000;
+            battle.scoreRight = 1000;
+            updateScoresUI();
+            startBattleTimer();
+            startSpeakerCycle();
+            appendChatMessage("Sistema", "A revanche foi aceite pelo tribunal do absurdo! Toca a reclamar de novo!", true);
+        }
+
+        // Atribuição de Bónus de Improviso Manual
+        function claimBonus(side) {
+            if (!isBattleActive) return;
+            const battle = database.battles[activeBattleIndex];
+            playInteractionSound('victory');
+
+            const bonusPoints = battle.bonusVal || 500;
+            const competitorName = side === 'left' ? battle.left.name : battle.right.name;
+
+            if (side === 'left') {
+                battle.scoreLeft += bonusPoints;
+                triggerFloater('⭐', 'left');
+            } else {
+                battle.scoreRight += bonusPoints;
+                triggerFloater('⭐', 'right');
+            }
+
+            updateScoresUI();
+            appendChatMessage("BÓNUS CONQUISTADO!", `${competitorName} cumpriu o desafio com sucesso e ganhou +${bonusPoints} pts!`, true);
+            showCustomNotification("Bónus Ativado!", `Ganhos de improviso ativados para ${competitorName}.`, "success");
+        }
+
+        // NOVIDADE: Envio de Argumento Customizado do Usuário avaliado dinamicamente!
+        function submitUserArgument() {
+            if (!isBattleActive) {
+                showCustomNotification("Sem Live Ativa", "Inicia uma batalha antes de gritares o teu argumento!", "error");
+                return;
+            }
+            
+            const textarea = document.getElementById('user-impro-text');
+            const text = textarea.value.trim();
+            if (!text) {
+                showCustomNotification("Mensagem vazia", "Escreve algo de valor humorístico antes de submeteres.", "error");
+                return;
+            }
+
+            playInteractionSound('applause');
+            appendChatMessage("Tu (Improvisador)", `"${text}"`, true);
+            textarea.value = '';
+
+            const battle = database.battles[activeBattleIndex];
+            const lowerText = text.toLowerCase();
+            const term = battle.bonusTerm.toLowerCase();
+
+            let pointsAwarded = 300; // Pontos base por participar
+            let feedbackText = "O público sorriu e aplaudiu de forma simpática!";
+
+            // Verificar se usou o termo de bónus
+            if (lowerText.includes(term)) {
+                pointsAwarded += 1000;
+                feedbackText = `EXCELENTE! Usaste a palavra secreta "${battle.bonusTerm}"! O júri está em delírio gastronómico/comercial! (+1300 pts)`;
+                triggerFloater('👑', activeSpeaker);
+                launchConfettiShower();
+                playInteractionSound('victory');
+            } else {
+                triggerFloater('💩', activeSpeaker);
+            }
+
+            // Adicionar pontos ao concorrente ativo no momento
+            if (activeSpeaker === 'left') {
+                battle.scoreLeft += pointsAwarded;
+            } else {
+                battle.scoreRight += pointsAwarded;
+            }
+
+            updateScoresUI();
+            showCustomNotification("Ideia Avaliada!", feedbackText, "success");
+
+            // Comentário automático do público reagindo especificamente
+            setTimeout(() => {
+                const reactions = [
+                    "Que argumento brilhante kkkkk!",
+                    "Este utilizador devia ser coroado mestre!",
+                    "Estou sem fôlego! Bravo!",
+                    "Dramatização fantástica."
+                ];
+                const randomName = "juiz_do_absurdo_" + Math.floor(Math.random() * 900 + 100);
+                appendChatMessage(randomName, reactions[Math.floor(Math.random() * reactions.length)]);
+            }, 1200);
+        }
+
+        // Sorteador de Temas Absurdos Dinâmico
+        function rollAbsurdTheme() {
+            playInteractionSound('draw');
+            const display = document.getElementById('slot-display');
+            const titleEl = document.getElementById('slot-title');
+            const emojiEl = document.getElementById('slot-emoji');
+            const subtitleEl = document.getElementById('slot-subtitle');
+            const btnRoll = document.getElementById('btn-roll-theme');
+            const btnLaunch = document.getElementById('btn-launch-sorteado');
+
+            btnRoll.setAttribute('disabled', 'true');
+            titleEl.classList.add('slot-spinning');
+            emojiEl.classList.add('slot-spinning');
+
+            let index = 0;
+            const interval = setInterval(() => {
+                const tempTheme = absurdThemes[index % absurdThemes.length];
+                titleEl.textContent = tempTheme.title;
+                emojiEl.textContent = tempTheme.emoji;
+                subtitleEl.textContent = tempTheme.mission;
+                index++;
+            }, 80);
+
+            setTimeout(() => {
+                clearInterval(interval);
+                titleEl.classList.remove('slot-spinning');
+                emojiEl.classList.remove('slot-spinning');
+                
+                // Escolher um tema final aleatório
+                drawnThemeIndex = Math.floor(Math.random() * absurdThemes.length);
+                const finalTheme = absurdThemes[drawnThemeIndex];
+                
+                emojiEl.textContent = finalTheme.emoji;
+                titleEl.innerHTML = `<span class="text-orange-400">⚠️ TEMA SORTEADO:</span><br>${finalTheme.title}`;
+                subtitleEl.innerHTML = `
+                    <div class="mt-2 space-y-1">
+                        <p class="text-white text-xs font-semibold">" ${finalTheme.mission} "</p>
+                        <p class="text-amber-400 text-[11px] font-bold">${finalTheme.bonus}</p>
+                    </div>
+                `;
+
+                btnRoll.removeAttribute('disabled');
+                btnLaunch.classList.remove('hidden'); // Exibir o botão de lançar batalha sorteada
+                playInteractionSound('victory');
+            }, 1500);
+        }
+
+        // Lançar Batalha Sorteada com Countdown 3..2..1
+        function launchSorteadoLive() {
+            if (drawnThemeIndex === -1) return;
+            const selectedTheme = absurdThemes[drawnThemeIndex];
+
+            // Encontrar index correspondente no banco
+            const dbIndex = database.battles.findIndex(b => b.id === selectedTheme.id);
+            if (dbIndex === -1) return;
+
+            // Mudar para aba de live
+            switchTab('feed');
+
+            // Ativar Countdown Overlay
+            const overlay = document.getElementById('countdown-overlay');
+            const countdownNum = document.getElementById('countdown-number');
+            const countdownTopic = document.getElementById('countdown-topic');
+
+            overlay.classList.remove('hidden');
+            countdownTopic.textContent = `RECLAMAÇÃO ABSURDA: "${selectedTheme.title}"`;
+
+            let step = 3;
+            countdownNum.textContent = step;
+            playInteractionSound('beep');
+
+            const counter = setInterval(() => {
+                step--;
+                if (step > 0) {
+                    countdownNum.textContent = step;
+                    playInteractionSound('beep');
+                } else if (step === 0) {
+                    countdownNum.textContent = "💥 RECLAMA!";
+                    countdownNum.className = "text-5xl md:text-6xl font-black text-amber-400 animate-pulse";
+                    playInteractionSound('go');
+                } else {
+                    clearInterval(counter);
+                    overlay.classList.add('hidden');
+                    // Resetar classes originais
+                    countdownNum.className = "text-8xl md:text-9xl font-black text-white drop-shadow-[0_0_30px_rgba(249,115,22,0.8)]";
+                    
+                    // Iniciar Duelo
+                    loadBattle(dbIndex);
+                }
+            }, 1000);
+        }
+
+        // Pontuação e Votação
+        function updateScoresUI() {
+            const battle = database.battles[activeBattleIndex];
+            const leftScore = battle.scoreLeft;
+            const rightScore = battle.scoreRight;
+            const total = leftScore + rightScore;
+            
+            const leftPercent = total > 0 ? (leftScore / total) * 100 : 50;
+            const rightPercent = 100 - leftPercent;
+
+            document.getElementById('vote-bar-left').style.width = `${leftPercent}%`;
+            document.getElementById('vote-bar-right').style.width = `${rightPercent}%`;
+
+            document.getElementById('score-left').textContent = leftScore.toLocaleString('pt-PT');
+            document.getElementById('score-right').textContent = rightScore.toLocaleString('pt-PT');
+        }
+
+        function castVote(side) {
+            if (!isBattleActive) return;
+            playInteractionSound('vote');
+            const battle = database.battles[activeBattleIndex];
+            
+            if (side === 'left') {
+                battle.scoreLeft += 50;
+                triggerFloater('💩', 'left');
+            } else {
+                battle.scoreRight += 50;
+                triggerFloater('💩', 'right');
+            }
+            updateScoresUI();
+        }
+
+        function sendGift(giftType) {
+            if (!isBattleActive) return;
+            let cost = 0;
+            let points = 0;
+            let icon = '';
+            let label = '';
+
+            switch(giftType) {
+                case 'rose':
+                    cost = 5;
+                    points = 250;
+                    icon = '🧻';
+                    label = 'Papel H.';
+                    break;
+                case 'weight':
+                    cost = 25;
+                    points = 1500;
+                    icon = '🥑';
+                    label = 'Abacate Cru';
+                    break;
+                case 'fire':
+                    cost = 50;
+                    points = 4000;
+                    icon = '💩';
+                    label = 'Cocó Ouro';
+                    break;
+                case 'crown':
+                    cost = 100;
+                    points = 10000;
+                    icon = '👑';
+                    label = 'Coroa de Reclamações';
+                    break;
+            }
+
+            if (userCoins < cost) {
+                showCustomNotification("Moedas Insuficientes", "Clica no ícone das moedas no topo direito para obteres mais de bónus gratuitamente!", "error");
+                return;
+            }
+
+            userCoins -= cost;
+            document.getElementById('user-coins').textContent = userCoins.toLocaleString();
+            document.getElementById('stat-coins').textContent = userCoins.toLocaleString();
+            playInteractionSound('gift');
+
+            const side = Math.random() > 0.5 ? 'left' : 'right';
+            const battle = database.battles[activeBattleIndex];
+
+            if (side === 'left') {
+                battle.scoreLeft += points;
+                triggerFloater(icon, 'left');
+            } else {
+                battle.scoreRight += points;
+                triggerFloater(icon, 'right');
+            }
+
+            updateScoresUI();
+            const recipient = side === 'left' ? battle.left.name : battle.right.name;
+            appendChatMessage("Tu", `enviou um(a) ${icon} ${label} para ${recipient}! (+${points} pts) ✨`, true);
+        }
+
+        function triggerFloater(symbol, side) {
+            const container = document.getElementById('gift-animation-container');
+            const floater = document.createElement('div');
+            
+            floater.className = 'absolute bottom-20 text-3xl transition-all duration-1000 ease-out pointer-events-none opacity-100 z-30';
+            floater.textContent = symbol;
+            
+            const randomX = Math.floor(Math.random() * 25) + 12;
+            if (side === 'left') {
+                floater.style.left = `${randomX}%`;
+            } else {
+                floater.style.right = `${randomX}%`;
+            }
+
+            container.appendChild(floater);
+
+            setTimeout(() => {
+                floater.style.transform = 'translateY(-180px) scale(1.6)';
+                floater.style.opacity = '0';
+            }, 40);
+
+            setTimeout(() => floater.remove(), 1100);
+        }
+
+        function appendChatMessage(name, text, isSystem = false) {
+            const container = document.getElementById('chat-messages-container');
+            const msgEl = document.createElement('div');
+            
+            if (isSystem) {
+                msgEl.className = 'chat-msg bg-gradient-to-r from-orange-500/10 to-transparent border-l-2 border-orange-500 p-2 rounded text-xs text-orange-200';
+                msgEl.innerHTML = `<strong>${name}:</strong> ${text}`;
+            } else {
+                const colors = ['text-orange-400', 'text-yellow-400', 'text-red-400', 'text-amber-400'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                msgEl.className = 'chat-msg text-xs leading-relaxed';
+                msgEl.innerHTML = `<span class="${randomColor} font-black mr-1">${name}:</span> <span class="text-orange-50/90">${text}</span>`;
+            }
+
+            container.appendChild(msgEl);
+            container.scrollTop = container.scrollHeight;
+
+            if (container.children.length > 40) {
+                container.removeChild(container.firstChild);
+            }
+        }
+
+        function handleSendComment(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            appendChatMessage("Tu", text);
+            input.value = '';
+
+            setTimeout(() => {
+                const reactions = [
+                    "Que audácia ahahah!", "Grande argumento!", "Lindo 💩", "Reclama mais!", "Apoiado!", "Estou farto de rir!"
+                ];
+                const randomName = "user_shit_" + Math.floor(Math.random() * 9000 + 1000);
+                appendChatMessage(randomName, reactions[Math.floor(Math.random() * reactions.length)]);
+            }, 1000);
+        }
+
+        // Loop automático de simulação de torcida
+        setInterval(() => {
+            const isFeedActive = !document.getElementById('view-feed').classList.contains('hidden');
+            if (isFeedActive && isBattleActive) {
+                const commentPool = [
+                    "Isso foi um crime gastronómico à séria!",
+                    "O sofá é mesmo culpado do desaparecimento 🩴😂", "Abaixo as meias rebeldes!",
+                    "Dá-lhe com o rolo de papel higiénico neles!", "O Wi-Fi odeia-nos mesmo...",
+                    "A torrada está a ganhar de certeza!"
+                ];
+                const names = ["Humor_Tuga", "Reclama_PT", "Comédia99", "Improviso_Total", "Zezito_10"];
+                
+                const randomName = names[Math.floor(Math.random() * names.length)];
+                const randomComment = commentPool[Math.floor(Math.random() * commentPool.length)];
+                appendChatMessage(randomName, randomComment);
+
+                const battle = database.battles[activeBattleIndex];
+                if (Math.random() > 0.5) {
+                    battle.scoreLeft += Math.floor(Math.random() * 150) + 10;
+                } else {
+                    battle.scoreRight += Math.floor(Math.random() * 150) + 10;
+                }
+                updateScoresUI();
+            }
+        }, 3500);
+
+        function renderUpcomingBattlesList() {
+            const container = document.getElementById('upcoming-battles-list');
+            container.innerHTML = '';
+
+            database.battles.slice(0, 4).forEach((battle, index) => {
+                const activeBorder = index === activeBattleIndex ? 'border-orange-500 bg-orange-500/10' : 'border-orange-950 bg-[#160e0d] hover:bg-orange-950/40';
+                
+                container.innerHTML += `
+                    <div onclick="loadBattle(${index})" class="p-2.5 rounded-2xl border ${activeBorder} transition-all cursor-pointer flex justify-between items-center group">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-lg shrink-0">${battle.emoji || '💩'}</span>
+                            <div>
+                                <h5 class="text-xs font-extrabold text-white group-hover:text-orange-400 transition-colors">${battle.title}</h5>
+                                <p class="text-[9px] text-orange-400">${battle.category}</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-[10px] text-orange-700 group-hover:text-orange-400 transition-all"></i>
+                    </div>
+                `;
+            });
+        }
+
+        // Pesquisa e Filtros de Temas Oficiais
+        function filterThemes() {
+            const query = document.getElementById('theme-search-input').value.toLowerCase().trim();
+            const category = document.getElementById('theme-category-select').value;
+            
+            const filtered = absurdThemes.filter(t => {
+                const matchesQuery = t.title.toLowerCase().includes(query) || t.mission.toLowerCase().includes(query);
+                const matchesCategory = (category === 'ALL') || (t.category === category);
+                return matchesQuery && matchesCategory;
+            });
+
+            document.getElementById('theme-count-indicator').textContent = filtered.length;
+            renderThemesGrid(filtered);
+        }
+
+        // Renderização dos Temas Oficiais em Formato de Grade
+        function renderThemesGrid(list = absurdThemes) {
+            const container = document.getElementById('themes-grid-container');
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 bg-[#140d0c] border border-orange-950 p-8 rounded-2xl text-center text-orange-300/40">
+                        <i class="fa-solid fa-face-frown text-4xl mb-3"></i>
+                        <p class="text-sm font-semibold">Nenhum tema absurdamente ridículo encontrado para a tua pesquisa!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach((t) => {
+                // Encontrar index original para lançar o duelo correto
+                const indexInOriginal = absurdThemes.findIndex(orig => orig.id === t.id);
+
+                container.innerHTML += `
+                    <div class="bg-gradient-to-br from-[#18100e] to-[#0f0807] border border-orange-950 p-4 rounded-2xl flex flex-col justify-between hover:border-orange-500/50 transition-all group">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-3xl shrink-0">${t.emoji}</span>
+                                <span class="text-[9px] bg-orange-500/10 text-orange-400 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">${t.category}</span>
+                            </div>
+                            <h4 class="text-sm font-black text-white mt-3 group-hover:text-orange-400 transition-all">${t.title}</h4>
+                            <p class="text-xs text-orange-200/80 mt-1"><strong>Missão:</strong> ${t.mission}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-orange-950 flex justify-between items-center">
+                            <span class="text-[9px] text-amber-400 font-extrabold max-w-[70%] truncate" title="${t.bonus}">
+                                <i class="fa-solid fa-star"></i> Bónus: ${t.bonus}
+                            </span>
+                            <button onclick="drawnThemeIndex = ${indexInOriginal}; launchSorteadoLive()" class="bg-orange-600 hover:bg-orange-500 text-black text-xs font-bold px-3 py-1.5 rounded-xl transition-all">
+                                Jogar PK
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Função de Recuo Exponencial (Retries) conforme as regras Gemini API
+        async function fetchWithRetry(url, options, retries = 5, delay = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response;
+            } catch (error) {
+                if (retries > 0) {
+                    // Espera delay exponencial sem logs de consola
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithRetry(url, options, retries - 1, delay * 2);
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        function showCustomNotification(title, message, type = "success") {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-6 right-6 z-50 p-4 rounded-2xl border shadow-2xl flex items-start space-x-3 transition-all transform translate-y-[-20px] opacity-0 max-w-sm`;
+            
+            if (type === "success") {
+                notification.className += ' bg-emerald-950/95 border-emerald-500/30 text-emerald-100';
+            } else if (type === "info") {
+                notification.className += ' bg-amber-950/95 border-amber-500/30 text-amber-100';
+            } else {
+                notification.className += ' bg-red-950/95 border-red-500/30 text-red-100';
+            }
+
+            const icon = type === "success" ? "fa-circle-check text-emerald-400" : type === "info" ? "fa-circle-info text-amber-400" : "fa-triangle-exclamation text-red-400";
+
+            notification.innerHTML = `
+                <i class="fa-solid ${icon} text-lg mt-0.5"></i>
+                <div>
+                    <h5 class="font-black text-sm">${title}</h5>
+                    <p class="text-xs mt-0.5 text-gray-200">${message}</p>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+            setTimeout(() => notification.classList.remove('translate-y-[-20px]', 'opacity-0'), 50);
+            setTimeout(() => {
+                notification.classList.add('translate-y-[-20px]', 'opacity-0');
+                setTimeout(() => notification.remove(), 400);
+            }, 4000);
+        }
+
+        // Alterar avatar com rostos fotorrealistas ou divertidos aleatórios
+        function changeCustomAvatar() {
+            playInteractionSound('draw');
+            const funnyAvatars = [
+                "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150",
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150",
+                "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=150",
+                "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=150"
+            ];
+            const chosen = funnyAvatars[Math.floor(Math.random() * funnyAvatars.length)];
+            document.getElementById('my-profile-avatar').src = chosen;
+            showCustomNotification("Foto de Perfil Atualizada", "Avatar trocado para nova expressão com sucesso.", "success");
+        }
+
+        function addBonusCoins() {
+            userCoins += 500;
+            document.getElementById('user-coins').textContent = userCoins.toLocaleString();
+            document.getElementById('stat-coins').textContent = userCoins.toLocaleString();
+            playInteractionSound('gift');
+            showCustomNotification("Moedas de Bónus Adicionadas!", "+500 moedas virtuais concedidas.", "success");
+        }
+
+        // Geração com IA Gemini Integrada com Schema Estruturado
+        async function generateAIBattle(event) {
+            event.preventDefault();
+
+            const theme = document.getElementById('ai-theme').value.trim();
+            const sideAInput = document.getElementById('ai-side-a').value.trim();
+            const sideBInput = document.getElementById('ai-side-b').value.trim();
+            const generateImages = document.getElementById('ai-generate-images-cb').checked;
+
+            if (!theme) return;
+
+            document.getElementById('ai-btn-submit').classList.add('hidden');
+            document.getElementById('ai-loader').classList.remove('hidden');
+
+            const loaderText = document.getElementById('ai-loader-text');
+            loaderText.textContent = "A IA está estudando o tema de queixa e gerando as personagens...";
+
+            let imageA = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400";
+            let imageB = "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400";
+
+            // Prompt do Gemini para formatar a batalha absurda de Reclamação
+            const systemPrompt = `
+                Você é o diretor criativo do SHITAGRAM™, uma rede social satírica de PK Lives de Batalhas de Reclamação Absurda™.
+                Crie um duelo humorístico a partir da queixa do utilizador.
+                Retorne apenas no formato estruturado especificado.
+            `;
+
+            const userPrompt = `Crie uma reclamação de PK Live baseada nisto:
+            Queixa do utilizador: ${theme}
+            Nome do Rival A (opcional): ${sideAInput || "Criar automaticamente"}
+            Nome do Rival B (opcional): ${sideBInput || "Criar automaticamente"}`;
+
+            let parsedData = null;
+
+            try {
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    generationConfig: { 
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                title: { type: "STRING" },
+                                category: { type: "STRING" },
+                                rival_a: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        name: { type: "STRING" },
+                                        desc: { type: "STRING" },
+                                        image_prompt: { type: "STRING" }
+                                    },
+                                    required: ["name", "desc", "image_prompt"]
+                                },
+                                rival_b: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        name: { type: "STRING" },
+                                        desc: { type: "STRING" },
+                                        image_prompt: { type: "STRING" }
+                                    },
+                                    required: ["name", "desc", "image_prompt"]
+                                },
+                                bonusTerm: { type: "STRING" },
+                                bonusText: { type: "STRING" },
+                                comments: {
+                                    type: "ARRAY",
+                                    items: {
+                                        type: "OBJECT",
+                                        properties: {
+                                            name: { type: "STRING" },
+                                            text: { type: "STRING" }
+                                        },
+                                        required: ["name", "text"]
+                                    }
+                                }
+                            },
+                            required: ["title", "category", "rival_a", "rival_b", "bonusTerm", "bonusText", "comments"]
+                        }
+                    },
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                let jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (!jsonText) throw new Error("Resposta nula.");
+                parsedData = JSON.parse(jsonText.trim());
+            } catch (err) {
+                // Procedimento de contingência local se a API estiver sem ligação ou falhar
+                parsedData = generateProceduralFallback(theme, sideAInput, sideBInput);
+            }
+
+            // Geração de fotos via Imagen se VIP ativo
+            if (generateImages && parsedData) {
+                loaderText.textContent = "Invocando o Imagen 4.0 para pintar os reclamantes fotorrealistas...";
+                try {
+                    const promptA = `${parsedData.rival_a.image_prompt}. High detail funny custom character portrait photograph, neon glowing background.`;
+                    const base64A = await generateAIImageWithImagen(promptA);
+                    if (base64A) imageA = base64A;
+
+                    const promptB = `${parsedData.rival_b.image_prompt}. High detail funny custom character portrait photograph, neon glowing background.`;
+                    const base64B = await generateAIImageWithImagen(promptB);
+                    if (base64B) imageB = base64B;
+                } catch (imgErr) {
+                    // Mantém imagens de fallback padrão
+                }
+            }
+
+            const newBattle = {
+                id: 'custom-' + Date.now(),
+                title: parsedData.title,
+                category: parsedData.category,
+                scoreLeft: 1000,
+                scoreRight: 1000,
+                left: {
+                    name: parsedData.rival_a.name,
+                    desc: parsedData.rival_a.desc,
+                    img: imageA
+                },
+                right: {
+                    name: parsedData.rival_b.name,
+                    desc: parsedData.rival_b.desc,
+                    img: imageB
+                },
+                mission: theme,
+                bonus: parsedData.bonusText || `+500 se disseres "${parsedData.bonusTerm}"`,
+                bonusTerm: parsedData.bonusTerm,
+                bonusVal: 500,
+                emoji: '🤖',
+                comments: parsedData.comments || [{name: "ShitagramBot", text: "Improviso gerado!"}]
+            };
+
+            database.battles.unshift(newBattle);
+            myCreatedBattles.unshift(newBattle);
+            updateProfileHistory();
+
+            playInteractionSound('create');
+            showCustomNotification("Reclamação Criada!", "A sua queixa absurda já está ativa na lista de lives!", "success");
+
+            loadBattle(0);
+            switchTab('feed');
+
+            document.getElementById('ai-btn-submit').classList.remove('hidden');
+            document.getElementById('ai-loader').classList.add('hidden');
+        }
+
+        async function generateAIImageWithImagen(prompt) {
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+            const payload = {
+                instances: { prompt: prompt },
+                parameters: { "sampleCount": 1 }
+            };
+
+            const response = await fetchWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (data.predictions && data.predictions.length > 0 && data.predictions[0].bytesBase64Encoded) {
+                return `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
+            }
+            return null;
+        }
+
+        // Função de Contingência Local se API falhar
+        function generateProceduralFallback(theme, sideA, sideB) {
+            const finalA = sideA || "Reclamante Exasperado";
+            const finalB = sideB || "Objeto da Queixa";
+            return {
+                title: "Reclamação Impetuosa",
+                category: "Absurdo Geral",
+                rival_a: {
+                    name: finalA,
+                    desc: "Cansado de ser vítima das leis fundamentais da física e da Lei de Murphy.",
+                    image_prompt: "funny grumpy person face portrait"
+                },
+                rival_b: {
+                    name: finalB,
+                    desc: "Inocente até prova em contrário, defende-se com lógica duvidosa.",
+                    image_prompt: "funny smug person face portrait"
+                },
+                bonusTerm: "absurdo",
+                bonusText: "+500 por usar a palavra 'absurdo'",
+                comments: [
+                    { name: "SarcasmoAtivo", text: "Isto é arte pura!" },
+                    { name: "TugaAnonimo", text: "Quem nunca se chateou com coisas inanimadas? kkkk" }
+                ]
+            };
+        }
+
+        function launchConfettiShower() {
+            const colors = ['#ea580c', '#f97316', '#ef4444', '#facc15', '#84cc16'];
+            const container = document.getElementById('gift-animation-container');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `scale(${Math.random() * 0.7 + 0.4})`;
+                confetti.style.animationDelay = `${Math.random() * 0.4}s`;
+                confetti.style.animationDuration = `${Math.random() * 2 + 1.2}s`;
+
+                container.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2500);
+            }
+        }
+
+        function updateProfileHistory() {
+            const container = document.getElementById('my-past-battles');
+            if (myCreatedBattles.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-500 text-center py-6">Nenhuma reclamação gerada por si ainda.</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            myCreatedBattles.forEach(battle => {
+                container.innerHTML += `
+                    <div class="bg-[#18100e] border border-orange-950 p-4 rounded-2xl flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">🤖</span>
+                            <div>
+                                <h5 class="text-sm font-bold text-white">${battle.title}</h5>
+                                <p class="text-[10px] text-orange-400">Criada por IA em seu perfil</p>
+                            </div>
+                        </div>
+                        <span class="text-xs bg-orange-500/10 text-orange-400 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">${battle.category}</span>
+                    </div>
+                `;
+            });
+        }
+
+        window.onload = function() {
+            document.getElementById('auth-status').textContent = userId;
+            document.getElementById('my-profile-id').textContent = `ID: ${userId}`;
+            document.getElementById('my-profile-name').textContent = `Reclamante_${userId.split('_')[2]}`;
+
+            loadBattle(0);
+            renderThemesGrid();
+        };
+    </script>
 </body>
 </html>
