@@ -1,18 +1,13 @@
-SHITAGRAM™ v40 — Cronómetro TikTok Live
+SHITAGRAM™ v41 — Batalha Forçada Funcional
 
-Atualização:
-- Adicionado cronómetro visual estilo TikTok Live Battle.
-- Aparece quando começa a batalha.
-- Anel circular com progresso.
-- Tempo grande em segundos.
-- Alerta visual nos últimos 10 segundos.
-- Flash vermelho de pressão final.
-- Continua com: botão verde → 3...2...1...COMEÇOU → 60s.
-
-Páginas alteradas:
-- app.html
-- duelos.html
+Correção forte:
+- O script procura automaticamente o botão verde pelo texto.
+- Liga o clique mesmo que o onclick antigo falhe.
+- Reforça a ligação ao carregar, após 400ms e após 1200ms.
+- Se o botão não existir, cria um botão verde novo.
+- Ao clicar: 3...2...1...COMEÇOU e cronómetro 60s.
+- Funciona em app.html e duelos.html.
 
 Publicação:
 Substituir os 7 ficheiros HTML na pasta /app/.
-Depois testar em /app/duelos.html ou /app/app.html.
+Depois abrir /app/duelos.html, fazer Ctrl+F5 e clicar no botão verde.

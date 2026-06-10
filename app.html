@@ -679,9 +679,179 @@ body::before{
   }
 }
 
+
+/* =========================================================
+   SHITAGRAM™ v41 — Batalha forçada funcional
+   ========================================================= */
+
+.force-countdown-overlay{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at center,rgba(255,122,0,.22),transparent 38%),rgba(6,0,0,.92);
+  backdrop-filter:blur(12px);
+}
+
+.force-countdown-overlay.active{
+  display:flex;
+}
+
+.force-countdown-box{
+  text-align:center;
+}
+
+.force-countdown-number{
+  font-size:clamp(88px,17vw,220px);
+  line-height:.9;
+  font-weight:1000;
+  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 20px 48px rgba(0,0,0,.75));
+  animation:forceCountPop .34s ease-out;
+}
+
+.force-countdown-label{
+  margin-top:18px;
+  color:#fff7ed;
+  font-size:clamp(22px,4vw,44px);
+  font-weight:1000;
+  text-transform:uppercase;
+}
+
+.force-live-timer{
+  max-width:980px;
+  margin:24px auto;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  border:1px solid rgba(255,122,0,.26);
+  border-radius:28px;
+  padding:22px;
+  background:linear-gradient(180deg,rgba(255,122,0,.08),rgba(0,0,0,.28));
+  box-shadow:0 24px 90px rgba(0,0,0,.42);
+}
+
+.force-live-timer.active{
+  display:flex;
+}
+
+.force-ring{
+  width:126px;
+  height:126px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(#ffb000 var(--angle,360deg),rgba(255,255,255,.09) 0deg);
+  box-shadow:0 0 48px rgba(255,122,0,.25);
+  position:relative;
+}
+
+.force-ring::before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border-radius:999px;
+  background:#090302;
+  border:1px solid rgba(255,122,0,.18);
+}
+
+.force-time{
+  position:relative;
+  z-index:1;
+  color:#fff7ed;
+  font-size:36px;
+  font-weight:1000;
+}
+
+.force-time small{
+  display:block;
+  font-size:11px;
+  color:#ffbd65;
+  letter-spacing:.08em;
+  text-align:center;
+}
+
+.force-live-info strong{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:25px;
+  color:#fff7ed;
+}
+
+.force-live-info p{
+  color:rgba(255,247,237,.65);
+  line-height:1.45;
+  margin:7px 0 0;
+}
+
+.force-dot{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:#ff3030;
+  box-shadow:0 0 18px #ff3030;
+  animation:forcePulse .8s infinite alternate;
+}
+
+.force-ring.danger{
+  animation:forceDanger .45s infinite alternate;
+}
+
+.force-button-ready{
+  outline:3px solid rgba(37,211,102,.28);
+  box-shadow:0 0 0 8px rgba(37,211,102,.08),0 22px 70px rgba(0,180,100,.22)!important;
+}
+
+@keyframes forceCountPop{
+  from{opacity:0;transform:scale(.55) rotate(-5deg)}
+  to{opacity:1;transform:scale(1) rotate(0)}
+}
+
+@keyframes forcePulse{
+  from{opacity:.45;transform:scale(.85)}
+  to{opacity:1;transform:scale(1.2)}
+}
+
+@keyframes forceDanger{
+  from{filter:drop-shadow(0 0 0 rgba(255,0,0,0))}
+  to{filter:drop-shadow(0 0 24px rgba(255,0,0,.9))}
+}
+
+@media(max-width:680px){
+  .force-live-timer{
+    flex-direction:column;
+    text-align:center;
+  }
+}
+
 </style>
 </head>
 <body>
+
+<div class="force-countdown-overlay" id="forceCountdownOverlay">
+  <div class="force-countdown-box">
+    <div class="force-countdown-number" id="forceCountdownNumber">3</div>
+    <div class="force-countdown-label" id="forceCountdownLabel">Prepara-te</div>
+  </div>
+</div>
+
+<section class="force-live-timer" id="forceLiveTimer">
+  <div class="force-ring" id="forceTimerRing" style="--angle:360deg">
+    <div class="force-time"><span id="forceTimerSeconds">60</span><small>SEG</small></div>
+  </div>
+  <div class="force-live-info">
+    <strong><i class="force-dot"></i> Batalha em direto</strong>
+    <p>Cronómetro estilo TikTok Live Battle. A pressão aumenta nos últimos 10 segundos.</p>
+  </div>
+</section>
+
 
 <div class="battle-countdown-overlay" id="battleCountdownOverlay">
   <div class="countdown-box">
