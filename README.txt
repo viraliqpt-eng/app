@@ -1,14 +1,11 @@
-SHITAGRAM™ v37 — Contagem Regressiva + Início de Batalha
+SHITAGRAM™ v38 — Index Home
 
-Atualização:
-- Ao clicar no botão verde “Convocar Live PK de Improviso (60s)”
-  aparece uma contagem regressiva:
-  3... 2... 1... COMEÇOU.
-- Depois inicia a batalha de 60 segundos.
-- Mostra painel “Batalha em direto”.
-- Mostra temporizador de 60 segundos.
-- Adiciona botões de voto/reação.
-- Mantém presentes visíveis no duelos.html.
+Correção:
+- index.html deixa de começar diretamente com a batalha.
+- index.html agora é a página inicial/entrada principal do SHITAGRAM™.
+- A batalha fica em duelos.html e app.html.
+- Mantém v37 com contagem 3...2...1 e temporizador de 60 segundos.
+- Mantém v36 com presentes visíveis em batalha.
 - Sem instalação/PWA.
 
 Publicação:
