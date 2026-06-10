@@ -1,12 +1,18 @@
-SHITAGRAM™ v38 — Index Home
+SHITAGRAM™ v39 — Botão de Batalha Funcional
 
 Correção:
-- index.html deixa de começar diretamente com a batalha.
-- index.html agora é a página inicial/entrada principal do SHITAGRAM™.
-- A batalha fica em duelos.html e app.html.
-- Mantém v37 com contagem 3...2...1 e temporizador de 60 segundos.
-- Mantém v36 com presentes visíveis em batalha.
-- Sem instalação/PWA.
+- O botão verde agora chama diretamente startBattleCountdown().
+- Funciona em app.html e duelos.html.
+- Ao clicar:
+  3... 2... 1... COMEÇOU
+  e começa o temporizador de 60 segundos.
+- index.html continua como página inicial, sem começar a batalha.
+- Sem PWA/instalação.
 
 Publicação:
 Substituir os 7 HTML na pasta /app/.
+Depois abrir:
+- /app/duelos.html
+ou
+- /app/app.html
+e clicar no botão verde.

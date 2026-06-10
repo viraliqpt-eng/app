@@ -416,6 +416,139 @@ body::before{
   .battle-actions{grid-template-columns:1fr}
 }
 
+
+/* =========================================================
+   SHITAGRAM™ v39 — Botão verde funcional + countdown
+   ========================================================= */
+
+.start-battle-green{
+  width:100%;
+  min-height:74px;
+  margin-top:18px;
+  border:0;
+  border-radius:18px;
+  background:linear-gradient(90deg,#1fb35b,#08a567,#058f64);
+  color:#eafff1;
+  font-size:clamp(18px,2.5vw,26px);
+  font-weight:1000;
+  letter-spacing:.01em;
+  box-shadow:0 22px 70px rgba(0,180,100,.22);
+  cursor:pointer;
+}
+
+.start-battle-green:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.08);
+}
+
+.battle-countdown-overlay{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at center,rgba(255,122,0,.22),transparent 38%),
+    rgba(6,0,0,.90);
+  backdrop-filter:blur(10px);
+}
+
+.battle-countdown-overlay.active{
+  display:flex;
+}
+
+.countdown-box{
+  text-align:center;
+}
+
+.countdown-number{
+  font-size:clamp(86px,16vw,210px);
+  font-weight:1000;
+  line-height:.9;
+  background:linear-gradient(90deg,#ffb000,#ff6a00,#f2352f);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 18px 45px rgba(0,0,0,.65));
+  animation:countPop .35s ease-out;
+}
+
+.countdown-label{
+  margin-top:18px;
+  font-size:clamp(22px,4vw,44px);
+  font-weight:1000;
+  color:#fff7ed;
+  text-transform:uppercase;
+}
+
+.battle-live-panel{
+  max-width:980px;
+  margin:26px auto 0;
+  border:1px solid rgba(255,122,0,.24);
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 20% 0%,rgba(255,122,0,.13),transparent 32%),
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.22));
+  padding:24px;
+  display:none;
+  box-shadow:0 24px 90px rgba(0,0,0,.42);
+}
+
+.battle-live-panel.active{
+  display:block;
+}
+
+.live-topline{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.live-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 14px;
+  border-radius:999px;
+  background:rgba(255,0,0,.13);
+  border:1px solid rgba(255,72,72,.24);
+  color:#ff6868;
+  font-weight:1000;
+  text-transform:uppercase;
+}
+
+.live-dot{
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  background:#ff3636;
+  box-shadow:0 0 18px #ff3636;
+  animation:livePulse .9s infinite alternate;
+}
+
+.timer-pill{
+  border-radius:999px;
+  padding:10px 16px;
+  background:rgba(255,122,0,.10);
+  border:1px solid rgba(255,122,0,.22);
+  color:#ffbd65;
+  font-weight:1000;
+}
+
+@keyframes countPop{
+  from{opacity:0;transform:scale(.55) rotate(-4deg)}
+  to{opacity:1;transform:scale(1) rotate(0)}
+}
+
+@keyframes livePulse{
+  from{opacity:.45;transform:scale(.85)}
+  to{opacity:1;transform:scale(1.15)}
+}
+
 </style>
 </head>
 <body>
@@ -850,6 +983,106 @@ function sendQuickReaction(emoji){
   if(typeof floatingEmoji === "function") floatingEmoji(emoji);
   if(typeof addChat === "function") addChat("Tu",`${emoji} reação enviada`);
 }
+</script>
+
+
+<script>
+(function(){
+  let battleSecondsLeft = 60;
+  let battleTimerInterval = null;
+  let battleStarted = false;
+
+  window.startBattleCountdown = function(){
+    const overlay = document.getElementById("battleCountdownOverlay");
+    const number = document.getElementById("battleCountdownNumber");
+    const label = document.getElementById("battleCountdownLabel");
+
+    if(!overlay || !number || !label){
+      startBattleNow();
+      return;
+    }
+
+    overlay.classList.add("active");
+
+    const steps = [
+      ["3","Prepara-te"],
+      ["2","Escolhe o teu lado"],
+      ["1","Vai começar"],
+      ["COMEÇOU","Batalha ativa"]
+    ];
+
+    let i = 0;
+
+    function runStep(){
+      number.textContent = steps[i][0];
+      label.textContent = steps[i][1];
+
+      number.style.animation = "none";
+      void number.offsetWidth;
+      number.style.animation = "countPop .35s ease-out";
+
+      if(typeof sfx === "function"){
+        try{ sfx(i < 3 ? "tap" : "bonus"); }catch(e){}
+      }
+
+      i++;
+
+      if(i < steps.length){
+        setTimeout(runStep, 900);
+      }else{
+        setTimeout(function(){
+          overlay.classList.remove("active");
+          startBattleNow();
+        }, 700);
+      }
+    }
+
+    runStep();
+  };
+
+  function startBattleNow(){
+    if(battleStarted) return;
+    battleStarted = true;
+
+    const panel = document.getElementById("battleLivePanel");
+    if(panel){
+      panel.classList.add("active");
+      panel.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+
+    battleSecondsLeft = 60;
+    updateBattleTimer();
+
+    if(battleTimerInterval) clearInterval(battleTimerInterval);
+
+    battleTimerInterval = setInterval(function(){
+      battleSecondsLeft--;
+      updateBattleTimer();
+
+      if(battleSecondsLeft <= 0){
+        clearInterval(battleTimerInterval);
+        finishBattle();
+      }
+    },1000);
+
+    if(typeof addChat === "function"){
+      addChat("Sistema","🔥 A batalha começou! 60 segundos para reclamar com convicção.");
+    }
+  }
+
+  function updateBattleTimer(){
+    const timer = document.getElementById("battleTimer");
+    if(timer) timer.textContent = String(Math.max(0,battleSecondsLeft));
+  }
+
+  function finishBattle(){
+    const badge = document.querySelector(".live-badge");
+    if(badge) badge.innerHTML = "🏁 Batalha terminada";
+    if(typeof addChat === "function"){
+      addChat("Sistema","⏱️ Tempo esgotado! O júri sarcástico vai decidir o vencedor.");
+    }
+  }
+})();
 </script>
 
 </body>
