@@ -549,6 +549,136 @@ body::before{
   to{opacity:1;transform:scale(1.15)}
 }
 
+
+/* =========================================================
+   SHITAGRAM™ v40 — Cronómetro estilo TikTok Live Battle
+   ========================================================= */
+
+.tiktok-timer-wrap{
+  max-width:980px;
+  margin:22px auto 0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  padding:18px;
+  border-radius:28px;
+  border:1px solid rgba(255,122,0,.25);
+  background:
+    radial-gradient(circle at 20% 0%,rgba(255,122,0,.14),transparent 36%),
+    linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.26));
+  box-shadow:0 24px 90px rgba(0,0,0,.42);
+}
+
+.tiktok-timer-wrap.active{
+  display:flex;
+}
+
+.tiktok-ring{
+  width:118px;
+  height:118px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:
+    conic-gradient(#ffb000 var(--timer-angle,360deg), rgba(255,255,255,.08) 0deg);
+  box-shadow:0 0 45px rgba(255,122,0,.22);
+  position:relative;
+}
+
+.tiktok-ring::before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border-radius:999px;
+  background:#090302;
+  border:1px solid rgba(255,122,0,.18);
+}
+
+.tiktok-time{
+  position:relative;
+  z-index:1;
+  font-size:34px;
+  font-weight:1000;
+  color:#fff7ed;
+  line-height:1;
+}
+
+.tiktok-time small{
+  display:block;
+  font-size:12px;
+  color:#ffbd65;
+  margin-top:4px;
+  letter-spacing:.08em;
+}
+
+.tiktok-info{
+  min-width:0;
+}
+
+.tiktok-info strong{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#fff7ed;
+  font-size:24px;
+}
+
+.tiktok-info p{
+  margin:6px 0 0;
+  color:rgba(255,247,237,.64);
+  line-height:1.45;
+}
+
+.tiktok-live-dot{
+  width:10px;
+  height:10px;
+  border-radius:99px;
+  background:#ff3030;
+  box-shadow:0 0 18px #ff3030;
+  animation:tiktokPulse .8s infinite alternate;
+}
+
+.timer-warning{
+  animation:timerDanger .45s infinite alternate;
+}
+
+.timer-final-flash{
+  position:fixed;
+  inset:0;
+  z-index:99998;
+  pointer-events:none;
+  opacity:0;
+  background:rgba(255,0,0,.18);
+}
+
+.timer-final-flash.active{
+  animation:finalFlash .5s ease-out;
+}
+
+@keyframes tiktokPulse{
+  from{opacity:.45;transform:scale(.8)}
+  to{opacity:1;transform:scale(1.18)}
+}
+
+@keyframes timerDanger{
+  from{filter:drop-shadow(0 0 0 rgba(255,0,0,0))}
+  to{filter:drop-shadow(0 0 22px rgba(255,0,0,.9))}
+}
+
+@keyframes finalFlash{
+  0%{opacity:0}
+  35%{opacity:1}
+  100%{opacity:0}
+}
+
+@media(max-width:680px){
+  .tiktok-timer-wrap{
+    flex-direction:column;
+    text-align:center;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -592,6 +722,23 @@ body::before{
     <button class="btn-main" style="margin-top:22px" onclick="sortearTema()">⤨ Sortear Tema de Reclamação</button>
   </section>
   
+
+<div class="timer-final-flash" id="timerFinalFlash"></div>
+
+<section class="tiktok-timer-wrap" id="tiktokBattleTimer">
+  <div class="tiktok-ring" id="tiktokTimerRing" style="--timer-angle:360deg">
+    <div class="tiktok-time">
+      <span id="tiktokTimerSeconds">60</span>
+      <small>SEG</small>
+    </div>
+  </div>
+
+  <div class="tiktok-info">
+    <strong><i class="tiktok-live-dot"></i> Live PK em contagem</strong>
+    <p>Como nas batalhas Live: o tempo corre, a pressão sobe e a audiência decide.</p>
+  </div>
+</section>
+
 <section class="battle-live-panel" id="battleLivePanel">
   <div class="live-topline">
     <span class="live-badge"><i class="live-dot"></i> Batalha em direto</span>
@@ -958,6 +1105,7 @@ function startLiveBattleNow(){
 function updateBattleTimer(){
   const t = document.getElementById("battleTimer");
   if(t) t.textContent = String(Math.max(0,battleSecondsLeft));
+  if(window.updateTikTokTimer) window.updateTikTokTimer(battleSecondsLeft);
 }
 
 function finishLiveBattle(){
@@ -1073,6 +1221,7 @@ function sendQuickReaction(emoji){
   function updateBattleTimer(){
     const timer = document.getElementById("battleTimer");
     if(timer) timer.textContent = String(Math.max(0,battleSecondsLeft));
+    if(window.updateTikTokTimer) window.updateTikTokTimer(battleSecondsLeft);
   }
 
   function finishBattle(){
@@ -1082,6 +1231,65 @@ function sendQuickReaction(emoji){
       addChat("Sistema","⏱️ Tempo esgotado! O júri sarcástico vai decidir o vencedor.");
     }
   }
+})();
+</script>
+
+
+<script>
+(function(){
+  const TOTAL_BATTLE_SECONDS = 60;
+
+  function updateTikTokTimer(secondsLeft){
+    const timerWrap = document.getElementById("tiktokBattleTimer");
+    const ring = document.getElementById("tiktokTimerRing");
+    const seconds = document.getElementById("tiktokTimerSeconds");
+    const oldTimer = document.getElementById("battleTimer");
+
+    const safeSeconds = Math.max(0, secondsLeft);
+    const angle = Math.max(0, (safeSeconds / TOTAL_BATTLE_SECONDS) * 360);
+
+    if(timerWrap) timerWrap.classList.add("active");
+    if(ring){
+      ring.style.setProperty("--timer-angle", angle + "deg");
+      ring.classList.toggle("timer-warning", safeSeconds <= 10 && safeSeconds > 0);
+    }
+    if(seconds) seconds.textContent = String(safeSeconds).padStart(2,"0");
+    if(oldTimer) oldTimer.textContent = String(safeSeconds);
+
+    if(safeSeconds <= 10 && safeSeconds > 0){
+      const flash = document.getElementById("timerFinalFlash");
+      if(flash){
+        flash.classList.remove("active");
+        void flash.offsetWidth;
+        flash.classList.add("active");
+      }
+    }
+  }
+
+  window.updateTikTokTimer = updateTikTokTimer;
+
+  const originalStart = window.startBattleCountdown;
+  if(originalStart){
+    window.startBattleCountdown = function(){
+      updateTikTokTimer(60);
+      return originalStart.apply(this, arguments);
+    };
+  }
+
+  const observer = new MutationObserver(function(){
+    const oldTimer = document.getElementById("battleTimer");
+    if(oldTimer){
+      const value = parseInt(oldTimer.textContent,10);
+      if(!Number.isNaN(value)) updateTikTokTimer(value);
+    }
+  });
+
+  window.addEventListener("load", function(){
+    const oldTimer = document.getElementById("battleTimer");
+    if(oldTimer){
+      observer.observe(oldTimer, {childList:true,characterData:true,subtree:true});
+    }
+  });
 })();
 </script>
 
