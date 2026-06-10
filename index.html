@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mentirógrafo™ — Duelo de Mentiras</title>
+  <title>Mentirógrafo™ v3 — Duelo de Mentiras</title>
   
   <!-- Tailwind CSS para utilitários de espaçamento rápidos e responsividade -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -23,6 +23,11 @@
       }
     }
   </script>
+
+  <!-- Fontes do Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -92,7 +97,7 @@
     <p class="text-sm text-slate-400 mt-4 uppercase tracking-widest font-bold">Prepara a tua mente...</p>
   </div>
 
-  <!-- NOTIFICAÇÃO DO SISTEMA (Substituição sem alerts intrusivos) -->
+  <!-- NOTIFICAÇÃO DO SISTEMA (Substituição de alert) -->
   <div id="custom-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 border-2 border-brand-pink text-slate-100 px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 transform -translate-y-20 opacity-0 pointer-events-none">
     <span class="text-xl">⚠️</span>
     <span id="toast-message" class="text-sm font-bold tracking-wide"></span>
@@ -105,7 +110,7 @@
         <h1 class="text-3xl font-black tracking-tighter text-brand-gold flex items-center justify-center sm:justify-start gap-2 select-none">
           <span>🎭</span> Mentirógrafo™
         </h1>
-        <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-semibold">O duelo nacional das mentiras mais absurdas</p>
+        <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-semibold">O jogo nacional das mentiras absurdas</p>
       </div>
 
       <!-- NAVEGAÇÃO SPA -->
@@ -136,7 +141,7 @@
         <!-- Input do Nome do Jogador -->
         <div class="space-y-3 text-left">
           <label class="text-xs font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">
-            <span>👤</span> O teu Nome de Orador:
+            <span>👤</span> Nome do Jogador:
           </label>
           <input 
             id="playerName" 
@@ -147,69 +152,90 @@
         </div>
 
         <h2 class="text-xl font-black text-white flex items-center gap-2 pt-2 border-t border-purple-950/40 text-left">
-          <span>⚔️</span> Escolhe o teu adversário
+          <span>⚔️</span> Escolhe o adversário
         </h2>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
           <!-- Dona Alzira -->
-          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-4 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
                onclick="selectCharacter(this, 'alzira', 'Dona Alzira', '👵')">
-            <div class="text-5xl select-none">👵</div>
+            <div class="text-4xl select-none">👵</div>
             <div>
-              <h3 class="font-extrabold text-white text-base">Dona Alzira</h3>
-              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Antigamente era tudo impossível e as memórias dela provam-no.</p>
+              <h3 class="font-extrabold text-white text-sm">Dona Alzira</h3>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">Mentiras antigas impossíveis.</p>
             </div>
-            <span class="text-[10px] text-brand-pink font-black uppercase tracking-wider bg-brand-pink/10 px-2 py-0.5 rounded-full border border-brand-pink/20">Antigamente</span>
           </div>
 
           <!-- Zé Pescador -->
-          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-4 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
                onclick="selectCharacter(this, 'pescador', 'Zé Pescador', '🐟')">
-            <div class="text-5xl select-none">🐟</div>
+            <div class="text-4xl select-none">🐟</div>
             <div>
-              <h3 class="font-extrabold text-white text-base">Zé Pescador</h3>
-              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Histórias marinhas recheadas de peixes absurdos e marés cheias.</p>
+              <h3 class="font-extrabold text-white text-sm">Zé Pescador</h3>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">Peixes, mar e exageros.</p>
             </div>
-            <span class="text-[10px] text-blue-400 font-black uppercase tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">Mar e Exageros</span>
           </div>
 
           <!-- Toni Empreendedor -->
-          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-4 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
                onclick="selectCharacter(this, 'toni', 'Toni Empreendedor', '🧑‍💼')">
-            <div class="text-5xl select-none">🧑‍💼</div>
+            <div class="text-4xl select-none">🧑‍💼</div>
             <div>
-              <h3 class="font-extrabold text-white text-base">Toni Empreendedor</h3>
-              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Negócios virtuais bizarros e ideias incríveis para faturar milhões.</p>
+              <h3 class="font-extrabold text-white text-sm">Toni Empreendedor</h3>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">Negócios absurdos.</p>
             </div>
-            <span class="text-[10px] text-amber-400 font-black uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">Negócios Absurdos</span>
           </div>
 
           <!-- Dr. Antunes -->
-          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-5 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-4 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
                onclick="selectCharacter(this, 'antunes', 'Dr. Antunes', '👨‍⚕️')">
-            <div class="text-5xl select-none">👨‍⚕️</div>
+            <div class="text-4xl select-none">👨‍⚕️</div>
             <div>
-              <h3 class="font-extrabold text-white text-base">Dr. Antunes</h3>
-              <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Curas milagrosas contra a preguiça e maleitas raras.</p>
+              <h3 class="font-extrabold text-white text-sm">Dr. Antunes</h3>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">Curas impossíveis.</p>
             </div>
-            <span class="text-[10px] text-emerald-400 font-black uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">Curas Impossíveis</span>
+          </div>
+
+          <!-- Professor Pardal -->
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-4 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+               onclick="selectCharacter(this, 'pardal', 'Professor Pardal', '🧪')">
+            <div class="text-4xl select-none">🧪</div>
+            <div>
+              <h3 class="font-extrabold text-white text-sm">Prof. Pardal</h3>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">Ciência sem vergonha.</p>
+            </div>
+          </div>
+
+          <!-- Padre Toninho -->
+          <div class="character-card bg-slate-950/40 hover:bg-slate-900/40 border border-purple-950 rounded-2xl p-4 text-center cursor-pointer transition-all duration-350 flex flex-col items-center gap-3 active:scale-95" 
+               onclick="selectCharacter(this, 'toninho', 'Padre Toninho', '⛪')">
+            <div class="text-4xl select-none">⛪</div>
+            <div>
+              <h3 class="font-extrabold text-white text-sm">Padre Toninho</h3>
+              <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">Milagres duvidosos.</p>
+            </div>
           </div>
         </div>
 
-        <button onclick="startCountdown()" class="w-full bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black py-4 px-6 rounded-2xl shadow-xl transition transform hover:scale-[1.01] active:scale-95 text-base tracking-wider uppercase cursor-pointer">
-          🔥 Lançar Duelo
+        <button onclick="spinTheme()" class="w-full bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black py-4 px-6 rounded-2xl shadow-xl transition transform hover:scale-[1.01] active:scale-95 text-base tracking-wider uppercase cursor-pointer">
+          🎡 Rodar Tema da Mentira
         </button>
       </div>
+    </section>
 
-      <!-- Banner de Contexto -->
-      <div class="bg-slate-950/80 border border-purple-950/50 rounded-2xl p-5 flex items-center justify-between gap-4 max-w-2xl mx-auto">
-        <div class="text-left space-y-1">
-          <h4 class="text-brand-gold font-bold text-sm">💡 Como Funciona?</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Escolhe um adversário, lê a sua mentira absurda e inventa uma peta ainda maior dentro do limite de tempo. O nosso Juiz IA Supremo decidirá o veredicto!
-          </p>
+    <!-- 1.1 VISTA INTERMÉDIA: TEMA DA RONDA -->
+    <section id="view-theme" class="view-section space-y-6 hidden">
+      <div class="neon-card rounded-3xl p-6 sm:p-8 space-y-6 text-center">
+        <h2 class="text-2xl font-black text-white flex items-center justify-center gap-2">
+          <span>🎡</span> Tema da ronda
+        </h2>
+        <div class="bg-slate-950/80 border-2 border-brand-gold rounded-2xl p-8 space-y-2">
+          <p class="text-xs text-slate-400 uppercase tracking-widest font-bold">A tua mentira tem de envolver:</p>
+          <div id="themeText" class="text-3xl sm:text-4xl font-black text-brand-gold neon-text-gold tracking-tight py-4">---</div>
         </div>
-        <span class="text-4xl animate-pulse">⚡</span>
+        <button onclick="startCountdown()" class="w-full bg-gradient-to-r from-brand-purple to-brand-pink text-white font-black py-4 px-6 rounded-2xl shadow-xl transition transform hover:scale-[1.01] active:scale-95 text-base tracking-wider uppercase cursor-pointer">
+          🔥 Começar Duelo
+        </button>
       </div>
     </section>
 
@@ -244,6 +270,12 @@
           </div>
         </div>
 
+        <!-- Tema Obrigatório -->
+        <div class="bg-slate-950/60 p-4 rounded-2xl border-2 border-brand-gold text-center">
+          <span class="text-[10px] text-slate-400 uppercase tracking-widest font-black block">Tema Obrigatório da Ronda</span>
+          <p id="duelTheme" class="text-lg font-black text-brand-gold neon-text-gold mt-1">---</p>
+        </div>
+
         <!-- Mentira do Adversário -->
         <div class="bg-slate-950/40 p-5 rounded-2xl border border-purple-950/50 text-left relative overflow-hidden">
           <div class="absolute top-2 right-4 text-[9px] font-mono text-purple-400 uppercase tracking-widest font-black">História Dele</div>
@@ -265,13 +297,13 @@
           </div>
           <textarea 
             id="player-lie-input" 
-            placeholder="Escreve aqui a tua peta mais escandalosa... O meu avô vendia pastéis de nata com ligação LTE..."
+            placeholder="Escreve aqui a tua peta mais escandalosa e lembra-te de englobar termos associados ao tema obrigatório..."
             class="w-full h-32 bg-slate-950 text-white rounded-2xl p-4 border border-purple-950 focus:border-brand-pink focus:ring-1 focus:ring-brand-pink focus:outline-none transition leading-relaxed text-base resize-none"
             maxlength="250"
           ></textarea>
           <div class="flex justify-between text-[10px] text-slate-500 font-mono">
             <span id="char-counter">0 / 250</span>
-            <span>Usa referências a Portugal para melhor pontuação!</span>
+            <span>Usa termos correspondentes para o Bónus de Tema!</span>
           </div>
         </div>
 
@@ -308,22 +340,26 @@
         </div>
 
         <!-- Métrica de Pontos Detalhada -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
-            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Criatividade</span>
-            <strong id="res-criatividade" class="text-2xl font-mono text-purple-400 block mt-1">91</strong>
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-purple-950 flex flex-col items-center justify-center">
+            <span class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest text-center">Criatividade</span>
+            <strong id="res-criatividade" class="text-xl font-mono text-purple-400 block mt-1">91</strong>
           </div>
-          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
-            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Absurdo</span>
-            <strong id="res-absurdo" class="text-2xl font-mono text-brand-pink block mt-1">94</strong>
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-purple-950 flex flex-col items-center justify-center">
+            <span class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest text-center">Absurdo</span>
+            <strong id="res-absurdo" class="text-xl font-mono text-brand-pink block mt-1">94</strong>
           </div>
-          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
-            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Humor</span>
-            <strong id="res-humor" class="text-2xl font-mono text-yellow-400 block mt-1">88</strong>
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-purple-950 flex flex-col items-center justify-center">
+            <span class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest text-center">Humor</span>
+            <strong id="res-humor" class="text-xl font-mono text-yellow-400 block mt-1">88</strong>
           </div>
-          <div class="bg-slate-950/80 p-4 rounded-2xl border border-purple-950 flex flex-col items-center">
-            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Descaramento</span>
-            <strong id="res-descaramento" class="text-2xl font-mono text-cyan-400 block mt-1">98</strong>
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-purple-950 flex flex-col items-center justify-center">
+            <span class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest text-center">Descaram.</span>
+            <strong id="res-descaramento" class="text-xl font-mono text-cyan-400 block mt-1">98</strong>
+          </div>
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border-2 border-brand-gold flex flex-col items-center justify-center">
+            <span class="text-[9px] text-brand-gold font-extrabold uppercase tracking-widest text-center">Bónus Tema</span>
+            <strong id="res-bonus" class="text-xl font-mono text-brand-gold block mt-1">0</strong>
           </div>
         </div>
 
@@ -353,6 +389,7 @@
           <h4 class="text-brand-gold text-xs font-black tracking-widest uppercase flex items-center justify-center gap-1.5 neon-text-gold">
             <span>🎭</span> MENTIRÓGRAFO™
           </h4>
+          <p class="text-xs text-slate-300"><strong>Tema:</strong> <span id="memeTheme">---</span></p>
           <p id="memeText" class="text-slate-100 font-extrabold italic text-lg sm:text-xl leading-relaxed">
             "Vendi pãezinhos de Deus inteligentes à equipa espacial do Alentejo."
           </p>
@@ -366,8 +403,8 @@
           <button onclick="shareMeme()" class="bg-slate-950 hover:bg-slate-900 border border-brand-pink text-white font-black py-4 px-6 rounded-2xl shadow-xl transition active:scale-95 text-xs tracking-widest uppercase cursor-pointer flex items-center justify-center gap-2">
             <span>📱</span> PARTILHAR COMO MEME
           </button>
-          <button onclick="navigate('home')" class="bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black py-4 px-6 rounded-2xl shadow-xl transition active:scale-95 text-xs tracking-widest uppercase cursor-pointer">
-            🔁 JOGAR OUTRA VEZ
+          <button onclick="restart()" class="bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black py-4 px-6 rounded-2xl shadow-xl transition active:scale-95 text-xs tracking-widest uppercase cursor-pointer">
+            🔁 Jogar Outra Vez
           </button>
         </div>
       </div>
@@ -463,10 +500,10 @@
         lies: [
           "No meu tempo os pombos entregavam emails com selo.",
           "A minha televisão funcionava a carvão.",
-          "O inverno durava 14 meses e ainda sobrava frio de reserva.",
+          "O inverno durava 14 meses e ainda sobrava frio.",
           "Antigamente os frigoríficos cantavam fado quando estavam vazios."
         ],
-        hint: "O meu avô vendia carregadores USB em papiro aos faraós em troca de gigabytes de trigo e ninfas."
+        hint: "O meu avô vendia carregadores USB em papiro aos faraós em troca de gigabytes de trigo."
       },
       pescador: {
         name: "Zé Pescador",
@@ -474,9 +511,9 @@
         theme: "Peixes, mar e exageros",
         targetScore: 345,
         lies: [
-          "Pesquei uma sardinha que sabia declarar o IRS.",
-          "Uma vez apanhei um polvo que jogava dominó nas tascas.",
-          "O mar ligou-me a pedir sal emprestado para o bacalhau.",
+          "Pesquei uma sardinha que sabia declarar IRS.",
+          "Uma vez apanhei um polvo que jogava dominó.",
+          "O mar ligou-me a pedir sal emprestado.",
           "Pesquei um bacalhau que vinha com fatura e garantia."
         ],
         hint: "Eu vendi um sistema de navegação por GPS a pombos-correio para eles não se perderem na foz do Sado."
@@ -487,12 +524,12 @@
         theme: "Negócios absurdos",
         targetScore: 360,
         lies: [
-          "Vendi NFTs de pastilhas elásticas a extraterrestres reformados.",
-          "Criei uma startup que alugava sombras no verão por minuto.",
-          "Faturei milhões a vender Wi-Fi para caracóis de jardim.",
-          "Abri uma empresa de consultoria para plantas indecisas de jardim."
+          "Vendi NFTs a extraterrestres reformados.",
+          "Criei uma startup que alugava sombras no verão.",
+          "Faturei milhões a vender Wi-Fi para caracóis.",
+          "Abri uma empresa de consultoria para plantas indecisas."
         ],
-        hint: "Criei uma startup de exportação de areia de praia para o Saara e convenci os xeiques a pagar com patacas de chocolate."
+        hint: "Criei uma startup de exportação de areia de praia para o Saara e convenci os xeiques a pagar com patacas."
       },
       antunes: {
         name: "Dr. Antunes",
@@ -500,23 +537,76 @@
         theme: "Curas impossíveis",
         targetScore: 375,
         lies: [
-          "Curei preguiça crónica com chá de folhas de impressora.",
-          "Operei um relógio de parede que sofria de ansiedade.",
-          "Receitei vitamina C a um computador portátil gripado.",
-          "Fiz fisioterapia a uma cadeira que coxeava por falta de verniz."
+          "Curei preguiça com chá de impressora.",
+          "Operei um relógio que tinha ansiedade.",
+          "Receitei vitamina C a um computador gripado.",
+          "Fiz fisioterapia a uma cadeira que coxeava."
         ],
         hint: "Desenvolvi uma cura para a falta de paciência à base de infusão de tremoços curados em cerveja preta."
+      },
+      pardal: {
+        name: "Professor Pardal",
+        emoji: "🧪",
+        theme: "Ciência sem vergonha",
+        targetScore: 380,
+        lies: [
+          "Inventei uma máquina que transforma filas de espera em bolachas.",
+          "Criei um capacete que traduz pensamentos de batatas.",
+          "Descobri que os semáforos ficam vermelhos por vergonha.",
+          "Ensinei uma torradeira a fazer reuniões por Zoom."
+        ],
+        hint: "Fiz engenharia reversa nas caricas de refrigerante para gerar eletricidade limpa para alimentar aldeias no Alentejo."
+      },
+      toninho: {
+        name: "Padre Toninho",
+        emoji: "⛪",
+        theme: "Milagres duvidosos",
+        targetScore: 390,
+        lies: [
+          "Fiz um milagre e multipliquei pastéis de nata numa rotunda.",
+          "Abençoei um micro-ondas e ele passou a aquecer sentimentos.",
+          "Uma vez confessei um robô que tinha pecado em binário.",
+          "Transformei água com gás em refrigerante sagrado."
+        ],
+        hint: "Celebrei um batizado celestial a uma trotinete elétrica de forma a purificar a sua bateria e dar autonomia infinita."
       }
     };
 
-    const MOCK_COMMENTS = [
-      "Esta mentira foi tão absurda que a física e a realidade pediram baixa médica.",
-      "Três gabinetes de fact-checking pediram reforma imediata depois de lerem isto.",
-      "Mentira de altíssimo calibre. O polígrafo explodiu com sobrecarga de lata.",
-      "Isto não foi apenas uma mentira. Foi património imaterial português da tanga.",
-      "A Dona Alzira acabou de chorar de emoção com esta quebra das leis termodinâmicas.",
+    const themes = [
+      "Futebol", "Portugal", "Trabalho", "Casamento", "Escola", "Tecnologia",
+      "Dinossauros", "Espaço", "Família", "Praia", "Restaurante", "Política",
+      "Bancos", "Padaria", "Tasca", "Ginásio", "Vizinhos", "Namoro"
+    ];
+
+    const comments = [
+      "Esta mentira foi tão absurda que a realidade pediu baixa médica.",
+      "Três fact-checkers desistiram depois de ler isto.",
+      "Mentira de alto nível. O polígrafo explodiu.",
+      "Isto não foi uma mentira. Foi património nacional da tanga.",
+      "A física leu isto e foi tirar férias.",
       "Esta mentira devia ser ensinada nas escolas de descaramento."
     ];
+
+    const themeKeywords = {
+      "futebol": ["bola", "golo", "ronaldo", "benfica", "sporting", "porto", "árbitro", "estádio"],
+      "portugal": ["portugal", "lisboa", "porto", "fado", "pastel", "sardinha", "bacalhau"],
+      "trabalho": ["chefe", "emprego", "reunião", "salário", "empresa", "trabalho"],
+      "casamento": ["noiva", "noivo", "aliança", "casamento", "lua de mel"],
+      "escola": ["professor", "teste", "aluno", "escola", "caderno"],
+      "tecnologia": ["wifi", "internet", "robô", "computador", "app", "telemóvel"],
+      "dinossauros": ["dinossauro", "t-rex", "jurássico", "fóssil"],
+      "espaço": ["lua", "marte", "nasa", "astronauta", "foguetão", "planeta"],
+      "família": ["mãe", "pai", "avó", "avô", "primo", "família"],
+      "praia": ["areia", "mar", "sol", "toalha", "praia"],
+      "restaurante": ["garçom", "comida", "menu", "restaurante", "sopa"],
+      "política": ["presidente", "ministro", "parlamento", "voto", "política"],
+      "bancos": ["banco", "dinheiro", "empréstimo", "cartão", "juros"],
+      "padaria": ["pão", "croissant", "forno", "padaria", "bolo"],
+      "tasca": ["tasca", "vinho", "petisco", "balcão", "bifana"],
+      "ginásio": ["ginásio", "halter", "músculo", "treino", "proteína"],
+      "vizinhos": ["vizinho", "prédio", "condomínio", "barulho", "escada"],
+      "namoro": ["amor", "namoro", "beijo", "ex", "coração"]
+    };
 
     // Estado Local do Jogador
     let player = {
@@ -532,6 +622,7 @@
     // Estado do Combate Ativo
     let selectedId = "";
     let selectedAdversary = null;
+    let currentTheme = "";
     let timerInterval = null;
     let timeLeft = 60;
     
@@ -576,7 +667,7 @@
       }
     }
 
-    // Função de Exibição de Alertas Customizados (Sem usar alerts do browser)
+    // Função de Exibição de Alertas Customizados
     function showToast(message) {
       const toast = document.getElementById('custom-toast');
       document.getElementById('toast-message').innerText = message;
@@ -589,12 +680,13 @@
       }, 3000);
     }
 
-    // Navegar de forma SPA pelas vistas
+    // Navegar pelas vistas dinamicamente
     function navigate(viewName) {
       // Esconder todas as vistas
-      const views = ['home', 'duel', 'result', 'ranking', 'profile'];
+      const views = ['home', 'theme', 'duel', 'result', 'ranking', 'profile'];
       views.forEach(v => {
-        document.getElementById(`view-${v}`).classList.add('hidden');
+        const viewEl = document.getElementById(`view-${v}`);
+        if (viewEl) viewEl.classList.add('hidden');
         
         // Desativar estilo do nav link
         const navBtn = document.getElementById(`nav-${v}`);
@@ -606,7 +698,7 @@
       // Mostrar vista pretendida
       document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
-      // Ativar estilo do nav link
+      // Ativar estilo do nav link correspondente
       const activeNavBtn = document.getElementById(`nav-${viewName}`);
       if (activeNavBtn) {
         activeNavBtn.className = "px-4 py-2 rounded-xl text-xs font-black transition active:scale-95 cursor-pointer bg-gradient-to-r from-brand-gold to-brand-pink text-slate-950 font-black shadow-lg";
@@ -635,15 +727,15 @@
       element.classList.add("border-brand-gold", "bg-brand-pink/10");
     }
 
-    // CONTAGEM DECRESCENTE (3, 2, 1... MENTE!)
-    function startCountdown() {
+    // GIRA A RODA DOS TEMAS
+    function spinTheme() {
       const nameInput = document.getElementById("playerName").value.trim();
       if (!nameInput) {
-        showToast("Escreve primeiro o teu nome de Orador!");
+        showToast("Escreve primeiro o teu nome de Jogador!");
         return;
       }
       if (!selectedAdversary) {
-        showToast("Escolhe primeiro um adversário para o combate!");
+        showToast("Escolhe primeiro um adversário!");
         return;
       }
 
@@ -652,6 +744,29 @@
       localStorage.setItem("mentirografoPlayerName", nameInput);
       document.getElementById("profile-display-name").innerText = `${nameInput} (O Grande Orador)`;
 
+      playSound("start");
+      navigate('theme');
+
+      let spins = 0;
+      const themeTextEl = document.getElementById("themeText");
+
+      const interval = setInterval(() => {
+        currentTheme = themes[Math.floor(Math.random() * themes.length)];
+        themeTextEl.innerText = currentTheme;
+        playSound("click");
+        spins++;
+
+        if (spins >= 14) {
+          clearInterval(interval);
+          currentTheme = themes[Math.floor(Math.random() * themes.length)];
+          themeTextEl.innerText = currentTheme;
+          playSound("win");
+        }
+      }, 90);
+    }
+
+    // CONTAGEM DECRESCENTE ANTES DO COMBATE
+    function startCountdown() {
       playSound("start");
 
       // Apresentar Overlay de contagem decrescente
@@ -668,7 +783,6 @@
         if (count > 0) {
           numberBox.innerText = count;
           playSound("click");
-          // Efeito pulsar simples
           numberBox.style.transform = "scale(0.6)";
           setTimeout(() => { numberBox.style.transform = "scale(1.1)"; }, 150);
         } else if (count === 0) {
@@ -690,6 +804,7 @@
       document.getElementById("duel-op-name").innerText = `Duelo contra ${selectedAdversary.name}`;
       document.getElementById("duel-op-target").innerText = selectedAdversary.targetScore;
       document.getElementById("enemy-emoji").innerText = selectedAdversary.emoji;
+      document.getElementById("duelTheme").innerText = currentTheme;
 
       // Escolha de uma mentira aleatória da lista dele
       const currentEnemyLie = selectedAdversary.lies[Math.floor(Math.random() * selectedAdversary.lies.length)];
@@ -716,7 +831,6 @@
 
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
-          // Auto submissão ao expirar tempo
           judgeLie();
         }
       }, 1000);
@@ -748,6 +862,26 @@
       }
     }
 
+    // Algoritmo de bónus por termos associados ao Tema da Ronda
+    function calculateThemeBonus(text, theme) {
+      const lower = text.toLowerCase();
+      const t = theme.toLowerCase();
+      let bonus = 0;
+
+      if (lower.includes(t)) {
+        bonus += 40;
+      }
+
+      const list = themeKeywords[t] || [];
+      list.forEach(word => {
+        if (lower.includes(word)) {
+          bonus += 10;
+        }
+      });
+
+      return Math.min(bonus, 50);
+    }
+
     // Função de Fallback local do Juiz IA (Offline)
     function runLocalFallbackJudge(text) {
       const lenBonus = Math.min(25, Math.floor(text.length / 8));
@@ -757,35 +891,18 @@
       let humor = 40 + Math.floor(Math.random() * 45);
       let descaramento = 45 + Math.floor(Math.random() * 40);
 
-      // Verificação de palavras-chave portuguesas cómicas
-      const keywords = {
-        pombos: 15, bacalhau: 10, pastel: 12, avô: 10, dinossauro: 15,
-        extraterrestres: 20, socrates: 15, marte: 12, cr7: 15, imperador: 18,
-        faraós: 20, pensão: 12, tasca: 10, tremoços: 14, nabo: 12, carago: 15
-      };
-
-      const lowercaseText = text.toLowerCase();
-      Object.keys(keywords).forEach(key => {
-        if (lowercaseText.includes(key)) {
-          absurdo += keywords[key];
-          criatividade += 8;
-        }
-      });
-
       // Limitar a 100 pontos por pilar
       criatividade = Math.min(100, criatividade);
       absurdo = Math.min(100, absurdo);
       humor = Math.min(100, humor);
       descaramento = Math.min(100, descaramento);
 
-      const commentary = MOCK_COMMENTS[Math.floor(Math.random() * MOCK_COMMENTS.length)];
-
       return {
         criatividade,
         absurdo,
         humor,
         descaramento,
-        comentario: commentary
+        comentario: "" // Preenchido dinamicamente no processador
       };
     }
 
@@ -816,7 +933,7 @@
 
       // Caso haja chave de API, efetuar chamada oficial
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
-      const prompt = `Duelo contra ${selectedAdversary.name}. Tema: "${selectedAdversary.theme}". Mentira do adversário: "${selectedAdversary.lies[0]}". Mentira do jogador: "${lieText}".`;
+      const prompt = `Duelo contra ${selectedAdversary.name}. Tema: "${selectedAdversary.theme}". Tema obrigatório: "${currentTheme}". Mentira do adversário: "${selectedAdversary.lies[0]}". Mentira do jogador: "${lieText}".`;
       const systemPrompt = `És o Juiz do Mentirógrafo, o jogo português de mentiras. Avalia a mentira e devolve um JSON com as seguintes chaves numéricas de 0 a 100: "criatividade", "absurdo", "descaramento", "humor" e uma string "comentario" hilariante em português de Portugal. Responda apenas com o JSON.`;
 
       const fetchWithRetry = async (url, options, retries = 5, delay = 1000) => {
@@ -885,7 +1002,10 @@
 
     // Processamento e atribuição dos resultados
     function processEvaluation(lieText, evaluation) {
-      const total = evaluation.criatividade + evaluation.absurdo + evaluation.humor + evaluation.descaramento;
+      // Calcular Bónus de Tema
+      const bonus = calculateThemeBonus(lieText, currentTheme);
+      
+      const total = evaluation.criatividade + evaluation.absurdo + evaluation.humor + evaluation.descaramento + bonus;
       const target = selectedAdversary.targetScore;
       const won = total >= target;
 
@@ -893,15 +1013,22 @@
       finalLieText = lieText;
       finalTotalScore = total;
 
-      // Atribuição de Recompensas
-      const xpReward = won ? 100 : 20;
-      const coinsReward = won ? 50 : 10;
+      // Atribuição de Recompensas de acordo com a pontuação
+      let xpReward = 20;
+      let coinsReward = 10;
+      if (total >= 340) {
+        xpReward = 150;
+        coinsReward = 80;
+      } else if (total >= 300) {
+        xpReward = 100;
+        coinsReward = 50;
+      }
 
       player.xp += xpReward;
       player.coins += coinsReward;
       if (won) player.wins += 1;
 
-      // Guardar progresso
+      // Guardar progresso localmente
       localStorage.setItem("mentirografoPlayerXP", player.xp);
       localStorage.setItem("mentirografoPlayerCoins", player.coins);
       localStorage.setItem("mentirografoPlayerWins", player.wins);
@@ -917,22 +1044,33 @@
         showToast(`🎉 PARABÉNS! Subiste para o Nível ${player.level}!`);
       }
 
-      // Reproduzir som adequado ao resultado
-      playSound(won ? "win" : "fail");
+      // Reproduzir som correspondente
+      playSound(total >= 300 ? "win" : "fail");
+
+      // Gerar comentário sarcástico se não existia da IA
+      let comment = evaluation.comentario || comments[Math.floor(Math.random() * comments.length)];
+      if (bonus >= 40) {
+        comment += " Bónus máximo: usaste o tema como verdadeiro artista da tanga.";
+      } else if (bonus === 0) {
+        comment += " Mas ignoraste o tema e isso custou pontos.";
+      }
 
       // Atualizar interface de resultados
       document.getElementById("res-criatividade").innerText = evaluation.criatividade;
       document.getElementById("res-absurdo").innerText = evaluation.absurdo;
       document.getElementById("res-humor").innerText = evaluation.humor;
       document.getElementById("res-descaramento").innerText = evaluation.descaramento;
+      document.getElementById("res-bonus").innerText = bonus;
+      
       document.getElementById("result-total-score").innerText = total;
       document.getElementById("result-target-score").innerText = `Meta a bater: ${target}`;
-      document.getElementById("res-comment").innerText = `"${evaluation.comentario}"`;
+      document.getElementById("res-comment").innerText = `"${comment}"`;
       
       document.getElementById("res-rewards-xp").innerText = `+${xpReward} XP`;
       document.getElementById("res-rewards-coins").innerText = `+${coinsReward} 🪙`;
 
       // Atualizar cartão de meme
+      document.getElementById("memeTheme").innerText = currentTheme;
       document.getElementById("memeText").innerText = `“${lieText}”`;
       document.getElementById("memeScore").innerText = `PONTUAÇÃO: ${total} PTS`;
 
@@ -949,7 +1087,7 @@
         glowBar.className = "absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-rose-500 to-red-500";
       }
 
-      // Persistir pontuação no Ranking Local
+      // Persistir pontuação no Ranking Local V3
       saveToRanking(total);
 
       // Ir para ecrã de resultados
@@ -960,15 +1098,15 @@
       renderRanking();
     }
 
-    // Salvar no ranking guardado no LocalStorage
+    // Salvar no ranking guardado no LocalStorage V3
     function saveToRanking(score) {
-      const currentRanking = JSON.parse(localStorage.getItem("mentirografoLocalRanking")) || [];
+      const currentRanking = JSON.parse(localStorage.getItem("mentirografoRankingV3")) || [];
       const currentName = player.name || "Jogador";
       
       currentRanking.push({
         name: currentName,
         score: score,
-        title: player.activeTitle,
+        theme: currentTheme,
         avatar: "🧙"
       });
 
@@ -976,22 +1114,22 @@
       currentRanking.sort((a, b) => b.score - a.score);
 
       // Guardar apenas o top 5
-      localStorage.setItem("mentirografoLocalRanking", JSON.stringify(currentRanking.slice(0, 5)));
+      localStorage.setItem("mentirografoRankingV3", JSON.stringify(currentRanking.slice(0, 5)));
     }
 
-    // Renderizar o Ranking Local
+    // Renderizar o Ranking Local V3
     function renderRanking() {
       const container = document.getElementById("ranking-container");
       container.innerHTML = "";
 
       const defaultRanking = [
-        { name: "Joaquim_da_Bifana", avatar: "👨‍🍳", score: 395, title: "🏛️ Primeiro-Ministro da Peta" },
-        { name: "Maria_Sardinha", avatar: "👩‍🍳", score: 375, title: "🐟 Mestre da Sardinha" },
-        { name: "Pedro_Tanga", avatar: "👨‍🦱", score: 365, title: "👑 Rei do Descaramento" },
-        { name: "Mito_Lover", avatar: "👾", score: 350, title: "🦖 Mestre do Absurdo" }
+        { name: "Joaquim_da_Bifana", avatar: "👨‍🍳", score: 395, theme: "Futebol", title: "🏛️ Primeiro-Ministro" },
+        { name: "Maria_Sardinha", avatar: "👩‍🍳", score: 375, theme: "Portugal", title: "🐟 Mestre da Sardinha" },
+        { name: "Pedro_Tanga", avatar: "👨‍🦱", score: 365, theme: "Tasca", title: "👑 Rei do Descaramento" },
+        { name: "Mito_Lover", avatar: "👾", score: 350, theme: "Tecnologia", title: "🦖 Mestre do Absurdo" }
       ];
 
-      const localRanking = JSON.parse(localStorage.getItem("mentirografoLocalRanking")) || [];
+      const localRanking = JSON.parse(localStorage.getItem("mentirografoRankingV3")) || [];
       const currentName = player.name || "Tu (O Grande Orador)";
       
       // Integrar o utilizador ativo no ranking calculado por nível e duelos ganhas
@@ -1000,6 +1138,7 @@
         name: currentName,
         avatar: "🧙",
         score: userCalculatedScore,
+        theme: currentTheme || "Nenhum",
         title: player.activeTitle,
         isUser: true
       };
@@ -1018,6 +1157,8 @@
             : 'border-purple-950 bg-slate-950/40'
         }`;
 
+        const subTitleText = item.title ? item.title : `Tema: ${item.theme}`;
+
         itemDiv.innerHTML = `
           <div class="flex items-center gap-3">
             <span class="text-sm font-mono font-black w-6 text-center ${
@@ -1025,10 +1166,10 @@
             }">
               #${index + 1}
             </span>
-            <span class="text-2xl">${item.avatar}</span>
+            <span class="text-2xl">${item.avatar || '🧙'}</span>
             <div class="text-left">
               <span class="text-sm text-white block">${item.name}</span>
-              <span class="text-[9px] text-slate-500 uppercase block font-bold">${item.title}</span>
+              <span class="text-[9px] text-slate-500 uppercase block font-bold">${subTitleText}</span>
             </div>
           </div>
           <div class="text-right">
@@ -1041,7 +1182,7 @@
 
     // Partilhar Meme do Cartão (Navigator Share ou Cópia)
     function shareMeme() {
-      const shareText = `🎭 MENTIRÓGRAFO™ 🇵🇹\n\nA minha mentira descarada:\n“${finalLieText}”\n\nPontuação do Juiz IA: ${finalTotalScore} pts\nSupera-me no Mentirógrafo!`;
+      const shareText = `🎭 MENTIRÓGRAFO™ 🇵🇹\n\nTema: ${currentTheme}\n\nA minha mentira descarada:\n“${finalLieText}”\n\nPontuação do Juiz IA: ${finalTotalScore} pts\nSupera-me no Mentirógrafo!`;
 
       if (navigator.share) {
         navigator.share({
@@ -1057,11 +1198,11 @@
       }
     }
 
-    // Auxiliar de cópia robusto em iframe (Directiva: document.execCommand para fallback estável)
+    // Auxiliar de cópia robusto em iframe
     function copyMemeText(text) {
       const textarea = document.createElement("textarea");
       textarea.value = text;
-      textarea.style.position = "fixed";  // Evita scrolls indesejados no telemóvel
+      textarea.style.position = "fixed";  // Evita scrolls no telemóvel
       document.body.appendChild(textarea);
       textarea.select();
       try {
@@ -1100,6 +1241,15 @@
         badgeSpan.innerText = t;
         badgesContainer.appendChild(badgeSpan);
       });
+    }
+
+    function restart() {
+      document.getElementById("view-result").classList.add("hidden");
+      document.getElementById("view-home").classList.remove("hidden");
+      document.getElementById("player-lie-input").value = "";
+      currentTheme = "";
+      document.getElementById("themeText").innerText = "---";
+      navigate('home');
     }
 
     // Inicialização ao carregar a página
