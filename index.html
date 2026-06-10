@@ -31,7 +31,10 @@
             </div>
         </div>
         <div class="hidden md:flex items-center space-x-5">
-            <button onclick="switchTab('feed')" id="nav-feed" class="tab-btn active text-orange-400 font-bold transition flex items-center space-x-2">
+            <button onclick="switchTab('home')" id="nav-home" class="tab-btn active text-orange-400 font-bold transition flex items-center space-x-2">
+                <i class="fa-solid fa-house"></i> <span>Início</span>
+            </button>
+            <button onclick="switchTab('feed')" id="nav-feed" class="tab-btn text-gray-400 hover:text-white transition flex items-center space-x-2">
                 <i class="fa-solid fa-circle-play"></i> <span>Duelos Ao Vivo</span>
             </button>
             <button onclick="switchTab('absurd-themes')" id="nav-absurd-themes" class="tab-btn text-gray-400 hover:text-white transition flex items-center space-x-2">
@@ -67,8 +70,52 @@
 
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-6 pb-24 md:pb-6 flex flex-col justify-between">
         
+
+        <!-- ================= ABERTURA / HOME ================= -->
+        <section id="view-home" class="view-section grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-7 bg-gradient-to-br from-[#1c110f] via-[#140d0c] to-[#080403] rounded-3xl border border-orange-950/60 p-8 md:p-10 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-24 -right-24 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl"></div>
+                <span class="inline-flex items-center gap-2 bg-orange-500/15 border border-orange-500/30 text-orange-300 text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest mb-5">
+                    <i class="fa-solid fa-fire"></i> Rede social satírica de reclamações absurdas
+                </span>
+                <h2 class="text-4xl md:text-6xl font-black leading-tight text-white tracking-tight">
+                    Entra no caos. <br>
+                    <span class="bg-gradient-to-r from-amber-400 via-orange-400 to-red-500 bg-clip-text text-transparent">Depois escolhes a batalha.</span>
+                </h2>
+                <p class="text-orange-100/75 mt-5 text-sm md:text-base max-w-2xl">
+                    O SHITAGRAM™ não abre diretamente nas batalhas. Primeiro apresenta o universo: micos, temas absurdos, ranking, perfil e só depois a Arena Live.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-7">
+                    <button onclick="switchTab('feed')" class="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white font-black py-4 px-5 rounded-2xl shadow-xl active:scale-95 transition-all">
+                        🔴 Entrar nos Duelos
+                    </button>
+                    <button onclick="switchTab('absurd-themes')" class="bg-orange-950/50 hover:bg-orange-900/60 border border-orange-800/40 text-orange-100 font-black py-4 px-5 rounded-2xl active:scale-95 transition-all">
+                        🎭 Ver Temas
+                    </button>
+                    <button onclick="switchTab('profile')" class="bg-black/40 hover:bg-black/60 border border-orange-900/40 text-orange-100 font-black py-4 px-5 rounded-2xl active:scale-95 transition-all">
+                        👤 Meu Perfil
+                    </button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 grid gap-4">
+                <div class="bg-[#140d0c] border border-orange-950/60 rounded-3xl p-5 shadow-xl">
+                    <h3 class="text-white font-black mb-2">Como funciona</h3>
+                    <p class="text-sm text-orange-100/70">Publicas ou escolhes uma reclamação absurda, entras numa batalha de 60 segundos e a audiência decide quem reclama melhor.</p>
+                </div>
+                <div class="bg-[#140d0c] border border-orange-950/60 rounded-3xl p-5 shadow-xl">
+                    <h3 class="text-white font-black mb-2">Perfil editável em tempo real</h3>
+                    <p class="text-sm text-orange-100/70">Altera nome e avatar no perfil. O topo, avatar e ID visual atualizam imediatamente e ficam guardados no navegador.</p>
+                </div>
+                <div class="bg-[#140d0c] border border-orange-950/60 rounded-3xl p-5 shadow-xl">
+                    <h3 class="text-white font-black mb-2">Arena Live</h3>
+                    <p class="text-sm text-orange-100/70">A batalha só começa quando carregares no botão: 3... 2... 1... COMEÇOU e cronómetro de 60 segundos.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- ================= ABA 1: FEED DE BATALHAS AO VIVO ================= -->
-        <section id="view-feed" class="view-section grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <section id="view-feed" class="view-section hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             <!-- Painel Esquerdo: Vídeo da Batalha (Split-Screen Estilo TikTok PK Live) -->
             <div class="lg:col-span-8 bg-[#140d0c] rounded-3xl border border-orange-950/60 overflow-hidden flex flex-col shadow-2xl relative">
@@ -614,6 +661,24 @@
                         <p class="text-[10px] text-orange-300/70 uppercase tracking-widest">Vitórias</p>
                     </div>
                 </div>
+
+                <div class="mt-7 w-full max-w-xl bg-black/35 border border-orange-950/60 rounded-2xl p-4 text-left">
+                    <h4 class="text-sm font-black text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-pen-to-square text-orange-400"></i> Editar perfil em tempo real</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-orange-300 uppercase mb-1">Nome público</label>
+                            <input id="profile-name-input" type="text" maxlength="24" placeholder="O teu nome no SHITAGRAM" oninput="saveProfileRealtime()" class="w-full bg-[#0a0504] border border-orange-950 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-orange-300 uppercase mb-1">Avatar por link</label>
+                            <input id="profile-avatar-input" type="url" placeholder="https://..." oninput="saveProfileRealtime()" class="w-full bg-[#0a0504] border border-orange-950 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mt-3">
+                        <button onclick="resetProfileRealtime()" class="bg-orange-950/60 hover:bg-orange-900/70 border border-orange-800/40 text-orange-100 text-xs font-black px-4 py-2 rounded-xl transition-all">Repor perfil</button>
+                        <span id="profile-save-status" class="text-[11px] text-emerald-400 font-bold flex items-center">Guardado automaticamente</span>
+                    </div>
+                </div>
             </div>
 
             <div class="pt-6">
@@ -628,7 +693,11 @@
 
     <!-- Barra de Navegação Inferior (Mobile) -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#140d0c]/95 backdrop-blur-md border-t border-orange-950/40 px-4 py-3.5 flex justify-between items-center shadow-2xl">
-        <button onclick="switchTab('feed')" id="m-nav-feed" class="mobile-tab-btn active text-orange-500 flex flex-col items-center space-y-1">
+        <button onclick="switchTab('home')" id="m-nav-home" class="mobile-tab-btn active text-orange-500 flex flex-col items-center space-y-1">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[9px] font-bold">Início</span>
+        </button>
+        <button onclick="switchTab('feed')" id="m-nav-feed" class="mobile-tab-btn text-gray-400 flex flex-col items-center space-y-1">
             <i class="fa-solid fa-circle-play text-lg"></i>
             <span class="text-[9px] font-bold">Ao Vivo</span>
         </button>

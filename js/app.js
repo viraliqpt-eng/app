@@ -1312,10 +1312,60 @@
             });
         }
 
+
+
+        // Perfil editável em tempo real
+        function getDefaultProfileName() {
+            return `Reclamante_${userId.split('_')[2]}`;
+        }
+
+        function applyProfileRealtime(profile) {
+            const name = profile.name || getDefaultProfileName();
+            const avatar = profile.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150';
+            const nameEl = document.getElementById('my-profile-name');
+            const avatarEl = document.getElementById('my-profile-avatar');
+            const authEl = document.getElementById('auth-status');
+            const nameInput = document.getElementById('profile-name-input');
+            const avatarInput = document.getElementById('profile-avatar-input');
+            if (nameEl) nameEl.textContent = name;
+            if (avatarEl) avatarEl.src = avatar;
+            if (authEl) authEl.textContent = name;
+            if (nameInput && document.activeElement !== nameInput) nameInput.value = name;
+            if (avatarInput && document.activeElement !== avatarInput) avatarInput.value = profile.avatar || '';
+        }
+
+        function loadProfileRealtime() {
+            const saved = JSON.parse(localStorage.getItem('shitagram_profile') || '{}');
+            applyProfileRealtime(saved);
+        }
+
+        function saveProfileRealtime() {
+            const nameInput = document.getElementById('profile-name-input');
+            const avatarInput = document.getElementById('profile-avatar-input');
+            const status = document.getElementById('profile-save-status');
+            const profile = {
+                name: (nameInput?.value || '').trim() || getDefaultProfileName(),
+                avatar: (avatarInput?.value || '').trim()
+            };
+            localStorage.setItem('shitagram_profile', JSON.stringify(profile));
+            applyProfileRealtime(profile);
+            if (status) {
+                status.textContent = 'Guardado automaticamente';
+                status.className = 'text-[11px] text-emerald-400 font-bold flex items-center';
+            }
+        }
+
+        function resetProfileRealtime() {
+            localStorage.removeItem('shitagram_profile');
+            applyProfileRealtime({ name: getDefaultProfileName(), avatar: '' });
+            const status = document.getElementById('profile-save-status');
+            if (status) status.textContent = 'Perfil reposto';
+            showCustomNotification('Perfil reposto', 'O nome e avatar voltaram ao padrão.', 'info');
+        }
+
         window.onload = function() {
-            document.getElementById('auth-status').textContent = userId;
             document.getElementById('my-profile-id').textContent = `ID: ${userId}`;
-            document.getElementById('my-profile-name').textContent = `Reclamante_${userId.split('_')[2]}`;
+            loadProfileRealtime();
 
             loadBattle(0);
             renderThemesGrid();
