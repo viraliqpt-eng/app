@@ -1,4 +1,4 @@
-# PROMPT10 AI MVP
+# PROMPT10 AI MVP 0.7
 
 Base funcional para um gerador de vídeos de 10 segundos a partir de texto e de uma imagem opcional.
 
@@ -64,6 +64,23 @@ Os números são estimativas locais e não substituem o saldo e o relatório ofi
 ## Requisitos
 
 Node.js 20 ou superior e npm.
+
+## Integração TikTok
+
+A versão 0.7 inclui páginas públicas de Termos, Privacidade e Contacto, Login Kit e a base do Content Posting API. Os tokens ficam apenas na memória do servidor e são removidos ao reiniciar a instância.
+
+No Render, adiciona estas variáveis sem expor os valores no GitHub:
+
+```env
+PUBLIC_BASE_URL=https://prompt10-ai-pedro.onrender.com
+SUPPORT_EMAIL=teu-email-publico@example.com
+TIKTOK_CLIENT_KEY=
+TIKTOK_CLIENT_SECRET=
+TIKTOK_REDIRECT_URI=https://prompt10-ai-pedro.onrender.com/api/tiktok/callback
+TIKTOK_SCOPES=user.info.basic,video.publish
+```
+
+No TikTok Developers, adiciona exatamente o mesmo redirect URI ao Login Kit. Enquanto a aplicação não for aprovada e auditada, o TikTok restringe as publicações a `SELF_ONLY`.
 
 ## Instalação
 

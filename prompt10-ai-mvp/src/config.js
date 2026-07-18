@@ -25,5 +25,11 @@ export const config = Object.freeze({
   dataFile: path.join(rootDir, 'data', 'generations.json'),
   uploadsDir: path.join(rootDir, 'storage', 'uploads'),
   outputsDir: path.join(rootDir, 'storage', 'outputs'),
-  publicDir: path.join(rootDir, 'public')
+  publicDir: path.join(rootDir, 'public'),
+  publicBaseUrl: (process.env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, ''),
+  supportEmail: process.env.SUPPORT_EMAIL || '',
+  tiktokClientKey: process.env.TIKTOK_CLIENT_KEY || '',
+  tiktokClientSecret: process.env.TIKTOK_CLIENT_SECRET || '',
+  tiktokRedirectUri: process.env.TIKTOK_REDIRECT_URI || '',
+  tiktokScopes: process.env.TIKTOK_SCOPES || 'user.info.basic,video.publish'
 });

@@ -9,6 +9,9 @@ import { HttpVideoProvider } from './src/providers/httpVideoProvider.js';
 import { RunwayVideoProvider } from './src/providers/runwayVideoProvider.js';
 import { GenerationService } from './src/services/generationService.js';
 import { createGenerationsRouter } from './src/routes/generations.js';
+import { createTikTokRouter } from './src/routes/tiktok.js';
+import { TikTokClient } from './src/integrations/tiktokClient.js';
+import { TikTokSessionStore } from './src/services/tiktokSessionStore.js';
 import { apiNotFound, errorHandler } from './src/middleware/errors.js';
 
 await Promise.all([
@@ -48,6 +51,12 @@ const generationService = new GenerationService({
 await generationService.initialize();
 
 const app = express();
+const tiktokClient = new TikTokClient({
+  clientKey: config.tiktokClientKey,
+  clientSecret: config.tiktokClientSecret,
+  redirectUri: config.tiktokRedirectUri || `${config.publicBaseUrl}/api/tiktok/callback`
+});
+const tiktokSessionStore = new TikTokSessionStore();
 app.disable('x-powered-by');
 app.use(helmet({
   contentSecurityPolicy: {
@@ -80,7 +89,17 @@ app.get('/api/health', (request, response) => {
   });
 });
 
+app.get('/api/public-config', (request, response) => {
+  response.json({ supportEmail: config.supportEmail });
+});
+
 app.use('/api/generations', createGenerationsRouter({ service: generationService, config }));
+app.use('/api/tiktok', createTikTokRouter({
+  client: tiktokClient,
+  sessionStore: tiktokSessionStore,
+  generationService,
+  config
+}));
 app.use('/media', express.static(config.outputsDir, { immutable: false, maxAge: '1h' }));
 app.use(express.static(config.publicDir));
 app.use(apiNotFound);
