@@ -6,14 +6,36 @@ Base funcional para um gerador de vídeos de 10 segundos a partir de texto e de 
 
 1. Interface responsiva em português europeu.
 2. Prompt com melhoramento assistido.
-3. Carregamento de JPG, PNG e WEBP até 10 MB.
+3. Carregamento de JPG, PNG e WEBP até 3 MB.
 4. Validação do prompt, formato, estilo e imagem.
 5. API assíncrona de gerações.
 6. Progresso consultável em tempo real.
 7. Histórico persistente em ficheiro JSON.
 8. Modo demonstrativo com vídeo local.
-9. Adaptador HTTP preparado para um motor de vídeo real.
-10. Proteções básicas por cabeçalhos, limites e controlo de pedidos.
+9. Roteamento inteligente entre Runway Gen 4 Turbo e Gen 4.5.
+10. Adaptador HTTP preparado para outros motores de vídeo.
+11. Proteções básicas por cabeçalhos, limites e controlo de pedidos.
+12. TikTok Shop Studio com produto, benefício, ângulo de venda e chamada para ação.
+13. Prompt comercial estruturado automaticamente para 10 segundos.
+14. Kit de publicação com gancho, voz sugerida, legenda e hashtags.
+
+## TikTok Shop Studio
+
+Ativar `TikTok Shop Studio` na parte superior do gerador e preencher:
+
+1. Nome do produto.
+2. Benefício principal que pode ser demonstrado visualmente.
+3. Ângulo de venda: demonstração, problema e solução, UGC ou premium.
+4. Chamada para ação.
+
+O botão `Criar prompt comercial` prepara uma cena vertical de 10 segundos. O servidor acrescenta uma estrutura temporal, preserva a imagem do produto e inclui uma instrução para não inventar características ou marcas.
+
+Depois da geração, a interface apresenta um kit de publicação com:
+
+* gancho para os primeiros segundos;
+* texto curto para voz;
+* legenda;
+* hashtags.
 
 ## Requisitos
 
@@ -41,7 +63,47 @@ VIDEO_PROVIDER=mock
 
 Este modo permite testar todo o percurso sem gastar créditos externos. Após alguns segundos, devolve o vídeo incluído em `storage/outputs/demo-prompt10.mp4`.
 
-### Motor real por HTTP
+### Runway com controlo de custo
+
+Criar uma conta de programador no Runway, obter a chave da API e configurar:
+
+```env
+VIDEO_PROVIDER=runway
+RUNWAY_API_SECRET=chave_secreta
+RUNWAY_MODEL=gen4.5
+```
+
+Depois, iniciar normalmente:
+
+```bash
+npm start
+```
+
+O adaptador envia prompts e imagens diretamente para o endpoint oficial, acompanha o estado da tarefa e guarda o MP4 concluído em `storage/outputs`.
+
+Na interface existem três modos:
+
+| Modo | Modelo usado | Imagem | Custo estimado para 10 s |
+| --- | --- | --- | --- |
+| Automático | Gen 4 Turbo com imagem, Gen 4.5 sem imagem | Opcional | US$ 0,50 ou US$ 1,20 |
+| Económico | Gen 4 Turbo | Obrigatória | US$ 0,50 |
+| Premium | Gen 4.5 | Opcional | US$ 1,20 |
+
+Para vídeos de TikTok Shop, o percurso recomendado é formato 9:16, estilo Produto ou UGC, uma fotografia nítida do produto e modo Automático. Assim, o sistema escolhe o Turbo e reduz o custo.
+
+O Gen 4 Turbo exige imagem. O Gen 4.5 aceita texto ou imagem e suporta vídeos de 10 segundos. No modelo Gen 4.5, o formato quadrado requer uma imagem de referência. Para texto sem imagem, usar 9:16 ou 16:9.
+
+O limite padrão de 3 MB mantém a imagem dentro do limite oficial para envio em base64.
+
+Documentação oficial:
+
+`https://docs.dev.runwayml.com/guides/using-the-api/`
+
+Preços oficiais:
+
+`https://docs.dev.runwayml.com/guides/pricing/`
+
+### Outro motor real por HTTP
 
 Configurar:
 

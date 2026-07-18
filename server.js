@@ -6,6 +6,7 @@ import { config } from './src/config.js';
 import { GenerationStore } from './src/storage/generationStore.js';
 import { MockVideoProvider } from './src/providers/mockVideoProvider.js';
 import { HttpVideoProvider } from './src/providers/httpVideoProvider.js';
+import { RunwayVideoProvider } from './src/providers/runwayVideoProvider.js';
 import { GenerationService } from './src/services/generationService.js';
 import { createGenerationsRouter } from './src/routes/generations.js';
 import { apiNotFound, errorHandler } from './src/middleware/errors.js';
@@ -19,15 +20,30 @@ await Promise.all([
 const store = new GenerationStore(config.dataFile);
 await store.initialize();
 
-const provider = config.provider === 'http'
-  ? new HttpVideoProvider({ baseUrl: config.videoApiUrl, apiKey: config.videoApiKey })
-  : new MockVideoProvider();
+const providers = {
+  mock: () => new MockVideoProvider(),
+  runway: () => new RunwayVideoProvider({
+    apiSecret: config.runwayApiSecret,
+    model: config.runwayModel
+  }),
+  http: () => new HttpVideoProvider({
+    baseUrl: config.videoApiUrl,
+    apiKey: config.videoApiKey
+  })
+};
+
+if (!providers[config.provider]) {
+  throw new Error(`VIDEO_PROVIDER inválido: ${config.provider}`);
+}
+
+const provider = providers[config.provider]();
 
 const generationService = new GenerationService({
   store,
   provider,
   pollIntervalMs: config.pollIntervalMs,
-  maxGenerationMs: config.maxGenerationMs
+  maxGenerationMs: config.maxGenerationMs,
+  outputsDir: config.outputsDir
 });
 await generationService.initialize();
 
