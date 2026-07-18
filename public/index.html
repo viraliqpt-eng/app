@@ -1,0 +1,2279 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070812">
+  <title>PROMPT10 AI | Escreve a ideia. Recebe o vídeo.</title>
+  <style>
+    :root {
+      --bg: #070812;
+      --bg-soft: #0c0e1c;
+      --panel: rgba(19, 21, 40, 0.78);
+      --panel-strong: #12152a;
+      --stroke: rgba(255, 255, 255, 0.1);
+      --stroke-strong: rgba(255, 255, 255, 0.18);
+      --text: #f7f7ff;
+      --muted: #9da3c0;
+      --blue: #4f7cff;
+      --blue-light: #72c7ff;
+      --violet: #a855f7;
+      --pink: #ff4fd8;
+      --green: #4be0a3;
+      --warning: #ffcc66;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 10%, rgba(79, 124, 255, 0.16), transparent 28%),
+        radial-gradient(circle at 82% 4%, rgba(168, 85, 247, 0.14), transparent 25%),
+        radial-gradient(circle at 75% 72%, rgba(255, 79, 216, 0.08), transparent 28%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+      z-index: 20;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      font-size: 19px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--violet) 58%, var(--pink));
+      box-shadow: 0 10px 30px rgba(79, 124, 255, 0.32);
+    }
+
+    .brand-mark svg {
+      width: 18px;
+      height: 18px;
+      transform: translateX(1px);
+    }
+
+    .brand strong {
+      color: var(--blue-light);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 160ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      border: 1px solid var(--stroke-strong);
+      background: rgba(255, 255, 255, 0.055);
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 62px 0 38px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 12px;
+      border: 1px solid rgba(114, 199, 255, 0.2);
+      border-radius: 999px;
+      color: #c8eaff;
+      background: rgba(79, 124, 255, 0.08);
+      font-size: 12px;
+      font-weight: 720;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(75, 224, 163, 0.1);
+    }
+
+    h1 {
+      max-width: 920px;
+      margin: 22px auto 18px;
+      font-size: clamp(44px, 7vw, 84px);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(92deg, #80d0ff 8%, #7f8cff 46%, #d474ff 78%, #ff89e6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 610px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+    }
+
+    .hero-proof {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      color: #c8cce0;
+      font-size: 12px;
+    }
+
+    .hero-proof span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-proof svg {
+      width: 14px;
+      color: var(--green);
+    }
+
+    .workspace {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.72fr);
+      gap: 16px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 32px;
+      background: rgba(12, 14, 28, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      overflow: hidden;
+    }
+
+    .workspace::before {
+      content: "";
+      position: absolute;
+      width: 480px;
+      height: 240px;
+      top: -160px;
+      left: 14%;
+      background: rgba(79, 124, 255, 0.24);
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    .creator,
+    .preview {
+      position: relative;
+      z-index: 1;
+      border-radius: 22px;
+      background: rgba(14, 16, 32, 0.84);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .creator {
+      padding: 24px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 15px;
+    }
+
+    .section-title h2,
+    .section-title h3 {
+      margin: 0;
+      letter-spacing: -0.035em;
+    }
+
+    .shop-studio {
+      margin-bottom: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 79, 216, 0.2);
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255, 79, 216, 0.06), rgba(79, 124, 255, 0.06));
+    }
+
+    .shop-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px;
+      color: var(--text);
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .shop-toggle strong { display: block; font-size: 13px; }
+    .shop-toggle small { color: var(--muted); font-size: 10px; }
+
+    .toggle-track {
+      width: 38px;
+      height: 22px;
+      flex: 0 0 auto;
+      padding: 3px;
+      border-radius: 99px;
+      background: #343952;
+      transition: background 160ms ease;
+    }
+
+    .toggle-track::after {
+      content: "";
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      transition: transform 160ms ease;
+    }
+
+    .shop-toggle[aria-expanded="true"] .toggle-track { background: #7b5cf7; }
+    .shop-toggle[aria-expanded="true"] .toggle-track::after { transform: translateX(16px); }
+
+    .shop-fields {
+      display: none;
+      padding: 0 14px 14px;
+    }
+
+    .shop-fields.visible { display: block; }
+
+    .shop-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .shop-field.full { grid-column: 1 / -1; }
+
+    .shop-field label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .shop-field input,
+    .shop-field select {
+      width: 100%;
+      min-height: 40px;
+      padding: 9px 10px;
+      color: #e8eafb;
+      border: 1px solid var(--stroke);
+      border-radius: 10px;
+      outline: none;
+      background: #111429;
+      font: inherit;
+      font-size: 12px;
+    }
+
+    .shop-field input:focus,
+    .shop-field select:focus { border-color: rgba(114, 199, 255, 0.5); }
+
+    .shop-prompt-btn {
+      width: 100%;
+      min-height: 40px;
+      margin-top: 10px;
+      color: #f3eaff;
+      border: 1px solid rgba(168, 85, 247, 0.28);
+      border-radius: 10px;
+      background: rgba(168, 85, 247, 0.11);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .section-title h2 {
+      font-size: 20px;
+    }
+
+    .section-title h3 {
+      font-size: 14px;
+    }
+
+    .shortcut {
+      color: var(--muted);
+      font-size: 11px;
+      border: 1px solid var(--stroke);
+      border-radius: 7px;
+      padding: 3px 7px;
+    }
+
+    .prompt-box {
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      background: rgba(5, 7, 18, 0.72);
+      overflow: hidden;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .prompt-box:focus-within {
+      border-color: rgba(114, 199, 255, 0.46);
+      box-shadow: 0 0 0 4px rgba(79, 124, 255, 0.08);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 144px;
+      padding: 18px 18px 52px;
+      color: var(--text);
+      background: transparent;
+      border: 0;
+      resize: vertical;
+      outline: none;
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    textarea::placeholder {
+      color: #656b88;
+    }
+
+    .prompt-actions {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .magic-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      color: #d7dcff;
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 9px;
+      background: rgba(168, 85, 247, 0.08);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .magic-btn:hover {
+      background: rgba(168, 85, 247, 0.15);
+    }
+
+    .counter {
+      color: #696f8b;
+      font-size: 11px;
+    }
+
+    .image-source {
+      margin-top: 18px;
+    }
+
+    .image-source-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 9px;
+    }
+
+    .image-source-head .option-label {
+      margin: 0;
+    }
+
+    .optional-label {
+      color: #696f8b;
+      font-size: 10px;
+    }
+
+    .image-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .image-dropzone {
+      min-height: 86px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px;
+      border: 1px dashed rgba(114, 199, 255, 0.26);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(79, 124, 255, 0.055), rgba(168, 85, 247, 0.035));
+      cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .image-dropzone:hover,
+    .image-dropzone.dragging {
+      border-color: rgba(114, 199, 255, 0.62);
+      background: linear-gradient(135deg, rgba(79, 124, 255, 0.11), rgba(168, 85, 247, 0.07));
+    }
+
+    .image-dropzone.dragging {
+      transform: scale(0.995);
+    }
+
+    .upload-icon {
+      flex: 0 0 auto;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #b9ddff;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .upload-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .upload-copy strong {
+      display: block;
+      margin-bottom: 2px;
+      color: #e8eafb;
+      font-size: 12px;
+    }
+
+    .upload-copy span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .image-file-card {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      min-height: 86px;
+      padding: 10px;
+      border: 1px solid rgba(75, 224, 163, 0.2);
+      border-radius: 14px;
+      background: rgba(75, 224, 163, 0.045);
+    }
+
+    .image-file-card.visible {
+      display: flex;
+    }
+
+    .image-thumb {
+      width: 62px;
+      height: 62px;
+      flex: 0 0 auto;
+      object-fit: cover;
+      border-radius: 10px;
+      background: var(--panel-strong);
+    }
+
+    .image-file-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .image-file-info strong {
+      display: block;
+      overflow: hidden;
+      color: #e8eafb;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+
+    .image-file-info span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .image-file-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .image-action {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--stroke);
+      border-radius: 9px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.035);
+      cursor: pointer;
+    }
+
+    .image-action:hover {
+      color: var(--text);
+      border-color: var(--stroke-strong);
+    }
+
+    .image-action.remove:hover {
+      color: #ff9db8;
+      border-color: rgba(255, 99, 132, 0.3);
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .option-label {
+      display: block;
+      margin-bottom: 10px;
+      color: #c7cbe0;
+      font-size: 12px;
+      font-weight: 680;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      border: 1px solid var(--stroke);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.025);
+      padding: 8px 10px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 150ms ease;
+    }
+
+    .pill:hover {
+      border-color: var(--stroke-strong);
+      color: var(--text);
+    }
+
+    .pill.active {
+      border-color: rgba(114, 199, 255, 0.36);
+      color: #eaf7ff;
+      background: linear-gradient(135deg, rgba(79, 124, 255, 0.18), rgba(168, 85, 247, 0.12));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+    }
+
+    .format-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .format-icon {
+      display: inline-block;
+      border: 1px solid currentColor;
+      border-radius: 2px;
+      opacity: 0.75;
+    }
+
+    .vertical {
+      width: 7px;
+      height: 12px;
+    }
+
+    .wide {
+      width: 14px;
+      height: 8px;
+    }
+
+    .square {
+      width: 10px;
+      height: 10px;
+    }
+
+    .settings-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .cost-selector {
+      margin-top: 22px;
+      padding: 14px;
+      border: 1px solid rgba(75, 224, 163, 0.16);
+      border-radius: 14px;
+      background: rgba(75, 224, 163, 0.035);
+    }
+
+    .cost-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .cost-head .option-label { margin: 0; }
+    .cost-hint { color: var(--muted); font-size: 10px; }
+
+    .select-like {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 12px;
+      border: 1px solid var(--stroke);
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.025);
+      color: #c5c9dd;
+      font-size: 12px;
+    }
+
+    .select-like span:first-child {
+      color: var(--muted);
+    }
+
+    .generate-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .generate-btn {
+      flex: 1;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(100deg, #4671f4, #7b5cf7 55%, #a84eea);
+      box-shadow: 0 13px 32px rgba(85, 83, 244, 0.24);
+      cursor: pointer;
+      font-weight: 760;
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    .generate-btn:disabled {
+      cursor: wait;
+      filter: saturate(0.6);
+      transform: none;
+    }
+
+    .credits {
+      min-width: 90px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+    }
+
+    .credits strong {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .publication-kit {
+      display: none;
+      margin-top: 12px;
+      padding: 13px;
+      border: 1px solid rgba(75, 224, 163, 0.16);
+      border-radius: 14px;
+      background: rgba(75, 224, 163, 0.035);
+    }
+
+    .publication-kit.visible { display: block; }
+    .publication-kit h3 { margin: 0 0 9px; font-size: 12px; }
+
+    .kit-item {
+      display: grid;
+      grid-template-columns: 68px 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 10px;
+    }
+
+    .kit-item span:first-child { color: var(--muted); }
+    .kit-item strong { min-width: 0; font-weight: 500; line-height: 1.4; }
+    .copy-kit { color: #b9ddff; border: 0; background: transparent; cursor: pointer; font-size: 10px; }
+
+    .preview {
+      min-height: 580px;
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .preview-header span:first-child {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .duration {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      color: #d7dcf4;
+      border: 1px solid var(--stroke);
+      border-radius: 8px;
+      font-size: 10px;
+    }
+
+    .video-stage {
+      position: relative;
+      flex: 1;
+      min-height: 430px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(114, 199, 255, 0.18), transparent 23%),
+        linear-gradient(150deg, #161a37, #0d1024 42%, #17112c);
+    }
+
+    .video-stage::before,
+    .video-stage::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(14px);
+    }
+
+    .video-stage::before {
+      width: 190px;
+      height: 190px;
+      left: -90px;
+      bottom: -80px;
+      background: rgba(79, 124, 255, 0.22);
+    }
+
+    .video-stage::after {
+      width: 160px;
+      height: 160px;
+      right: -70px;
+      top: -60px;
+      background: rgba(255, 79, 216, 0.16);
+    }
+
+    .stage-image {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      filter: saturate(0.88) contrast(1.04);
+    }
+
+    .stage-image.visible {
+      display: block;
+    }
+
+    .stage-video {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #05060d;
+    }
+
+    .stage-video.visible {
+      display: block;
+    }
+
+    .stage-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0.12;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(to bottom, transparent, #000 30%, #000);
+    }
+
+    .stage-content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .stage-content.hidden {
+      display: none;
+    }
+
+    .play-orb {
+      width: 68px;
+      height: 68px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.025), 0 22px 50px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(14px);
+    }
+
+    .play-orb svg {
+      width: 24px;
+      transform: translateX(2px);
+    }
+
+    .stage-content h3 {
+      margin: 20px 0 6px;
+      font-size: 17px;
+      letter-spacing: -0.03em;
+    }
+
+    .stage-content p {
+      max-width: 220px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .progress-wrap {
+      display: none;
+      width: 220px;
+      margin-top: 20px;
+    }
+
+    .progress-track {
+      height: 6px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue-light), var(--violet), var(--pink));
+      transition: width 300ms ease;
+    }
+
+    .progress-copy {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .preview-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .quality {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quality::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .download-btn {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border: 1px solid rgba(75, 224, 163, 0.22);
+      border-radius: 9px;
+      color: #bdffe3;
+      background: rgba(75, 224, 163, 0.07);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .download-btn.visible {
+      display: inline-flex;
+    }
+
+    .history-section {
+      padding: 66px 0 10px;
+    }
+
+    .history-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .history-head h2 {
+      margin: 8px 0 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.05em;
+    }
+
+    .history-head p {
+      max-width: 360px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .history-empty {
+      grid-column: 1 / -1;
+      padding: 28px;
+      border: 1px dashed var(--stroke-strong);
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .history-card {
+      min-width: 0;
+      padding: 15px;
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: rgba(14, 16, 32, 0.7);
+    }
+
+    .history-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .history-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      color: #d5daf1;
+      background: rgba(255, 255, 255, 0.055);
+      font-size: 9px;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .history-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--warning);
+    }
+
+    .history-status.succeeded::before {
+      background: var(--green);
+    }
+
+    .history-status.failed::before {
+      background: #ff6485;
+    }
+
+    .history-date {
+      color: #696f8b;
+      font-size: 9px;
+    }
+
+    .history-prompt {
+      display: -webkit-box;
+      min-height: 58px;
+      margin: 0 0 13px;
+      overflow: hidden;
+      color: #d9dcef;
+      font-size: 12px;
+      line-height: 1.55;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+
+    .history-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 11px;
+      border-top: 1px solid var(--stroke);
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .history-link {
+      color: var(--blue-light);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .examples {
+      padding: 82px 0 34px;
+    }
+
+    .section-kicker {
+      color: var(--blue-light);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .examples-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin: 10px 0 24px;
+    }
+
+    .examples-head h2 {
+      max-width: 640px;
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+    }
+
+    .examples-head p {
+      max-width: 350px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 300px;
+      overflow: hidden;
+      padding: 18px;
+      border: 1px solid var(--stroke);
+      border-radius: 22px;
+      background: var(--panel);
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(114, 199, 255, 0.28);
+    }
+
+    .card-art {
+      position: absolute;
+      inset: 0;
+      opacity: 0.86;
+    }
+
+    .card:nth-child(1) .card-art {
+      background:
+        radial-gradient(circle at 70% 28%, rgba(255, 230, 168, 0.68), transparent 10%),
+        radial-gradient(circle at 65% 44%, rgba(255, 153, 102, 0.42), transparent 23%),
+        linear-gradient(145deg, #172040, #29152c 56%, #0d0e18);
+    }
+
+    .card:nth-child(2) .card-art {
+      background:
+        linear-gradient(120deg, transparent 43%, rgba(139, 210, 255, 0.28) 44%, transparent 47%),
+        radial-gradient(circle at 48% 31%, rgba(92, 174, 255, 0.54), transparent 18%),
+        linear-gradient(160deg, #071426, #17264d 50%, #090d19);
+    }
+
+    .card:nth-child(3) .card-art {
+      background:
+        radial-gradient(circle at 52% 44%, rgba(235, 122, 255, 0.46), transparent 18%),
+        radial-gradient(circle at 42% 37%, rgba(98, 223, 255, 0.36), transparent 32%),
+        linear-gradient(145deg, #151229, #291646 55%, #0b0c17);
+    }
+
+    .art-shape {
+      position: absolute;
+      left: 50%;
+      top: 47%;
+      width: 110px;
+      height: 145px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 52% 48% 44% 56% / 46% 51% 49% 54%;
+      transform: translate(-50%, -50%) rotate(8deg);
+      background: rgba(255, 255, 255, 0.055);
+      box-shadow: 0 0 50px rgba(124, 124, 255, 0.2);
+    }
+
+    .card-top,
+    .card-bottom {
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tag {
+      padding: 5px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      background: rgba(6, 8, 18, 0.42);
+      font-size: 9px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-time {
+      color: #dfe2f2;
+      font-size: 10px;
+    }
+
+    .card-bottom {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 17px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .card-bottom h3 {
+      margin: 0 0 4px;
+      font-size: 17px;
+      letter-spacing: -0.03em;
+    }
+
+    .card-bottom p {
+      margin: 0;
+      color: #b6bad0;
+      font-size: 11px;
+    }
+
+    .use-btn {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--stroke-strong);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .use-btn svg {
+      width: 16px;
+    }
+
+    .workflow {
+      margin: 72px auto 84px;
+      padding: 34px;
+      border: 1px solid var(--stroke);
+      border-radius: 26px;
+      background: linear-gradient(150deg, rgba(79, 124, 255, 0.08), rgba(168, 85, 247, 0.04));
+    }
+
+    .workflow h2 {
+      margin: 0 0 24px;
+      font-size: 29px;
+      letter-spacing: -0.045em;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      border: 1px solid rgba(114, 199, 255, 0.25);
+      border-radius: 10px;
+      color: #d8f1ff;
+      background: rgba(79, 124, 255, 0.1);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .step h3 {
+      margin: 0 0 5px;
+      font-size: 15px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 0 42px;
+      border-top: 1px solid var(--stroke);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(15, 17, 34, 0.96);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.34);
+      opacity: 0;
+      transform: translate(-50%, 18px);
+      pointer-events: none;
+      transition: all 220ms ease;
+      font-size: 12px;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .spinner {
+      width: 17px;
+      height: 17px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 700ms linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 900px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .preview {
+        min-height: 520px;
+      }
+
+      .video-stage {
+        min-height: 390px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .history-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .card:last-child {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 22px, 1180px);
+      }
+
+      .nav-links a {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      .hero-proof {
+        flex-wrap: wrap;
+        gap: 8px 14px;
+      }
+
+      .workspace {
+        padding: 7px;
+        border-radius: 24px;
+      }
+
+      .creator {
+        padding: 17px;
+      }
+
+      .options-grid,
+      .settings-bar,
+      .shop-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shop-field.full { grid-column: auto; }
+
+      .generate-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .preview {
+        min-height: 500px;
+      }
+
+      .examples {
+        padding-top: 62px;
+      }
+
+      .examples-head {
+        display: block;
+      }
+
+      .history-head {
+        display: block;
+      }
+
+      .history-head p {
+        margin-top: 10px;
+      }
+
+      .examples-head p {
+        margin-top: 12px;
+      }
+
+      .cards,
+      .steps,
+      .history-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card:last-child {
+        grid-column: auto;
+      }
+
+      .workflow {
+        padding: 24px;
+      }
+
+      footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="shell nav">
+    <a class="brand" href="#top" aria-label="PROMPT10 AI, página inicial">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M7 4.9v14.2c0 1.1 1.2 1.8 2.2 1.2l11.1-7.1a1.4 1.4 0 0 0 0-2.4L9.2 3.7C8.2 3.1 7 3.8 7 4.9Z"/>
+        </svg>
+      </span>
+      <span>PROMPT<strong>10</strong> AI</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="#generator">Gerador</a>
+      <a href="#history">Projetos</a>
+      <a href="#examples">Inspiração</a>
+      <a href="#how">Como funciona</a>
+      <button class="nav-cta" type="button" id="loginButton">Entrar</button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="shell hero">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Vídeo por inteligência artificial</span>
+      <h1>Da ideia ao vídeo em <span class="gradient-text">10 segundos.</span></h1>
+      <p class="hero-copy">Escreve um prompt ou insere uma imagem. A PROMPT10 AI transforma a tua ideia num vídeo vertical, cinematográfico e pronto a publicar.</p>
+      <div class="hero-proof" aria-label="Vantagens">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="m5 12 4 4L19 6"/></svg>
+          Duração exata
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="m5 12 4 4L19 6"/></svg>
+          Texto ou imagem
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="m5 12 4 4L19 6"/></svg>
+          Pronto para redes sociais
+        </span>
+      </div>
+    </section>
+
+    <section class="shell workspace" id="generator" aria-label="Gerador de vídeo">
+      <div class="creator">
+        <div class="section-title">
+          <h2>Cria o teu vídeo</h2>
+          <span class="shortcut">Ctrl + Enter</span>
+        </div>
+
+        <div class="shop-studio">
+          <button class="shop-toggle" id="shopModeToggle" type="button" aria-expanded="false" aria-controls="shopFields">
+            <span><strong>TikTok Shop Studio</strong><small>Cria um anúncio de produto otimizado para 10 segundos</small></span>
+            <span class="toggle-track" aria-hidden="true"></span>
+          </button>
+          <div class="shop-fields" id="shopFields">
+            <div class="shop-form-grid">
+              <div class="shop-field">
+                <label for="productName">Nome do produto</label>
+                <input id="productName" maxlength="100" placeholder="Ex.: Mini liquidificador">
+              </div>
+              <div class="shop-field">
+                <label for="sellingPoint">Benefício principal</label>
+                <input id="sellingPoint" maxlength="180" placeholder="Ex.: prepara bebidas rapidamente">
+              </div>
+              <div class="shop-field">
+                <label for="salesAngle">Ângulo de venda</label>
+                <select id="salesAngle">
+                  <option value="demonstracao">Demonstração</option>
+                  <option value="problema_solucao">Problema e solução</option>
+                  <option value="ugc">UGC natural</option>
+                  <option value="premium">Apresentação premium</option>
+                </select>
+              </div>
+              <div class="shop-field">
+                <label for="shopCta">Chamada para ação</label>
+                <select id="shopCta">
+                  <option value="ver_produto">Ver no carrinho</option>
+                  <option value="saber_mais">Saber mais</option>
+                  <option value="experimentar">Experimentar</option>
+                </select>
+              </div>
+            </div>
+            <button class="shop-prompt-btn" id="buildShopPromptButton" type="button">✦ Criar prompt comercial</button>
+          </div>
+        </div>
+
+        <div class="prompt-box">
+          <textarea id="promptInput" maxlength="1000" placeholder="Exemplo: Uma mulher elegante apresenta um perfume de luxo numa sala iluminada por luz dourada. A câmara aproxima-se lentamente do frasco..."></textarea>
+          <div class="prompt-actions">
+            <button class="magic-btn" id="enhanceButton" type="button">
+              <span aria-hidden="true">✦</span>
+              Melhorar prompt
+            </button>
+            <span class="counter"><span id="charCount">0</span> / 1000</span>
+          </div>
+        </div>
+
+        <div class="image-source">
+          <div class="image-source-head">
+            <span class="option-label">Imagem de referência</span>
+            <span class="optional-label">Opcional</span>
+          </div>
+
+          <input class="image-input" id="imageInput" type="file" accept="image/jpeg,image/png,image/webp">
+          <label class="image-dropzone" id="imageDropzone" for="imageInput" tabindex="0">
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="4" width="18" height="16" rx="3"/>
+                <circle cx="8.5" cy="9" r="1.5"/>
+                <path d="m5 17 4.5-4.5 3.5 3 2.5-2.5 3.5 4"/>
+              </svg>
+            </span>
+            <span class="upload-copy">
+              <strong>Insere ou arrasta uma imagem</strong>
+              <span>JPG, PNG ou WEBP · máximo 3 MB</span>
+            </span>
+          </label>
+
+          <div class="image-file-card" id="imageFileCard">
+            <img class="image-thumb" id="imageThumb" alt="Imagem de referência selecionada">
+            <div class="image-file-info">
+              <strong id="imageFileName">imagem.jpg</strong>
+              <span id="imageFileMeta">Imagem pronta</span>
+            </div>
+            <div class="image-file-actions">
+              <button class="image-action" id="replaceImageButton" type="button" aria-label="Substituir imagem" title="Substituir imagem">↻</button>
+              <button class="image-action remove" id="removeImageButton" type="button" aria-label="Remover imagem" title="Remover imagem">×</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div>
+            <span class="option-label">Formato</span>
+            <div class="pills" data-group="format">
+              <button class="pill format-pill active" type="button"><span class="format-icon vertical"></span> 9:16</button>
+              <button class="pill format-pill" type="button"><span class="format-icon wide"></span> 16:9</button>
+              <button class="pill format-pill" type="button"><span class="format-icon square"></span> 1:1</button>
+            </div>
+          </div>
+
+          <div>
+            <span class="option-label">Estilo visual</span>
+            <div class="pills" data-group="style">
+              <button class="pill active" type="button">Cinematográfico</button>
+              <button class="pill" type="button">UGC</button>
+              <button class="pill" type="button">Produto</button>
+              <button class="pill" type="button">Anime</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-bar">
+          <div class="select-like"><span>Câmara</span><strong>Aproximação lenta⌄</strong></div>
+          <div class="select-like"><span>Qualidade</span><strong>1080p HD⌄</strong></div>
+        </div>
+
+        <div class="cost-selector">
+          <div class="cost-head">
+            <span class="option-label">Modo de geração</span>
+            <span class="cost-hint" id="costHint">Melhor custo escolhido automaticamente</span>
+          </div>
+          <div class="pills" data-group="cost">
+            <button class="pill active" data-value="automatico" type="button">Automático</button>
+            <button class="pill" data-value="economico" type="button">Económico</button>
+            <button class="pill" data-value="premium" type="button">Premium</button>
+          </div>
+        </div>
+
+        <div class="generate-row">
+          <button class="generate-btn" id="generateButton" type="button">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.9v14.2c0 1.1 1.2 1.8 2.2 1.2l11.1-7.1a1.4 1.4 0 0 0 0-2.4L9.2 3.7C8.2 3.1 7 3.8 7 4.9Z"/></svg>
+            <span>Gerar vídeo de 10 segundos</span>
+          </button>
+          <div class="credits"><strong id="costEstimate">US$ 1,20</strong><span id="costLabel">sem imagem</span></div>
+        </div>
+      </div>
+
+      <aside class="preview" aria-label="Pré visualização do vídeo">
+        <div class="preview-header">
+          <span>Pré visualização</span>
+          <span class="duration">◷ 00:10</span>
+        </div>
+        <div class="video-stage">
+          <video class="stage-video" id="stageVideo" controls playsinline></video>
+          <img class="stage-image" id="stageImage" alt="Pré visualização da imagem de referência">
+          <div class="stage-grid"></div>
+          <div class="stage-content" id="stageContent" aria-live="polite">
+            <div class="play-orb" id="playOrb">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.9v14.2c0 1.1 1.2 1.8 2.2 1.2l11.1-7.1a1.4 1.4 0 0 0 0-2.4L9.2 3.7C8.2 3.1 7 3.8 7 4.9Z"/></svg>
+            </div>
+            <h3 id="stageTitle">O teu vídeo aparecerá aqui</h3>
+            <p id="stageText">Escreve um prompt, escolhe o estilo e inicia a geração.</p>
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+              <div class="progress-copy"><span id="progressStage">A preparar a cena</span><span id="progressNumber">0%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-footer">
+          <span class="quality">1080 × 1920</span>
+          <a class="download-btn" id="downloadButton" href="#" download>↓ Descarregar MP4</a>
+          <span id="videoMeta">MP4 · 30 fps</span>
+        </div>
+        <div class="publication-kit" id="publicationKit">
+          <h3>Kit de publicação TikTok Shop</h3>
+          <div class="kit-item"><span>Gancho</span><strong id="kitHook"></strong><button class="copy-kit" type="button" data-copy="kitHook">Copiar</button></div>
+          <div class="kit-item"><span>Voz</span><strong id="kitVoiceover"></strong><button class="copy-kit" type="button" data-copy="kitVoiceover">Copiar</button></div>
+          <div class="kit-item"><span>Legenda</span><strong id="kitCaption"></strong><button class="copy-kit" type="button" data-copy="kitCaption">Copiar</button></div>
+          <div class="kit-item"><span>Hashtags</span><strong id="kitHashtags"></strong><button class="copy-kit" type="button" data-copy="kitHashtags">Copiar</button></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="shell history-section" id="history">
+      <div class="history-head">
+        <div>
+          <span class="section-kicker">Projetos</span>
+          <h2>Gerações recentes</h2>
+        </div>
+        <p>O estado de cada vídeo fica guardado para poderes acompanhar, reproduzir e descarregar mais tarde.</p>
+      </div>
+      <div class="history-grid" id="historyGrid">
+        <div class="history-empty">Ainda não existem vídeos. A tua primeira geração aparecerá aqui.</div>
+      </div>
+    </section>
+
+    <section class="shell examples" id="examples">
+      <span class="section-kicker">Inspiração</span>
+      <div class="examples-head">
+        <h2>Começa com uma ideia. Nós tratamos do resto.</h2>
+        <p>Escolhe um exemplo e adapta o prompt ao teu produto, personagem ou história.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card" data-example="Vídeo publicitário vertical de 10 segundos. Um frasco de perfume premium sobre uma superfície de mármore escuro, iluminado por luz dourada. A câmara aproxima-se lentamente, pequenas partículas luminosas flutuam no ar e a cena termina num plano fechado do produto.">
+          <div class="card-art"><span class="art-shape"></span></div>
+          <div class="card-top"><span class="tag">Produto</span><span class="card-time">00:10</span></div>
+          <div class="card-bottom">
+            <div><h3>Perfume de luxo</h3><p>Luz dourada · Câmara lenta</p></div>
+            <span class="use-btn" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="card" data-example="Sequência cinematográfica vertical de 10 segundos. Um herói paira sobre uma cidade futurista durante a noite. Energia azul forma-se nas mãos, ele acelera entre arranha-céus iluminados e desaparece por entre as nuvens. Movimento dinâmico de câmara e iluminação realista.">
+          <div class="card-art"><span class="art-shape"></span></div>
+          <div class="card-top"><span class="tag">Cinema</span><span class="card-time">00:10</span></div>
+          <div class="card-bottom">
+            <div><h3>Herói futurista</h3><p>Ação · Energia azul</p></div>
+            <span class="use-btn" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="card" data-example="Vídeo UGC vertical de 10 segundos. Uma criadora de conteúdo apresenta uma pequena coluna portátil num quarto moderno. Começa com um plano próximo do produto, mostra rapidamente como funciona e termina a sorrir para a câmara. Luz natural, movimento de mão realista e energia espontânea.">
+          <div class="card-art"><span class="art-shape"></span></div>
+          <div class="card-top"><span class="tag">UGC</span><span class="card-time">00:10</span></div>
+          <div class="card-bottom">
+            <div><h3>Produto viral</h3><p>Natural · TikTok Shop</p></div>
+            <span class="use-btn" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell workflow" id="how">
+      <h2>Uma ideia. Três passos.</h2>
+      <div class="steps">
+        <div class="step"><div class="step-number">01</div><h3>Descreve ou insere</h3><p>Escreve livremente, escolhe um modelo profissional ou adiciona uma imagem.</p></div>
+        <div class="step"><div class="step-number">02</div><h3>Personaliza</h3><p>Define formato, estilo visual, movimento de câmara e qualidade.</p></div>
+        <div class="step"><div class="step-number">03</div><h3>Gera e publica</h3><p>Recebe um vídeo de 10 segundos pronto para descarregar e partilhar.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <a class="brand" href="#top"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.9v14.2c0 1.1 1.2 1.8 2.2 1.2l11.1-7.1a1.4 1.4 0 0 0 0-2.4L9.2 3.7C8.2 3.1 7 3.8 7 4.9Z"/></svg></span><span>PROMPT<strong>10</strong> AI</span></a>
+    <span>Conceito e protótipo · Pedro Figueiredo · 2026</span>
+  </footer>
+
+  <div class="toast" id="toast"><span id="toastIcon">✦</span><span id="toastText">Prompt melhorado</span></div>
+
+  <script>
+    const promptInput = document.getElementById('promptInput');
+    const charCount = document.getElementById('charCount');
+    const enhanceButton = document.getElementById('enhanceButton');
+    const generateButton = document.getElementById('generateButton');
+    const stageTitle = document.getElementById('stageTitle');
+    const stageText = document.getElementById('stageText');
+    const playOrb = document.getElementById('playOrb');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressBar = document.getElementById('progressBar');
+    const progressStage = document.getElementById('progressStage');
+    const progressNumber = document.getElementById('progressNumber');
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toastText');
+    const toastIcon = document.getElementById('toastIcon');
+    const imageInput = document.getElementById('imageInput');
+    const imageDropzone = document.getElementById('imageDropzone');
+    const imageFileCard = document.getElementById('imageFileCard');
+    const imageThumb = document.getElementById('imageThumb');
+    const imageFileName = document.getElementById('imageFileName');
+    const imageFileMeta = document.getElementById('imageFileMeta');
+    const replaceImageButton = document.getElementById('replaceImageButton');
+    const removeImageButton = document.getElementById('removeImageButton');
+    const stageImage = document.getElementById('stageImage');
+    const stageVideo = document.getElementById('stageVideo');
+    const stageContent = document.getElementById('stageContent');
+    const downloadButton = document.getElementById('downloadButton');
+    const videoMeta = document.getElementById('videoMeta');
+    const historyGrid = document.getElementById('historyGrid');
+    const costEstimate = document.getElementById('costEstimate');
+    const costLabel = document.getElementById('costLabel');
+    const costHint = document.getElementById('costHint');
+    const shopModeToggle = document.getElementById('shopModeToggle');
+    const shopFields = document.getElementById('shopFields');
+    const productName = document.getElementById('productName');
+    const sellingPoint = document.getElementById('sellingPoint');
+    const salesAngle = document.getElementById('salesAngle');
+    const shopCta = document.getElementById('shopCta');
+    const buildShopPromptButton = document.getElementById('buildShopPromptButton');
+    const publicationKit = document.getElementById('publicationKit');
+    let imageUrl = '';
+    let selectedImageFile = null;
+
+    function isShopMode() {
+      return shopModeToggle.getAttribute('aria-expanded') === 'true';
+    }
+
+    shopModeToggle.addEventListener('click', () => {
+      const enabled = !isShopMode();
+      shopModeToggle.setAttribute('aria-expanded', String(enabled));
+      shopFields.classList.toggle('visible', enabled);
+      if (enabled) productName.focus();
+    });
+
+    function updateCounter() {
+      charCount.textContent = promptInput.value.length;
+    }
+
+    function showToast(message, icon = '✦') {
+      toastText.textContent = message;
+      toastIcon.textContent = icon;
+      toast.classList.add('visible');
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove('visible'), 2600);
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024 * 1024) return Math.max(1, Math.round(bytes / 1024)) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB';
+    }
+
+    function setImage(file) {
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!file || !allowedTypes.includes(file.type)) {
+        showToast('Escolhe uma imagem JPG, PNG ou WEBP', '!');
+        imageInput.value = '';
+        return;
+      }
+
+      if (file.size > 3 * 1024 * 1024) {
+        showToast('A imagem não pode ultrapassar 3 MB', '!');
+        imageInput.value = '';
+        return;
+      }
+
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
+      imageUrl = URL.createObjectURL(file);
+      selectedImageFile = file;
+      updateCostEstimate();
+      resetVideoResult();
+      imageThumb.src = imageUrl;
+      stageImage.src = imageUrl;
+      imageFileName.textContent = file.name;
+      imageFileMeta.textContent = formatFileSize(file.size) + ' · pronta para animar';
+      imageDropzone.style.display = 'none';
+      imageFileCard.classList.add('visible');
+      stageImage.classList.add('visible');
+      stageTitle.textContent = 'Imagem pronta para ganhar movimento';
+      stageText.textContent = 'Descreve no prompt o movimento, a ação e o comportamento da câmara.';
+      showToast('Imagem adicionada como referência', '✓');
+    }
+
+    function removeImage() {
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
+      imageUrl = '';
+      selectedImageFile = null;
+      updateCostEstimate();
+      imageInput.value = '';
+      imageThumb.removeAttribute('src');
+      stageImage.removeAttribute('src');
+      imageFileCard.classList.remove('visible');
+      stageImage.classList.remove('visible');
+      imageDropzone.style.display = 'flex';
+      resetVideoResult();
+      stageTitle.textContent = 'O teu vídeo aparecerá aqui';
+      stageText.textContent = 'Escreve um prompt, escolhe o estilo e inicia a geração.';
+      showToast('Imagem removida', '×');
+    }
+
+    imageInput.addEventListener('change', event => setImage(event.target.files[0]));
+    replaceImageButton.addEventListener('click', () => imageInput.click());
+    removeImageButton.addEventListener('click', removeImage);
+
+    imageDropzone.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        imageInput.click();
+      }
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      imageDropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        imageDropzone.classList.add('dragging');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      imageDropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        imageDropzone.classList.remove('dragging');
+      });
+    });
+
+    imageDropzone.addEventListener('drop', event => setImage(event.dataTransfer.files[0]));
+
+    promptInput.addEventListener('input', updateCounter);
+
+    document.querySelectorAll('[data-group]').forEach(group => {
+      group.addEventListener('click', event => {
+        const pill = event.target.closest('.pill');
+        if (!pill) return;
+        group.querySelectorAll('.pill').forEach(item => item.classList.remove('active'));
+        pill.classList.add('active');
+        if (group.dataset.group === 'cost') updateCostEstimate();
+      });
+    });
+
+    function selectPill(groupName, value) {
+      const group = document.querySelector('[data-group="' + groupName + '"]');
+      if (!group) return;
+      const target = Array.from(group.querySelectorAll('.pill')).find(item =>
+        (item.dataset.value || item.textContent.trim()) === value
+      );
+      if (!target) return;
+      group.querySelectorAll('.pill').forEach(item => item.classList.remove('active'));
+      target.classList.add('active');
+    }
+
+    function buildShopPrompt() {
+      const name = productName.value.trim();
+      const benefit = sellingPoint.value.trim();
+      if (name.length < 2 || benefit.length < 3) {
+        showToast('Indica o produto e o benefício principal', '!');
+        (name.length < 2 ? productName : sellingPoint).focus();
+        return false;
+      }
+
+      const angleDirections = {
+        demonstracao: 'Começar num plano próximo do produto, demonstrar o benefício com movimento natural e terminar num plano limpo da embalagem.',
+        problema_solucao: 'Mostrar primeiro uma dificuldade comum, revelar o produto como solução e terminar com o resultado visível.',
+        ugc: 'Uma criadora apresenta o produto de forma espontânea, demonstra como funciona e termina a apontar para a área do carrinho.',
+        premium: 'Apresentar o produto com luz elegante, planos de detalhe, movimento suave e um plano final publicitário.'
+      };
+      const reference = selectedImageFile ? 'Usar a imagem como referência visual fiel. ' : '';
+      promptInput.value = (reference + angleDirections[salesAngle.value] + ' Produto: ' + name + '. Benefício a mostrar: ' + benefit + '.').slice(0, 1000);
+      selectPill('format', '9:16');
+      selectPill('style', salesAngle.value === 'ugc' ? 'UGC' : 'Produto');
+      updateCounter();
+      showToast('Prompt comercial criado para TikTok Shop', '✓');
+      return true;
+    }
+
+    buildShopPromptButton.addEventListener('click', buildShopPrompt);
+
+    function updateCostEstimate() {
+      const mode = activeChoice('cost') || 'automatico';
+      const economical = mode === 'economico' || (mode === 'automatico' && selectedImageFile);
+      costEstimate.textContent = economical ? 'US$ 0,50' : 'US$ 1,20';
+      costLabel.textContent = economical ? 'estimados · Turbo' : 'estimados · Premium';
+      costHint.textContent = mode === 'economico'
+        ? 'Requer uma imagem do produto'
+        : mode === 'premium'
+          ? 'Maior qualidade e liberdade criativa'
+          : selectedImageFile
+            ? 'Imagem detetada: modo económico'
+            : 'Sem imagem: modo premium necessário';
+    }
+
+    enhanceButton.addEventListener('click', () => {
+      const raw = promptInput.value.trim();
+      if (!raw) {
+        promptInput.value = 'Uma mulher elegante apresenta um perfume de luxo numa sala iluminada por luz dourada.';
+      }
+      const base = promptInput.value.trim().replace(/[.\s]+$/, '');
+      const additions = ' Vídeo vertical de 10 segundos, composição cinematográfica, movimento natural, iluminação realista, detalhe elevado, câmara com aproximação suave, profundidade de campo e acabamento publicitário premium.';
+      if (!base.toLowerCase().includes('vídeo vertical de 10 segundos')) {
+        promptInput.value = base + '.' + additions;
+      }
+      updateCounter();
+      showToast('Prompt transformado numa instrução profissional');
+    });
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        promptInput.value = card.dataset.example;
+        updateCounter();
+        document.getElementById('generator').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('Exemplo aplicado ao gerador', '✓');
+      });
+    });
+
+    function resetVideoResult() {
+      stageVideo.pause();
+      stageVideo.removeAttribute('src');
+      stageVideo.load();
+      stageVideo.classList.remove('visible');
+      stageContent.classList.remove('hidden');
+      downloadButton.classList.remove('visible');
+      downloadButton.removeAttribute('href');
+      videoMeta.textContent = 'MP4 · 30 fps';
+      publicationKit.classList.remove('visible');
+    }
+
+    function setGenerateButton(loading, label) {
+      generateButton.disabled = loading;
+      generateButton.innerHTML = loading
+        ? '<span class="spinner"></span><span>' + label + '</span>'
+        : '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.9v14.2c0 1.1 1.2 1.8 2.2 1.2l11.1-7.1a1.4 1.4 0 0 0 0-2.4L9.2 3.7C8.2 3.1 7 3.8 7 4.9Z"/></svg><span>' + label + '</span>';
+    }
+
+    function activeChoice(groupName) {
+      const active = document.querySelector('[data-group="' + groupName + '"] .pill.active');
+      return active ? (active.dataset.value || active.textContent.trim()) : '';
+    }
+
+    function progressDescription(progress, hasImage) {
+      if (progress < 12) return hasImage ? 'A analisar a imagem' : 'A interpretar o prompt';
+      if (progress < 35) return 'A preparar a cena';
+      if (progress < 60) return 'A criar os fotogramas';
+      if (progress < 82) return 'A aplicar movimento';
+      if (progress < 100) return 'A melhorar a qualidade';
+      return 'Vídeo concluído';
+    }
+
+    function updateGenerationProgress(generation) {
+      const progress = Math.max(0, Math.min(100, Number(generation.progress) || 0));
+      progressBar.style.width = progress + '%';
+      progressNumber.textContent = progress + '%';
+      progressStage.textContent = progressDescription(progress, generation.hasImage);
+    }
+
+    function safeVideoUrl(value) {
+      if (!value) return '';
+      if (value.startsWith('/')) return value;
+      try {
+        const parsed = new URL(value);
+        return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : '';
+      } catch {
+        return '';
+      }
+    }
+
+    function showCompletedVideo(generation) {
+      const videoUrl = safeVideoUrl(generation.outputUrl);
+      if (!videoUrl) throw new Error('O motor terminou sem devolver um vídeo válido');
+      stageVideo.src = videoUrl;
+      stageVideo.classList.add('visible');
+      stageContent.classList.add('hidden');
+      downloadButton.href = videoUrl;
+      downloadButton.classList.add('visible');
+      videoMeta.textContent = generation.aspectRatio + ' · 10 segundos';
+      showPublicationKit(generation.publicationKit);
+      stageVideo.play().catch(() => {});
+    }
+
+    function showPublicationKit(kit) {
+      if (!kit) {
+        publicationKit.classList.remove('visible');
+        return;
+      }
+      document.getElementById('kitHook').textContent = kit.hook || '';
+      document.getElementById('kitVoiceover').textContent = kit.voiceover || '';
+      document.getElementById('kitCaption').textContent = kit.caption || '';
+      document.getElementById('kitHashtags').textContent = kit.hashtags || '';
+      publicationKit.classList.add('visible');
+    }
+
+    document.querySelectorAll('.copy-kit').forEach(button => {
+      button.addEventListener('click', async () => {
+        const value = document.getElementById(button.dataset.copy).textContent;
+        try {
+          await navigator.clipboard.writeText(value);
+          showToast('Texto copiado', '✓');
+        } catch {
+          showToast('Seleciona e copia o texto manualmente', '!');
+        }
+      });
+    });
+
+    async function responseMessage(response) {
+      const body = await response.json().catch(() => ({}));
+      return body.message || 'Não foi possível concluir o pedido';
+    }
+
+    function wait(milliseconds) {
+      return new Promise(resolve => window.setTimeout(resolve, milliseconds));
+    }
+
+    async function pollGeneration(id) {
+      const deadline = Date.now() + 20 * 60 * 1000;
+      while (Date.now() < deadline) {
+        await wait(1000);
+        const response = await fetch('/api/generations/' + encodeURIComponent(id));
+        if (!response.ok) throw new Error(await responseMessage(response));
+        const body = await response.json();
+        const generation = body.generation;
+        updateGenerationProgress(generation);
+
+        if (generation.status === 'succeeded') return generation;
+        if (generation.status === 'failed') {
+          throw new Error(generation.error || 'A geração não foi concluída');
+        }
+      }
+      throw new Error('A geração está a demorar mais do que o esperado');
+    }
+
+    async function generateVideo() {
+      if (isShopMode() && !promptInput.value.trim()) buildShopPrompt();
+
+      if (!promptInput.value.trim()) {
+        showToast('Escreve primeiro a ideia para o vídeo', '!');
+        promptInput.focus();
+        return;
+      }
+
+      if (isShopMode() && (productName.value.trim().length < 2 || sellingPoint.value.trim().length < 3)) {
+        showToast('Preenche o produto e o benefício do TikTok Shop', '!');
+        (productName.value.trim().length < 2 ? productName : sellingPoint).focus();
+        return;
+      }
+
+
+      if (activeChoice('cost') === 'economico' && !selectedImageFile) {
+        showToast('Adiciona uma imagem do produto para usar o modo Económico', '!');
+        imageInput.focus();
+        return;
+      }
+
+      resetVideoResult();
+      setGenerateButton(true, 'A gerar o teu vídeo');
+      playOrb.style.display = 'none';
+      progressWrap.style.display = 'block';
+      progressBar.style.width = '2%';
+      progressNumber.textContent = '2%';
+      progressStage.textContent = selectedImageFile ? 'A enviar a imagem' : 'A enviar o prompt';
+      stageTitle.textContent = 'A criar a tua cena';
+      stageText.textContent = selectedImageFile
+        ? 'A inteligência artificial está a preservar a imagem e a criar o movimento pedido.'
+        : 'A inteligência artificial está a interpretar o movimento, a luz e a composição.';
+
+      try {
+        const form = new FormData();
+        form.append('prompt', promptInput.value.trim());
+        form.append('aspectRatio', activeChoice('format') || '9:16');
+        form.append('style', activeChoice('style') || 'Cinematográfico');
+        form.append('camera', 'Aproximação lenta');
+        form.append('costMode', activeChoice('cost') || 'automatico');
+        form.append('tiktokShop', String(isShopMode()));
+        form.append('productName', productName.value.trim());
+        form.append('sellingPoint', sellingPoint.value.trim());
+        form.append('salesAngle', salesAngle.value);
+        form.append('cta', shopCta.value);
+        if (selectedImageFile) form.append('image', selectedImageFile, selectedImageFile.name);
+
+        const response = await fetch('/api/generations', {
+          method: 'POST',
+          body: form
+        });
+        if (!response.ok) throw new Error(await responseMessage(response));
+
+        const body = await response.json();
+        updateGenerationProgress(body.generation);
+        const completed = await pollGeneration(body.generation.id);
+        showCompletedVideo(completed);
+        setGenerateButton(false, 'Gerar nova versão');
+        showToast('Vídeo concluído e pronto a descarregar', '✓');
+        await loadHistory();
+      } catch (error) {
+        stageTitle.textContent = 'Não foi possível gerar o vídeo';
+        stageText.textContent = error.message;
+        progressStage.textContent = 'Geração interrompida';
+        setGenerateButton(false, 'Tentar novamente');
+        showToast(error.message, '!');
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function statusLabel(status) {
+      return {
+        queued: 'Em fila',
+        processing: 'A gerar',
+        succeeded: 'Concluído',
+        failed: 'Falhou'
+      }[status] || status;
+    }
+
+    function formatDate(value) {
+      return new Intl.DateTimeFormat('pt-PT', {
+        day: '2-digit',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(new Date(value));
+    }
+
+    function renderHistory(generations) {
+      if (!generations.length) {
+        historyGrid.innerHTML = '<div class="history-empty">Ainda não existem vídeos. A tua primeira geração aparecerá aqui.</div>';
+        return;
+      }
+
+      historyGrid.innerHTML = generations.map(generation => {
+        const videoUrl = safeVideoUrl(generation.outputUrl);
+        const action = generation.status === 'succeeded' && videoUrl
+          ? '<a class="history-link" href="' + escapeHtml(videoUrl) + '" target="_blank" rel="noopener">Ver vídeo</a>'
+          : '<span>' + Math.round(Number(generation.progress) || 0) + '%</span>';
+        return '<article class="history-card">' +
+          '<div class="history-card-top">' +
+            '<span class="history-status ' + escapeHtml(generation.status) + '">' + escapeHtml(statusLabel(generation.status)) + '</span>' +
+            '<span class="history-date">' + escapeHtml(formatDate(generation.createdAt)) + '</span>' +
+          '</div>' +
+          '<p class="history-prompt">' + escapeHtml(generation.prompt) + '</p>' +
+          '<div class="history-meta">' +
+            '<span>' + escapeHtml(generation.aspectRatio) + ' · ' + escapeHtml(generation.style) + (generation.hasImage ? ' · imagem' : '') + (generation.tiktokShop ? ' · TikTok Shop' : '') + '</span>' +
+            action +
+          '</div>' +
+        '</article>';
+      }).join('');
+    }
+
+    async function loadHistory() {
+      try {
+        const response = await fetch('/api/generations?limit=9');
+        if (!response.ok) return;
+        const body = await response.json();
+        renderHistory(body.generations || []);
+      } catch {
+        historyGrid.innerHTML = '<div class="history-empty">O histórico ficará disponível quando o servidor estiver ativo.</div>';
+      }
+    }
+
+    generateButton.addEventListener('click', generateVideo);
+    document.addEventListener('keydown', event => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') generateVideo();
+    });
+
+    document.getElementById('loginButton').addEventListener('click', () => {
+      showToast('O acesso de utilizador entra na próxima fase', '◷');
+    });
+
+    loadHistory();
+  </script>
+</body>
+</html>
