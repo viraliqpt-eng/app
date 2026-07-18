@@ -18,6 +18,10 @@ Base funcional para um gerador de vídeos de 10 segundos a partir de texto e de 
 12. TikTok Shop Studio com produto, benefício, ângulo de venda e chamada para ação.
 13. Prompt comercial estruturado automaticamente para 10 segundos.
 14. Kit de publicação com gancho, voz sugerida, legenda e hashtags.
+15. Três variações gratuitas de prompt antes de escolher o vídeo.
+16. Confirmação obrigatória do custo antes de cada geração.
+17. Estatísticas de vídeos concluídos, custo e créditos estimados.
+18. Instruções reforçadas contra logótipos, marcas e texto inventados.
 
 ## TikTok Shop Studio
 
@@ -36,6 +40,26 @@ Depois da geração, a interface apresenta um kit de publicação com:
 * texto curto para voz;
 * legenda;
 * hashtags.
+
+### Variações sem gastar créditos
+
+O botão `Criar 3 variações grátis` prepara três abordagens para o mesmo produto:
+
+1. Demonstração.
+2. Problema e solução.
+3. UGC natural.
+
+Escolher uma variação apenas altera o prompt. Nenhum pedido é enviado à Runway até o utilizador clicar em gerar e confirmar o custo apresentado no ecrã.
+
+### Controlo de utilização
+
+A área de projetos calcula, a partir das gerações concluídas guardadas no histórico:
+
+1. Número de vídeos concluídos.
+2. Custo estimado total.
+3. Créditos estimados utilizados.
+
+Os números são estimativas locais e não substituem o saldo e o relatório oficial do fornecedor.
 
 ## Requisitos
 

@@ -358,6 +358,41 @@
       font-weight: 700;
     }
 
+    .shop-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .shop-prompt-btn.secondary {
+      color: #c9f3ff;
+      border-color: rgba(114, 199, 255, 0.24);
+      background: rgba(79, 124, 255, 0.09);
+    }
+
+    .variation-list {
+      display: none;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .variation-list.visible { display: grid; }
+
+    .variation-card {
+      width: 100%;
+      padding: 10px;
+      color: #dfe4ff;
+      border: 1px solid var(--stroke);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.025);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .variation-card:hover { border-color: rgba(114, 199, 255, 0.4); }
+    .variation-card strong { display: block; margin-bottom: 3px; font-size: 11px; }
+    .variation-card span { color: var(--muted); font-size: 9px; }
+
     .section-title h2 {
       font-size: 20px;
     }
@@ -1038,6 +1073,23 @@
       gap: 12px;
     }
 
+    .usage-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .usage-stat {
+      padding: 14px;
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      background: rgba(14, 16, 32, 0.62);
+    }
+
+    .usage-stat span { display: block; color: var(--muted); font-size: 10px; }
+    .usage-stat strong { display: block; margin-top: 4px; font-size: 18px; }
+
     .history-empty {
       grid-column: 1 / -1;
       padding: 28px;
@@ -1374,6 +1426,61 @@
       transform: translate(-50%, 0);
     }
 
+    .confirm-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(2, 3, 10, 0.76);
+      backdrop-filter: blur(8px);
+    }
+
+    .confirm-backdrop.visible { display: grid; }
+
+    .confirm-card {
+      width: min(100%, 420px);
+      padding: 22px;
+      border: 1px solid var(--stroke-strong);
+      border-radius: 20px;
+      background: #111429;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+    }
+
+    .confirm-card h2 { margin: 0 0 7px; font-size: 20px; }
+    .confirm-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+    .confirm-cost {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 18px 0;
+      padding: 14px;
+      border: 1px solid rgba(75, 224, 163, 0.18);
+      border-radius: 13px;
+      background: rgba(75, 224, 163, 0.05);
+    }
+
+    .confirm-cost strong { font-size: 21px; }
+    .confirm-cost span { color: var(--muted); font-size: 10px; text-align: right; }
+    .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+
+    .confirm-actions button {
+      min-height: 44px;
+      border: 1px solid var(--stroke);
+      border-radius: 11px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .confirm-actions .confirm-generate {
+      border: 0;
+      background: linear-gradient(100deg, #4671f4, #a84eea);
+    }
+
     .spinner {
       width: 17px;
       height: 17px;
@@ -1446,7 +1553,9 @@
 
       .options-grid,
       .settings-bar,
-      .shop-form-grid {
+      .shop-form-grid,
+      .shop-actions,
+      .usage-stats {
         grid-template-columns: 1fr;
       }
 
@@ -1585,7 +1694,11 @@
                 </select>
               </div>
             </div>
-            <button class="shop-prompt-btn" id="buildShopPromptButton" type="button">✦ Criar prompt comercial</button>
+            <div class="shop-actions">
+              <button class="shop-prompt-btn" id="buildShopPromptButton" type="button">✦ Criar 1 prompt</button>
+              <button class="shop-prompt-btn secondary" id="buildVariationsButton" type="button">Criar 3 variações grátis</button>
+            </div>
+            <div class="variation-list" id="variationList" aria-live="polite"></div>
           </div>
         </div>
 
@@ -1725,6 +1838,11 @@
         </div>
         <p>O estado de cada vídeo fica guardado para poderes acompanhar, reproduzir e descarregar mais tarde.</p>
       </div>
+      <div class="usage-stats">
+        <div class="usage-stat"><span>Vídeos concluídos</span><strong id="statVideos">0</strong></div>
+        <div class="usage-stat"><span>Custo estimado</span><strong id="statCost">US$ 0,00</strong></div>
+        <div class="usage-stat"><span>Créditos utilizados</span><strong id="statCredits">0</strong></div>
+      </div>
       <div class="history-grid" id="historyGrid">
         <div class="history-empty">Ainda não existem vídeos. A tua primeira geração aparecerá aqui.</div>
       </div>
@@ -1783,6 +1901,17 @@
   </footer>
 
   <div class="toast" id="toast"><span id="toastIcon">✦</span><span id="toastText">Prompt melhorado</span></div>
+  <div class="confirm-backdrop" id="costConfirm" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="confirm-card">
+      <h2 id="confirmTitle">Confirmar geração real</h2>
+      <p>Será criada uma geração de 10 segundos. O custo é estimado e será debitado pelo fornecedor de vídeo.</p>
+      <div class="confirm-cost"><strong id="confirmCost">US$ 0,50</strong><span id="confirmModel">Gen 4 Turbo<br>50 créditos estimados</span></div>
+      <div class="confirm-actions">
+        <button id="cancelGenerationButton" type="button">Cancelar</button>
+        <button class="confirm-generate" id="confirmGenerationButton" type="button">Confirmar e gerar</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     const promptInput = document.getElementById('promptInput');
@@ -1823,7 +1952,14 @@
     const salesAngle = document.getElementById('salesAngle');
     const shopCta = document.getElementById('shopCta');
     const buildShopPromptButton = document.getElementById('buildShopPromptButton');
+    const buildVariationsButton = document.getElementById('buildVariationsButton');
+    const variationList = document.getElementById('variationList');
     const publicationKit = document.getElementById('publicationKit');
+    const costConfirm = document.getElementById('costConfirm');
+    const confirmCost = document.getElementById('confirmCost');
+    const confirmModel = document.getElementById('confirmModel');
+    const cancelGenerationButton = document.getElementById('cancelGenerationButton');
+    const confirmGenerationButton = document.getElementById('confirmGenerationButton');
     let imageUrl = '';
     let selectedImageFile = null;
 
@@ -1953,7 +2089,20 @@
       target.classList.add('active');
     }
 
-    function buildShopPrompt() {
+    function shopPromptForAngle(angle) {
+      const angleDirections = {
+        demonstracao: 'Começar num plano próximo do produto, demonstrar o benefício com movimento natural e terminar num plano limpo da embalagem.',
+        problema_solucao: 'Mostrar primeiro uma dificuldade comum, revelar o produto como solução e terminar com o resultado visível.',
+        ugc: 'Uma criadora apresenta o produto de forma espontânea, demonstra como funciona e termina a apontar para a área do carrinho.',
+        premium: 'Apresentar o produto com luz elegante, planos de detalhe, movimento suave e um plano final publicitário.'
+      };
+      const reference = selectedImageFile
+        ? 'Usar a imagem como referência visual obrigatória e manter o produto consistente. '
+        : '';
+      return (reference + angleDirections[angle] + ' Produto: ' + productName.value.trim() + '. Benefício a mostrar: ' + sellingPoint.value.trim() + '. Não inventar logótipos, marcas, texto ou características.').slice(0, 1000);
+    }
+
+    function buildShopPrompt(angleOverride) {
       const name = productName.value.trim();
       const benefit = sellingPoint.value.trim();
       if (name.length < 2 || benefit.length < 3) {
@@ -1962,22 +2111,48 @@
         return false;
       }
 
-      const angleDirections = {
-        demonstracao: 'Começar num plano próximo do produto, demonstrar o benefício com movimento natural e terminar num plano limpo da embalagem.',
-        problema_solucao: 'Mostrar primeiro uma dificuldade comum, revelar o produto como solução e terminar com o resultado visível.',
-        ugc: 'Uma criadora apresenta o produto de forma espontânea, demonstra como funciona e termina a apontar para a área do carrinho.',
-        premium: 'Apresentar o produto com luz elegante, planos de detalhe, movimento suave e um plano final publicitário.'
-      };
-      const reference = selectedImageFile ? 'Usar a imagem como referência visual fiel. ' : '';
-      promptInput.value = (reference + angleDirections[salesAngle.value] + ' Produto: ' + name + '. Benefício a mostrar: ' + benefit + '.').slice(0, 1000);
+      const selectedAngle = typeof angleOverride === 'string' ? angleOverride : salesAngle.value;
+      salesAngle.value = selectedAngle;
+      promptInput.value = shopPromptForAngle(selectedAngle);
       selectPill('format', '9:16');
-      selectPill('style', salesAngle.value === 'ugc' ? 'UGC' : 'Produto');
+      selectPill('style', selectedAngle === 'ugc' ? 'UGC' : 'Produto');
       updateCounter();
       showToast('Prompt comercial criado para TikTok Shop', '✓');
       return true;
     }
 
-    buildShopPromptButton.addEventListener('click', buildShopPrompt);
+    buildShopPromptButton.addEventListener('click', () => buildShopPrompt());
+
+    buildVariationsButton.addEventListener('click', () => {
+      if (productName.value.trim().length < 2 || sellingPoint.value.trim().length < 3) {
+        showToast('Indica o produto e o benefício principal', '!');
+        (productName.value.trim().length < 2 ? productName : sellingPoint).focus();
+        return;
+      }
+
+      const variations = [
+        { angle: 'demonstracao', title: 'Variação 1 · Demonstração', description: 'Produto em destaque e benefício visível' },
+        { angle: 'problema_solucao', title: 'Variação 2 · Problema e solução', description: 'Dificuldade inicial e resultado final' },
+        { angle: 'ugc', title: 'Variação 3 · UGC natural', description: 'Apresentação humana e espontânea' }
+      ];
+      variationList.replaceChildren(...variations.map(variation => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'variation-card';
+        const title = document.createElement('strong');
+        title.textContent = variation.title;
+        const description = document.createElement('span');
+        description.textContent = variation.description + ' · escolher grátis';
+        button.append(title, description);
+        button.addEventListener('click', () => {
+          buildShopPrompt(variation.angle);
+          variationList.classList.remove('visible');
+        });
+        return button;
+      }));
+      variationList.classList.add('visible');
+      showToast('Três variações criadas sem gastar créditos', '✓');
+    });
 
     function updateCostEstimate() {
       const mode = activeChoice('cost') || 'automatico';
@@ -2131,7 +2306,31 @@
       throw new Error('A geração está a demorar mais do que o esperado');
     }
 
-    async function generateVideo() {
+    function openCostConfirmation() {
+      const mode = activeChoice('cost') || 'automatico';
+      const economical = mode === 'economico' || (mode === 'automatico' && selectedImageFile);
+      confirmCost.textContent = economical ? 'US$ 0,50' : 'US$ 1,20';
+      confirmModel.innerHTML = economical
+        ? 'Gen 4 Turbo<br>50 créditos estimados'
+        : 'Gen 4.5<br>120 créditos estimados';
+      costConfirm.classList.add('visible');
+      confirmGenerationButton.focus();
+    }
+
+    function closeCostConfirmation() {
+      costConfirm.classList.remove('visible');
+    }
+
+    cancelGenerationButton.addEventListener('click', closeCostConfirmation);
+    confirmGenerationButton.addEventListener('click', () => {
+      closeCostConfirmation();
+      generateVideo(true);
+    });
+    costConfirm.addEventListener('click', event => {
+      if (event.target === costConfirm) closeCostConfirmation();
+    });
+
+    async function generateVideo(confirmed = false) {
       if (isShopMode() && !promptInput.value.trim()) buildShopPrompt();
 
       if (!promptInput.value.trim()) {
@@ -2150,6 +2349,11 @@
       if (activeChoice('cost') === 'economico' && !selectedImageFile) {
         showToast('Adiciona uma imagem do produto para usar o modo Económico', '!');
         imageInput.focus();
+        return;
+      }
+
+      if (confirmed !== true) {
+        openCostConfirmation();
         return;
       }
 
@@ -2229,12 +2433,18 @@
     }
 
     function renderHistory(generations) {
+      const completed = generations.filter(generation => generation.status === 'succeeded');
+      const totalCost = completed.reduce((sum, generation) => sum + (Number(generation.estimatedCostUsd) || 0), 0);
+      document.getElementById('statVideos').textContent = String(completed.length);
+      document.getElementById('statCost').textContent = 'US$ ' + totalCost.toFixed(2).replace('.', ',');
+      document.getElementById('statCredits').textContent = String(Math.round(totalCost * 100));
+
       if (!generations.length) {
         historyGrid.innerHTML = '<div class="history-empty">Ainda não existem vídeos. A tua primeira geração aparecerá aqui.</div>';
         return;
       }
 
-      historyGrid.innerHTML = generations.map(generation => {
+      historyGrid.innerHTML = generations.slice(0, 9).map(generation => {
         const videoUrl = safeVideoUrl(generation.outputUrl);
         const action = generation.status === 'succeeded' && videoUrl
           ? '<a class="history-link" href="' + escapeHtml(videoUrl) + '" target="_blank" rel="noopener">Ver vídeo</a>'
@@ -2255,7 +2465,7 @@
 
     async function loadHistory() {
       try {
-        const response = await fetch('/api/generations?limit=9');
+        const response = await fetch('/api/generations?limit=50');
         if (!response.ok) return;
         const body = await response.json();
         renderHistory(body.generations || []);
@@ -2264,9 +2474,10 @@
       }
     }
 
-    generateButton.addEventListener('click', generateVideo);
+    generateButton.addEventListener('click', () => generateVideo(false));
     document.addEventListener('keydown', event => {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') generateVideo();
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') generateVideo(false);
+      if (event.key === 'Escape') closeCostConfirmation();
     });
 
     document.getElementById('loginButton').addEventListener('click', () => {

@@ -37,8 +37,8 @@ export function buildTikTokShopPrompt(input) {
     `Benefício principal a demonstrar: ${sellingPoint}.`,
     ANGLES[salesAngle],
     `Chamada final sugerida: ${CTAS[cta]}.`,
-    originalPrompt ? `Direção criativa adicional: ${originalPrompt}.` : '',
-    'Preservar fielmente a aparência, embalagem, cores e proporções do produto da imagem. Não inventar características, resultados, marcas ou texto ilegível.'
+    'Preservar fielmente a aparência, embalagem, cores, materiais e proporções do produto da imagem. Manter apenas logótipos que estejam claramente visíveis na referência. Se a referência não tiver logótipo, não adicionar nenhum. Não inventar características, resultados, marcas, símbolos, embalagens ou texto. Evitar deformações e manter o produto consistente em todos os fotogramas.',
+    originalPrompt ? `Direção criativa adicional: ${originalPrompt}.` : ''
   ].filter(Boolean).join(' ').slice(0, 1000);
 }
 

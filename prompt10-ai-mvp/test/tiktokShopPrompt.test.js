@@ -24,6 +24,8 @@ test('cria um prompt comercial estruturado de 10 segundos', () => {
   assert.match(prompt, /prepara bebidas em poucos segundos/);
   assert.match(prompt, /resolver essa dificuldade/);
   assert.match(prompt, /Ver o produto no carrinho/);
+  assert.match(prompt, /não adicionar nenhum/);
+  assert.match(prompt, /produto consistente/);
   assert.ok(prompt.length <= 1000);
 });
 
