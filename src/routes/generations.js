@@ -19,7 +19,7 @@ async function removeUpload(file) {
   await fs.unlink(file.path).catch(() => {});
 }
 
-export function createGenerationsRouter({ service, config }) {
+export function createGenerationsRouter({ service, creditStore, config }) {
   const router = Router();
   const upload = multer({
     storage: multer.diskStorage({
@@ -45,11 +45,11 @@ export function createGenerationsRouter({ service, config }) {
 
   router.get('/', (request, response) => {
     const limit = Math.max(1, Math.min(50, Number(request.query.limit) || 12));
-    response.json({ generations: service.list(limit) });
+    response.json({ generations: service.list(limit, request.walletId) });
   });
 
   router.get('/:id', (request, response) => {
-    const generation = service.get(request.params.id);
+    const generation = service.get(request.params.id, request.walletId);
     if (!generation) return response.status(404).json({ message: 'Geração não encontrada' });
     response.json({ generation });
   });
@@ -91,23 +91,55 @@ export function createGenerationsRouter({ service, config }) {
         return response.status(400).json({ message: 'Ângulo de venda ou chamada para ação inválida' });
       }
 
-      const generation = await service.create({
-        prompt,
-        aspectRatio,
-        style,
-        camera,
-        costMode,
-        tiktokShop,
-        productName,
-        sellingPoint,
-        salesAngle,
-        cta,
-        inputImagePath: request.file?.path || null,
-        inputImageName: request.file?.originalname || null,
-        inputImageMimeType: request.file?.mimetype || null
-      });
+      const generationId = crypto.randomUUID();
+      const charged = await creditStore.debit(
+        request.walletId,
+        config.generationCreditCost,
+        'Geração de vídeo de 10 segundos',
+        generationId
+      );
+      if (!charged) {
+        await removeUpload(request.file);
+        return response.status(402).json({
+          message: 'Créditos insuficientes. Escolhe um pacote para continuar.',
+          code: 'INSUFFICIENT_CREDITS'
+        });
+      }
 
-      response.status(202).json({ generation });
+      let generation;
+      try {
+        generation = await service.create({
+          id: generationId,
+          walletId: request.walletId,
+          creditsCharged: config.generationCreditCost,
+          prompt,
+          aspectRatio,
+          style,
+          camera,
+          costMode,
+          tiktokShop,
+          productName,
+          sellingPoint,
+          salesAngle,
+          cta,
+          inputImagePath: request.file?.path || null,
+          inputImageName: request.file?.originalname || null,
+          inputImageMimeType: request.file?.mimetype || null
+        });
+      } catch (error) {
+        await creditStore.refund(
+          request.walletId,
+          config.generationCreditCost,
+          'Reembolso de pedido não iniciado',
+          generationId
+        );
+        throw error;
+      }
+
+      response.status(202).json({
+        generation,
+        wallet: creditStore.toPublic(charged)
+      });
     } catch (error) {
       await removeUpload(request.file);
       next(error);

@@ -1,6 +1,17 @@
-# PROMPT10 AI MVP
+# PROMPT10 AI MVP 0.8
 
 Base funcional para um gerador de vídeos de 10 segundos a partir de texto e de uma imagem opcional.
+
+## Créditos PROMPT10
+
+A versão 0.8 inclui uma carteira inicial por navegador. Cada novo navegador recebe 10 créditos gratuitos e cada vídeo utiliza 10 créditos. Se o motor de vídeo falhar, o saldo é devolvido automaticamente.
+
+```env
+FREE_CREDITS=10
+GENERATION_CREDIT_COST=10
+```
+
+Esta carteira em ficheiro serve para validar o MVP. Antes de ativar pagamentos, deve ser substituída por autenticação com email, base de dados persistente e checkout Stripe com webhooks.
 
 ## O que já funciona
 
@@ -18,6 +29,10 @@ Base funcional para um gerador de vídeos de 10 segundos a partir de texto e de 
 12. TikTok Shop Studio com produto, benefício, ângulo de venda e chamada para ação.
 13. Prompt comercial estruturado automaticamente para 10 segundos.
 14. Kit de publicação com gancho, voz sugerida, legenda e hashtags.
+15. Três variações gratuitas de prompt antes de escolher o vídeo.
+16. Confirmação obrigatória do custo antes de cada geração.
+17. Estatísticas de vídeos concluídos, custo e créditos estimados.
+18. Instruções reforçadas contra logótipos, marcas e texto inventados.
 
 ## TikTok Shop Studio
 
@@ -37,9 +52,46 @@ Depois da geração, a interface apresenta um kit de publicação com:
 * legenda;
 * hashtags.
 
+### Variações sem gastar créditos
+
+O botão `Criar 3 variações grátis` prepara três abordagens para o mesmo produto:
+
+1. Demonstração.
+2. Problema e solução.
+3. UGC natural.
+
+Escolher uma variação apenas altera o prompt. Nenhum pedido é enviado à Runway até o utilizador clicar em gerar e confirmar o custo apresentado no ecrã.
+
+### Controlo de utilização
+
+A área de projetos calcula, a partir das gerações concluídas guardadas no histórico:
+
+1. Número de vídeos concluídos.
+2. Custo estimado total.
+3. Créditos estimados utilizados.
+
+Os números são estimativas locais e não substituem o saldo e o relatório oficial do fornecedor.
+
 ## Requisitos
 
 Node.js 20 ou superior e npm.
+
+## Integração TikTok
+
+A versão 0.7 inclui páginas públicas de Termos, Privacidade e Contacto, Login Kit e a base do Content Posting API. Os tokens ficam apenas na memória do servidor e são removidos ao reiniciar a instância.
+
+No Render, adiciona estas variáveis sem expor os valores no GitHub:
+
+```env
+PUBLIC_BASE_URL=https://prompt10-ai-pedro.onrender.com
+SUPPORT_EMAIL=teu-email-publico@example.com
+TIKTOK_CLIENT_KEY=
+TIKTOK_CLIENT_SECRET=
+TIKTOK_REDIRECT_URI=https://prompt10-ai-pedro.onrender.com/api/tiktok/callback
+TIKTOK_SCOPES=user.info.basic,video.publish
+```
+
+No TikTok Developers, adiciona exatamente o mesmo redirect URI ao Login Kit. Enquanto a aplicação não for aprovada e auditada, o TikTok restringe as publicações a `SELF_ONLY`.
 
 ## Instalação
 

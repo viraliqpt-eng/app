@@ -13,12 +13,13 @@ function wait(milliseconds) {
 }
 
 export class GenerationService {
-  constructor({ store, provider, pollIntervalMs, maxGenerationMs, outputsDir }) {
+  constructor({ store, provider, pollIntervalMs, maxGenerationMs, outputsDir, creditStore }) {
     this.store = store;
     this.provider = provider;
     this.pollIntervalMs = pollIntervalMs;
     this.maxGenerationMs = maxGenerationMs;
     this.outputsDir = outputsDir;
+    this.creditStore = creditStore;
     this.running = new Set();
   }
 
@@ -44,7 +45,9 @@ export class GenerationService {
       : 'gen4_turbo';
     const costMode = runwayModel === 'gen4_turbo' ? 'economico' : 'premium';
     const record = {
-      id: crypto.randomUUID(),
+      id: input.id || crypto.randomUUID(),
+      walletId: input.walletId || null,
+      creditsCharged: Number(input.creditsCharged) || 0,
       prompt: providerPrompt,
       originalPrompt: input.prompt,
       aspectRatio: input.aspectRatio,
@@ -79,13 +82,17 @@ export class GenerationService {
     return this.toPublic(record);
   }
 
-  get(id) {
+  get(id, walletId = null) {
     const record = this.store.get(id);
+    if (record && walletId && record.walletId && record.walletId !== walletId) return null;
     return record ? this.toPublic(record) : null;
   }
 
-  list(limit) {
-    return this.store.list(limit).map(record => this.toPublic(record));
+  list(limit, walletId = null) {
+    return this.store.list(200)
+      .filter(record => !walletId || !record.walletId || record.walletId === walletId)
+      .slice(0, limit)
+      .map(record => this.toPublic(record));
   }
 
   enqueue(id) {
@@ -137,6 +144,15 @@ export class GenerationService {
 
       throw new Error('A geração excedeu o tempo máximo permitido');
     } catch (error) {
+      const failedRecord = this.store.get(id);
+      if (failedRecord?.walletId && failedRecord.creditsCharged > 0 && this.creditStore) {
+        await this.creditStore.refund(
+          failedRecord.walletId,
+          failedRecord.creditsCharged,
+          'Reembolso automático de geração falhada',
+          id
+        );
+      }
       await this.store.update(id, {
         status: 'failed',
         error: error.message || 'Erro inesperado na geração'

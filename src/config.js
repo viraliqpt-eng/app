@@ -23,7 +23,16 @@ export const config = Object.freeze({
   maxGenerationMs: positiveNumber(process.env.MAX_GENERATION_MINUTES, 20) * 60 * 1000,
   pollIntervalMs: positiveNumber(process.env.GENERATION_POLL_MS, 2000),
   dataFile: path.join(rootDir, 'data', 'generations.json'),
+  creditsFile: path.join(rootDir, 'data', 'credits.json'),
+  freeCredits: positiveNumber(process.env.FREE_CREDITS, 10),
+  generationCreditCost: positiveNumber(process.env.GENERATION_CREDIT_COST, 10),
   uploadsDir: path.join(rootDir, 'storage', 'uploads'),
   outputsDir: path.join(rootDir, 'storage', 'outputs'),
-  publicDir: path.join(rootDir, 'public')
+  publicDir: path.join(rootDir, 'public'),
+  publicBaseUrl: (process.env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, ''),
+  supportEmail: process.env.SUPPORT_EMAIL || '',
+  tiktokClientKey: process.env.TIKTOK_CLIENT_KEY || '',
+  tiktokClientSecret: process.env.TIKTOK_CLIENT_SECRET || '',
+  tiktokRedirectUri: process.env.TIKTOK_REDIRECT_URI || '',
+  tiktokScopes: process.env.TIKTOK_SCOPES || 'user.info.basic,video.publish'
 });
