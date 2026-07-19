@@ -13,12 +13,13 @@ function wait(milliseconds) {
 }
 
 export class GenerationService {
-  constructor({ store, provider, pollIntervalMs, maxGenerationMs, outputsDir }) {
+  constructor({ store, provider, pollIntervalMs, maxGenerationMs, outputsDir, mediaStorage = null }) {
     this.store = store;
     this.provider = provider;
     this.pollIntervalMs = pollIntervalMs;
     this.maxGenerationMs = maxGenerationMs;
     this.outputsDir = outputsDir;
+    this.mediaStorage = mediaStorage;
     this.running = new Set();
   }
 
@@ -27,8 +28,7 @@ export class GenerationService {
     for (const job of unfinished) {
       await this.store.update(job.id, {
         status: 'queued',
-        progress: 0,
-        providerJobId: null,
+        progress: job.providerJobId ? Math.max(1, job.progress || 0) : 0,
         error: null
       });
       this.enqueue(job.id);
@@ -99,13 +99,25 @@ export class GenerationService {
       const record = this.store.get(id);
       if (!record) return;
 
-      await this.store.update(id, { status: 'processing', progress: 2, error: null });
-      const external = await this.provider.createGeneration(record);
+      await this.store.update(id, {
+        status: 'processing',
+        progress: Math.max(2, record.progress || 0),
+        error: null
+      });
+      const external = record.providerJobId
+        ? await this.provider.getGeneration(record.providerJobId)
+        : await this.provider.createGeneration(record);
+      const providerJobId = record.providerJobId || external.id;
+
+      if (external.status === 'failed') {
+        throw new Error(external.error || 'O motor de vídeo não conseguiu concluir a geração');
+      }
+
       const initialOutput = external.status === 'succeeded'
         ? await this.persistOutput(id, external.outputUrl)
         : null;
       await this.store.update(id, {
-        providerJobId: external.id,
+        providerJobId,
         status: external.status === 'succeeded' ? 'succeeded' : 'processing',
         progress: external.progress || 4,
         outputUrl: initialOutput
@@ -116,7 +128,7 @@ export class GenerationService {
       const deadline = Date.now() + this.maxGenerationMs;
       while (Date.now() < deadline) {
         await wait(this.pollIntervalMs);
-        const result = await this.provider.getGeneration(external.id);
+        const result = await this.provider.getGeneration(providerJobId);
 
         if (result.status === 'failed') {
           throw new Error(result.error || 'O motor de vídeo não conseguiu concluir a geração');
@@ -148,6 +160,9 @@ export class GenerationService {
 
   async persistOutput(id, outputUrl) {
     if (!outputUrl || outputUrl.startsWith('/')) return outputUrl || null;
+    if (this.mediaStorage) {
+      return this.mediaStorage.persistFromUrl({ id, sourceUrl: outputUrl });
+    }
     if (!this.outputsDir) return outputUrl;
 
     await fs.mkdir(this.outputsDir, { recursive: true });

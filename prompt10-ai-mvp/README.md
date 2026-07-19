@@ -1,4 +1,4 @@
-# PROMPT10 AI MVP 0.7
+# PROMPT10 AI MVP 0.8
 
 Base funcional para um gerador de vídeos de 10 segundos a partir de texto e de uma imagem opcional.
 
@@ -22,6 +22,8 @@ Base funcional para um gerador de vídeos de 10 segundos a partir de texto e de 
 16. Confirmação obrigatória do custo antes de cada geração.
 17. Estatísticas de vídeos concluídos, custo e créditos estimados.
 18. Instruções reforçadas contra logótipos, marcas e texto inventados.
+19. Armazenamento persistente opcional com Supabase.
+20. Retoma segura de tarefas Runway após reinícios, sem criar um segundo pedido.
 
 ## TikTok Shop Studio
 
@@ -77,7 +79,7 @@ SUPPORT_EMAIL=teu-email-publico@example.com
 TIKTOK_CLIENT_KEY=
 TIKTOK_CLIENT_SECRET=
 TIKTOK_REDIRECT_URI=https://prompt10-ai-pedro.onrender.com/api/tiktok/callback
-TIKTOK_SCOPES=user.info.basic,video.publish
+TIKTOK_SCOPES=user.info.basic,video.publish,video.upload
 ```
 
 No TikTok Developers, adiciona exatamente o mesmo redirect URI ao Login Kit. Enquanto a aplicação não for aprovada e auditada, o TikTok restringe as publicações a `SELF_ONLY`.
@@ -135,6 +137,61 @@ Para vídeos de TikTok Shop, o percurso recomendado é formato 9:16, estilo Prod
 O Gen 4 Turbo exige imagem. O Gen 4.5 aceita texto ou imagem e suporta vídeos de 10 segundos. No modelo Gen 4.5, o formato quadrado requer uma imagem de referência. Para texto sem imagem, usar 9:16 ou 16:9.
 
 O limite padrão de 3 MB mantém a imagem dentro do limite oficial para envio em base64.
+
+## Evitar a perda de vídeos nos deploys do Render
+
+O disco da instância gratuita do Render é temporário. No modo local, o histórico e os MP4 podem desaparecer quando há um deploy ou reinício. A versão 0.8 permite guardar o histórico e os vídeos no Supabase.
+
+### 1. Preparar o Supabase
+
+Criar um projeto no Supabase, abrir `SQL Editor` e executar todo o conteúdo de:
+
+```text
+supabase-setup.sql
+```
+
+O script cria a tabela privada `prompt10_generations` e o bucket público `prompt10-media`. A tabela continua inacessível ao navegador. Apenas o servidor usa a Service Role Key.
+
+### 2. Obter as credenciais
+
+No Supabase, abrir `Project Settings`, depois `API` e copiar:
+
+1. Project URL.
+2. Service Role Key.
+
+Nunca colocar a Service Role Key no GitHub, no HTML ou em código executado pelo navegador.
+
+### 3. Configurar o Render
+
+Adicionar estas variáveis em `Environment`:
+
+```env
+STORAGE_PROVIDER=supabase
+SUPABASE_URL=https://TEU_PROJETO.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=CHAVE_SECRETA_SERVICE_ROLE
+SUPABASE_BUCKET=prompt10-media
+```
+
+Depois de guardar, o Render fará um novo deploy. Confirmar em:
+
+```text
+https://prompt10-ai-pedro.onrender.com/api/health
+```
+
+A resposta deverá incluir:
+
+```json
+{
+  "status": "ok",
+  "storage": "supabase"
+}
+```
+
+As novas gerações ficam guardadas após deploys. Os vídeos antigos que já desapareceram do disco do Render não podem ser recuperados por esta migração.
+
+### Retoma sem cobrança duplicada
+
+Se o Render reiniciar depois de a Runway já ter criado uma tarefa, o servidor conserva o `providerJobId` e consulta essa mesma tarefa. Não inicia outra geração automaticamente.
 
 Documentação oficial:
 

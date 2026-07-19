@@ -22,14 +22,18 @@ export const config = Object.freeze({
   maxImageBytes: positiveNumber(process.env.MAX_IMAGE_MB, 3) * 1024 * 1024,
   maxGenerationMs: positiveNumber(process.env.MAX_GENERATION_MINUTES, 20) * 60 * 1000,
   pollIntervalMs: positiveNumber(process.env.GENERATION_POLL_MS, 2000),
+  storageProvider: (process.env.STORAGE_PROVIDER || 'local').toLowerCase(),
   dataFile: path.join(rootDir, 'data', 'generations.json'),
   uploadsDir: path.join(rootDir, 'storage', 'uploads'),
   outputsDir: path.join(rootDir, 'storage', 'outputs'),
   publicDir: path.join(rootDir, 'public'),
   publicBaseUrl: (process.env.PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/$/, ''),
   supportEmail: process.env.SUPPORT_EMAIL || '',
+  supabaseUrl: process.env.SUPABASE_URL || '',
+  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  supabaseBucket: process.env.SUPABASE_BUCKET || 'prompt10-media',
   tiktokClientKey: process.env.TIKTOK_CLIENT_KEY || '',
   tiktokClientSecret: process.env.TIKTOK_CLIENT_SECRET || '',
   tiktokRedirectUri: process.env.TIKTOK_REDIRECT_URI || '',
-  tiktokScopes: process.env.TIKTOK_SCOPES || 'user.info.basic,video.publish'
+  tiktokScopes: process.env.TIKTOK_SCOPES || 'user.info.basic,video.publish,video.upload'
 });

@@ -4,6 +4,9 @@ import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
 import { config } from './src/config.js';
 import { GenerationStore } from './src/storage/generationStore.js';
+import { SupabaseClient } from './src/storage/supabaseClient.js';
+import { SupabaseGenerationStore } from './src/storage/supabaseGenerationStore.js';
+import { SupabaseMediaStorage } from './src/storage/supabaseMediaStorage.js';
 import { MockVideoProvider } from './src/providers/mockVideoProvider.js';
 import { HttpVideoProvider } from './src/providers/httpVideoProvider.js';
 import { RunwayVideoProvider } from './src/providers/runwayVideoProvider.js';
@@ -20,7 +23,23 @@ await Promise.all([
   fs.mkdir(config.publicDir, { recursive: true })
 ]);
 
-const store = new GenerationStore(config.dataFile);
+const storageProviders = new Set(['local', 'supabase']);
+if (!storageProviders.has(config.storageProvider)) {
+  throw new Error(`STORAGE_PROVIDER inválido: ${config.storageProvider}`);
+}
+
+const supabaseClient = config.storageProvider === 'supabase'
+  ? new SupabaseClient({
+      url: config.supabaseUrl,
+      serviceRoleKey: config.supabaseServiceRoleKey
+    })
+  : null;
+const store = supabaseClient
+  ? new SupabaseGenerationStore({ client: supabaseClient })
+  : new GenerationStore(config.dataFile);
+const mediaStorage = supabaseClient
+  ? new SupabaseMediaStorage({ client: supabaseClient, bucket: config.supabaseBucket })
+  : null;
 await store.initialize();
 
 const providers = {
@@ -46,7 +65,8 @@ const generationService = new GenerationService({
   provider,
   pollIntervalMs: config.pollIntervalMs,
   maxGenerationMs: config.maxGenerationMs,
-  outputsDir: config.outputsDir
+  outputsDir: config.outputsDir,
+  mediaStorage
 });
 await generationService.initialize();
 
@@ -84,6 +104,7 @@ app.get('/api/health', (request, response) => {
   response.json({
     status: 'ok',
     provider: config.provider,
+    storage: config.storageProvider,
     durationSeconds: 10,
     now: new Date().toISOString()
   });
